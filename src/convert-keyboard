@@ -1,0 +1,96 @@
+#!/usr/bin/env python3
+
+import sys
+
+class Charset:
+	def	__init__(self, size, empty):
+		self.by_index = dict()
+		self.by_value = dict()
+		self.next_index = 0
+		self.size = size
+		self.empty = empty
+
+	def add(self, value):
+		if value in self.by_value:
+			return self.by_value[value]
+		else:
+			index = self.get_next_index()
+			self.by_value[value] = index
+			self.by_index[index] = value
+			return index
+
+	def add_with_index(self, value, index):
+		if index in self.by_index:
+			raise RuntimeError("character already set")
+		else:
+			self.by_index[index] = value
+			self.by_value[value] = index
+
+	def get_next_index(self):
+		while self.next_index in self.by_index:
+			self.next_index += 1
+			if self.next_index >= self.size:
+				raise RuntimeError("out of characters")
+		return self.next_index
+
+	def get_values(self, index):
+		if index in self.by_index:
+			return self.by_index[index]
+		else:
+			return self.empty
+
+def setup_charset(charset, top):
+	charset.add_with_index((0, 0), 32)
+	if top:
+		charset.add_with_index((0xf0c0808000000000, 0xf0c0808000000000), 0x39)
+		charset.add_with_index((0x0f03010100000000, 0x0f03010100000000), 0x3a)
+	else:
+		charset.add_with_index((0x0000008080c0f0ff, 0x0000008080c0f0ff), 0x3b)
+		charset.add_with_index((0x0000000101030fff, 0x0000000101030fff), 0x3c)
+		charset.add_with_index((0x00000000000000ff, 0x00000000000000ff), 0x3d)
+
+def save_charset(charset, name):
+	data = b""
+	data_inv = b""
+	for i in range(0, 128):
+		pair = charset.get_values(i)
+		data += pair[0].to_bytes(8, byteorder="big")
+		data_inv += pair[1].to_bytes(8, byteorder="big")
+	with open(name, "wb") as file:
+		file.write(data)
+		file.write(data_inv)
+
+def save(data, name):
+	with open(name, mode="wb") as file:
+		file.write(data)
+
+if len(sys.argv) != 2:
+     print("usage: ", sys.argv[0], " top_lines\n")
+     sys.exit(1)
+
+top_lines = int(sys.argv[1])
+
+width = 40
+height = 12
+
+screen = b""
+
+with open("keyboard-normal-bitmap.bin", mode='rb') as file_normal:
+	with open("keyboard-pressed-bitmap.bin", mode='rb') as file_pressed:
+		for y in range(0, height):
+			if y == 0:
+				charset = Charset(128, (0, 0))
+				setup_charset(charset, True)
+			if y == top_lines:
+				save_charset(charset, "keyboard-charset-top.bin")
+				charset = Charset(128, (0, 0))
+				setup_charset(charset, False)
+			for x in range(0, width):
+				char_normal = int.from_bytes(file_normal.read(8), byteorder='big')
+				char_pressed = int.from_bytes(file_pressed.read(8), byteorder='big')
+				char = charset.add((char_normal, char_pressed))
+				# print("(%02d, %02d): (%016x, %016x) -> %d" % (x, y, char_normal, char_pressed, char))
+				screen += char.to_bytes(1, byteorder="big")
+
+save_charset(charset, "keyboard-charset-bottom.bin")
+save(screen, "keyboard-screen.bin")
