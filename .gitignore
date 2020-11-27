@@ -1,0 +1,4 @@
+*.o
+/src/.deps
+.DS_Store
+*.prg

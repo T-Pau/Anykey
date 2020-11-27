@@ -42,12 +42,12 @@ class Charset:
 def setup_charset(charset, top):
 	charset.add_with_index((0, 0), 32)
 	if top:
-		charset.add_with_index((0xf0c0808000000000, 0xf0c0808000000000), 0x39)
-		charset.add_with_index((0x0f03010100000000, 0x0f03010100000000), 0x3a)
+		charset.add_with_index((0xf0c0808000000000, 0xf0c0808000000000), 0x49)
+		charset.add_with_index((0x0f03010100000000, 0x0f03010100000000), 0x4a)
 	else:
-		charset.add_with_index((0x0000008080c0f0ff, 0x0000008080c0f0ff), 0x3b)
-		charset.add_with_index((0x0000000101030fff, 0x0000000101030fff), 0x3c)
-		charset.add_with_index((0x00000000000000ff, 0x00000000000000ff), 0x3d)
+		charset.add_with_index((0x0000008080c0f0ff, 0x0000008080c0f0ff), 0x4b)
+		charset.add_with_index((0x0000000101030fff, 0x0000000101030fff), 0x4c)
+		charset.add_with_index((0x00000000000000ff, 0x00000000000000ff), 0x4d)
 
 def save_charset(charset, name):
 	data = b""
