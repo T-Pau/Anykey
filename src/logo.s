@@ -4,8 +4,8 @@
 ;  logo.s -- Display T'Pau logo.
 ;  Copyright (C) 2020 Dieter Baron
 ;
-;  This file is part of Joyride, a controller test program for C64.
-;  The authors can be contacted at <joyride@tpau.group>.
+;  This file is part of Anykey, a keyboard test program for C64.
+;  The authors can be contacted at <anykey@tpau.group>.
 ;
 ;  Redistribution and use in source and binary forms, with or without
 ;  modification, are permitted provided that the following conditions

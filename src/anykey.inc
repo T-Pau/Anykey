@@ -1,7 +1,7 @@
 ;  joyride.inc -- Global definitions for Anykey.
 ;  Copyright (C) 2020 Dieter Baron
 ;
-;  This file is part of Anykey, a controller test program for C64.
+;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
 ;
 ;  Redistribution and use in source and binary forms, with or without

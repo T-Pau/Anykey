@@ -1,6 +1,5 @@
 DEPDIR := .deps
 
-
 CC = cl65
 CFLAGS = -t c64
 
