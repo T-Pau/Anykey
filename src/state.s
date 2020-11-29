@@ -25,14 +25,13 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export keys, joy1, joy2, init_state
+.export joy1, joy2, init_state
+
+.autoimport +
 
 .include "anykey.inc"
 
 .bss
-
-keys:
-	.res 64
 
 joy1:
 	.res 1
@@ -43,10 +42,6 @@ joy2:
 
 init_state:
 	lda #0
-	ldx #63
-:	sta keys,x
-	dex
-	bpl :-
 	sta joy1
 	sta joy2
-	rts
+	jmp init_keyboard

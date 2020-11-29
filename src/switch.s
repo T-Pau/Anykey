@@ -57,11 +57,13 @@ switch_joystick_label:
 	bne :-
 	jsr label_background
 	rts
-	
+
 switch_joystick:
 	jsr content_background
+	jsr read_keyboard
 	rts
 
 switch_bottom:
 	jsr display_logo
+	jsr display_keyboard
 	rts

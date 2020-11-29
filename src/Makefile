@@ -19,10 +19,12 @@ SOURCES = \
 	commands.s \
 	copyrect.s \
 	display-joystick.s \
+	display-key.s \
 	dpad.s \
 	irq.s \
 	irq-table.s \
 	joysticks.s \
+	keyboard.s \
 	logo.s \
 	help.s \
 	help-screen.s \
