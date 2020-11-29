@@ -143,6 +143,7 @@ display_key:
 :	sta state
 	txa
 	asl
+	bmi restore
 	asl
 	tay
 	lda keys,y
@@ -156,6 +157,13 @@ display_key:
 	ldy #0
 jump:
 	jmp $1000
+restore:
+	lda keys + 256
+	sta ptr1
+	lda keys + 256 + 1
+	sta ptr1 + 1
+	ldy #0
+	jmp display_key_3
 
 
 display_key_2:

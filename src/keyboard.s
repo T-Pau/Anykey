@@ -32,17 +32,25 @@
 
 .include "c64.inc"
 
+RESTORE_FRAMES = 10
+
 .bss
 
 key_state:
 	.res 65
 
-restore_countdown:
-	.res 1
-
 new_key_state:
 	.res 65
 
+restore_countdown:
+	.res 1
+
+nmi_vector:
+	.res 2
+
+nmi_a:
+	.res 1
+	
 .code
 
 init_keyboard:
@@ -52,6 +60,17 @@ init_keyboard:
 	dey
 	bpl :-
 	sta restore_countdown
+	sta new_key_state + 64
+	
+	lda $0318
+	sta nmi_vector
+	lda $0319
+	sta nmi_vector + 1
+	ldx #<handle_nmi
+	ldy #>handle_nmi
+	stx $0318
+	sty $0319
+	
 	rts
 
 
@@ -60,7 +79,8 @@ read_keyboard:
 	sta CIA1_DDRA
 	lda #$00
 	sta CIA1_DDRB
-	lda #$7f
+	lda #$fe
+	ldx #0
 byteloop:
 	sta CIA1_PRA
 	lda CIA1_PRB
@@ -133,6 +153,13 @@ display_loop:
 
 	rts
 
+handle_nmi:
+	sta nmi_a
+	lda #RESTORE_FRAMES
+	sta restore_countdown
+	lda nmi_a
+	jmp (nmi_vector)
+	
 .rodata
 
 bitmask:
