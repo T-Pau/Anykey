@@ -57,14 +57,14 @@ help_screens_data:
 	scrcode "this program displays the state of the" ;  1
 	scrcode "keyboard and joysticks.               " ;  2
 	scrcode "                                      " ;  3
-	scrcode "                                      " ;  4
-	scrcode "                                      " ;  5
+	scrcode "the upper window displays which keys  " ;  4
+	scrcode "are currently pressed.                " ;  5
 	scrcode "                                      " ;  6
-	scrcode "                                      " ;  7
-	scrcode "                                      " ;  8
-	scrcode "                                      " ;  9
-	scrcode "                                      " ; 10
-	scrcode "                                      " ; 11
+	scrcode "the lower window shows the state of   " ;  7
+	scrcode "two joysticks connected to the        " ;  8
+	scrcode "controller ports. for other controller" ;  9
+	scrcode "types and adapters, please use        " ; 10
+	scrcode "joyride.                              " ; 11
 	scrcode "                                      " ; 12
 	scrcode "                                      " ; 13
 	scrcode "                                      " ; 14

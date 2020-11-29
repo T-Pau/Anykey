@@ -38,10 +38,10 @@
 .rodata
 
 main_screen:
-	invcode " keyboard:                              "
+	invcode " keyboard                               "
 	.incbin "keyboard-screen.bin"
 	invcode "                                        "
-	invcode "        joysticks:                      "
+	invcode "        joysticks                       "
 	invcode "       "
 	scrcode        "I                        J"
 	invcode                                  "       "
