@@ -30,7 +30,7 @@
 
 .export init_keyboard, display_keyboard, read_keyboard
 
-.include "c64.inc"
+.include "anykey.inc"
 
 RESTORE_FRAMES = 10
 
@@ -42,6 +42,9 @@ key_state:
 new_key_state:
 	.res 65
 
+skip_key:
+	.res 65
+
 restore_countdown:
 	.res 1
 
@@ -50,7 +53,14 @@ nmi_vector:
 
 nmi_a:
 	.res 1
-	
+
+port1:
+	.res 1
+port2:
+	.res 1
+temp:
+	.res 1
+
 .code
 
 init_keyboard:
@@ -61,6 +71,7 @@ init_keyboard:
 	bpl :-
 	sta restore_countdown
 	sta new_key_state + 64
+	sta skip_key + 64
 	
 	lda $0318
 	sta nmi_vector
@@ -77,6 +88,13 @@ init_keyboard:
 read_keyboard:
 	lda #$ff
 	sta CIA1_DDRA
+	sta CIA1_DDRB
+	lda CIA1_PRB
+	eor #$ff
+	sta port1
+	lda CIA1_PRA
+	eor #$ff
+	sta port2
 	lda #$00
 	sta CIA1_DDRB
 	lda #$fe
@@ -135,12 +153,53 @@ end_read:
 	stx restore_countdown
 	stx new_key_state + 64
 :
+	ldx #63
+	lda #0
+:	sta skip_key,x
+	dex
+	bpl :-
+	lda #$ff
+	sta CIA1_DDRB
+
+	lda CIA1_PRB
+	eor #$ff
+	ora port1
+	beq port1_clear
+	sta port1
+
+	ldx #0
+port1_loop:
+	lda port1
+	lsr
+	sta port1
+	bcc port1_loop_end
+	stx temp
+	ldy temp
+	ldx #7
+	lda #1
+:	sta skip_key,y
+	tya
+	clc
+	adc #8
+	tay
+	dex
+	bpl :-
+	ldx temp
+port1_loop_end:
+	inx
+	cpx #5
+	bne port1_loop
+	
+port1_clear:
+	; TODO: if port 2 bit is set and key in that row is pressed, ignore that key's column (except for key itself)
 	rts
 
 
 display_keyboard:
 	ldx #64
 display_loop:
+	lda skip_key,x
+	bne :+
 	lda new_key_state,x
 	cmp key_state,x
 	beq :+
@@ -149,8 +208,16 @@ display_loop:
 :	dex
 	bpl display_loop
 
-	; TODO: if shift + f7 pressed, display help
-
+	lda command
+	bne no_f8
+	lda key_state + 15 ; left shift
+	ora key_state + 52 ; right shift
+	beq no_f8
+	lda key_state + 3 ; F7
+	beq no_f8
+	lda #COMMAND_HELP
+	sta command
+no_f8:
 	rts
 
 handle_nmi:

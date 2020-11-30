@@ -1,1 +1,1 @@
-- distinguish between joystick and keyboard input
+- ignore phantom keys when joystick 2 and certain keys are pressed at once

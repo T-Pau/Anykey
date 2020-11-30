@@ -34,7 +34,7 @@
 help_screen_start = screen + 1
 
 help_screen_size = 38 * 20
-num_help_screens = 1
+num_help_screens = 2
 
 .macpack cbm
 .macpack cbm_ext
@@ -62,17 +62,38 @@ help_screens_data:
 	scrcode "                                      " ;  6
 	scrcode "the lower window shows the state of   " ;  7
 	scrcode "two joysticks connected to the        " ;  8
-	scrcode "controller ports. for other controller" ;  9
-	scrcode "types and adapters, please use        " ; 10
-	scrcode "joyride.                              " ; 11
-	scrcode "                                      " ; 12
-	scrcode "                                      " ; 13
-	scrcode "                                      " ; 14
-	scrcode "                                      " ; 15
+	scrcode "controller ports.                     " ;  9
+	scrcode "                                      " ; 10
+	scrcode "to display other controller types or  " ; 11
+	scrcode "joystick adapters, please use the     " ; 12
+	scrcode "companion program joyride which can be" ; 13
+	scrcode "can be found at:                      " ; 14
+	scrcode "  https://github.com/t-pau/joyride    " ; 15
 	scrcode "                                      " ; 16
 	scrcode "                                      " ; 17
 	scrcode "                                      " ; 18
 
+	invcode "technical limitations                 "
+	scrcode "                                      "
+	scrcode "the restore key cannot be read        " ;  1
+	scrcode "directly. anykey can detect when the  " ;  2
+	scrcode "key is pressed, but it can't detect   " ;  3
+	scrcode "for how long.                         " ;  4
+	scrcode "                                      " ;  5
+	scrcode "joysticks interfere with reading the  " ;  6
+	scrcode "keyboard. when a joystick is pressed, " ;  7
+	scrcode "certain keys can't be read. these keys" ;  8
+	scrcode "will be ignored while the joystick is " ;  9
+	scrcode "pressed. if such a key was pressed    " ; 10
+	scrcode "before the joyustick, it will remain  " ; 11
+	scrcode "pressed until the joystick is         " ; 12
+	scrcode "released. auto fire might defeat this " ; 13
+	scrcode "detection and result in phantom key   " ; 14
+	scrcode "presses.                              " ; 15
+	scrcode "                                      " ; 16
+	scrcode "                                      " ; 17
+	scrcode "                                      " ; 18
+	
 
 .code
 

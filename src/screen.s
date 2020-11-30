@@ -78,7 +78,7 @@ help_screen:
 	invcode "  space/+: next page  -: previous page  "
 	invcode "         "
 	.byte $9f
-	invcode            ": return to program          "
+	invcode           ": return to program           "
 	invcode "                                        "
 
 .code

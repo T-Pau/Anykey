@@ -2,3 +2,4 @@
 /src/.deps
 .DS_Store
 *.prg
+/src/sym
