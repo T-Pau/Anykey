@@ -85,7 +85,7 @@ help_screens_data:
 	scrcode "certain keys can't be read. these keys" ;  8
 	scrcode "will be ignored while the joystick is " ;  9
 	scrcode "pressed. if such a key was pressed    " ; 10
-	scrcode "before the joyustick, it will remain  " ; 11
+	scrcode "before the joystick, it will remain   " ; 11
 	scrcode "pressed until the joystick is         " ; 12
 	scrcode "released. auto fire might defeat this " ; 13
 	scrcode "detection and result in phantom key   " ; 14
