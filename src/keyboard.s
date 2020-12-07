@@ -34,6 +34,8 @@
 
 RESTORE_FRAMES = 10
 
+F8_FRAMES = 50
+
 .bss
 
 key_state:
@@ -46,6 +48,9 @@ skip_key:
 	.res 65
 
 restore_countdown:
+	.res 1
+
+f8_count:
 	.res 1
 
 nmi_vector:
@@ -64,14 +69,15 @@ temp:
 .code
 
 init_keyboard:
-	ldx #64
+	ldx #65
 	lda #0
 :	sta key_state,x
-	dey
+	sta new_key_state,x
+	sta skip_key,x
+	dex
 	bpl :-
+	sta f8_count
 	sta restore_countdown
-	sta new_key_state + 64
-	sta skip_key + 64
 	
 	lda $0318
 	sta nmi_vector
@@ -87,6 +93,8 @@ init_keyboard:
 
 read_keyboard:
 	lda #$ff
+	sta CIA1_PRA
+	sta CIA1_PRB
 	sta CIA1_DDRA
 	sta CIA1_DDRB
 	lda CIA1_PRB
@@ -159,6 +167,8 @@ end_read:
 	dex
 	bpl :-
 	lda #$ff
+	sta CIA1_PRA
+	sta CIA1_PRB
 	sta CIA1_DDRB
 
 	lda CIA1_PRB
@@ -196,8 +206,9 @@ port1_clear:
 
 
 display_keyboard:
+.scope
 	ldx #64
-display_loop:
+loop:
 	lda skip_key,x
 	bne :+
 	lda new_key_state,x
@@ -206,7 +217,7 @@ display_loop:
 	sta key_state,x
 	jsr display_key
 :	dex
-	bpl display_loop
+	bpl loop
 
 	lda command
 	bne no_f8
@@ -215,10 +226,19 @@ display_loop:
 	beq no_f8
 	lda key_state + 3 ; F7
 	beq no_f8
+	ldx f8_count
+	inx
+	stx f8_count
+	cpx #F8_FRAMES
+	bcc end
 	lda #COMMAND_HELP
 	sta command
 no_f8:
+	lda #0
+	sta f8_count
+end:
 	rts
+.endscope
 
 handle_nmi:
 	sta nmi_a

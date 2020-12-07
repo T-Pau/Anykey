@@ -34,7 +34,7 @@
 help_screen_start = screen + 1
 
 help_screen_size = 38 * 20
-num_help_screens = 2
+num_help_screens = 5
 
 .macpack cbm
 .macpack cbm_ext
@@ -54,42 +54,105 @@ help_screens:
 help_screens_data:
 	invcode "anykey                                "
 	scrcode "                                      "
-	scrcode "this program displays the state of the" ;  1
-	scrcode "keyboard and joysticks.               " ;  2
+	scrcode "this program monitors the keyboard and" ;  1
+	scrcode "joysticks.                            " ;  2
 	scrcode "                                      " ;  3
-	scrcode "the upper window displays which keys  " ;  4
-	scrcode "are currently pressed.                " ;  5
+	scrcode "the upper window shows the state of   " ;  4
+	scrcode "the keyboard.                         " ;  5
 	scrcode "                                      " ;  6
 	scrcode "the lower window shows the state of   " ;  7
 	scrcode "two joysticks connected to the        " ;  8
 	scrcode "controller ports.                     " ;  9
 	scrcode "                                      " ; 10
-	scrcode "to display other controller types or  " ; 11
+	scrcode "to test other controller types or     " ; 11
 	scrcode "joystick adapters, please use the     " ; 12
 	scrcode "companion program joyride which can be" ; 13
-	scrcode "can be found at:                      " ; 14
+	scrcode "found at:                             " ; 14
 	scrcode "  https://github.com/t-pau/joyride    " ; 15
+	scrcode "                                      " ; 16
+	scrcode "                                      " ; 17
+	scrcode "                                      " ; 18
+
+	invcode "keyboard                              "
+	scrcode "                                      "
+	scrcode "the keys are displayed in the same    " ;  1
+	scrcode "layout as the physical keyboard.      " ;  2
+	scrcode "                                      " ;  3
+	scrcode "keys that are currently pressed are   " ;  4
+	scrcode "displayed inverted.                   " ;  5
+	scrcode "                                      " ;  6
+	scrcode "keys that were previously pressed are " ;  7
+	scrcode "displayed in a lighter gray. this     " ;  8
+	scrcode "helps detect dead keys. to reset the  " ;  9
+	scrcode "state of all keys to unpressed, exit  " ; 10
+	scrcode "the program with run/stop restore and " ; 11
+	scrcode "restart it with run.                  " ; 12
+	scrcode "                                      " ; 13
+	scrcode "                                      " ; 14
+	scrcode "                                      " ; 15
+	scrcode "                                      " ; 16
+	scrcode "                                      " ; 17
+	scrcode "                                      " ; 18
+
+	invcode "joystick                              "
+	scrcode "                                      "
+	scrcode "joysticks contain a stick or d-pad    " ;  1
+	scrcode "with switches for the four cardinal   " ;  2
+	scrcode "directions and up to three buttons.   " ;  3
+	scrcode "                                      " ;  4
+	scrcode "pressed directions and buttons are    " ;  5
+	scrcode "displayed inverted.                   " ;  6
+	scrcode "                                      " ;  7
+	scrcode "buttons 2 and 3 bring an analog       " ;  8
+	scrcode "potentiometer to a low value by       " ;  9
+	scrcode "connecting its pin to +5v.            " ; 10
+	scrcode "                                      " ; 11
+	scrcode "                                      " ; 12
+	scrcode "                                      " ; 13
+	scrcode "                                      " ; 14
+	scrcode "                                      " ; 15
+	scrcode "                                      " ; 16
+	scrcode "                                      " ; 17
+	scrcode "                                      " ; 18
+	
+	invcode "special keys                          "
+	scrcode "                                      "
+	scrcode "shift lock and the left shift key     " ;  1
+	scrcode "appear as the same key to the computer" ;  2
+	scrcode "and cannot be reliably distinguished  " ;  3
+	scrcode "on all computers.                     " ;  4
+	scrcode "                                      " ;  5
+	scrcode "the restore key cannot be read        " ;  6
+	scrcode "directly. anykey can detect when the  " ;  7
+	scrcode "key is pressed, but it can't detect   " ;  8
+	scrcode "for how long.                         " ;  9
+	scrcode "                                      " ; 10
+	scrcode "                                      " ; 11
+	scrcode "                                      " ; 12
+	scrcode "                                      " ; 13
+	scrcode "                                      " ; 14
+	scrcode "                                      " ; 15
 	scrcode "                                      " ; 16
 	scrcode "                                      " ; 17
 	scrcode "                                      " ; 18
 
 	invcode "technical limitations                 "
 	scrcode "                                      "
-	scrcode "the restore key cannot be read        " ;  1
-	scrcode "directly. anykey can detect when the  " ;  2
-	scrcode "key is pressed, but it can't detect   " ;  3
-	scrcode "for how long.                         " ;  4
-	scrcode "                                      " ;  5
-	scrcode "joysticks interfere with reading the  " ;  6
-	scrcode "keyboard. when a joystick is pressed, " ;  7
-	scrcode "certain keys can't be read. these keys" ;  8
-	scrcode "will be ignored while the joystick is " ;  9
-	scrcode "pressed. if such a key was pressed    " ; 10
-	scrcode "before the joystick, it will remain   " ; 11
-	scrcode "pressed until the joystick is         " ; 12
-	scrcode "released. auto fire might defeat this " ; 13
-	scrcode "detection and result in phantom key   " ; 14
-	scrcode "presses.                              " ; 15
+	scrcode "joysticks interfere with reading the  " ;  1
+	scrcode "keyboard. when a joystick is pressed, " ;  2
+	scrcode "certain keys can't be read. these keys" ;  3
+	scrcode "will be ignored while the joystick is " ;  4
+	scrcode "pressed. if such a key was pressed    " ;  5
+	scrcode "before the joystick, it will remain   " ;  6
+	scrcode "pressed until the joystick is         " ;  7
+	scrcode "released. auto fire might defeat this " ;  8
+	scrcode "detection and result in phantom key   " ;  9
+	scrcode "presses.                              " ; 10
+	scrcode "                                      " ; 11
+	scrcode "                                      " ; 12
+	scrcode "                                      " ; 13
+	scrcode "                                      " ; 14
+	scrcode "                                      " ; 15
 	scrcode "                                      " ; 16
 	scrcode "                                      " ; 17
 	scrcode "                                      " ; 18

@@ -41,31 +41,35 @@ main_screen:
 	invcode " keyboard                               "
 	.incbin "keyboard-screen.bin"
 	invcode "                                        "
-	invcode "        joysticks                       "
-	invcode "       "
-	scrcode        "I                        J"
-	invcode                                  "       "
-	invcode "       "
-	scrcode        "                          "
-	invcode                                  "       "
-	invcode "       "
-	scrcode        "        AHB          AHB  "
-	invcode                                  "       "
-	invcode "       "
-	scrcode        "        EfF          EfF  "
-	invcode                                  "       "
-	invcode "       "
-	scrcode        "        CGD          CGD  "
-	invcode                                  "       "
-	invcode "       "
-	scrcode        "                          "
-	invcode                                  "       "
-	invcode "       "
-	scrcode        "KMMMMMMMMMMMMMMMMMMMMMMMML"
-	invcode                                  "       "
+	invcode "     joysticks                          "
+	invcode "    "
+	scrcode     "I                              J"
+    invcode                                     "    "
+	invcode "    "
+	scrcode     "                                "
+    invcode                                     "    "
+    invcode "    "
+	scrcode     "      AHBAHBAHB       AHBAHBAHB "
+    invcode                                     "    "
+    invcode "    "
+	scrcode     "      E1FE2FE3F       E1FE2FE3F "
+    invcode                                     "    "
+    invcode "    "
+	scrcode     "      CGDCGDCGD       CGDCGDCGD "
+    invcode                                     "    "
+	invcode "    "
+	scrcode     "                                "
+    invcode                                     "    "
+	invcode "    "
+	scrcode     "KMMMMMMMMMMMMMMMMMMMMMMMMMMMMMML"
+    invcode                                     "    "
 	invcode "                                        "
-	invcode "               f8: help                 "
+	invcode "    for help, hold f8 for 2 seconds.    "
 	invcode "                                        "
+
+    invcode "   "
+	scrcode    "       AHBAHBHAB        AHBHABHAB "
+    invcode                                      "   "
 
 help_screen:
 	invcode "                                        "
@@ -85,7 +89,7 @@ help_screen:
 
 display_main_screen:
 	memcpy screen, main_screen, 1000
-	memcpy color_ram, main_color, 1000
+	memcpy color_ram, main_color_save, 1000
 	ldx #<main_irq_table
 	ldy #>main_irq_table
 	lda main_irq_table_length
@@ -107,6 +111,7 @@ display_help_screen:
 	and #$f0
 	sta VIC_SPR_HI_X
 
+	memcpy main_color_save, color_ram, 1000
 	memcpy screen, help_screen, 1000
 	memcpy color_ram, help_color, 1000
 	ldx #0

@@ -34,9 +34,9 @@ main_color:
 	.res 40 * 10, $b
 	.res 40 * 4, $c
 	.repeat 5, i
-	.res 7, $c
-	.res 26, $b
-	.res 7, $c
+	.res 4, $c
+	.res 32, $b
+	.res 4, $c
 	.endrep
 	.res 40 * 4, $c
 

@@ -39,8 +39,8 @@ tmp:
 .rodata
 
 joy_positions:
-	.word screen + 16 * 40 + 9
-	.word screen + 16 * 40 + 22
+	.word screen + 16 * 40 + 5
+	.word screen + 16 * 40 + 21
 
 .code
 
@@ -59,17 +59,25 @@ display_joystick:
 	and #$f
 	jsr dpad
 
-	; button 1
+	; buttons
 	clc
 	ldx tmp
 	lda joy_positions,x
-	adc #46
+	adc #45
 	sta ptr2
 	lda joy_positions + 1,x
 	adc #0
 	sta ptr2 + 1
 	lda port_digital
 	and #$10
+	jsr button
+
+	lda port_digital
+	and #$20
+	jsr button
+
+	lda port_digital
+	and #$40
 	jsr button
 
 	rts

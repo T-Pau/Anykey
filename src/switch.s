@@ -47,7 +47,10 @@ switch_keyboard_bottom:
 :	cpx VIC_HLINE
 	bne :-
 	set_vic_text screen, charset_keyboard_bottom
-	jmp handle_joysticks
+	ldx #0
+	jsr read_pots
+	jsr handle_joysticks
+	jmp select_pots2
 
 
 switch_joystick_label:
@@ -60,7 +63,10 @@ switch_joystick_label:
 
 switch_joystick:
 	jsr content_background
+	ldx #1
+	jsr read_pots
 	jsr read_keyboard
+	jsr select_pots1
 	rts
 
 switch_bottom:

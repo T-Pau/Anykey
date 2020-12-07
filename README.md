@@ -2,18 +2,41 @@
 
 ![Screenshot](screenshot.png)
 
-This program displays the state of the keyboard and joysticks.
+This program monitors the keyboard and joysticks.
 
-The upper window displays which keys are currently pressed.
+The upper window shows the state of the keyboard.
 
 The lower window shows the state of two joysticks connected to the controller ports.
 
-To display other controller types or joystick adapters, please use the companion program [Joyride](https://github.com/T-Pau/Joyride).
+To test other controller types or joystick adapters, please use the companion program [Joyride](https://github.com/T-Pau/Joyride).
+
+
+## Keyboard
+
+The keys are displayed in the same layout as the physical keyboard.
+
+Keys that are currently pressed are displayed inverted.
+
+Keys that were previously pressed are displayed in a lighter gray. This helps detect dead keys. To reset the state of all keys to unpressed, exit the program with run/stop restore and restart it with run.
+
+
+## Joystick
+
+Joysticks contain a stick or d-pad with switches for the four cardinal directions and up to three buttons.
+
+Pressed directions and buttons are displayed inverted.
+
+Buttons 2 and 3 bring an analog potentiometer to a low value by connecting its pin to +5V.
+	
+
+## Special Keys
+
+`Shift Lock` and the left `Shift` key appear as the same key to the computer and cannot be reliably distinguished on all computers.
+	
+The `Restore` key cannot be read directly. Anykey can detect when the key is pressed, but it can't detect for how long.
 
 
 ## Technical Limitations
-
-The `Restore` key cannot be read directly. Anykey can detect when the key is pressed, but it can't detect for how long.
 
 Joysticks interfere with reading the keyboard. When a joystick is pressed, certain keys can't be read. These keys will be ignored while the joystick is pressed. If such a key was pressed before the joystick, it will remain pressed until the joystick is released. Auto fire might defeat this detection and result in phantom key presses.                              
 

@@ -25,11 +25,13 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export joy1, joy2, init_state
+.export joy1, joy2, main_color_save, init_state
 
 .autoimport +
 
 .include "anykey.inc"
+
+.macpack utility
 
 .bss
 
@@ -38,10 +40,15 @@ joy1:
 joy2:
 	.res 1
 
+main_color_save:
+	.res 1000
+
 .code
 
 init_state:
 	lda #0
 	sta joy1
 	sta joy2
+	lda #$ff
+	memcpy main_color_save, main_color, 1000
 	jmp init_keyboard

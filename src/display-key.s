@@ -32,6 +32,12 @@
 
 .include "anykey.inc"
 
+.macpack utility
+
+COLOR_RAM_OFFSET = color_ram - screen
+PRESSED_COLOR = COLOR_GRAY1
+CHECKED_COLOR = COLOR_GRAY2
+ 
 .macro key x0, y0, size
 	.word screen + x0 + y0 * 40 + 81
 	.if (size = 2)
@@ -47,6 +53,18 @@
 	.else
 	.error invalid key size
 	.endif
+.endmacro
+
+.macro set_color
+.scope
+	add_word ptr1, COLOR_RAM_OFFSET
+	lda #CHECKED_COLOR
+	ldy state
+	beq released
+	lda #PRESSED_COLOR
+	ldy #0
+released:
+.endscope
 .endmacro
 
 .rodata
@@ -188,6 +206,15 @@ display_key_2:
 	ora state
 	sta (ptr1),y
 
+	set_color
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	ldy #40
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	
 	rts
 
 
@@ -221,6 +248,19 @@ display_key_3:
 	lda (ptr1),y
 	and #$7f
 	ora state
+	sta (ptr1),y
+	
+	set_color
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	ldy #40
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
 	sta (ptr1),y
 
 	rts
@@ -266,6 +306,23 @@ display_key_4:
 	lda (ptr1),y
 	and #$7f
 	ora state
+	sta (ptr1),y
+
+	set_color
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	ldy #40
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
 	sta (ptr1),y
 
 	rts
@@ -325,6 +382,27 @@ display_key_2_3:
 	ora state
 	sta (ptr1),y
 
+	set_color
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	ldy #40
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	ldy #80
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	ldy #120
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+
 	rts
 
 
@@ -346,4 +424,16 @@ display_key_17:
 	cpy #40 + 17
 	bne :-
 
+	set_color
+	ldy #16
+:	sta (ptr1),y
+	dey
+	bpl :-
+
+	ldy #40
+:	sta (ptr1),y
+	iny
+	cpy #40 + 17
+	bne :-
+	
 	rts

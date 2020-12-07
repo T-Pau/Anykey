@@ -28,7 +28,7 @@
 
 .autoimport +
 
-.export handle_joysticks, port_digital
+.export handle_joysticks, port_digital, select_pots1, select_pots2, read_pots
 
 .include "anykey.inc"
 
@@ -39,6 +39,32 @@ port_digital:
 
 .code
 
+select_pots1:
+	lda #$c0
+	sta CIA1_DDRA
+    lda #$40
+    sta CIA1_PRA
+    rts
+
+select_pots2:
+	lda #$c0
+	sta CIA1_DDRA
+	lda #$80
+	sta CIA1_PRA
+	rts
+
+read_pots:
+	lda joy1,x
+	and #$1f
+	ldy SID_ADConv1
+	bmi :+
+	ora #$20
+:	ldy SID_ADConv2
+	bmi :+
+	ora #$40
+:	sta joy1,x
+	rts
+
 handle_joysticks:
     lda #$00
     sta CIA1_DDRA
@@ -47,6 +73,8 @@ handle_joysticks:
     lda #$ff
     sta CIA1_PRA
     eor CIA1_PRB
+    and #$1f
+    ora joy1
     sta port_digital
     ldx #0
 	jsr display_joystick
@@ -54,6 +82,8 @@ handle_joysticks:
     lda #$ff
     sta CIA1_PRB
     eor CIA1_PRA
+    and #$1f
+    ora joy2
     sta port_digital
     ldx #1
 	jmp display_joystick
