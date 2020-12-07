@@ -31,7 +31,7 @@
 
 main_color:
 	.res 40 * 2, $c
-	.res 40 * 10, $b
+	.res 40 * 10, $0 ; $b
 	.res 40 * 4, $c
 	.repeat 5, i
 	.res 4, $c
