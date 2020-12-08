@@ -29,6 +29,7 @@ SOURCES = \
 	help-screen.s \
 	main-loop.s \
 	memcpy.s \
+	memset.s \
 	screen.s \
 	sprite.s \
 	sprites.s \

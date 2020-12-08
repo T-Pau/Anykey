@@ -28,13 +28,15 @@
 
 .autoimport +
 
-.export init_keyboard, display_keyboard, read_keyboard
+.export init_keyboard, display_keyboard, read_keyboard, reset_keyboard
 
 .include "anykey.inc"
 
+.macpack utility
+
 RESTORE_FRAMES = 10
 
-F8_FRAMES = 50
+HOLD_FRAMES = 50
 
 .bss
 
@@ -50,7 +52,9 @@ skip_key:
 restore_countdown:
 	.res 1
 
-f8_count:
+f5_count:
+	.res 1
+f7_count:
 	.res 1
 
 nmi_vector:
@@ -76,7 +80,8 @@ init_keyboard:
 	sta skip_key,x
 	dex
 	bpl :-
-	sta f8_count
+	sta f5_count
+	sta f7_count
 	sta restore_countdown
 	
 	lda $0318
@@ -90,6 +95,10 @@ init_keyboard:
 	
 	rts
 
+
+reset_keyboard:
+	memset color_ram + 40 * 2, COLOR_BLACK, 40 * 10
+	rts
 
 read_keyboard:
 	lda #$ff
@@ -220,22 +229,33 @@ loop:
 	bpl loop
 
 	lda command
-	bne no_f8
-	lda key_state + 15 ; left shift
-	ora key_state + 52 ; right shift
-	beq no_f8
+	bne no_key
 	lda key_state + 3 ; F7
-	beq no_f8
-	ldx f8_count
+	beq no_f7
+	ldx f7_count
 	inx
-	stx f8_count
-	cpx #F8_FRAMES
+	stx f7_count
+	cpx #HOLD_FRAMES
 	bcc end
 	lda #COMMAND_HELP
 	sta command
-no_f8:
+	bne no_key
+no_f7:
 	lda #0
-	sta f8_count
+	sta f7_count
+	lda key_state + 6; F5
+	beq no_key
+	ldx f5_count
+	inx
+	stx f5_count
+	cpx #HOLD_FRAMES
+	bcc end
+	lda #COMMAND_RESET_KEYBOARD
+	sta command
+no_key:
+	lda #0
+	sta f5_count
+	sta f7_count
 end:
 	rts
 .endscope

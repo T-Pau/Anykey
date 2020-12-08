@@ -1,4 +1,4 @@
-;  utility.mac -- Utility macro package.
+;  memset.s -- Fill region of memory with value.
 ;  Copyright (C) 2020 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,59 +25,36 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.macro store_word value, address
-	lda #<(value)
-	sta address
-	lda #>(value)
-	sta address + 1
-.endmacro
 
-.macro add_word address, value
-	clc
-	lda address
-	adc #<(value)
-	sta address
-.if value < 256
-.scope
-	bcc end_add_word
-	inc address + 1
-end_add_word:
-.endscope
-.else
-	lda address + 1
-	adc #>(value)
-	sta address + 1
-.endif
-.endmacro
+; fill ptr3 bytes at ptr2 with A
 
-.macro subtract_word address, value
-	sec
-	lda address
-	sbc #<(value)
-	sta address
-.if value < 256
-.scope
-	bcs subtract_word_end
-	dec address + 1
-subtract_word_end:
-.endscope
-.else
-	lda address + 1
-	sbc #>(value)
-	sta address + 1
-.endif
-.endmacro
+.export memset
 
-.macro memcpy destination, source, length
-	store_word destination, ptr2
-	store_word source, ptr1
-	store_word length, ptr3
-	jsr memcpy
-.endmacro
+.include "anykey.inc"
 
-.macro memset destination, value, length
-	store_word destination, ptr2
-	store_word length, ptr3
-	lda #(value)
-	jsr memset
-.endmacro
+.code
+
+memset:
+	ldy #0
+	ldx ptr3 + 1
+	beq partial
+loop:
+	sta (ptr2),y
+	iny
+	bne loop
+	inc ptr1 + 1
+	inc ptr2 + 1
+	dex
+	bne loop
+
+partial:
+	ldx ptr3
+	beq end
+partial_loop:
+	sta (ptr2),y
+	iny
+	dex
+end:
+	bne partial_loop
+	rts
+

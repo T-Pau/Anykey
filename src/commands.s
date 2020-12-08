@@ -37,3 +37,4 @@ command_handlers:
 	.word help_next
 	.word help_previous
 	.word display_main_screen
+	.word reset_keyboard

@@ -64,7 +64,8 @@ main_screen:
 	scrcode     "KMMMMMMMMMMMMMMMMMMMMMMMMMMMMMML"
     invcode                                     "    "
 	invcode "                                        "
-	invcode "    for help, hold f8 for 2 seconds.    "
+	invcode "      f5: reset keyboard  f7: help      "
+	invcode "          (hold for 2 seconds)          "
 	invcode "                                        "
 
     invcode "   "

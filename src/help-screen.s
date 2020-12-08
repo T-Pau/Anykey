@@ -84,9 +84,9 @@ help_screens_data:
 	scrcode "keys that were previously pressed are " ;  7
 	scrcode "displayed in a lighter gray. this     " ;  8
 	scrcode "helps detect dead keys. to reset the  " ;  9
-	scrcode "state of all keys to unpressed, exit  " ; 10
-	scrcode "the program with run/stop restore and " ; 11
-	scrcode "restart it with run.                  " ; 12
+	scrcode "state of all keys to unpressed, hold  " ; 10
+	scrcode "f5 for two seconds.                   " ; 11
+	scrcode "                                      " ; 12
 	scrcode "                                      " ; 13
 	scrcode "                                      " ; 14
 	scrcode "                                      " ; 15

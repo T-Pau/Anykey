@@ -17,7 +17,7 @@ The keys are displayed in the same layout as the physical keyboard.
 
 Keys that are currently pressed are displayed inverted.
 
-Keys that were previously pressed are displayed in a lighter gray. This helps detect dead keys. To reset the state of all keys to unpressed, exit the program with run/stop restore and restart it with run.
+Keys that were previously pressed are displayed in a lighter gray. This helps detect dead keys. To reset the state of all keys to unpressed, hold `F5` for two seconds.
 
 
 ## Joystick
