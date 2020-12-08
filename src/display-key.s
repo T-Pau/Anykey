@@ -32,8 +32,6 @@
 
 .include "anykey.inc"
 
-.macpack utility
-
 COLOR_RAM_OFFSET = color_ram - screen
 PRESSED_COLOR = COLOR_GRAY1
 CHECKED_COLOR = COLOR_GRAY2
@@ -57,7 +55,14 @@ CHECKED_COLOR = COLOR_GRAY2
 
 .macro set_color
 .scope
-	add_word ptr1, COLOR_RAM_OFFSET
+	clc
+	lda ptr1
+	adc #<COLOR_RAM_OFFSET
+	sta ptr1
+	lda ptr1 + 1
+	adc #>COLOR_RAM_OFFSET
+	sta ptr1 + 1
+
 	lda #CHECKED_COLOR
 	ldy state
 	beq released

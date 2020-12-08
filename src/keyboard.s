@@ -98,6 +98,12 @@ init_keyboard:
 
 reset_keyboard:
 	memset color_ram + 40 * 2, COLOR_BLACK, 40 * 10
+	lda #COLOR_GRAY1
+	ldx #2
+:	sta color_ram + 40 * 6 + 36,x
+	sta color_ram + 40 * 7 + 36,x
+	dex
+	bpl :-
 	rts
 
 read_keyboard:
