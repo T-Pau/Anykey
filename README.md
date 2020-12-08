@@ -40,6 +40,8 @@ The `Restore` key cannot be read directly. Anykey can detect when the key is pre
 
 Joysticks interfere with reading the keyboard. When a joystick is pressed, certain keys can't be read. These keys will be ignored while the joystick is pressed. If such a key was pressed before the joystick, it will remain pressed until the joystick is released. Auto fire might defeat this detection and result in phantom key presses.                              
 
+If you press certain combination of three keys, a fourth key will also appear pressed. This is because the three keys together create the same electrical connection the fourth key would.                            
+
 
 # Building Anykey
 
