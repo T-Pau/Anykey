@@ -2,7 +2,7 @@ SUBDIRS = src
 
 VERSION = 1.0
 
-FILES = README.md NEWS.md screenshot.png src/anykey.prg
+FILES = README.md NEWS.md Anykey\ User\ Manual.pdf screenshot.png src/anykey.prg
 
 DISTFILE = Anykey-${VERSION}.zip
 

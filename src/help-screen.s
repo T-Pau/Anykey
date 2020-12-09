@@ -94,7 +94,7 @@ help_screens_data:
 	scrcode "                                      " ; 17
 	scrcode "                                      " ; 18
 
-	invcode "joystick                              "
+	invcode "joysticks                             "
 	scrcode "                                      "
 	scrcode "joysticks contain a stick or d-pad    " ;  1
 	scrcode "with switches for the four cardinal   " ;  2

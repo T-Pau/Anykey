@@ -20,7 +20,7 @@ Keys that are currently pressed are displayed inverted.
 Keys that were previously pressed are displayed in a lighter gray. This helps detect dead keys. To reset the state of all keys to unpressed, hold `F5` for two seconds.
 
 
-## Joystick
+## Joysticks
 
 Joysticks contain a stick or d-pad with switches for the four cardinal directions and up to three buttons.
 
