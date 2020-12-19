@@ -34,12 +34,13 @@
 .macpack cbm
 .macpack cbm_ext
 .macpack utility
+.macpack c128
 
 .rodata
 
-main_screen:
+main_screen_64:
 	invcode " keyboard                               "
-	.incbin "keyboard-screen.bin"
+	.incbin "keyboard-64-screen.bin"
 	invcode "                                        "
 	invcode "     joysticks                          "
 	invcode "    "
@@ -68,9 +69,29 @@ main_screen:
 	invcode "          (hold for 2 seconds)          "
 	invcode "                                        "
 
-    invcode "   "
-	scrcode    "       AHBAHBHAB        AHBHABHAB "
-    invcode                                      "   "
+main_screen_128:
+	invcode " keyboard                               "
+	.incbin "keyboard-128-screen.bin"
+	invcode "                                        "
+	invcode "     joysticks                          "
+	invcode "    "
+	scrcode     "I                              J"
+    invcode                                     "    "
+    invcode "    "
+	scrcode     "      AHBAHBAHB       AHBAHBAHB "
+    invcode                                     "    "
+    invcode "    "
+	scrcode     "      E1FE2FE3F       E1FE2FE3F "
+    invcode                                     "    "
+    invcode "    "
+	scrcode     "      CGDCGDCGD       CGDCGDCGD "
+    invcode                                     "    "
+	invcode "    "
+	scrcode     "K                              L"
+    invcode                                     "    "
+	invcode "                                        "
+	invcode "      f5: reset keyboard  f7: help      "
+	invcode "          (hold for 2 seconds)          "
 
 help_screen:
 	invcode "                                        "
@@ -89,11 +110,19 @@ help_screen:
 .code
 
 display_main_screen:
-	memcpy screen, main_screen, 1000
+	memcpy_128 screen, main_screen_64, main_screen_128, 1000
 	memcpy color_ram, main_color_save, 1000
-	ldx #<main_irq_table
-	ldy #>main_irq_table
-	lda main_irq_table_length
+	lda is_128
+	beq c64
+	ldx #<main_128_irq_table
+	ldy #>main_128_irq_table
+	lda main_128_irq_table_length
+	bne both
+c64:
+	ldx #<main_64_irq_table
+	ldy #>main_64_irq_table
+	lda main_64_irq_table_length
+both:
 	jsr set_irq_table
 	rts
 

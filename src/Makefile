@@ -5,7 +5,7 @@ CFLAGS = -t c64
 
 LD = cl65
 LDFLAGS = -t c64 -u __EXEHDR__ -C c64-asm.cfg
-# LDFLAGS += -Ln sym
+ LDFLAGS += -Ln sym
 
 PROGRAM = anykey.prg
 
@@ -23,6 +23,8 @@ SOURCES = \
 	irq.s \
 	irq-table.s \
 	joysticks.s \
+	keys-64.s \
+	keys-128.s \
 	keyboard.s \
 	logo.s \
 	help.s \
@@ -54,15 +56,29 @@ ${DEPFILES}:
 
 include $(wildcard ${DEPFILES})
 
+keys-64.s: keys-64.key key-table
+	./key-table keys-64
 
-keyboard-charset-top.bin keyboard-charset-bottom.bin keyboard-screen.bin: keyboard-normal-bitmap.bin keyboard-pressed-bitmap.bin convert-keyboard
-	./convert-keyboard 3
+keys-128.s: keys-128.key key-table
+	./key-table keys-128
 
-keyboard-pressed-bitmap.bin: keyboard-pressed.png
-	gfx-convert -b 1 bitmap keyboard-pressed.png  keyboard-pressed
+keyboard-64-charset-top.bin keyboard-64-charset-bottom.bin keyboard-64-screen.bin: keyboard-64-normal-bitmap.bin keyboard-64-pressed-bitmap.bin convert-keyboard
+	./convert-keyboard keyboard-64 12 3
 
-keyboard-normal-bitmap.bin: keyboard-normal.png
-	gfx-convert -b 1 bitmap keyboard-normal.png  keyboard-normal
+keyboard-128-charset-top.bin keyboard-128-charset-bottom.bin keyboard-128-screen.bin: keyboard-128-normal-bitmap.bin keyboard-128-pressed-bitmap.bin convert-keyboard
+	./convert-keyboard keyboard-128 14 6
+
+keyboard-64-pressed-bitmap.bin: keyboard-64-pressed.png
+	gfx-convert -b 1 bitmap keyboard-64-pressed.png  keyboard-64-pressed
+
+keyboard-64-normal-bitmap.bin: keyboard-64-normal.png
+	gfx-convert -b 1 bitmap keyboard-64-normal.png  keyboard-64-normal
+
+keyboard-128-normal-bitmap.bin: keyboard-128-normal.png
+	gfx-convert -b 1 bitmap keyboard-128-normal.png keyboard-128-normal
+
+keyboard-128-pressed-bitmap.bin: keyboard-128-pressed.png
+	gfx-convert -b 1 bitmap keyboard-128-pressed.png keyboard-128-pressed
 
 charset.bin: charset.png
 	gfx-convert -b 255 charset charset.png charset.bin
@@ -77,7 +93,7 @@ ${PROGRAM}: ${OBJECTS}
 	${LD} ${LDFLAGS} -o ${PROGRAM} ${OBJECTS}
 
 
-charset.o: charset.bin keyboard-charset-top.bin keyboard-charset-bottom.bin
+charset.o: charset.bin keyboard-64-charset-top.bin keyboard-64-charset-bottom.bin keyboard-128-charset-top.bin keyboard-128-charset-bottom.bin
 dpad.o: dpad.bin
-screen.o: keyboard-screen.bin
+screen.o: keyboard-64-screen.bin keyboard-128-screen.bin
 sprites.o: sprites.bin

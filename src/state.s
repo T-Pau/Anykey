@@ -25,20 +25,35 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export joy1, joy2, main_color_save, init_state
+.export joy1, joy2, main_color_save, is_128, init_state
+.export joystick_positions
+.export bottom_charset_line, joystick_label_line
 
 .autoimport +
 
 .include "anykey.inc"
 
 .macpack utility
+.macpack c128
 
 .bss
+
+is_128:
+	.res 1
 
 joy1:
 	.res 1
 joy2:
 	.res 1
+
+bottom_charset_line:
+	.res 1
+	
+joystick_label_line:
+	.res 1
+
+joystick_positions:
+	.res 4
 
 main_color_save:
 	.res 1000
@@ -49,6 +64,32 @@ init_state:
 	lda #0
 	sta joy1
 	sta joy2
-	lda #$ff
-	memcpy main_color_save, main_color, 1000
+	store_word screen + 16 * 40 + 5, joystick_positions
+	store_word screen + 16 * 40 + 21, joystick_positions + 2
+	lda VIC_CLK_128
+	eor #$ff
+	sta is_128
+	beq c64
+	lda #top + 8 * 7 + 1
+	sta bottom_charset_line
+	lda #top + 15 * 8
+	sta joystick_label_line
+	add_word joystick_positions, 40
+	add_word joystick_positions + 2, 40
+	ldx #<keys_128_address_low
+	ldy #>keys_128_address_low
+	lda keys_128_num_keys
+	jsr set_keys_table
+	jmp both
+c64:
+	lda #top + 8 * 4 + 1
+	sta bottom_charset_line
+	lda #top + 13 * 8
+	sta joystick_label_line
+	ldx #<keys_64_address_low
+	ldy #>keys_64_address_low
+	lda keys_64_num_keys
+	jsr set_keys_table
+both:
+	memcpy_128 main_color_save, main_color_64, main_color_128, 1000
 	jmp init_keyboard

@@ -1,6 +1,6 @@
-*.o
-/src/.deps
 .DS_Store
+*.o
 *.prg
-/src/sym
 *.zip
+/src/.deps
+/src/sym

@@ -28,11 +28,12 @@
 
 .autoimport +
 
-.export init_keyboard, display_keyboard, read_keyboard, reset_keyboard
+.export init_keyboard, display_keyboard, read_keyboard, read_keyboard_128, reset_keyboard, process_skip
 
 .include "anykey.inc"
 
 .macpack utility
+.macpack c128
 
 RESTORE_FRAMES = 10
 
@@ -41,13 +42,13 @@ HOLD_FRAMES = 50
 .bss
 
 key_state:
-	.res 65
+	.res MAX_NUM_KEYS
 
 new_key_state:
-	.res 65
+	.res MAX_NUM_KEYS
 
 skip_key:
-	.res 65
+	.res MAX_NUM_KEYS
 
 restore_countdown:
 	.res 1
@@ -73,7 +74,7 @@ temp:
 .code
 
 init_keyboard:
-	ldx #65
+	ldx #91
 	lda #0
 :	sta key_state,x
 	sta new_key_state,x
@@ -97,27 +98,42 @@ init_keyboard:
 
 
 reset_keyboard:
-	memset color_ram + 40 * 2, COLOR_BLACK, 40 * 10
+.scope
+	memcpy_128 color_ram + 40 * 2, main_color_64 + 40 * 2, main_color_128 + 40 * 2, 40 * 12
 	lda #COLOR_GRAY1
+	ldx is_128
+	beq c64
+	sta color_ram + 40 * 2 + 36
+	sta color_ram + 40 * 2 + 37
+	sta color_ram + 40 * 3 + 36
+	sta color_ram + 40 * 3 + 37
+	rts
+
+c64:
 	ldx #2
 :	sta color_ram + 40 * 6 + 36,x
 	sta color_ram + 40 * 7 + 36,x
 	dex
 	bpl :-
 	rts
+.endscope
 
 read_keyboard:
 	lda #$ff
 	sta CIA1_PRA
 	sta CIA1_PRB
+	lda #$00
 	sta CIA1_DDRA
 	sta CIA1_DDRB
 	lda CIA1_PRB
 	eor #$ff
+	ora port1
 	sta port1
 	lda CIA1_PRA
 	eor #$ff
 	sta port2
+	lda #$ff
+	sta CIA1_DDRA
 	lda #$00
 	sta CIA1_DDRB
 	lda #$fe
@@ -174,33 +190,44 @@ end_read:
 	beq :+
 	dex
 	stx restore_countdown
-	stx new_key_state + 64
+	txa
+	ldx num_keys
+	dex
+	sta new_key_state,x
 :
-	ldx #63
+	lda #$ff
+	sta CIA1_PRA
+	sta CIA1_PRB
+	lda #$00
+	sta CIA1_DDRB
+	sta CIA1_DDRA
+	lda CIA1_PRB
+	eor #$ff
+	ora port1
+	sta port1
+	; TODO: if port 2 bit is set and key in that row is pressed, ignore that key's column (except for key itself)
+	rts
+	
+process_skip:
+	ldx num_keys
+	dex
 	lda #0
 :	sta skip_key,x
 	dex
 	bpl :-
-	lda #$ff
-	sta CIA1_PRA
-	sta CIA1_PRB
-	sta CIA1_DDRB
 
-	lda CIA1_PRB
-	eor #$ff
-	ora port1
-	beq port1_clear
-	sta port1
-
+	lda port1
+	beq port1_clear	
 	ldx #0
 port1_loop:
 	lda port1
+	beq port1_clear
 	lsr
 	sta port1
 	bcc port1_loop_end
 	stx temp
 	ldy temp
-	ldx #7
+	ldx #10
 	lda #1
 :	sta skip_key,y
 	tya
@@ -216,13 +243,110 @@ port1_loop_end:
 	bne port1_loop
 	
 port1_clear:
-	; TODO: if port 2 bit is set and key in that row is pressed, ignore that key's column (except for key itself)
+	lda is_128
+	bne :+
+	sta skip_key + 64 ; don't skip restore
+:
 	rts
 
 
+read_keyboard_128:
+.scope
+	lda #$ff
+	sta CIA1_PRA
+	sta CIA1_PRB
+	lda #$00
+	sta CIA1_DDRA
+	sta CIA1_DDRB
+	lda CIA1_PRB
+	eor #$ff
+	ora port1
+	sta port1
+	lda CIA1_PRA
+	eor #$ff
+	sta port2
+	lda #$ff
+	sta CIA1_DDRA
+	lda #$00
+	sta CIA1_DDRB
+	lda #$fe
+	ldx #64
+byteloop:
+	sta VIC_KBD_128
+	lda CIA1_PRB
+	eor #$ff
+	tay
+	and bitmask,x
+	sta new_key_state,x
+	inx
+	tya
+	and bitmask,x
+	sta new_key_state,x
+	inx
+	tya
+	and bitmask,x
+	sta new_key_state,x
+	inx
+	tya
+	and bitmask,x
+	sta new_key_state,x
+	inx
+	tya
+	and bitmask,x
+	sta new_key_state,x
+	inx
+	tya
+	and bitmask,x
+	sta new_key_state,x
+	inx
+	tya
+	and bitmask,x
+	sta new_key_state,x
+	inx
+	tya
+	and bitmask,x
+	sta new_key_state,x
+	inx
+	cpx #88
+	beq end_read
+	txa
+	lsr
+	lsr
+	lsr
+	tay
+	lda bitmask,y
+	eor #$ff
+	bne byteloop
+
+end_read:
+	lda #$ff
+	sta VIC_KBD_128
+
+	lda #$ff
+	sta CIA1_PRA
+	sta CIA1_PRB
+	lda #$00
+	sta CIA1_DDRB
+	sta CIA1_DDRA
+	lda CIA1_PRB
+	eor #$ff
+	ora port1
+	sta port1
+
+	lda $01
+	eor #$ff
+	and #$40
+	sta new_key_state + 88
+	; TODO: 40/80 display on 128 native
+	rts
+.endscope
+
 display_keyboard:
 .scope
-	ldx #64
+	jsr process_skip
+	
+	ldx num_keys
+	dex
 loop:
 	lda skip_key,x
 	bne :+
@@ -276,7 +400,7 @@ handle_nmi:
 .rodata
 
 bitmask:
-	.repeat 8, i
+	.repeat 11, i
 	.byte $01, $02, $04, $08, $10, $20, $40, $80
 ;	.byte $80, $40, $20, $10, $08, $04, $02, $01
 	.endrep

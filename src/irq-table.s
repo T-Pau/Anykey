@@ -27,23 +27,36 @@
 
 
 .autoimport +
-.export main_irq_table, main_irq_table_length
+.export main_64_irq_table, main_64_irq_table_length
+.export main_128_irq_table, main_128_irq_table_length
 .export help_irq_table, help_irq_table_length
 
 .include "anykey.inc"
 
 .data
 
-main_irq_table:
+main_64_irq_table:
 	.word top - 1, top_label
 	.word top + 8 - 2, switch_keyboard_top
-	.word top + 8 * 4 - 1, switch_keyboard_bottom
-	.word top + 8 * 13 - 1, switch_joystick_label
-	.word top + 8 * 15 - 1, switch_joystick
-	.word top + 8 * 22, label_background
+	.word top + 4 * 8 - 2, switch_keyboard_bottom
+	.word top + 13 * 8 - 1, switch_joystick_label
+	.word top + 15 * 8 - 1, switch_joystick
+	.word top + 22 * 8, label_background
 	.word top + 24 * 8 + 7, switch_bottom
-main_irq_table_length:
-	.byte * - main_irq_table
+main_64_irq_table_length:
+	.byte * - main_64_irq_table
+
+
+main_128_irq_table:
+	.word top - 1, top_label
+	.word top + 8 - 2, switch_keyboard_top
+	.word top + 7 * 8 - 2, switch_keyboard_bottom
+	.word top + 15 * 8 - 1, switch_joystick_label
+	.word top + 17 * 8 - 1, switch_joystick
+	.word top + 22 * 8 - 2, switch_joystick_bottom
+	.word top + 24 * 8 + 7, switch_bottom
+main_128_irq_table_length:
+	.byte * - main_128_irq_table
 
 
 help_irq_table:

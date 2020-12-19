@@ -36,12 +36,6 @@
 tmp:
 	.res 2
 
-.rodata
-
-joy_positions:
-	.word screen + 16 * 40 + 5
-	.word screen + 16 * 40 + 21
-
 .code
 
 ; display joystick number X
@@ -51,9 +45,9 @@ display_joystick:
 	asl
 	sta tmp
 	tax
-	lda joy_positions,x
+	lda joystick_positions,x
 	sta ptr2
-	lda joy_positions + 1,x
+	lda joystick_positions + 1,x
 	sta ptr2 + 1
 	lda port_digital
 	and #$f
@@ -62,10 +56,10 @@ display_joystick:
 	; buttons
 	clc
 	ldx tmp
-	lda joy_positions,x
+	lda joystick_positions,x
 	adc #45
 	sta ptr2
-	lda joy_positions + 1,x
+	lda joystick_positions + 1,x
 	adc #0
 	sta ptr2 + 1
 	lda port_digital

@@ -33,6 +33,7 @@
 
 .macpack cbm_ext
 .macpack utility
+.macpack c128
 
 .code
 
@@ -40,13 +41,15 @@ start:
 	lda #12; COLOR_GREY2
 	sta VIC_BORDERCOLOR
 
-	memcpy charset, charset_data, $800 * 3
+	jsr init_state
+
+	memcpy charset, charset_data, $800
+	memcpy_128 charset_keyboard_top, charset_data_64, charset_data_128, $1000
 	memcpy sprites, sprite_data, (64 * 8)
 
-	jsr init_state
 	jsr display_main_screen
 
-	set_vic_bank $4000
+	set_vic_bank $8000
 	set_vic_text screen, charset
 
 	lda #$0f
@@ -64,5 +67,5 @@ start:
 	sta CIA1_DDRB
 
 	jsr init_irq
-
+	
 	jmp main_loop

@@ -46,14 +46,20 @@ COLOR_LIGHTGREEN = 13
 COLOR_LIGHTBLUE = 14
 COLOR_GRAY3 = 15
 
-charset = $6000
-charset_keyboard_top = charset + $800
-charset_keyboard_bottom = charset_keyboard_top + $800
-screen = charset_keyboard_bottom + $800
+charset = $8000
+screen = charset + $800
 sprites = screen + $400
+
+charset_keyboard_top = charset + $2000
+charset_keyboard_bottom = charset_keyboard_top + $800
 color_ram = $d800
 
 sprite_logo = (sprites & $3fff) / 64
+
+MAX_NUM_KEYS = 91
+
+keys_64_offset = screen + 80 + 1
+keys_128_offset = screen + 80
 
 tmp1 = $02
 ptr1 = $fb

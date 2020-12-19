@@ -26,11 +26,17 @@
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-.export charset_data
+.export charset_data, charset_data_64, charset_data_128
 
 .rodata
 
 charset_data:
 	.incbin "charset.bin"
-	.incbin "keyboard-charset-top.bin"
-	.incbin "keyboard-charset-bottom.bin"
+
+charset_data_64:
+	.incbin "keyboard-64-charset-top.bin"
+	.incbin "keyboard-64-charset-bottom.bin"
+	
+charset_data_128:
+	.incbin "keyboard-128-charset-top.bin"
+	.incbin "keyboard-128-charset-bottom.bin"

@@ -26,7 +26,7 @@
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 .autoimport +
-.export switch_keyboard_bottom, switch_keyboard_top, switch_joystick_label, switch_joystick, switch_bottom
+.export switch_keyboard_bottom, switch_keyboard_top, switch_joystick_label, switch_joystick, switch_bottom, switch_joystick_bottom
 
 .include "anykey.inc"
 
@@ -36,28 +36,44 @@
 
 switch_keyboard_top:
 	jsr content_background
+	lda #COLOR_GRAY2
+	ldy is_128
+	beq :+
+	lda #COLOR_GRAY3
+:
 	ldx #top + 8 + 1
 :	cpx VIC_HLINE
 	bne :-
+	sta VIC_BORDERCOLOR
 	set_vic_text screen, charset_keyboard_top
+	ldx #0
+	jsr read_pots
+	lda is_128
+	beq :+
+	jsr read_keyboard_128
+:
 	rts
 
 switch_keyboard_bottom:
-	ldx #top + 8 * 4 + 1
+	lda #(((screen & $3c00) >> 6) | ((charset_keyboard_bottom & $3800) >> 10))
+	ldx bottom_charset_line
 :	cpx VIC_HLINE
 	bne :-
-	set_vic_text screen, charset_keyboard_bottom
-	ldx #0
-	jsr read_pots
+	sta VIC_VIDEO_ADR
+	lda command
+	bne :+
 	jsr handle_joysticks
+:
 	jmp select_pots2
 
 
 switch_joystick_label:
 	set_vic_text screen, charset
-	ldx #top + 13 * 8
+	lda #COLOR_GRAY2
+	ldx joystick_label_line
 :	cpx VIC_HLINE
 	bne :-
+	sta VIC_BORDERCOLOR
 	jsr label_background
 	rts
 
@@ -69,7 +85,23 @@ switch_joystick:
 	jsr select_pots1
 	rts
 
+switch_joystick_bottom: ; 128 only
+	lda #COLOR_GRAY2
+	ldx #top + 22 * 8 - 0
+:	cpx VIC_HLINE
+	bne :-
+	sta VIC_BG_COLOR0
+	lda #COLOR_BLACK
+	inx
+:	cpx VIC_HLINE
+	bne :-
+	sta VIC_BG_COLOR0
+	rts	
+
 switch_bottom:
 	jsr display_logo
+	lda command
+	bne :+
 	jsr display_keyboard
+:
 	rts

@@ -25,13 +25,13 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export main_color, help_color
+.export main_color_64, main_color_128, help_color
 
 .rodata
 
-main_color:
+main_color_64:
 	.res 40 * 2, $c
-	.res 40 * 10, $0 ; $b
+	.res 40 * 10, $0
 	.res 40 * 4, $c
 	.repeat 5, i
 	.res 4, $c
@@ -39,6 +39,23 @@ main_color:
 	.res 4, $c
 	.endrep
 	.res 40 * 4, $c
+
+main_color_128:
+	.res 40 * 2, $c
+	.res 16, $0
+	.res 2, $b
+	.res 22, $0
+	.res 16, $0
+	.res 2, $b
+	.res 22, $0
+	.res 40 * 10, $0
+	.res 40 * 3, $c
+	.repeat 5, i
+	.res 5, $c
+	.res 30, $b
+	.res 5, $c
+	.endrep
+	.res 40 * 3, $c
 
 help_color:
 	.res 2 * 40, $c
