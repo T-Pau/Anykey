@@ -1,15 +1,18 @@
 DEPDIR := .deps
 
 CC = cl65
-CFLAGS = -t c64
+CFLAGS_64 = -t c64
+CFLAGS_128 = -t c128
 
 LD = cl65
-LDFLAGS = -t c64 -u __EXEHDR__ -C c64-asm.cfg
- LDFLAGS += -Ln sym
+LDFLAGS_64 = -t c64 -u __EXEHDR__ -C c64-asm.cfg
+LDFLAGS_128 = -t c128 -u __EXEHDR__ -C c128-asm.cfg
+# LDFLAGS_64 += -Ln sym
+LDFLAGS_128 += -Ln sym
 
-PROGRAM = anykey.prg
+PROGRAMS = anykey-64.prg # anykey-128.prg
 
-SOURCES = \
+SOURCES_COMMON = \
 	start.s \
 	button.s \
 	charset.s \
@@ -23,7 +26,6 @@ SOURCES = \
 	irq.s \
 	irq-table.s \
 	joysticks.s \
-	keys-64.s \
 	keys-128.s \
 	keyboard.s \
 	logo.s \
@@ -31,30 +33,49 @@ SOURCES = \
 	help-screen.s \
 	main-loop.s \
 	memcpy.s \
-	memset.s \
 	screen.s \
 	sprite.s \
 	sprites.s \
 	state.s \
 	switch.s
 
-OBJECTS = ${SOURCES:.s=.o}
+SOURCES_64 = \
+	${SOURCES_COMMON} \
+	keys-64.s
 
-all: ${PROGRAM}
+SOURCES_128 = \
+	${SOURCES_COMMON}
+
+OBJECTS_64 = ${SOURCES_64:%.s=%-64.o}
+OBJECTS_128 = ${SOURCES_128:%.s=%-128.o}
+
+ALL_OBJECTS = ${OBJECTS_64} ${OBJECTS_128}
+
+all: ${PROGRAMS}
 
 clean:
-	rm -f ${OBJECTS} ${PROGRAM}
+	rm -f ${ALL_OBJECTS} ${PROGRAMS}
 
 
-%.o : %.s ${DEPDIR}/%.d | ${DEPDIR}
-	${CC} ${CFLAGS} --create-dep ${DEPDIR}/$*.d -c $<
+%-64.o : %.s ${DEPDIR}/%-64.o.d | ${DEPDIR}
+	${CC} -o $@ ${CFLAGS_64} --create-dep ${DEPDIR}/$@.d -c $<
+
+%-128.o : %.s ${DEPDIR}/%-128.o.d | ${DEPDIR}
+	${CC} -o $@ ${CFLAGS_128} --create-dep ${DEPDIR}/$@.d -c $<
 
 ${DEPDIR}: ; @mkdir -p $@
 
-DEPFILES := ${SOURCES:%.s=${DEPDIR}/%.d}
+DEPFILES := ${ALL_OBJECTS:%=${DEPDIR}/%.d}
 ${DEPFILES}:
 
 include $(wildcard ${DEPFILES})
+
+anykey-64.prg: ${OBJECTS_64}
+	${LD} ${LDFLAGS_64} -o anykey-64.prg ${OBJECTS_64}
+
+anykey-128.prg: ${OBJECTS_128}
+	${LD} ${LDFLAGS_128} -o anykey-128.prg ${OBJECTS_128}
+
 
 keys-64.s: keys-64.key key-table
 	./key-table keys-64
@@ -88,9 +109,6 @@ sprites.bin: sprites.png
 
 dpad.bin: dpad.png charset.bin
 	gfx-convert screen dpad.png charset.bin dpad.bin
-
-${PROGRAM}: ${OBJECTS}
-	${LD} ${LDFLAGS} -o ${PROGRAM} ${OBJECTS}
 
 
 charset.o: charset.bin keyboard-64-charset-top.bin keyboard-64-charset-bottom.bin keyboard-128-charset-top.bin keyboard-128-charset-bottom.bin

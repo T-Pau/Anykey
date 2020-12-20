@@ -38,9 +38,7 @@
 .include "anykey.inc"
 
 COLOR_RAM_OFFSET = color_ram - screen
-PRESSED_COLOR = COLOR_GRAY1
-CHECKED_COLOR = COLOR_GRAY2
- 
+
 .macro set_color
 .scope
 	clc

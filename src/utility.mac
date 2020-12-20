@@ -81,3 +81,11 @@ subtract_word_end:
 	lda #(value)
 	jsr memset
 .endmacro
+
+.macro memset_if destination, old_value, new_value, length
+	store_word destination, ptr2
+	store_word length, ptr3
+	ldx #(new_value)
+	lda #(old_value)
+	jsr memset_if
+.endmacro

@@ -1,13 +1,17 @@
 .macro memcpy_128 destination, source_64, source_128, length
 .scope
 	store_word destination, ptr2
+.ifdef __C64__
 	lda is_128
 	beq c64
+.endif
 	store_word source_128, ptr1
+.ifdef __C64__
 	jmp copy
 c64:
 	store_word source_64, ptr1
 copy:
+.endif
 	store_word length, ptr3
 	jsr memcpy
 .endscope

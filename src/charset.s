@@ -26,16 +26,21 @@
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-.export charset_data, charset_data_64, charset_data_128
+.export charset_data, charset_data_128
+.ifdef __C64__
+.export charset_data_64
+.endif
 
 .rodata
 
 charset_data:
 	.incbin "charset.bin"
 
+.ifdef __C64__
 charset_data_64:
 	.incbin "keyboard-64-charset-top.bin"
 	.incbin "keyboard-64-charset-bottom.bin"
+.endif
 	
 charset_data_128:
 	.incbin "keyboard-128-charset-top.bin"

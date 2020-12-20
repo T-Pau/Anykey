@@ -1,4 +1,4 @@
-;  state.s -- Current program state.
+;  memset_if.s -- Change all bytes of one value in region to another.
 ;  Copyright (C) 2020 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,73 +25,53 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export joy1, joy2, main_color_save, is_128, init_state
-.export joystick_positions
-.export bottom_charset_line, joystick_label_line
 
-.autoimport +
+; change ptr3 bytes at ptr2 to X if they are A
+
+.export memset_if
 
 .include "anykey.inc"
 
-.macpack utility
-.macpack c128
-
 .bss
 
-is_128:
+if_value:
 	.res 1
-
-joy1:
-	.res 1
-joy2:
-	.res 1
-
-bottom_charset_line:
+new_value:
 	.res 1
 	
-joystick_label_line:
-	.res 1
-
-joystick_positions:
-	.res 4
-
-main_color_save:
-	.res 1000
-
 .code
 
-init_state:
-	lda #0
-	sta joy1
-	sta joy2
-	store_word screen + 16 * 40 + 5, joystick_positions
-	store_word screen + 16 * 40 + 21, joystick_positions + 2
-	lda VIC_CLK_128
-	eor #$ff
-	sta is_128
-	beq c64
-	lda #top + 8 * 7 + 1
-	sta bottom_charset_line
-	lda #top + 15 * 8
-	sta joystick_label_line
-	add_word joystick_positions, 40
-	add_word joystick_positions + 2, 40
-	ldx #<keys_128_address_low
-	ldy #>keys_128_address_low
-	lda keys_128_num_keys
-	jsr set_keys_table
-	jmp both
-c64:
-.ifdef __C64__
-	lda #top + 8 * 4 + 1
-	sta bottom_charset_line
-	lda #top + 13 * 8
-	sta joystick_label_line
-	ldx #<keys_64_address_low
-	ldy #>keys_64_address_low
-	lda keys_64_num_keys
-	jsr set_keys_table
-.endif
-both:
-	memcpy_128 main_color_save, main_color_64, main_color_128, 1000
-	jmp init_keyboard
+memset_if:
+.scope
+	stx new_value
+	sta if_value
+	ldy #0
+	ldx ptr3 + 1
+	beq partial
+loop:
+	cmp (ptr2),y
+	bne :+
+	lda new_value
+	sta (ptr2),y
+	lda if_value
+:	iny
+	bne loop
+	inc ptr2 + 1
+	dex
+	bne loop
+
+partial:
+	ldx ptr3
+	beq end
+partial_loop:
+	cmp (ptr2),y
+	bne :+
+	lda new_value
+	sta (ptr2),y
+	lda if_value
+:	iny
+	dex
+	bne partial_loop
+end:
+	rts
+.endscope

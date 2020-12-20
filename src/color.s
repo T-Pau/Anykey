@@ -42,12 +42,17 @@ main_color_64:
 
 main_color_128:
 	.res 40 * 2, $c
+.ifdef __C64__
+	; mark 40/80 display uncheckable
 	.res 16, $0
 	.res 2, $b
 	.res 22, $0
 	.res 16, $0
 	.res 2, $b
 	.res 22, $0
+.else
+	.res 40 * 2, $0
+.endif
 	.res 40 * 10, $0
 	.res 40 * 3, $c
 	.repeat 5, i

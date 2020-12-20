@@ -99,24 +99,47 @@ init_keyboard:
 
 reset_keyboard:
 .scope
-	memcpy_128 color_ram + 40 * 2, main_color_64 + 40 * 2, main_color_128 + 40 * 2, 40 * 12
-	lda #COLOR_GRAY1
-	ldx is_128
+	lda is_128
 	beq c64
-	sta color_ram + 40 * 2 + 36
-	sta color_ram + 40 * 2 + 37
-	sta color_ram + 40 * 3 + 36
-	sta color_ram + 40 * 3 + 37
-	rts
-
+	store_word 40 * 12, ptr3
+	bne both
 c64:
-	ldx #2
-:	sta color_ram + 40 * 6 + 36,x
-	sta color_ram + 40 * 7 + 36,x
+	store_word 40 * 10, ptr3
+both:
+	store_word color_ram + 40 * 2, ptr2
+	ldy #0
+	ldx ptr3 + 1
+	beq partial
+loop:
+	lda (ptr2),y
+	and #$0f
+	cmp #CHECKED_COLOR
+	bne :+
+	lda #UNCHECKED_COLOR
+	sta (ptr2),y
+:	iny
+	bne loop
+	inc ptr2 + 1
 	dex
-	bpl :-
+	bne loop
+
+partial:
+	ldx ptr3
+	beq end
+partial_loop:
+	lda (ptr2),y
+	and #$0f
+	cmp #CHECKED_COLOR
+	bne :+
+	lda #UNCHECKED_COLOR
+	sta (ptr2),y
+:	iny
+	dex
+	bne partial_loop
+end:
 	rts
 .endscope
+
 
 read_keyboard:
 	lda #$ff
@@ -337,7 +360,12 @@ end_read:
 	eor #$ff
 	and #$40
 	sta new_key_state + 88
-	; TODO: 40/80 display on 128 native
+.ifdef __C128__
+	lda MMU_MCR
+	eor $ff
+	and #$80
+	sta new_key_state + 89
+.endif
 	rts
 .endscope
 

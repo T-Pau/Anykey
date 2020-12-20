@@ -54,7 +54,7 @@ partial_loop:
 	sta (ptr2),y
 	iny
 	dex
-end:
 	bne partial_loop
+end:
 	rts
 

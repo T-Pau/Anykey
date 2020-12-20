@@ -82,7 +82,13 @@ irq_jsr:
 .ifdef IRQ_DEBUG
 	dec VIC_BORDERCOLOR
 .endif
+.if .defined(__C64__)
     jmp $ea81
+.elseif .defined(__C128__)
+	jmp $ff33
+.else
+.error "Target not supported"
+.endif
 
 
 setup_next_irq:
