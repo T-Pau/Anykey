@@ -1,3 +1,7 @@
+# Version 1.2 (2020-12-26)
+
+- Add support for C128.
+
 # Version 1.1 (2020-12-12)
 
 - Add support for 3 button joysticks.
