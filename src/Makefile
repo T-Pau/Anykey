@@ -8,9 +8,9 @@ LD = cl65
 LDFLAGS_64 = -t c64 -u __EXEHDR__ -C c64-asm.cfg
 LDFLAGS_128 = -t c128 -u __EXEHDR__ -C c128-asm.cfg
 # LDFLAGS_64 += -Ln sym
-LDFLAGS_128 += -Ln sym
+# LDFLAGS_128 += -Ln sym
 
-PROGRAMS = anykey-64.prg # anykey-128.prg
+PROGRAMS = anykey-64.prg anykey-128.prg
 
 SOURCES_COMMON = \
 	start.s \

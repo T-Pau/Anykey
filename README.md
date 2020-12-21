@@ -35,6 +35,11 @@ Buttons 2 and 3 bring an analog potentiometer to a low value by connecting its p
 	
 The `Restore` key cannot be read directly. Anykey can detect when the key is pressed, but it can't detect for how long.
 
+## Commodore 128
+
+When run in C64 mode on a C128, Anykey will display and test the full C128 keyboard.
+
+The `40/80 Display` key cannot be read in C64 mode, therefore it is displayed greyed out. To test it, use the native version, Anykey 128.
 
 ## Technical Limitations
 

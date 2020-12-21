@@ -51,7 +51,7 @@ main_128_irq_table:
 	.word top - 1, top_label
 	.word top + 8 - 2, switch_keyboard_top
 	.word top + 7 * 8 - 2, switch_keyboard_bottom
-	.word top + 15 * 8 - 1, switch_joystick_label
+	.word top + 15 * 8 - 2, switch_joystick_label
 	.word top + 17 * 8 - 1, switch_joystick
 	.word top + 22 * 8 - 2, switch_joystick_bottom
 	.word top + 24 * 8 + 7, switch_bottom

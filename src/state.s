@@ -72,7 +72,7 @@ init_state:
 	eor #$ff
 	sta is_128
 	beq c64
-	lda #top + 8 * 7 + 1
+	lda #top + 8 * 7
 	sta bottom_charset_line
 	lda #top + 15 * 8
 	sta joystick_label_line
@@ -85,7 +85,7 @@ init_state:
 	jmp both
 c64:
 .ifdef __C64__
-	lda #top + 8 * 4 + 1
+	lda #top + 8 * 4
 	sta bottom_charset_line
 	lda #top + 13 * 8
 	sta joystick_label_line

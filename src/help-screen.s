@@ -34,7 +34,11 @@
 help_screen_start = screen + 1
 
 help_screen_size = 38 * 20
+.ifdef __C64__
+num_help_screens = 6
+.else
 num_help_screens = 5
+.endif
 
 .macpack cbm
 .macpack cbm_ext
@@ -135,6 +139,29 @@ help_screens_data:
 	scrcode "                                      " ; 16
 	scrcode "                                      " ; 17
 	scrcode "                                      " ; 18
+
+.ifdef __C64__
+	invcode "commodore 128                         "
+	scrcode "                                      "
+	scrcode "when run in c64 mode on a c128, anykey" ;  1
+	scrcode "will display and test the full c128   " ;  2
+	scrcode "keyboard.                             " ;  3
+	scrcode "                                      " ;  4
+	scrcode "the 40/80 display key cannot be read  " ;  5
+	scrcode "in c64 mode, therefore it is displayed" ;  6
+	scrcode "grayed out. to test it, use the native" ;  7
+	scrcode "version, anykey 128.                  " ;  8
+	scrcode "                                      " ;  9
+	scrcode "                                      " ; 10
+	scrcode "                                      " ; 11
+	scrcode "                                      " ; 12
+	scrcode "                                      " ; 13
+	scrcode "                                      " ; 14
+	scrcode "                                      " ; 15
+	scrcode "                                      " ; 16
+	scrcode "                                      " ; 17
+	scrcode "                                      " ; 18
+.endif
 
 	invcode "technical limitations                 "
 	scrcode "                                      "

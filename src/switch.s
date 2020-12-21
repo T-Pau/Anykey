@@ -41,9 +41,14 @@ switch_keyboard_top:
 	beq :+
 	lda #COLOR_GRAY3
 :
-	ldx #top + 8 + 1
+	ldx #top + 8
 :	cpx VIC_HLINE
 	bne :-
+	ldx #9
+:	dex
+	bpl :-
+	nop
+	nop
 	sta VIC_BORDERCOLOR
 	set_vic_text screen, charset_keyboard_top
 	ldx #0
@@ -59,6 +64,11 @@ switch_keyboard_bottom:
 	ldx bottom_charset_line
 :	cpx VIC_HLINE
 	bne :-
+	ldx #9
+:	dex
+	bpl :-
+	nop
+	nop
 	sta VIC_VIDEO_ADR
 	lda command
 	bne :+
