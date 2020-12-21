@@ -176,7 +176,7 @@ help_screens_data:
 	scrcode "detection and result in phantom key   " ;  9
 	scrcode "presses.                              " ; 10
 	scrcode "                                      " ; 11
-	scrcode "if you press certain combination of   " ; 12
+	scrcode "if you press certain combinations of  " ; 12
 	scrcode "three keys, a fourth key will also    " ; 13
 	scrcode "appear pressed. this is because the   " ; 14
 	scrcode "three keys together create the same   " ; 15
