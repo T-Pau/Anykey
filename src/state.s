@@ -64,6 +64,8 @@ init_state:
 	lda #0
 	sta joy1
 	sta joy2
+	sta command
+	sta last_command
 	store_word screen + 16 * 40 + 5, joystick_positions
 	store_word screen + 16 * 40 + 21, joystick_positions + 2
 	lda VIC_CLK_128

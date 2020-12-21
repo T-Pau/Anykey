@@ -41,6 +41,7 @@ SOURCES_COMMON = \
 
 SOURCES_64 = \
 	${SOURCES_COMMON} \
+	color-64.s \
 	keys-64.s
 
 SOURCES_128 = \

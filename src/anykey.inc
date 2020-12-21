@@ -50,7 +50,24 @@ PRESSED_COLOR = COLOR_GRAY1
 CHECKED_COLOR = COLOR_GRAY2
 UNCHECKED_COLOR = COLOR_BLACK
 
+MMU = $D500
+; MMU_CR = $D500 ; copy at $FF00 is always visible
+MMU_PCRA = $D501
+MMU_PCRB = $D502
+MMU_PCRC = $D503
+MMU_PCRD = $D504
 MMU_MCR = $D505
+MMU_RCR = $D506
+MMU_P0L = $D507
+MMU_P0H = $D508
+MMU_P1L = $D509
+MMU_P1H = $D50A
+MMU_VR = $D50B
+MMU_CR = $FF00
+MMU_LCRA = $FF01
+MMU_LCRB = $FF02
+MMU_LCRC = $FF03
+MMU_LCRD = $FF04
 
 charset = $8000
 screen = charset + $800
@@ -67,7 +84,6 @@ MAX_NUM_KEYS = 91
 keys_64_offset = screen + 80 + 1
 keys_128_offset = screen + 80
 
-tmp1 = $02
 ptr1 = $fb
 ptr2 = $fd
 ptr3 = $c1

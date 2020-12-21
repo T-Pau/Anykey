@@ -58,12 +58,6 @@ f5_count:
 f7_count:
 	.res 1
 
-nmi_vector:
-	.res 2
-
-nmi_a:
-	.res 1
-
 port1:
 	.res 1
 port2:
@@ -362,7 +356,7 @@ end_read:
 	sta new_key_state + 88
 .ifdef __C128__
 	lda MMU_MCR
-	eor $ff
+	eor #$ff
 	and #$80
 	sta new_key_state + 89
 .endif
@@ -419,10 +413,10 @@ end:
 .endscope
 
 handle_nmi:
-	sta nmi_a
+	pha
 	lda #RESTORE_FRAMES
 	sta restore_countdown
-	lda nmi_a
+	pla
 	jmp (nmi_vector)
 	
 .rodata

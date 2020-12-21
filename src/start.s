@@ -27,7 +27,9 @@
 
 
 .autoimport +
+
 .export start
+.export nmi_vector
 
 .include "anykey.inc"
 
@@ -40,6 +42,12 @@
 start:
 	lda #12; COLOR_GREY2
 	sta VIC_BORDERCOLOR
+
+.ifdef __C128__
+	lda MMU_CR
+	ora #$0e
+	sta MMU_CR
+.endif
 
 	jsr init_state
 
@@ -69,3 +77,9 @@ start:
 	jsr init_irq
 	
 	jmp main_loop
+	
+; this is here so it's below $4000
+
+nmi_vector:
+	.res 2
+
