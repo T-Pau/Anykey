@@ -27,11 +27,14 @@
 
 .autoimport +
 
-.export display_joystick
+.export display_joystick, port_digital
 
 .include "defines.inc"
 
 .bss
+
+port_digital:
+	.res 1
 
 tmp:
 	.res 2
@@ -66,6 +69,7 @@ display_joystick:
 	and #$10
 	jsr button
 
+.ifdef USE_VICII
 	lda port_digital
 	and #$20
 	jsr button
@@ -73,5 +77,6 @@ display_joystick:
 	lda port_digital
 	and #$40
 	jsr button
+.endif
 
 	rts

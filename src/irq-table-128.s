@@ -1,4 +1,4 @@
-;  start.s -- Entry point of program.
+;  irq-table-128.s -- Table of raster IRQ handlers for C128 keyboard.
 ;  Copyright (C) 2020 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -28,51 +28,19 @@
 
 .autoimport +
 
-.export start
+.export main_128_irq_table, main_128_irq_table_length
 
 .include "defines.inc"
 
-.macpack cbm_ext
-.macpack utility
-.macpack c128
+.data
 
-.code
-
-start:
-	lda #12; COLOR_GREY2
-	sta VIC_BORDERCOLOR
-
-.ifdef __C128__
-	lda MMU_CR
-	ora #$0e
-	sta MMU_CR
-.endif
-
-	jsr init_state
-
-	memcpy charset, charset_data, $800
-	memcpy_128 charset_keyboard_top, charset_data_64, charset_data_128, $1000
-	memcpy sprites, sprite_data, (64 * 8)
-
-	jsr display_main_screen
-
-	set_vic_bank $8000
-	set_vic_text screen, charset
-
-	lda #$0f
-	sta VIC_SPR_ENA
-	lda #0
-	sta VIC_SPR_BG_PRIO
-	sta VIC_SPR_EXP_X
-	sta VIC_SPR_EXP_Y
-	sta VIC_SPR_MCOLOR
-
-	jsr setup_logo
-
-	lda #$ff
-	sta CIA1_DDRA
-	sta CIA1_DDRB
-
-	jsr init_irq
-	
-	jmp main_loop
+main_128_irq_table:
+	.word SCREEN_TOP - 1, top_label
+	.word SCREEN_TOP + 8 - 2, switch_keyboard_top
+	.word SCREEN_TOP + 7 * 8 - 2, switch_keyboard_bottom
+	.word SCREEN_TOP + 15 * 8 - 2, switch_joystick_label
+	.word SCREEN_TOP + 17 * 8 - 1, switch_joystick
+	.word SCREEN_TOP + 22 * 8 - 2, switch_joystick_bottom
+	.word SCREEN_TOP + 24 * 8 + 7, switch_bottom
+main_128_irq_table_length:
+	.byte * - main_128_irq_table

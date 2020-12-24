@@ -472,3 +472,272 @@ display_key_18:
 	bne :-
 	
 	rts
+
+.ifdef __PLUS4__
+.export display_key_down, display_key_up
+.export display_key_plus4_control, display_key_plus4_shift
+
+display_key_down:
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+
+	ldy #41
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	
+	set_color
+	iny
+	sta (ptr1),y
+	ldy #40
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+
+	rts
+
+
+display_key_up:
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+
+	ldy #41
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	
+	set_color
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	ldy #41
+	sta (ptr1),y
+
+	rts
+
+
+display_key_plus4_control:
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+
+	ldy #40
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+
+	ldy #29
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+
+	ldy #69
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+
+	set_color
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	ldy #40
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	ldy #29
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	ldy #69
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+
+	rts
+
+
+display_key_plus4_shift:
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+
+	ldy #40
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+
+	ldy #80
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+
+	ldy #120
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+
+	ldy #103
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+
+	ldy #143
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+	iny
+	lda (ptr1),y
+	and #$7f
+	ora state
+	sta (ptr1),y
+
+	set_color
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	ldy #40
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	ldy #80
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	ldy #120
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	ldy #103
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	ldy #143
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	rts
+
+.endif

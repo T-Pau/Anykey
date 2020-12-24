@@ -27,7 +27,7 @@
 
 .export joy1, joy2, main_color_save, is_128, init_state
 .export joystick_positions
-.export bottom_charset_line, joystick_label_line
+.export bottom_charset_line, joystick_label_line, keyboard_height
 
 .autoimport +
 
@@ -58,6 +58,9 @@ joystick_positions:
 main_color_save:
 	.res 1000
 
+keyboard_height:
+	.res 1
+
 .code
 
 init_state:
@@ -66,8 +69,7 @@ init_state:
 	sta joy2
 	sta command
 	sta last_command
-	store_word screen + 16 * 40 + 5, joystick_positions
-	store_word screen + 16 * 40 + 21, joystick_positions + 2
+.if .defined(USE_VICII)
 	lda VIC_CLK_128
 	eor #$ff
 	sta is_128
@@ -76,13 +78,13 @@ init_state:
 	sta bottom_charset_line
 	lda #SCREEN_TOP + 15 * 8
 	sta joystick_label_line
-	add_word joystick_positions, 40
-	add_word joystick_positions + 2, 40
 	ldx #<keys_128_address_low
 	ldy #>keys_128_address_low
 	lda keys_128_num_keys
 	jsr set_keys_table
-	jmp both
+	lda #14
+	sta keyboard_height
+	bne both
 c64:
 .ifdef __C64__
 	lda #SCREEN_TOP + 8 * 4
@@ -93,7 +95,31 @@ c64:
 	ldy #>keys_64_address_low
 	lda keys_64_num_keys
 	jsr set_keys_table
+	lda #12
+	sta keyboard_height
 .endif
 both:
 	memcpy_128 main_color_save, main_color_64, main_color_128, 1000
+.elseif .defined(USE_TED)
+	ldx #<keys_plus4_address_low
+	ldy #>keys_plus4_address_low
+	lda keys_plus4_num_keys
+	jsr set_keys_table
+	lda #14
+	sta keyboard_height
+	memcpy main_color_save, main_color_plus4, 1000
+.endif
+	lda keyboard_height
+	cmp #12
+	bne high_keyboard
+	store_word screen + 16 * 40 + 5, joystick_positions
+	store_word screen + 16 * 40 + 21, joystick_positions + 2
+	jmp init_keyboard
+high_keyboard:
+.ifdef USE_TED
+	store_word screen + 17 * 40 + 11, joystick_positions
+.else
+	store_word screen + 17 * 40 + 5, joystick_positions
+.endif
+	store_word screen + 17 * 40 + 21, joystick_positions + 2
 	jmp init_keyboard

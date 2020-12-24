@@ -32,6 +32,8 @@
 .macpack cbm
 .macpack cbm_ext
 
+.include "defines.inc"
+
 .rodata
 
 main_screen_128:
@@ -59,24 +61,24 @@ main_screen_128:
 	invcode "          (hold for 2 seconds)          "
 
 main_color_128:
-	.res 40 * 2, $c
+	.res 40 * 2, FRAME_COLOR
 .ifdef __C64__
 	; mark 40/80 display uncheckable
-	.res 16, $0
-	.res 2, $b
-	.res 22, $0
-	.res 16, $0
-	.res 2, $b
-	.res 22, $0
+	.res 16, UNCHECKED_COLOR
+	.res 2, PRESSED_COLOR
+	.res 22, UNCHECKED_COLOR
+	.res 16, UNCHECKED_COLOR
+	.res 2, PRESSED_COLOR
+	.res 22, UNCHECKED_COLOR
 .else
-	.res 40 * 2, $0
+	.res 40 * 2, UNCHECKED_COLOR
 .endif
-	.res 40 * 10, $0
-	.res 40 * 3, $c
+	.res 40 * 10, UNCHECKED_COLOR
+	.res 40 * 3, FRAME_COLOR
 	.repeat 5, i
-	.res 5, $c
-	.res 30, $b
-	.res 5, $c
+	.res 5, FRAME_COLOR
+	.res 30, CONTENT_COLOR
+	.res 5, FRAME_COLOR
 	.endrep
-	.res 40 * 3, $c
+	.res 40 * 3, FRAME_COLOR
 	

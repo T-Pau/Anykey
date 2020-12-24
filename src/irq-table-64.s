@@ -1,4 +1,4 @@
-;  help.s -- Display and handle keyboard input for help.
+;  irq-table-64.s -- Table of raster IRQ handlers for C64 keyboard.
 ;  Copyright (C) 2020 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -28,69 +28,19 @@
 
 .autoimport +
 
-.export help_next, help_previous, handle_help
+.export main_64_irq_table, main_64_irq_table_length
 
 .include "defines.inc"
-.macpack utility
 
-.code
+.data
 
-help_next:
-	inc current_help_page
-	jmp display_help_page
-
-help_previous:
-	dec current_help_page
-	jmp display_help_page
-
-handle_help:
-	jsr display_logo
-
-	lda #$00
-	sta CIA1_DDRA
-	sta CIA1_DDRB
-
-	lda CIA1_PRA
-	and CIA1_PRB
-	cmp #$ff
-	bne end
-
-	lda #$ff
-	sta CIA1_DDRA
-
-	lda #$80 ^ $ff
-	sta CIA1_PRA
-	lda CIA1_PRB
-	tax
-	and #$02
-	bne :+
-	lda #COMMAND_HELP_EXIT
-	bne got_key
-:	txa
-	and #$10
-	bne :+
-	lda #COMMAND_HELP_NEXT
-	bne got_key
-:	lda #$20 ^ $ff
-	sta CIA1_PRA
-	lda CIA1_PRB
-	and #$01
-	bne :+
-	lda #COMMAND_HELP_NEXT
-	bne got_key
-:	lda CIA1_PRB
-	and #$08
-	beq :+
-	lda #0
-	sta last_command
-	beq end
-:	lda #COMMAND_HELP_PREVIOUS
-got_key:
-	cmp last_command
-	beq end
-	sta last_command
-	sta command
-end:
-	lda #$ff
-	sta CIA1_DDRB
-	rts
+main_64_irq_table:
+	.word SCREEN_TOP - 1, top_label
+	.word SCREEN_TOP + 8 - 2, switch_keyboard_top
+	.word SCREEN_TOP + 4 * 8 - 2, switch_keyboard_bottom
+	.word SCREEN_TOP + 13 * 8 - 1, switch_joystick_label
+	.word SCREEN_TOP + 15 * 8 - 1, switch_joystick
+	.word SCREEN_TOP + 22 * 8, label_background
+	.word SCREEN_TOP + 24 * 8 + 7, switch_bottom
+main_64_irq_table_length:
+	.byte * - main_64_irq_table

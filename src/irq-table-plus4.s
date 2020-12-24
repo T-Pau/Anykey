@@ -1,4 +1,4 @@
-;  screen-plus4.s -- Main screen for Plus/4 keyboard.
+;  irq-table-plus4.s -- Table of raster IRQ handlers for Plus/4 keyboard.
 ;  Copyright (C) 2020 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,52 +25,21 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export main_screen_plus4, main_color_plus4
 
 .autoimport +
 
-.macpack cbm
-.macpack cbm_ext
+.export main_plus4_irq_table, main_plus4_irq_table_length
 
 .include "defines.inc"
 
-.rodata
+.data
 
-main_screen_plus4:
-	invcode "   keyboard                             "
-	.incbin "keyboard-plus4-screen.bin"
-	invcode "                                        "
-	invcode "           joysticks                    "
-	invcode "          "
-	scrcode           "I                  J"
-    invcode                               "          "
-	invcode "          "
-	scrcode           "      AHB       AHB "
-    invcode                               "          "
-	invcode "          "
-	scrcode           "      EfF       EfF "
-    invcode                               "          "
-	invcode "          "
-	scrcode           "      CGD       CGD "
-    invcode                               "          "
-	invcode "          "
-	scrcode           "K                  L"
-    invcode                               "          "
-	invcode "                                        "
-	invcode "     f3: reset keyboard  help: help     "
-	invcode "          (hold for 2 seconds)          "
-
-main_color_plus4:
-	.res 40 * 2, FRAME_COLOR
-	.repeat 12, i
-	.res 2, FRAME_COLOR
-	.res 36, UNCHECKED_COLOR
-	.res 2, FRAME_COLOR
-	.endrepeat
-	.res 40 * 3, FRAME_COLOR
-	.repeat 5, i
-	.res 11, FRAME_COLOR
-	.res 18, CONTENT_COLOR
-	.res 11, FRAME_COLOR
-	.endrep
-	.res 40 * 3, FRAME_COLOR
+main_plus4_irq_table:
+	.word SCREEN_TOP - 1, top_label
+	.word SCREEN_TOP + 8 - 2, switch_keyboard_top
+	.word SCREEN_TOP + 5 * 8 - 3, switch_keyboard_bottom
+	.word SCREEN_TOP + 15 * 8 - 2, switch_joystick_label
+	.word SCREEN_TOP + 17 * 8 - 1, switch_joystick
+	.word SCREEN_TOP + 22 * 8 - 2, switch_joystick_bottom
+main_plus4_irq_table_length:
+	.byte * - main_plus4_irq_table

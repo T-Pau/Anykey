@@ -32,6 +32,8 @@
 .macpack cbm
 .macpack cbm_ext
 
+.include "defines.inc"
+
 .rodata
 
 main_screen_64:
@@ -66,12 +68,12 @@ main_screen_64:
 	invcode "                                        "
 
 main_color_64:
-	.res 40 * 2, $c
-	.res 40 * 10, $0
-	.res 40 * 4, $c
+	.res 40 * 2, FRAME_COLOR
+	.res 40 * 10, UNCHECKED_COLOR
+	.res 40 * 4, FRAME_COLOR
 	.repeat 5, i
-	.res 4, $c
-	.res 32, $b
-	.res 4, $c
+	.res 4, FRAME_COLOR
+	.res 32, CONTENT_COLOR
+	.res 4, FRAME_COLOR
 	.endrep
-	.res 40 * 4, $c
+	.res 40 * 4, FRAME_COLOR

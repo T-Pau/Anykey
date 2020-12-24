@@ -1,4 +1,4 @@
-;  keyboard.s -- Read Keyboard
+;  switch-ted.s -- IRQ handler routines for TED.
 ;  Copyright (C) 2020 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -26,92 +26,58 @@
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 .autoimport +
-.export switch_keyboard_bottom, switch_keyboard_top, switch_joystick_label, switch_joystick, switch_bottom, switch_joystick_bottom
+
+.export switch_joystick, switch_joystick_bottom, switch_joystick_label, switch_keyboard_bottom, switch_keyboard_top
 
 .include "defines.inc"
 
 .macpack cbm_ext
 
-.code
-
 switch_keyboard_top:
 	jsr content_background
-	lda #COLOR_MID_GRAY
-	ldy is_128
-	beq :+
-	lda #COLOR_LIGHT_GRAY
-:
 	ldx #SCREEN_TOP + 8
-:	cpx VIC_HLINE
+:	cpx VIDEO_CURRENT_LINE
 	bne :-
-	ldx #9
-:	dex
-	bpl :-
-	nop
-	nop
-	sta VIC_BORDERCOLOR
-	set_vic_text screen, charset_keyboard_top
-	ldx #0
-	jsr read_pots
-	lda is_128
-	beq :+
-	jsr read_keyboard_128
-:
+	set_ted_charset charset_keyboard_top
 	rts
 
+
 switch_keyboard_bottom:
-	lda #(((screen & $3c00) >> 6) | ((charset_keyboard_bottom & $3800) >> 10))
-	ldx bottom_charset_line
-:	cpx VIC_HLINE
+	lda #((charset_keyboard_bottom & $fc00) >> 8)
+	ldx #SCREEN_TOP + 5 * 8
+:	cpx VIDEO_CURRENT_LINE
 	bne :-
-	ldx #9
-:	dex
-	bpl :-
-	nop
-	nop
-	sta VIC_VIDEO_ADR
+	sta TED_CLK
 	lda command
 	bne :+
 	jsr handle_joysticks
-:
-	jmp select_pots2
+:	rts
 
 
 switch_joystick_label:
-	set_vic_text screen, charset
-	lda #COLOR_MID_GRAY
-	ldx joystick_label_line
-:	cpx VIC_HLINE
+	set_ted_charset charset
+	ldx #SCREEN_TOP + 15 * 8
+:	cpx VIDEO_CURRENT_LINE
 	bne :-
-	sta VIC_BORDERCOLOR
 	jsr label_background
 	rts
 
+
 switch_joystick:
 	jsr content_background
-	ldx #1
-	jsr read_pots
-	jsr read_keyboard
-	jsr select_pots1
 	rts
 
-switch_joystick_bottom: ; 128 only
-	lda #COLOR_MID_GRAY
-	ldx #SCREEN_TOP + 22 * 8 - 0
-:	cpx VIC_HLINE
+
+switch_joystick_bottom:
+	lda #FRAME_COLOR
+	ldx #SCREEN_TOP + 22 * 8 - 1
+:	cpx VIDEO_CURRENT_LINE
 	bne :-
-	sta VIC_BG_COLOR0
-	lda #COLOR_BLACK
+	sta VIDEO_BACKGROUND_COLOR
 	inx
-:	cpx VIC_HLINE
+:	cpx VIDEO_CURRENT_LINE
 	bne :-
-	sta VIC_BG_COLOR0
-	rts	
-
-switch_bottom:
-	jsr display_logo
-	lda command
-	bne :+
-	jsr display_keyboard
-:
+	jsr label_background
+	; end of frame
 	rts
+

@@ -1,4 +1,4 @@
-;  screen-plus4.s -- Main screen for Plus/4 keyboard.
+;  start.s -- Entry point of program.
 ;  Copyright (C) 2020 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,52 +25,35 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export main_screen_plus4, main_color_plus4
 
 .autoimport +
 
-.macpack cbm
-.macpack cbm_ext
+.export start
 
 .include "defines.inc"
 
-.rodata
+.macpack utility
 
-main_screen_plus4:
-	invcode "   keyboard                             "
-	.incbin "keyboard-plus4-screen.bin"
-	invcode "                                        "
-	invcode "           joysticks                    "
-	invcode "          "
-	scrcode           "I                  J"
-    invcode                               "          "
-	invcode "          "
-	scrcode           "      AHB       AHB "
-    invcode                               "          "
-	invcode "          "
-	scrcode           "      EfF       EfF "
-    invcode                               "          "
-	invcode "          "
-	scrcode           "      CGD       CGD "
-    invcode                               "          "
-	invcode "          "
-	scrcode           "K                  L"
-    invcode                               "          "
-	invcode "                                        "
-	invcode "     f3: reset keyboard  help: help     "
-	invcode "          (hold for 2 seconds)          "
+.code
 
-main_color_plus4:
-	.res 40 * 2, FRAME_COLOR
-	.repeat 12, i
-	.res 2, FRAME_COLOR
-	.res 36, UNCHECKED_COLOR
-	.res 2, FRAME_COLOR
-	.endrepeat
-	.res 40 * 3, FRAME_COLOR
-	.repeat 5, i
-	.res 11, FRAME_COLOR
-	.res 18, CONTENT_COLOR
-	.res 11, FRAME_COLOR
-	.endrep
-	.res 40 * 3, FRAME_COLOR
+start:
+	lda #FRAME_COLOR
+	sta VIDEO_BORDER_COLOR
+
+	jsr init_state
+
+	memcpy charset, charset_data, $800
+	memcpy charset_keyboard_top, charset_data_plus4, $1000
+
+	lda TED_MULTI1
+	ora #$80
+	sta TED_MULTI1
+	lda TED_BITMAP
+	and #$04 ^ $ff
+	sta TED_BITMAP
+	
+	jsr display_main_screen
+
+	jsr init_irq
+	
+	jmp main_loop

@@ -1,4 +1,4 @@
-;  help.s -- Display and handle keyboard input for help.
+;  joysticks-vicii.s -- Read and display joysticks, VIC-II version.
 ;  Copyright (C) 2020 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -28,14 +28,9 @@
 
 .autoimport +
 
-.export handle_joysticks, port_digital, select_pots1, select_pots2, read_pots
+.export handle_joysticks, select_pots1, select_pots2, read_pots
 
 .include "defines.inc"
-
-.bss
-
-port_digital:
-	.res 1
 
 .code
 

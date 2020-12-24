@@ -1,6 +1,6 @@
 SUBDIRS = src
 
-VERSION = 1.1
+VERSION = 1.2
 
 FILES = README.md NEWS.md Anykey\ User\ Manual.pdf screenshot.png src/anykey-64.prg src/anykey-128.prg
 

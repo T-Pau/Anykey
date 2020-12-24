@@ -1,4 +1,4 @@
-;  screen-plus4.s -- Main screen for Plus/4 keyboard.
+;  help-vicii.s -- Display and handle keyboard input for help, VIC-II/CIA version.
 ;  Copyright (C) 2020 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,52 +25,63 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export main_screen_plus4, main_color_plus4
 
 .autoimport +
 
-.macpack cbm
-.macpack cbm_ext
+.export handle_help
 
 .include "defines.inc"
 
-.rodata
+.code
 
-main_screen_plus4:
-	invcode "   keyboard                             "
-	.incbin "keyboard-plus4-screen.bin"
-	invcode "                                        "
-	invcode "           joysticks                    "
-	invcode "          "
-	scrcode           "I                  J"
-    invcode                               "          "
-	invcode "          "
-	scrcode           "      AHB       AHB "
-    invcode                               "          "
-	invcode "          "
-	scrcode           "      EfF       EfF "
-    invcode                               "          "
-	invcode "          "
-	scrcode           "      CGD       CGD "
-    invcode                               "          "
-	invcode "          "
-	scrcode           "K                  L"
-    invcode                               "          "
-	invcode "                                        "
-	invcode "     f3: reset keyboard  help: help     "
-	invcode "          (hold for 2 seconds)          "
+handle_help:
+	jsr display_logo
 
-main_color_plus4:
-	.res 40 * 2, FRAME_COLOR
-	.repeat 12, i
-	.res 2, FRAME_COLOR
-	.res 36, UNCHECKED_COLOR
-	.res 2, FRAME_COLOR
-	.endrepeat
-	.res 40 * 3, FRAME_COLOR
-	.repeat 5, i
-	.res 11, FRAME_COLOR
-	.res 18, CONTENT_COLOR
-	.res 11, FRAME_COLOR
-	.endrep
-	.res 40 * 3, FRAME_COLOR
+	lda #$00
+	sta CIA1_DDRA
+	sta CIA1_DDRB
+
+	lda CIA1_PRA
+	and CIA1_PRB
+	cmp #$ff
+	bne end
+
+	lda #$ff
+	sta CIA1_DDRA
+
+	lda #$80 ^ $ff
+	sta CIA1_PRA
+	lda CIA1_PRB
+	tax
+	and #$02
+	bne :+
+	lda #COMMAND_HELP_EXIT
+	bne got_key
+:	txa
+	and #$10
+	bne :+
+	lda #COMMAND_HELP_NEXT
+	bne got_key
+:	lda #$20 ^ $ff
+	sta CIA1_PRA
+	lda CIA1_PRB
+	and #$01
+	bne :+
+	lda #COMMAND_HELP_NEXT
+	bne got_key
+:	lda CIA1_PRB
+	and #$08
+	beq :+
+	lda #0
+	sta last_command
+	beq end
+:	lda #COMMAND_HELP_PREVIOUS
+got_key:
+	cmp last_command
+	beq end
+	sta last_command
+	sta command
+end:
+	lda #$ff
+	sta CIA1_DDRB
+	rts

@@ -27,7 +27,7 @@
 
 
 .autoimport +
-.export display_help_page, current_help_page
+.export display_help_page, current_help_page, help_next, help_previous
 
 .include "defines.inc"
 
@@ -212,3 +212,11 @@ ok:
 	ldx #38
 	ldy #20
 	jmp copyrect
+
+help_next:
+	inc current_help_page
+	jmp display_help_page
+
+help_previous:
+	dec current_help_page
+	jmp display_help_page

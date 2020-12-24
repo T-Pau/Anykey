@@ -1,4 +1,4 @@
-;  colors.s -- Set background color.
+;  switch-vicii.s -- IRQ handler routines for VIC-II.
 ;  Copyright (C) 2020 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,36 +25,94 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.autoimport +
 
-.export label_background, content_background, logo_background, top_label
+.export switch_keyboard_bottom, switch_keyboard_top, switch_joystick_label, switch_joystick, switch_bottom, switch_joystick_bottom
 
 .include "defines.inc"
 
+.macpack cbm_ext
+
 .code
 
-top_label:
-	lda #LABEL_COLOR
-:	ldx VIDEO_CURRENT_LINE
-	cpx #SCREEN_TOP + 1
+switch_keyboard_top:
+	jsr content_background
+	lda #FRAME_COLOR
+	ldy is_128
+	beq :+
+	lda #BACKGROUND_COLOR
+:
+	ldx #SCREEN_TOP + 8
+:	cpx VIDEO_CURRENT_LINE
+	bne :-
+	ldx #9
+:	dex
+	bpl :-
+	nop
+	nop
+	sta VIDEO_BORDER_COLOR
+	set_vic_text screen, charset_keyboard_top
+	ldx #0
+	jsr read_pots
+	lda is_128
+	beq :+
+	jsr read_keyboard_128
+:
+	rts
+
+switch_keyboard_bottom:
+	lda #(((screen & $3c00) >> 6) | ((charset_keyboard_bottom & $3800) >> 10))
+	ldx bottom_charset_line
+:	cpx VIDEO_CURRENT_LINE
+	bne :-
+	ldx #9
+:	dex
+	bpl :-
+	nop
+	nop
+	sta VIC_VIDEO_ADR
+	lda command
+	bne :+
+	jsr handle_joysticks
+:
+	jmp select_pots2
+
+
+switch_joystick_label:
+	set_vic_text screen, charset
+	lda #FRAME_COLOR
+	ldx joystick_label_line
+:	cpx VIDEO_CURRENT_LINE
+	bne :-
+	sta VIDEO_BORDER_COLOR
+	jsr label_background
+	rts
+
+switch_joystick:
+	jsr content_background
+	ldx #1
+	jsr read_pots
+	jsr read_keyboard
+	jsr select_pots1
+	rts
+
+switch_joystick_bottom: ; 128 only
+	lda #FRAME_COLOR
+	ldx #SCREEN_TOP + 22 * 8 - 0
+:	cpx VIDEO_CURRENT_LINE
 	bne :-
 	sta VIDEO_BACKGROUND_COLOR
-	rts
-
-label_background:
-	nop
-	nop
-	nop
-	nop
 	lda #LABEL_COLOR
+	inx
+:	cpx VIDEO_CURRENT_LINE
+	bne :-
 	sta VIDEO_BACKGROUND_COLOR
-	rts
+	rts	
 
-content_background:
-	lda #BACKGROUND_COLOR
-	sta VIDEO_BACKGROUND_COLOR
-	rts
-
-logo_background:
-	lda #LOGO_COLOR
-	sta VIDEO_BACKGROUND_COLOR
+switch_bottom:
+	jsr display_logo
+	lda command
+	bne :+
+	jsr display_keyboard
+:
 	rts

@@ -37,6 +37,11 @@
 	sta VIC_VIDEO_ADR
 .endmacro
 
+.macro set_ted_charset charset
+	lda #((charset & $fc00) >> 8)
+	sta TED_CLK
+.endmacro
+
 .macro set_vic_24_lines
 	lda VIC_CTRL1
 	and #$08 ^ $ff
