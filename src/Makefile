@@ -16,7 +16,6 @@ SOURCES_COMMON = \
 	start.s \
 	button.s \
 	charset.s \
-	color.s \
 	colors.s \
 	commands.s \
 	copyrect.s \
@@ -26,7 +25,6 @@ SOURCES_COMMON = \
 	irq.s \
 	irq-table.s \
 	joysticks.s \
-	keys-128.s \
 	keyboard.s \
 	logo.s \
 	help.s \
@@ -41,11 +39,24 @@ SOURCES_COMMON = \
 
 SOURCES_64 = \
 	${SOURCES_COMMON} \
-	color-64.s \
-	keys-64.s
+	charset-64.s \
+	charset-128.s \
+	keys-64.s \
+	keys-128.s \
+	screen-64.s \
+	screen-128.s
 
 SOURCES_128 = \
-	${SOURCES_COMMON}
+	${SOURCES_COMMON} \
+	charset-128.s \
+	keys-128.s \
+	screen-128.s
+
+SOURCES_PLUS4 = \
+	${SOURCES_COMMON} \
+	charset-plus4.s \
+	keys-plus4.s \
+	screen-plus4.s
 
 OBJECTS_64 = ${SOURCES_64:%.s=%-64.o}
 OBJECTS_128 = ${SOURCES_128:%.s=%-128.o}
@@ -85,10 +96,14 @@ keys-128.s: keys-128.key key-table
 	./key-table keys-128
 
 keyboard-64-charset-top.bin keyboard-64-charset-bottom.bin keyboard-64-screen.bin: keyboard-64-normal-bitmap.bin keyboard-64-pressed-bitmap.bin convert-keyboard
-	./convert-keyboard keyboard-64 12 3
+	./convert-keyboard keyboard-64 40 12 3
 
 keyboard-128-charset-top.bin keyboard-128-charset-bottom.bin keyboard-128-screen.bin: keyboard-128-normal-bitmap.bin keyboard-128-pressed-bitmap.bin convert-keyboard
-	./convert-keyboard keyboard-128 14 6
+	./convert-keyboard keyboard-128 40 14 6
+	
+keyboard-plus4-charset-top.bin keyboard-plus4-charset-bottom.bin keyboard-plus4-screen.bin: keyboard-plus4-normal-bitmap.bin keyboard-plus4-pressed-bitmap.bin convert-keyboard
+	./convert-keyboard keyboard-plus4 36 14 4
+
 
 keyboard-64-pressed-bitmap.bin: keyboard-64-pressed.png
 	gfx-convert -b 1 bitmap keyboard-64-pressed.png  keyboard-64-pressed

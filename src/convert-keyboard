@@ -69,7 +69,7 @@ class Charset:
 			return self.empty
 
 def setup_charset(charset, top, bottom, rounded):
-	charset.add_with_index((0, 0), 32)
+	charset.add_with_index((0, 0xffffffffffffffff), 32)
 	if top and rounded:
 		charset.add_with_index((0xf0c0808000000000, 0xf0c0808000000000), 0x49)
 		charset.add_with_index((0x0f03010100000000, 0x0f03010100000000), 0x4a)
@@ -94,14 +94,14 @@ def save(data, name):
 	with open(name, mode="wb") as file:
 		file.write(data)
 
-if len(sys.argv) != 4:
-     print("usage: ", sys.argv[0], " name-prefix height split-line ...\n")
+if len(sys.argv) != 5:
+     print("usage: ", sys.argv[0], " name-prefix width height split-line\n")
      sys.exit(1)
 
-width = 40
 name_prefix = sys.argv[1]
-height = int(sys.argv[2])
-top_lines = int(sys.argv[3])
+width = int(sys.argv[2])
+height = int(sys.argv[3])
+top_lines = int(sys.argv[4])
 
 
 screen = b""
@@ -117,12 +117,18 @@ with open(name_prefix + "-normal-bitmap.bin", mode='rb') as file_normal:
 				save_charset(charset, name_prefix + "-charset-top.bin")
 				charset = Charset(128, (0, 0))
 				setup_charset(charset, False, True, name_prefix != "keyboard-128")
+			for x in range(0, int((40-width)/2)):
+				screen += 0xa0.to_bytes(1, byteorder="big")
 			for x in range(0, width):
 				char_normal = int.from_bytes(file_normal.read(8), byteorder='big')
 				char_pressed = int.from_bytes(file_pressed.read(8), byteorder='big')
+				if char_normal == 0 and char_pressed == 0:
+					char_pressed = 0xffffffffffffffff
 				char = charset.add((char_normal, char_pressed))
 				#print("(%02d, %02d): (%016x, %016x) -> %d" % (x, y, char_normal, char_pressed, char))
 				screen += char.to_bytes(1, byteorder="big")
+			for x in range(0, int((40-width+1)/2)):
+				screen += 0xa0.to_bytes(1, byteorder="big")
 
 save_charset(charset, name_prefix + "-charset-bottom.bin")
 save(screen, name_prefix + "-screen.bin")

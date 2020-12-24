@@ -1,4 +1,4 @@
-;  screen.s -- Screen contents.
+;  screen-64.s -- Main screen for C64 keyboard.
 ;  Copyright (C) 2020 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,75 +25,53 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export display_main_screen, display_help_screen
+.export main_screen_64, main_color_64
 
 .autoimport +
 
-.include "defines.inc"
-
 .macpack cbm
 .macpack cbm_ext
-.macpack utility
-.macpack c128
 
 .rodata
-help_screen:
+
+main_screen_64:
+	invcode " keyboard                               "
+	.incbin "keyboard-64-screen.bin"
 	invcode "                                        "
-	scrcode "I                                      J"
-	.repeat 18, i
-	scrcode "                                        "
+	invcode "     joysticks                          "
+	invcode "    "
+	scrcode     "I                              J"
+    invcode                                     "    "
+	invcode "    "
+	scrcode     "                                "
+    invcode                                     "    "
+    invcode "    "
+	scrcode     "      AHBAHBAHB       AHBAHBAHB "
+    invcode                                     "    "
+    invcode "    "
+	scrcode     "      E1FE2FE3F       E1FE2FE3F "
+    invcode                                     "    "
+    invcode "    "
+	scrcode     "      CGDCGDCGD       CGDCGDCGD "
+    invcode                                     "    "
+	invcode "    "
+	scrcode     "                                "
+    invcode                                     "    "
+	invcode "    "
+	scrcode     "KMMMMMMMMMMMMMMMMMMMMMMMMMMMMMML"
+    invcode                                     "    "
+	invcode "                                        "
+	invcode "      f5: reset keyboard  f7: help      "
+	invcode "          (hold for 2 seconds)          "
+	invcode "                                        "
+
+main_color_64:
+	.res 40 * 2, $c
+	.res 40 * 10, $0
+	.res 40 * 4, $c
+	.repeat 5, i
+	.res 4, $c
+	.res 32, $b
+	.res 4, $c
 	.endrep
-	scrcode "KMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMML"
-	invcode "                                        "
-	invcode "  space/+: next page  -: previous page  "
-	invcode "         "
-	.byte $9f
-	invcode           ": return to program           "
-	invcode "                                        "
-
-help_color:
-	.res 2 * 40, $c
-	.res 18 * 40, $b
-	.res 5 * 40, $c
-
-.code
-
-display_main_screen:
-	memcpy_128 screen, main_screen_64, main_screen_128, 1000
-	memcpy color_ram, main_color_save, 1000
-	lda is_128
-	beq c64
-	ldx #<main_128_irq_table
-	ldy #>main_128_irq_table
-	lda main_128_irq_table_length
-	bne both
-c64:
-	ldx #<main_64_irq_table
-	ldy #>main_64_irq_table
-	lda main_64_irq_table_length
-both:
-	jsr set_irq_table
-	rts
-
-display_help_screen:
-	ldx #<help_irq_table
-	ldy #>help_irq_table
-	lda help_irq_table_length
-	jsr set_irq_table
-
-	lda #0
-	ldy #7
-:	sta VIC_SPR0_X,y
-	dey
-	bpl :-
-	lda VIC_SPR_HI_X
-	and #$f0
-	sta VIC_SPR_HI_X
-
-	memcpy main_color_save, color_ram, 1000
-	memcpy screen, help_screen, 1000
-	memcpy color_ram, help_color, 1000
-	ldx #0
-	stx current_help_page
-	jsr display_help_page
-	rts
+	.res 40 * 4, $c

@@ -28,14 +28,14 @@
 
 .export label_background, content_background, logo_background, top_label
 
-.include "anykey.inc"
+.include "defines.inc"
 
 .code
 
 top_label:
 	lda #COLOR_BLACK
 :	ldx VIC_HLINE
-	cpx #top + 1
+	cpx #SCREEN_TOP + 1
 	bne :-
 	sta VIC_BG_COLOR0
 	rts
@@ -50,12 +50,12 @@ label_background:
 	rts
 
 content_background:
-	lda #COLOR_GRAY3
+	lda #COLOR_LIGHT_GRAY
 	sta VIC_BG_COLOR0
 	rts
 
 logo_background:
-	lda #COLOR_GRAY1
+	lda #COLOR_DARK_GRAY
 	sta VIC_BG_COLOR0
 	rts
 

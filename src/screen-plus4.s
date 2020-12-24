@@ -1,4 +1,4 @@
-;  color-64.s -- Contents of color RAM for C64.
+;  screen-plus4.s -- Main screen for Plus/4 keyboard.
 ;  Copyright (C) 2020 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,17 +25,57 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export main_color_64
+.export main_screen_64
+
+.autoimport +
+
+.macpack cbm
+.macpack cbm_ext
 
 .rodata
 
-main_color_64:
+main_screen_128:
+	invcode "   keyboard                             "
+	.incbin "keyboard-plus4-screen.bin"
+	invcode "                                        "
+	invcode "           joysticks                    "
+	invcode "          "
+	scrcode           "I                  J"
+    invcode                               "          "
+	invcode "          "
+	scrcode           "      AHB       AHB "
+    invcode                               "          "
+	invcode "          "
+	scrcode           "      EfF       EfF "
+    invcode                               "          "
+	invcode "          "
+	scrcode           "      CGD       CGD "
+    invcode                               "          "
+	invcode "          "
+	scrcode           "K                  L"
+    invcode                               "          "
+	invcode "                                        "
+	invcode "     f3: reset keyboard  help: help     "
+	invcode "          (hold for 2 seconds)          "
+
+main_color_plus4:
 	.res 40 * 2, $c
+.ifdef __C64__
+	; mark 40/80 display uncheckable
+	.res 16, $0
+	.res 2, $b
+	.res 22, $0
+	.res 16, $0
+	.res 2, $b
+	.res 22, $0
+.else
+	.res 40 * 2, $0
+.endif
 	.res 40 * 10, $0
-	.res 40 * 4, $c
+	.res 40 * 3, $c
 	.repeat 5, i
-	.res 4, $c
-	.res 32, $b
-	.res 4, $c
+	.res 5, $c
+	.res 30, $b
+	.res 5, $c
 	.endrep
-	.res 40 * 4, $c
+	.res 40 * 3, $c

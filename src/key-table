@@ -55,6 +55,7 @@ keys_address = []
 keys_size = []
 
 name = ""
+offset = 0
 
 with open(infile) as fin:
 	for line in fin:
@@ -69,10 +70,14 @@ with open(infile) as fin:
 			if len(words) != 2:
 				raise "wrong number of arguments for 'name'"
 			name = words[1]
+		elif words[0] == "offset":
+			if len(words) != 2:
+				raise "wrong number of arguments for 'name'"
+			offset = int(words[1])
 		elif words[0] == "key":
 			if len(words) != 4:
 				raise "wrong number of arguments for 'key'"
-			keys_address.append(name + "_offset + " + words[1] + " + 40 * " + words[2])
+			keys_address.append("screen + " + str(offset + int(words[1]) + int(words[2]) * 40))
 			keys_size.append("display_key_" + words[3])
 		else:
 			raise "unknown command '" + words[0] + "'"
@@ -85,7 +90,7 @@ with open(outfile, mode="w") as fout:
 
 .autoimport +
 
-.include "anykey.inc"
+.include "defines.inc"
 
 .export {name}_address_low, {name}_address_high
 .export {name}_display_low, {name}_display_high

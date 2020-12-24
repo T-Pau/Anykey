@@ -29,9 +29,8 @@
 .autoimport +
 
 .export start
-.export nmi_vector
 
-.include "anykey.inc"
+.include "defines.inc"
 
 .macpack cbm_ext
 .macpack utility
@@ -77,9 +76,3 @@ start:
 	jsr init_irq
 	
 	jmp main_loop
-	
-; this is here so it's below $4000
-
-nmi_vector:
-	.res 2
-

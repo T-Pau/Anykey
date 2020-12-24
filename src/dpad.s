@@ -32,7 +32,7 @@
 
 .export dpad
 
-.include "anykey.inc"
+.include "defines.inc"
 
 .rodata
 

@@ -1,0 +1,23 @@
+.ifndef HAD_MMU_INC
+.define HAD_MMU_INC
+
+MMU = $D500
+; MMU_CR = $D500 ; copy at $FF00 is always visible
+MMU_PCRA = $D501
+MMU_PCRB = $D502
+MMU_PCRC = $D503
+MMU_PCRD = $D504
+MMU_MCR = $D505
+MMU_RCR = $D506
+MMU_P0L = $D507
+MMU_P0H = $D508
+MMU_P1L = $D509
+MMU_P1H = $D50A
+MMU_VR = $D50B
+; MMU_CR = $FF00 ; already defined in c128.inc
+MMU_LCRA = $FF01
+MMU_LCRB = $FF02
+MMU_LCRC = $FF03
+MMU_LCRD = $FF04
+
+.endif ; HAD_MMU_INC

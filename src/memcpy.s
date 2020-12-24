@@ -30,7 +30,7 @@
 
 .export memcpy
 
-.include "anykey.inc"
+.include "defines.inc"
 
 .code
 

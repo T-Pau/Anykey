@@ -31,7 +31,7 @@
 
 .autoimport +
 
-.include "anykey.inc"
+.include "defines.inc"
 
 .macpack utility
 .macpack c128
@@ -72,9 +72,9 @@ init_state:
 	eor #$ff
 	sta is_128
 	beq c64
-	lda #top + 8 * 7
+	lda #SCREEN_TOP + 8 * 7
 	sta bottom_charset_line
-	lda #top + 15 * 8
+	lda #SCREEN_TOP + 15 * 8
 	sta joystick_label_line
 	add_word joystick_positions, 40
 	add_word joystick_positions + 2, 40
@@ -85,9 +85,9 @@ init_state:
 	jmp both
 c64:
 .ifdef __C64__
-	lda #top + 8 * 4
+	lda #SCREEN_TOP + 8 * 4
 	sta bottom_charset_line
-	lda #top + 13 * 8
+	lda #SCREEN_TOP + 13 * 8
 	sta joystick_label_line
 	ldx #<keys_64_address_low
 	ldy #>keys_64_address_low

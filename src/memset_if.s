@@ -30,7 +30,7 @@
 
 .export memset_if
 
-.include "anykey.inc"
+.include "defines.inc"
 
 .bss
 

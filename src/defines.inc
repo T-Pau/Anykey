@@ -1,4 +1,4 @@
-;  irq.s -- Handle multiple raster IRQs.
+;  defines.inc -- Global definitions for Anykey.
 ;  Copyright (C) 2020 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,24 +25,17 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
-.export init_irq, set_irq_table
-
-; IRQ_DEBUG = 1
-
 .if .defined(__C64__)
 .include "c64.inc"
-END_OF_IRQ = $ea81
 USE_VICII = 1
 
 .elseif .defined(__C128__)
 .include "c128.inc"
-END_OF_IRQ = $ff33
+.include "mmu.inc"
 USE_VICII = 1
 
 .elseif .defined(__PLUS4__)
 .include "plus4.inc"
-END_OF_IRQ = $fcbe
 USE_TED = 1
 
 .else
@@ -50,112 +43,67 @@ USE_TED = 1
 .endif
 
 .if .defined(USE_VICII)
-table = $c3
-BORDERCOLOR = VIC_BORDERCOLOR
-HLINE_LOW = VIC_HLINE
-HLINE_HIGH = VIC_CTRL1
-HLINE_BIT8 = $80
-IRR = VIC_IRR
-IMR = VIC_IMR
-IRQ_RASTER = 1
+.include "vic-ii.inc"
+
+ptr1 = $fb
+ptr2 = $fd
+ptr3 = $c1
+
+PRESSED_COLOR = COLOR_DARK_GRAY
+CHECKED_COLOR = COLOR_MID_GRAY
+UNCHECKED_COLOR = COLOR_BLACK
+
+BACKGROUND_COLOR = COLOR_LIGHT_GRAY
+FRAME_COLOR = COLOR_MID_GRAY
+LABEL_COLOR = COLOR_BLACK
+LOGO_COLOR = COLOR_DARK_GRAY
+
+SCREEN_TOP = 50
+
+charset = $8000
+screen = charset + $800
+sprites = screen + $400
+
+charset_keyboard_top = charset + $2000
+charset_keyboard_bottom = charset_keyboard_top + $800
+color_ram = $d800
+
+sprite_logo = (sprites & $3fff) / 64
+
+MAX_NUM_KEYS = 91
 
 .elseif .defined(USE_TED)
-table = $e7
-BORDERCOLOR = TED_BORDERCOLOR
-HLINE_LOW = $FF0B
-HLINE_HIGH = $FF0A
-HLINE_BIT8 = 1
-IRR = $FF09
-IMR = $FF0A
-IRQ_RASTER = 2
+.include "ted.inc"
+
+ptr1 = $d8
+ptr2 = $da
+ptr3 = $dc
+
+PRESSED_COLOR = ($20 | COLOR_WHITE)
+CHECKED_COLOR = ($40 | COLOR_WHITE)
+UNCHECKED_COLOR = COLOR_BLACK
+
+BACKGROUND_COLOR = ($60 | COLOR_WHITE)
+FRAME_COLOR = ($40 | COLOR_WHITE)
+LABEL_COLOR = COLOR_BLACK
+LOGO_COLOR = ($20 | COLOR_WHITE)
+
+SCREEN_TOP = 20 ; TODO
+
+charset = $8000
+charset_keyboard_top = charset + $800
+charset_keyboard_bottom = charset_keyboard_top + $800
+
+screen = $0c00
+color_ram = $0800
+
+MAX_NUM_KEYS = 64
+
 .endif
 
-.bss
-
-index:
-	.res 1
-
-table_length:
-	.res 1
-
-.code
-
-init_irq:
-	sei
-.if .defined(USE_VICII)
-	; disable cia 1 interrupts
-	lda #$7f
-    sta CIA1_ICR
-.endif
-
-	; enable rasterline irq
-	ldx #IRQ_RASTER
-    stx IMR
-
-	lda #<irq_main
-	sta IRQVec
-	lda #>irq_main
-	sta IRQVec + 1
-	cli
-	rts
-
-set_irq_table:
-	stx table
-	sty table + 1
-	sta table_length
-	lda #0
-	sta index
-	jmp setup_next_irq
-
-irq_main:
-.ifdef IRQ_DEBUG
-	inc BORDERCOLOR
-.endif
-.ifdef __C128__
-	lda #$0e
-	sta MMU_CR
-.endif
-irq_jsr:
-	jsr $0000
-	jsr setup_next_irq
-	; acknowledge irq
-	lda #IRQ_RASTER
-    sta IRR
-.ifdef IRQ_DEBUG
-	dec BORDERCOLOR
-.endif
-    jmp END_OF_IRQ
-
-
-setup_next_irq:
-	ldy index
-
-	; activate next entry
-	lda (table),y
-	sta HLINE_LOW
-	iny
-	lda (table),y
-	beq high0
-	lda HLINE_HIGH
-	ora #HLINE_BIT8
-	sta HLINE_LOW
-	bne addr
-high0:
-	lda HLINE_HIGH
-	and #HLINE_BIT8 ^ $ff
-	sta HLINE_HIGH
-addr:
-	iny
-	lda (table),y
-	sta irq_jsr + 1
-	iny
-	lda (table),y
-	sta irq_jsr + 2
-
-	iny
-	cpy table_length
-	bne :+
-	ldy #0
-:	sty index
-	rts
-
+COMMAND_NONE = 0
+COMMAND_HELP = 1
+COMMAND_HELP_NEXT = 2
+COMMAND_HELP_PREVIOUS = 3
+COMMAND_HELP_EXIT = 4
+COMMAND_RESET_KEYBOARD = 5

@@ -30,10 +30,13 @@
 
 .export init_keyboard, display_keyboard, read_keyboard, read_keyboard_128, reset_keyboard, process_skip
 
-.include "anykey.inc"
+.include "defines.inc"
 
 .macpack utility
 .macpack c128
+
+; this needs to be below $4000 to work in C128, so place it in unused screen space
+nmi_vector = $07e8
 
 RESTORE_FRAMES = 10
 

@@ -30,7 +30,7 @@
 
 .export handle_joysticks, port_digital, select_pots1, select_pots2, read_pots
 
-.include "anykey.inc"
+.include "defines.inc"
 
 .bss
 

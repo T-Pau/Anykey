@@ -29,7 +29,7 @@
 .autoimport +
 .export display_help_page, current_help_page
 
-.include "anykey.inc"
+.include "defines.inc"
 
 help_screen_start = screen + 1
 

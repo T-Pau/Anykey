@@ -29,7 +29,7 @@
 
 .export display_joystick
 
-.include "anykey.inc"
+.include "defines.inc"
 
 .bss
 

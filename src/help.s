@@ -30,7 +30,7 @@
 
 .export help_next, help_previous, handle_help
 
-.include "anykey.inc"
+.include "defines.inc"
 .macpack utility
 
 .code

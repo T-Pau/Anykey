@@ -31,38 +31,38 @@
 .export main_128_irq_table, main_128_irq_table_length
 .export help_irq_table, help_irq_table_length
 
-.include "anykey.inc"
+.include "defines.inc"
 
 .data
 
 main_64_irq_table:
-	.word top - 1, top_label
-	.word top + 8 - 2, switch_keyboard_top
-	.word top + 4 * 8 - 2, switch_keyboard_bottom
-	.word top + 13 * 8 - 1, switch_joystick_label
-	.word top + 15 * 8 - 1, switch_joystick
-	.word top + 22 * 8, label_background
-	.word top + 24 * 8 + 7, switch_bottom
+	.word SCREEN_TOP - 1, top_label
+	.word SCREEN_TOP + 8 - 2, switch_keyboard_top
+	.word SCREEN_TOP + 4 * 8 - 2, switch_keyboard_bottom
+	.word SCREEN_TOP + 13 * 8 - 1, switch_joystick_label
+	.word SCREEN_TOP + 15 * 8 - 1, switch_joystick
+	.word SCREEN_TOP + 22 * 8, label_background
+	.word SCREEN_TOP + 24 * 8 + 7, switch_bottom
 main_64_irq_table_length:
 	.byte * - main_64_irq_table
 
 
 main_128_irq_table:
-	.word top - 1, top_label
-	.word top + 8 - 2, switch_keyboard_top
-	.word top + 7 * 8 - 2, switch_keyboard_bottom
-	.word top + 15 * 8 - 2, switch_joystick_label
-	.word top + 17 * 8 - 1, switch_joystick
-	.word top + 22 * 8 - 2, switch_joystick_bottom
-	.word top + 24 * 8 + 7, switch_bottom
+	.word SCREEN_TOP - 1, top_label
+	.word SCREEN_TOP + 8 - 2, switch_keyboard_top
+	.word SCREEN_TOP + 7 * 8 - 2, switch_keyboard_bottom
+	.word SCREEN_TOP + 15 * 8 - 2, switch_joystick_label
+	.word SCREEN_TOP + 17 * 8 - 1, switch_joystick
+	.word SCREEN_TOP + 22 * 8 - 2, switch_joystick_bottom
+	.word SCREEN_TOP + 24 * 8 + 7, switch_bottom
 main_128_irq_table_length:
 	.byte * - main_128_irq_table
 
 
 help_irq_table:
-	.word top - 1, top_label
-	.word top + 8 - 1, content_background
-	.word top + 21 * 8, label_background
-	.word top + 24 * 8 + 7, handle_help
+	.word SCREEN_TOP - 1, top_label
+	.word SCREEN_TOP + 8 - 1, content_background
+	.word SCREEN_TOP + 21 * 8, label_background
+	.word SCREEN_TOP + 24 * 8 + 7, handle_help
 help_irq_table_length:
 	.byte * - help_irq_table

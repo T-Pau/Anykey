@@ -28,7 +28,7 @@
 .autoimport +
 .export switch_keyboard_bottom, switch_keyboard_top, switch_joystick_label, switch_joystick, switch_bottom, switch_joystick_bottom
 
-.include "anykey.inc"
+.include "defines.inc"
 
 .macpack cbm_ext
 
@@ -36,12 +36,12 @@
 
 switch_keyboard_top:
 	jsr content_background
-	lda #COLOR_GRAY2
+	lda #COLOR_MID_GRAY
 	ldy is_128
 	beq :+
-	lda #COLOR_GRAY3
+	lda #COLOR_LIGHT_GRAY
 :
-	ldx #top + 8
+	ldx #SCREEN_TOP + 8
 :	cpx VIC_HLINE
 	bne :-
 	ldx #9
@@ -79,7 +79,7 @@ switch_keyboard_bottom:
 
 switch_joystick_label:
 	set_vic_text screen, charset
-	lda #COLOR_GRAY2
+	lda #COLOR_MID_GRAY
 	ldx joystick_label_line
 :	cpx VIC_HLINE
 	bne :-
@@ -96,8 +96,8 @@ switch_joystick:
 	rts
 
 switch_joystick_bottom: ; 128 only
-	lda #COLOR_GRAY2
-	ldx #top + 22 * 8 - 0
+	lda #COLOR_MID_GRAY
+	ldx #SCREEN_TOP + 22 * 8 - 0
 :	cpx VIC_HLINE
 	bne :-
 	sta VIC_BG_COLOR0

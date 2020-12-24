@@ -1,6 +1,6 @@
 .autoimport +
 
-.include "anykey.inc"
+.include "defines.inc"
 
 .macpack cbm_ext
 .macpack utility

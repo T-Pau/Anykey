@@ -35,7 +35,7 @@
 .export display_key_17
 .export display_key_18
 
-.include "anykey.inc"
+.include "defines.inc"
 
 COLOR_RAM_OFFSET = color_ram - screen
 

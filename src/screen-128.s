@@ -1,4 +1,4 @@
-;  color.s -- Contents of color RAM.
+;  screen-64.s -- Main screen for C128 keyboard.
 ;  Copyright (C) 2020 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,9 +25,38 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export main_color_128, help_color
+.export main_screen_128, main_color_128
+
+.autoimport +
+
+.macpack cbm
+.macpack cbm_ext
 
 .rodata
+
+main_screen_128:
+	invcode "keyboard                                "
+	.incbin "keyboard-128-screen.bin"
+	invcode "                                        "
+	invcode "     joysticks                          "
+	invcode "    "
+	scrcode     "I                              J"
+    invcode                                     "    "
+    invcode "    "
+	scrcode     "      AHBAHBAHB       AHBAHBAHB "
+    invcode                                     "    "
+    invcode "    "
+	scrcode     "      E1FE2FE3F       E1FE2FE3F "
+    invcode                                     "    "
+    invcode "    "
+	scrcode     "      CGDCGDCGD       CGDCGDCGD "
+    invcode                                     "    "
+	invcode "    "
+	scrcode     "K                              L"
+    invcode                                     "    "
+	invcode "                                        "
+	invcode "      f5: reset keyboard  f7: help      "
+	invcode "          (hold for 2 seconds)          "
 
 main_color_128:
 	.res 40 * 2, $c
@@ -50,8 +79,4 @@ main_color_128:
 	.res 5, $c
 	.endrep
 	.res 40 * 3, $c
-
-help_color:
-	.res 2 * 40, $c
-	.res 18 * 40, $b
-	.res 5 * 40, $c
+	

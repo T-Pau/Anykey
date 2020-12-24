@@ -1,7 +1,4 @@
-.autoimport +
-.export display_logo, setup_logo
-
-;  logo.s -- Display T'Pau logo.
+;  charset-128.s -- Binary data of C128 keyboard character sets.
 ;  Copyright (C) 2020 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -29,74 +26,10 @@
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-.macpack cbm_ext
-.include "defines.inc"
-
-LOGO_X = 32 + 40 * 8 - (15 + 36) - 8
-LOGO_Y = 50 + 25 * 8
+.export charset_data_128
 
 .rodata
 
-stripe_colors:
-	.byte COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_BLUE
-
-.code
-
-display_logo:
-	set_vic_24_lines
-	lda #COLOR_MID_GRAY
-	sta VIC_BG_COLOR0
-	
-	ldy #LOGO_Y + 2
-	ldx #0
-loop:
-	lda stripe_colors,x	
-:	cpy VIC_HLINE
-	bne :-
-	sta VIC_SPR4_COLOR
-	iny
-	iny
-	inx
-	cpx #5
-	bne loop
-	
-	set_vic_25_lines
-	
-	rts
-
-setup_logo:
-	lda #00
-	sta $bfff
-	lda #<LOGO_X
-	sta VIC_SPR4_X
-	sta VIC_SPR5_X
-	clc
-	adc #17
-	sta VIC_SPR6_X
-	adc #24
-	sta VIC_SPR7_X
-	lda VIC_SPR_HI_X
-	ora #$f0
-	sta VIC_SPR_HI_X
-	lda #LOGO_Y
-	sta VIC_SPR4_Y
-	sta VIC_SPR5_Y
-	sta VIC_SPR6_Y
-	sta VIC_SPR7_Y
-	lda #COLOR_BLACK
-	sta VIC_SPR5_COLOR
-	lda #COLOR_DARK_GRAY
-	sta VIC_SPR6_COLOR
-	sta VIC_SPR7_COLOR
-	ldx #sprite_logo
-	stx screen + $3fc
-	inx
-	stx screen + $3fd
-	inx
-	stx screen + $3fe
-	inx
-	stx screen + $3ff
-	lda VIC_SPR_ENA
-	ora #$f0
-	sta VIC_SPR_ENA
-	rts
+charset_data_128:
+	.incbin "keyboard-128-charset-top.bin"
+	.incbin "keyboard-128-charset-bottom.bin"
