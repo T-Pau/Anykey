@@ -13,7 +13,7 @@ LDFLAGS_PLUS4 = -t plus4 -u __EXEHDR__ -C plus4-asm.cfg
 # LDFLAGS_128 += -Ln sym
 # LDFLAGS_PLUS4 += -Ln sym
 
-PROGRAMS = anykey-64.prg anykey-128.prg
+PROGRAMS = anykey-64.prg anykey-128.prg anykey-plus4.prg
 
 SOURCES_COMMON = \
 	button.s \
@@ -62,7 +62,6 @@ SOURCES_TED = \
 	start-ted.s \
 	help-ted.s \
 	joysticks-ted.s \
-	keyboard-ted.s \
 	switch-ted.s
 
 
@@ -141,6 +140,12 @@ keyboard-128-normal-bitmap.bin: keyboard-128-normal.png
 
 keyboard-128-pressed-bitmap.bin: keyboard-128-pressed.png
 	gfx-convert -b 1 bitmap keyboard-128-pressed.png keyboard-128-pressed
+
+keyboard-plus4-normal-bitmap.bin: keyboard-plus4-normal.png
+	gfx-convert -b 1 bitmap keyboard-plus4-normal.png keyboard-plus4-normal
+
+keyboard-plus4-pressed-bitmap.bin: keyboard-plus4-pressed.png
+	gfx-convert -b 1 bitmap keyboard-plus4-pressed.png keyboard-plus4-pressed
 
 charset.bin: charset.png
 	gfx-convert -b 255 charset charset.png charset.bin

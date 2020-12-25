@@ -26,7 +26,7 @@
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-.export label_background, content_background, logo_background, top_label
+.export label_background, content_background, top_label
 
 .include "defines.inc"
 
@@ -54,7 +54,12 @@ content_background:
 	sta VIDEO_BACKGROUND_COLOR
 	rts
 
+.ifdef USE_VICII
+.export logo_background
+
 logo_background:
 	lda #LOGO_COLOR
 	sta VIDEO_BACKGROUND_COLOR
 	rts
+.endif
+

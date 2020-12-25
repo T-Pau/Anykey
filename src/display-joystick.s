@@ -66,7 +66,11 @@ display_joystick:
 	adc #0
 	sta ptr2 + 1
 	lda port_digital
+.ifdef USE_TED
+	and #$f0
+.else
 	and #$10
+.endif
 	jsr button
 
 .ifdef USE_VICII

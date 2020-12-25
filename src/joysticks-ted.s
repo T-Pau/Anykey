@@ -32,15 +32,12 @@
 
 .include "defines.inc"
 
-.bss
-
-port_digital:
-	.res 1
-
 .code
 
 handle_joysticks:
-	lda #$01 ^ $ff
+	lda #$ff
+	sta $FD30
+	lda #$04 ^ $ff
 	sta TED_KBD
 	lda TED_KBD
 	eor #$ff
@@ -52,7 +49,6 @@ handle_joysticks:
 	sta TED_KBD
 	lda TED_KBD
 	eor #$ff
-	lda #0
     sta port_digital
     ldx #1
 	jmp display_joystick

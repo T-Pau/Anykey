@@ -65,6 +65,7 @@ switch_joystick_label:
 
 switch_joystick:
 	jsr content_background
+	jsr read_keyboard
 	rts
 
 
@@ -78,6 +79,6 @@ switch_joystick_bottom:
 :	cpx VIDEO_CURRENT_LINE
 	bne :-
 	jsr label_background
-	; end of frame
+	jsr display_keyboard
 	rts
 

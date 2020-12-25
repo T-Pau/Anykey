@@ -28,8 +28,8 @@
 
 .autoimport +
 
-.export init_keyboard_vicii, read_keyboard, read_keyboard_128, process_skip
-.export skip_key
+.export init_keyboard_vicii, read_keyboard_128, process_skip
+.export skip_key, port1, port2, restore_countdown
 
 .include "defines.inc"
 
@@ -78,96 +78,6 @@ init_keyboard_vicii:
 	
 	rts
 
-
-read_keyboard:
-	lda #$ff
-	sta CIA1_PRA
-	sta CIA1_PRB
-	lda #$00
-	sta CIA1_DDRA
-	sta CIA1_DDRB
-	lda CIA1_PRB
-	eor #$ff
-	ora port1
-	sta port1
-	lda CIA1_PRA
-	eor #$ff
-	sta port2
-	lda #$ff
-	sta CIA1_DDRA
-	lda #$00
-	sta CIA1_DDRB
-	lda #$fe
-	ldx #0
-byteloop:
-	sta CIA1_PRA
-	lda CIA1_PRB
-	eor #$ff
-	tay
-	and bitmask,x
-	sta new_key_state,x
-	inx
-	tya
-	and bitmask,x
-	sta new_key_state,x
-	inx
-	tya
-	and bitmask,x
-	sta new_key_state,x
-	inx
-	tya
-	and bitmask,x
-	sta new_key_state,x
-	inx
-	tya
-	and bitmask,x
-	sta new_key_state,x
-	inx
-	tya
-	and bitmask,x
-	sta new_key_state,x
-	inx
-	tya
-	and bitmask,x
-	sta new_key_state,x
-	inx
-	tya
-	and bitmask,x
-	sta new_key_state,x
-	inx
-	cpx #64
-	beq end_read
-	txa
-	lsr
-	lsr
-	lsr
-	tay
-	lda bitmask,y
-	eor #$ff
-	bne byteloop
-
-end_read:
-	ldx restore_countdown
-	beq :+
-	dex
-	stx restore_countdown
-	txa
-	ldx num_keys
-	dex
-	sta new_key_state,x
-:
-	lda #$ff
-	sta CIA1_PRA
-	sta CIA1_PRB
-	lda #$00
-	sta CIA1_DDRB
-	sta CIA1_DDRA
-	lda CIA1_PRB
-	eor #$ff
-	ora port1
-	sta port1
-	; TODO: if port 2 bit is set and key in that row is pressed, ignore that key's column (except for key itself)
-	rts
 	
 process_skip:
 	ldx num_keys
@@ -317,8 +227,3 @@ handle_nmi:
 	
 .rodata
 
-bitmask:
-	.repeat 11, i
-	.byte $01, $02, $04, $08, $10, $20, $40, $80
-;	.byte $80, $40, $20, $10, $08, $04, $02, $01
-	.endrep

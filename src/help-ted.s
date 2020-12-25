@@ -35,5 +35,45 @@
 .code
 
 handle_help:
-	; TODO: read keyboard
+	lda #$40 ^ $ff
+	sta KEYBOARD_SELECT
+	lda #$ff
+	sta KEYBOARD_VALUE
+	lda KEYBOARD_VALUE
+	tax
+	and #$10 ; Escape
+	bne :+
+	lda #COMMAND_HELP_EXIT
+	bne got_key
+:	txa
+	and #$40 ; +
+	bne :+
+	lda #COMMAND_HELP_NEXT
+	bne got_key
+:	lda #$80 ^ $ff
+	sta KEYBOARD_SELECT
+	lda #$ff
+	sta KEYBOARD_VALUE
+	lda KEYBOARD_VALUE
+	and #$10 ; Space
+	bne :+
+	lda #COMMAND_HELP_NEXT
+	bne got_key
+:	lda #$20 ^ $ff
+	sta KEYBOARD_SELECT
+	lda #$ff
+	sta KEYBOARD_VALUE
+	lda KEYBOARD_VALUE
+	and #$40 ; -
+	beq :+
+	lda #0
+	sta last_command
+	beq end
+:	lda #COMMAND_HELP_PREVIOUS
+got_key:
+	cmp last_command
+	beq end
+	sta last_command
+	sta command
+end:
 	rts

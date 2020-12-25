@@ -34,6 +34,7 @@
 help_screen_start = screen + 1
 
 help_screen_size = 38 * 20
+
 .ifdef __C64__
 num_help_screens = 6
 .else
@@ -68,11 +69,19 @@ help_screens_data:
 	scrcode "two joysticks connected to the        " ;  8
 	scrcode "controller ports.                     " ;  9
 	scrcode "                                      " ; 10
+.ifdef USE_VICII
 	scrcode "to test other controller types or     " ; 11
 	scrcode "joystick adapters, please use the     " ; 12
 	scrcode "companion program joyride which can be" ; 13
 	scrcode "found at:                             " ; 14
 	scrcode "  https://github.com/t-pau/joyride    " ; 15
+.else
+	scrcode "                                      " ; 11
+	scrcode "                                      " ; 12
+	scrcode "                                      " ; 13
+	scrcode "                                      " ; 14
+	scrcode "                                      " ; 15
+.endif
 	scrcode "                                      " ; 16
 	scrcode "                                      " ; 17
 	scrcode "                                      " ; 18
@@ -89,7 +98,11 @@ help_screens_data:
 	scrcode "displayed in a lighter gray. this     " ;  8
 	scrcode "helps detect dead keys. to reset the  " ;  9
 	scrcode "state of all keys to unpressed, hold  " ; 10
+.ifdef USE_TED
+	scrcode "f3 for two seconds.                   " ; 11
+.else
 	scrcode "f5 for two seconds.                   " ; 11
+.endif
 	scrcode "                                      " ; 12
 	scrcode "                                      " ; 13
 	scrcode "                                      " ; 14
@@ -102,14 +115,24 @@ help_screens_data:
 	scrcode "                                      "
 	scrcode "joysticks contain a stick or d-pad    " ;  1
 	scrcode "with switches for the four cardinal   " ;  2
+.ifdef USE_TED
+	scrcode "directions and one button.            " ;  3
+.else
 	scrcode "directions and up to three buttons.   " ;  3
+.endif
 	scrcode "                                      " ;  4
 	scrcode "pressed directions and buttons are    " ;  5
 	scrcode "displayed inverted.                   " ;  6
 	scrcode "                                      " ;  7
+.ifdef USE_TED
+	scrcode "                                      " ;  8
+	scrcode "                                      " ;  9
+	scrcode "                                      " ; 10
+.else
 	scrcode "buttons 2 and 3 bring an analog       " ;  8
 	scrcode "potentiometer to a low value by       " ;  9
 	scrcode "connecting its pin to +5v.            " ; 10
+.endif
 	scrcode "                                      " ; 11
 	scrcode "                                      " ; 12
 	scrcode "                                      " ; 13
@@ -121,6 +144,7 @@ help_screens_data:
 	
 	invcode "special keys                          "
 	scrcode "                                      "
+.ifdef USE_VICII
 	scrcode "shift lock and the left shift key     " ;  1
 	scrcode "appear as the same key to the computer" ;  2
 	scrcode "and cannot be reliably distinguished  " ;  3
@@ -130,6 +154,17 @@ help_screens_data:
 	scrcode "directly. anykey can detect when the  " ;  7
 	scrcode "key is pressed, but it can't detect   " ;  8
 	scrcode "for how long.                         " ;  9
+.else
+	scrcode "shift lock, left shift and right shift" ;  1
+	scrcode "appear as the same key to the computer" ;  2
+	scrcode "and cannot be reliably distinguished  " ;  3
+	scrcode "on all computers.  the same is true   " ;  4
+	scrcode "for the two control keys.             " ;  5
+	scrcode "                                      " ;  6
+	scrcode "                                      " ;  7
+	scrcode "                                      " ;  8
+	scrcode "                                      " ;  9
+.endif
 	scrcode "                                      " ; 10
 	scrcode "                                      " ; 11
 	scrcode "                                      " ; 12
@@ -165,6 +200,7 @@ help_screens_data:
 
 	invcode "technical limitations                 "
 	scrcode "                                      "
+.ifdef USE_VICII
 	scrcode "joysticks interfere with reading the  " ;  1
 	scrcode "keyboard. when a joystick is pressed, " ;  2
 	scrcode "certain keys can't be read. these keys" ;  3
@@ -176,14 +212,27 @@ help_screens_data:
 	scrcode "detection and result in phantom key   " ;  9
 	scrcode "presses.                              " ; 10
 	scrcode "                                      " ; 11
-	scrcode "if you press certain combinations of  " ; 12
-	scrcode "three keys, a fourth key will also    " ; 13
-	scrcode "appear pressed. this is because the   " ; 14
-	scrcode "three keys together create the same   " ; 15
-	scrcode "electrical connection the fourth key  " ; 16
-	scrcode "would.                                " ; 17
+.endif
+	scrcode "if you press certain combinations of  " ; 12 /  1
+	scrcode "three keys, a fourth key will also    " ; 13 /  2
+	scrcode "appear pressed. this is because the   " ; 14 /  3
+	scrcode "three keys together create the same   " ; 15 /  4
+	scrcode "electrical connection the fourth key  " ; 16 /  5
+	scrcode "would.                                " ; 17 /  6
+.ifndef USE_VICII
+	scrcode "                                      " ;  7
+	scrcode "                                      " ;  8
+	scrcode "                                      " ;  9
+	scrcode "                                      " ; 10
+	scrcode "                                      " ; 11
+	scrcode "                                      " ; 12
+	scrcode "                                      " ; 13
+	scrcode "                                      " ; 14
+	scrcode "                                      " ; 15
+	scrcode "                                      " ; 16
+	scrcode "                                      " ; 17
+.endif
 	scrcode "                                      " ; 18
-	
 
 .code
 

@@ -1,6 +1,6 @@
 # Version 1.2 (2020-12-26)
 
-- Add support for C128.
+- Add support for C128 and Plus/4.
 
 # Version 1.1 (2020-12-12)
 

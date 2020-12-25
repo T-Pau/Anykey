@@ -57,8 +57,10 @@ main_screen_plus4:
 	scrcode           "K                  L"
     invcode                               "          "
 	invcode "                                        "
-	invcode "     f3: reset keyboard  help: help     "
-	invcode "          (hold for 2 seconds)          "
+	invcode "     f3: reset   help: help      "
+	.byte $79, $7a, $7b, $7c, $7d, $7e, $7f
+	invcode "      (hold for 2 seconds)       "
+	.byte $f9, $fa, $fb, $fc, $fd, $fe, $ff
 
 main_color_plus4:
 	.res 40 * 2, FRAME_COLOR

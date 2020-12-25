@@ -45,16 +45,24 @@ help_screen:
 	.endrep
 	scrcode "KMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMML"
 	invcode "                                        "
+.if .defined(USE_VICII)
 	invcode "  space/+: next page  -: previous page  "
 	invcode "         "
 	.byte $9f
 	invcode           ": return to program           "
 	invcode "                                        "
+.elseif .defined(USE_TED)
+	invcode "  space/+: next  -: previous            "
+	invcode "    esc: return to program       "
+	.byte $79, $7a, $7b, $7c, $7d, $7e, $7f
+	invcode "                                 "
+	.byte $f9, $fa, $fb, $fc, $fd, $fe, $ff
+.endif
 
 help_color:
-	.res 2 * 40, $c
-	.res 18 * 40, $b
-	.res 5 * 40, $c
+	.res 2 * 40, FRAME_COLOR
+	.res 18 * 40, CONTENT_COLOR
+	.res 5 * 40, FRAME_COLOR
 
 .code
 

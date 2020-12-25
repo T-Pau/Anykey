@@ -28,8 +28,8 @@
 
 .autoimport +
 
-.export init_keyboard, display_keyboard, reset_keyboard
-.export key_state, new_key_state
+.export init_keyboard, display_keyboard, reset_keyboard, read_keyboard
+.export key_state, new_key_state, bitmask
 
 .include "defines.inc"
 
@@ -82,7 +82,9 @@ both:
 	beq partial
 loop:
 	lda (ptr2),y
+.ifdef USE_VICII
 	and #$0f
+.endif
 	cmp #CHECKED_COLOR
 	bne :+
 	lda #UNCHECKED_COLOR
@@ -134,7 +136,7 @@ loop:
 
 	lda command
 	bne no_key
-	lda key_state + 3 ; F7
+	lda key_state + KEY_INDEX_HELP
 	beq no_f7
 	ldx f7_count
 	inx
@@ -147,7 +149,7 @@ loop:
 no_f7:
 	lda #0
 	sta f7_count
-	lda key_state + 6; F5
+	lda key_state + KEY_INDEX_RESET
 	beq no_key
 	ldx f5_count
 	inx
@@ -163,3 +165,112 @@ no_key:
 end:
 	rts
 .endscope
+
+
+read_keyboard:
+.scope
+.ifdef USE_VICII
+	lda #$ff
+	sta CIA1_PRA
+	sta CIA1_PRB
+	lda #$00
+	sta CIA1_DDRA
+	sta CIA1_DDRB
+	lda CIA1_PRB
+	eor #$ff
+	ora port1
+	sta port1
+	lda CIA1_PRA
+	eor #$ff
+	sta port2
+	lda #$ff
+	sta CIA1_DDRA
+	lda #$00
+	sta CIA1_DDRB
+.endif
+	lda #$fe
+	ldx #0
+byteloop:
+	sta KEYBOARD_SELECT
+.ifdef USE_TED
+	lda #$ff
+	sta KEYBOARD_VALUE
+.endif
+	lda KEYBOARD_VALUE
+	eor #$ff
+	tay
+	and bitmask,x
+	sta new_key_state,x
+	inx
+	tya
+	and bitmask,x
+	sta new_key_state,x
+	inx
+	tya
+	and bitmask,x
+	sta new_key_state,x
+	inx
+	tya
+	and bitmask,x
+	sta new_key_state,x
+	inx
+	tya
+	and bitmask,x
+	sta new_key_state,x
+	inx
+	tya
+	and bitmask,x
+	sta new_key_state,x
+	inx
+	tya
+	and bitmask,x
+	sta new_key_state,x
+	inx
+	tya
+	and bitmask,x
+	sta new_key_state,x
+	inx
+	cpx #64
+	beq end_read
+	txa
+	lsr
+	lsr
+	lsr
+	tay
+	lda bitmask,y
+	eor #$ff
+	bne byteloop
+
+end_read:
+.ifdef USE_VICII
+	ldx restore_countdown
+	beq :+
+	dex
+	stx restore_countdown
+	txa
+	ldx num_keys
+	dex
+	sta new_key_state,x
+:
+	lda #$ff
+	sta CIA1_PRA
+	sta CIA1_PRB
+	lda #$00
+	sta CIA1_DDRB
+	sta CIA1_DDRA
+	lda CIA1_PRB
+	eor #$ff
+	ora port1
+	sta port1
+	; TODO: if port 2 bit is set and key in that row is pressed, ignore that key's column (except for key itself)
+.endif
+	rts
+.endscope
+
+.rodata
+
+bitmask:
+	.repeat 11, i
+	.byte $01, $02, $04, $08, $10, $20, $40, $80
+;	.byte $80, $40, $20, $10, $08, $04, $02, $01
+	.endrep
