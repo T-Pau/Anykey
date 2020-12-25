@@ -2,7 +2,7 @@
 
 ![Screenshot](screenshot.png)
 
-This program monitors the keyboard and joysticks.
+This program monitors the keyboard and joysticks. It supports Commodore 64, 128, and Plus/4.
 
 The upper window shows the state of the keyboard.
 
@@ -26,12 +26,12 @@ Joysticks contain a stick or d-pad with switches for the four cardinal direction
 
 Pressed directions and buttons are displayed inverted.
 
-Buttons 2 and 3 bring an analog potentiometer to a low value by connecting its pin to +5V.
+Buttons 2 and 3 bring an analog potentiometer to a low value by connecting its pin to +5V. This is not supported on Plus/4.
 	
 
 ## Special Keys
 
-`Shift Lock` and the left `Shift` key appear as the same key to the computer and cannot be reliably distinguished on all computers.
+`Shift Lock` and the left `Shift` key, and on Plus/4 also the right `Shift` key, appear as the same key to the computer and cannot be reliably distinguished on all computers. On Plus/4, both `Control` keys also appear as the same key.
 	
 The `Restore` key cannot be read directly. Anykey can detect when the key is pressed, but it can't detect for how long.
 
@@ -43,9 +43,9 @@ The `40/80 Display` key cannot be read in C64 mode, therefore it is displayed gr
 
 ## Technical Limitations
 
-Joysticks interfere with reading the keyboard. When a joystick is pressed, certain keys can't be read. These keys will be ignored while the joystick is pressed. If such a key was pressed before the joystick, it will remain pressed until the joystick is released. Auto fire might defeat this detection and result in phantom key presses.                              
-
 If you press certain combinations of three keys, a fourth key will also appear pressed. This is because the three keys together create the same electrical connection the fourth key would.                            
+
+On C64 and C128, Joysticks interfere with reading the keyboard. When a joystick is pressed, certain keys can't be read. These keys will be ignored while the joystick is pressed. If such a key was pressed before the joystick, it will remain pressed until the joystick is released. Auto fire might defeat this detection and result in phantom key presses.                              
 
 
 # Building Anykey
