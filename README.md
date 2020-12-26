@@ -35,17 +35,19 @@ Buttons 2 and 3 bring an analog potentiometer to a low value by connecting its p
 	
 The `Restore` key cannot be read directly. Anykey can detect when the key is pressed, but it can't detect for how long.
 
+
 ## Commodore 128
 
 When run in C64 mode on a C128, Anykey will display and test the full C128 keyboard.
 
-The `40/80 Display` key cannot be read in C64 mode, therefore it is displayed greyed out. To test it, use the native version, Anykey 128.
+The `40/80 Display` key cannot be read in C64 mode, therefore it is displayed grayed out. To test it, use the native version, Anykey 128.
+
 
 ## Technical Limitations
 
 If you press certain combinations of three keys, a fourth key will also appear pressed. This is because the three keys together create the same electrical connection the fourth key would.                            
 
-On C64 and C128, Joysticks interfere with reading the keyboard. When a joystick is pressed, certain keys can't be read. These keys will be ignored while the joystick is pressed. If such a key was pressed before the joystick, it will remain pressed until the joystick is released. Auto fire might defeat this detection and result in phantom key presses.                              
+On C64 and C128, joysticks interfere with reading the keyboard. When a joystick is pressed, certain keys can't be read. These keys will be ignored while the joystick is pressed. If such a key was pressed before the joystick, it will remain pressed until the joystick is released. Auto fire might defeat this detection and result in phantom key presses.                              
 
 
 # Building Anykey

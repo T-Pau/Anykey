@@ -100,7 +100,9 @@ partial:
 	beq end
 partial_loop:
 	lda (ptr2),y
+.ifdef USE_VICII
 	and #$0f
+.endif
 	cmp #CHECKED_COLOR
 	bne :+
 	lda #UNCHECKED_COLOR
