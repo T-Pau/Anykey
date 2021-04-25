@@ -9,11 +9,14 @@ LD = cl65
 LDFLAGS_64 = -t c64 -u __EXEHDR__ -C c64-asm.cfg
 LDFLAGS_128 = -t c128 -u __EXEHDR__ -C c128-asm.cfg
 LDFLAGS_PLUS4 = -t plus4 -u __EXEHDR__ -C plus4-asm.cfg
+LDFLAGS_VIC20 = -t vic20 -u __EXEHDR__ -C vic20-asm.cfg
 # LDFLAGS_64 += -Ln sym
 # LDFLAGS_128 += -Ln sym
 # LDFLAGS_PLUS4 += -Ln sym
+# LDFLAGS_VIC20 += -Ln sym
 
-PROGRAMS = anykey-64.prg anykey-128.prg anykey-plus4.prg
+DISK = anykey.d64
+PROGRAMS = anykey.prg anykey-64.prg anykey-128.prg anykey-plus4.prg
 
 SOURCES_COMMON = \
 	button.s \
@@ -79,7 +82,7 @@ OBJECTS_PLUS4 = ${SOURCES_PLUS4:%.s=%-plus4.o}
 
 ALL_OBJECTS = ${OBJECTS_64} ${OBJECTS_128} ${OBJECTS_PLUS4}
 
-all: ${PROGRAMS}
+all: ${PROGRAMS} ${DISK}
 
 clean:
 	rm -f ${ALL_OBJECTS} ${PROGRAMS}
@@ -101,6 +104,18 @@ ${DEPFILES}:
 
 include $(wildcard ${DEPFILES})
 
+${DISK}: ${PROGRAMS}
+	(set -e; \
+	c1541 ${DISK} -silent -format "anykey,tp" d64 ${DISK}; \
+	c1541 ${DISK} -silent -write "anykey.prg" "anykey"; \
+	c1541 ${DISK} -silent -write "anykey-64.prg" "anykey 64"; \
+	c1541 ${DISK} -silent -write "anykey-128.prg" "anykey 128"; \
+	c1541 ${DISK} -silent -write "anykey-plus4.prg" "anykey plus/4") \
+	|| rm ${DISK}
+
+anykey.prg: anykey.bas
+	petcat -w2 -o anykey.prg anykey.bas
+	
 anykey-64.prg: ${OBJECTS_64}
 	${LD} ${LDFLAGS_64} -o anykey-64.prg ${OBJECTS_64}
 

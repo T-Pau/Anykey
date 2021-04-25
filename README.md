@@ -11,6 +11,11 @@ The lower window shows the state of two joysticks connected to the controller po
 To test other controller types or joystick adapters, please use the companion program [Joyride](https://github.com/T-Pau/Joyride).
 
 
+## Loader
+
+The disc image contains a BASIC loader that detects which machine it runs on and automatically loads the correct program. For this to work, you need to load it with `LOAD"*",8`. It will *not* work if you load it with `LAOD"*",8,1`.
+
+
 ## Keyboard
 
 The keys are displayed in the same layout as the physical keyboard.
@@ -52,6 +57,6 @@ On C64 and C128, joysticks interfere with reading the keyboard. When a joystick 
 
 # Building Anykey
 
-Anykey is written in CC65 assembler. To build it, you need [cc65](https://cc65.github.io) and GNU make.
+Anykey is written in CC65 assembler. To build it, you need [cc65](https://cc65.github.io) and GNU make. You also need the `petcat` and `c1541` utilities from [Vice](http://vice-emu.sourceforge.net).
 
 The graphics are drawn in [Affinity Photo](https://affinity.serif.com/en-gb/photo/) and converted with a custom, as yet unreleased, program and a [Python](https://www.python.org/) script. If you want to work on them, please contact me.
