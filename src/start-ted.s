@@ -37,9 +37,6 @@
 .code
 
 start:
-	lda #FRAME_COLOR
-	sta VIDEO_BORDER_COLOR
-
 	jsr init_state
 
 	memcpy charset, charset_data, $800
@@ -53,6 +50,8 @@ start:
 	sta TED_BITMAP
 	
 	jsr display_main_screen
+	lda #FRAME_COLOR
+	sta VIDEO_BORDER_COLOR
 
 	jsr init_irq
 	

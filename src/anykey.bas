@@ -14,16 +14,36 @@
 220 if peek(56)=253 goto 1004
 230 goto 1000
 
+500 poke 53280,15
+510 poke 53281,15
+520 print"{dark gray}";
+530 d=186
+540 return
+
+600 color 0,2,6
+610 color 4,2,6
+620 color 1,2,3
+630 d=174
+640 return
+
 1000 print"{clear}computer not recognized.":end
-1004 f$="anykey plus/4":d=174:goto 3000
+1004 f$="anykey plus/4":gosub 600:goto 3000
 1016 c$="c16 without ram expansion{return} ":goto 4000
 1020 c$="vic 20":goto 4000
-1064 f$="anykey 64":d=186:goto 3000
-1128 f$="anykey 128":d=186:goto 3000
+1064 f$="anykey 64":gosub 500:goto 3000
+1128 f$="anykey 128":gosub 500:goto 3000
 
-3000 print"{clear}loading "f$"."
-3010 d=peek(d)
-3020 if d=0 then d=8
-3030 loadf$,d
+3000 print"{clear}{down}{down}{down}{down}"
+3010 printspc(17)"UCCCCI"
+3020 printspc(17)"B{CBM-D}{CBM-I}{CBM-I}{CBM-F}B"
+3030 printspc(17)"B {rvon}{CBM-K}{rvof}{CBM-K} B"
+3030 printspc(17)"B {rvon}{CBM-K}{rvof}{CBM-K} B"
+3030 printspc(17)"B {CBM-C}{CBM-V} B"
+3010 printspc(17)"JCCCCK{down}"
+3020 printspc(13)"anykey / t'pau{down}{down}{down}{down}{down}{down}{down}{down}"
+3030 printspc(16-len(f$)/2)"loading "f$
+3040 d=peek(d)
+3050 if d=0 then d=8
+3060 loadf$,d
 
 4000 print"{clear}"c$" not yet supported.":end

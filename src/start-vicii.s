@@ -39,9 +39,6 @@
 .code
 
 start:
-	lda #FRAME_COLOR
-	sta VIDEO_BORDER_COLOR
-
 .ifdef __C128__
 	lda MMU_CR
 	ora #$0e
@@ -55,6 +52,8 @@ start:
 	memcpy sprites, sprite_data, (64 * 8)
 
 	jsr display_main_screen
+	lda #FRAME_COLOR
+	sta VIDEO_BORDER_COLOR
 
 	set_vic_bank $8000
 	set_vic_text screen, charset

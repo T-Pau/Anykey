@@ -105,16 +105,18 @@ ${DEPFILES}:
 include $(wildcard ${DEPFILES})
 
 ${DISK}: ${PROGRAMS}
+	disk=${DISK}.$$$$; \
 	(set -e; \
-	c1541 ${DISK} -silent -format "anykey,tp" d64 ${DISK}; \
-	c1541 ${DISK} -silent -write "anykey.prg" "anykey"; \
-	c1541 ${DISK} -silent -write "anykey-64.prg" "anykey 64"; \
-	c1541 ${DISK} -silent -write "anykey-128.prg" "anykey 128"; \
-	c1541 ${DISK} -silent -write "anykey-plus4.prg" "anykey plus/4") \
-	|| rm ${DISK}
+	c1541 -silent -format "anykey,tp" d64 $$disk; \
+	c1541 $$disk -silent -write "anykey.prg" "anykey"; \
+	c1541 $$disk -silent -write "anykey-64.prg" "anykey 64"; \
+	c1541 $$disk -silent -write "anykey-128.prg" "anykey 128"; \
+	c1541 $$disk -silent -write "anykey-plus4.prg" "anykey plus/4"; \
+	ips_util apply comma8.ips $$disk -o ${DISK}); \
+	rm $$disk
 
 anykey.prg: anykey.bas
-	petcat -w2 -o anykey.prg anykey.bas
+	petcat -w3 -l 0801 -o anykey.prg anykey.bas
 	
 anykey-64.prg: ${OBJECTS_64}
 	${LD} ${LDFLAGS_64} -o anykey-64.prg ${OBJECTS_64}
