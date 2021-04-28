@@ -8,7 +8,8 @@
 80 if peek(56)=128 goto 1020:rem 24k
 90 goto 1000
 100 if peek(46)=28 and peek(45)=1 goto 1128
-110 goto 1000
+110 if peek(223)=1 and peek(224)=8 goto 1216
+120 goto 1000
 200 if peek(56)=30 goto 1020
 210 if peek(56)=63 goto 1016
 220 if peek(56)=253 goto 1004
@@ -32,6 +33,7 @@
 1020 c$="vic 20":goto 4000
 1064 f$="anykey 64":gosub 500:goto 3000
 1128 f$="anykey 128":gosub 500:goto 3000
+1216 c$="commander x16":goto 4000
 
 3000 print"{clear}{down}{down}{down}{down}"
 3010 printspc(17)"UCCCCI"
