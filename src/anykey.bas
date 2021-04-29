@@ -3,15 +3,14 @@
 30 if peek(44)=4 and peek(56)=30 goto 1020:rem 3k
 40 if peek(44)=16 goto 200
 50 if peek(44)=32 goto 1065
-60 if peek(44)<>18 goto 1000
+60 if peek(44)<>18 goto 150
 70 if peek(56)=64 goto 1020:rem 8k
 80 if peek(56)=96 goto 1020:rem 16k
 90 if peek(56)=128 goto 1020:rem 24k
 
-150 goto 1000
-160 if peek(46)=28 and peek(45)=1 goto 1128
-170 if peek(223)=1 and peek(224)=8 goto 1216
-180 goto 1000
+150 if peek(46)=28 and peek(45)=1 goto 1128
+160 if peek(223)=1 and peek(224)=8 goto 1216
+170 goto 1000
 
 200 if peek(56)=30 goto 1020
 210 if peek(56)=63 goto 1016
