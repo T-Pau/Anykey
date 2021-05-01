@@ -31,10 +31,13 @@
 
 1000 print"{clear}computer not recognized.":end
 1004 f$="anykey plus/4":gosub 600:goto 3000
-1016 c$="c16 without ram expansion{return} ":goto 4000
-1020 c$="vic 20":goto 4000
+1016 print"{clear}the c16 version of anykey requires a"
+1017 print"64k ram expansion.":end
+1020 print"{clear}sorry, there is no"
+1021 print"version of anykey for"
+1022 print"the vic-20 yet.":end
 1064 f$="anykey 64":gosub 500:goto 3000
-1065 c$="mega 65":goto 4000
+1065 c$="mega65":goto 4000
 1128 f$="anykey 128":gosub 500:goto 3000
 1216 c$="commander x16":goto 4000
 
@@ -51,4 +54,4 @@
 3050 if d=0 then d=8
 3060 loadf$,d
 
-4000 print"{clear}"c$" not yet supported.":end
+4000 print"{clear}sorry, there is no version of anykey for the "c$" yet.":end
