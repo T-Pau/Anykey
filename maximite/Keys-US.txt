@@ -1,0 +1,112 @@
+Escape	All 27
+
+F1	Shift 145, 209
+F2	Shift 146, 210
+F3	Shift 147, 211
+F4	Shift 148, 212
+F5	Shift 149, 213
+F6	Shift 150, 214
+F7	Shift 151, 215
+F8	Shift 152, 216
+F9	Shift 153, 217
+F10	Shift 154, 218
+F11	Shift 155, 219
+F12	Shift 156, 220
+
+PrintScreen	All 157
+ScrollLock	Toggle 2
+Pause	All 158
+
+`	Shift 96, 126
+1	Shift 49, 33
+2	Shift 50, 64
+3	Shift 51, 35
+4	Shift 52, 36
+5	Shift 53, 37
+6	Shift 54, 94
+7	Shift 55, 38
+8	Shift 56, 42
+9	Shift 57, 40
+0	Shift 48, 41
+-	Shift 45, 95
+=	Shift 61, 42
+Backspace	All 8
+
+Tab	Shift 9, 159
+Q	Letter 17
+W	Letter 23
+E	Letter 5
+R	Letter 18
+T	Letter 20
+Y	Letter 25
+U	Letter 21
+I	Letter 9
+O	Letter 15
+P	Letter 16
+[	Shift 91, 123
+]	Shift 93, 125
+\	Shift 92, 124
+
+CapsLock	Toggle 0
+A	Letter 1
+S	Letter 19
+D	Letter 4
+F	Letter 6
+G	Letter 7
+H	Letter 8
+J	Letter 10
+K	Letter 11
+L	Letter 12
+;	Shift 59, 58
+'	Shift 39, 34
+Return	All 10
+
+LeftShift Modifier 3
+Z	Letter 26
+X	Letter 24
+C	Letter 3
+V	Letter 22
+B	Letter 2
+N	Letter 14
+M	Letter 13
+,	Shift 44, 60
+.	Shift 46, 62
+/	Shift 47, 63
+RightShift	Modifier 7
+LeftControl	Modifier 1
+LeftWindows	Modifier 2
+LeftALt Modifier 0
+Space	All 32
+RightAlt	Modifier 4
+RightWindows	Modifier 6
+RightControl	Modifier 5
+
+Insert	All 132
+Home	All 134
+PageUp	All 136
+Delete	Shift 127, 160
+End	All 135
+PageDown	All 137
+
+CursorUp	All 128
+CursorLeft	All 130
+CursorDown	Shift 129, 161
+CursorRight	Shift 131, 163
+
+NumLock	Toggle 1
+/	All 47
+*	All 42
+-	All 45
+7	NumLock 134, 55
+8	NumLock 128, 56
+9	NumLock 136, 57
++	All 43
+4	NumLock 130, 52
+5	All 53
+6	NumLock 131, 54
+1	NumLock 135, 49
+2	NumLock 129, 50
+3	NumLock 137, 51
+Enter	All 10
+0	NumLock 132, 48
+.	NumLock 127, 46

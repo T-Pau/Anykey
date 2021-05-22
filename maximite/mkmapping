@@ -1,0 +1,145 @@
+#!/usr/bin/env perl
+
+use JSON::XS;
+
+use strict;
+
+my $layout = shift;
+
+
+my %mapping = (
+	shift => 1,
+	control => 2,
+	numlock => 4
+);
+
+my $max_indices = 3;
+
+my $fin;
+my $fout;
+
+open($fin, "<", "Keys-$layout.txt") or die "can't open Keys file";
+
+my @mappings;
+my @modifiers;
+my @toggle;
+my %code_set = ();
+
+for (my $i = 0; $i < 8; $i++) {
+	@modifiers[$i] = 0;
+	@toggle[$i] = 0;
+}
+
+for (my $i = 0; $i < 256; $i++) {
+	@mappings[$i] = [{}, {}, {}, {}, {}, {}, {}, {}];
+}
+
+my $index = 0;
+
+while (my $line = <$fin>) {
+	chomp $line;
+	
+	next unless ($line);
+	
+	$index += 1;
+	
+	unless ($line =~ m/(\S+)\s+(\w+)\s+(.*)/) {
+		warn "can't parse line '$line'";
+		next;
+	}
+	my ($key, $type, $values) = ($1, $2, $3);
+	my @values = split ",\s*", $values;
+	
+	if ($type eq "All") {
+		add_mapping($values[0], {}, $index);
+	}
+	elsif ($type eq "Letter") {
+		add_mapping($values[0], {control => 1}, $index);
+		add_mapping($values[0] + 64, {control => 0}, $index);
+		add_mapping($values[0] + 96, {control => 0}, $index);
+	}
+	elsif ($type eq "Modifier") {
+		$modifiers[$values[0]] = $index;
+	}
+	elsif ($type eq "NumLock") {
+		add_mapping($values[0], {numlock => 0}, $index);
+		add_mapping($values[1], {numlock => 1}, $index);
+	}
+	elsif ($type eq "Shift") {
+		add_mapping($values[0], {shift => 0}, $index);
+		add_mapping($values[1], {shift => 1}, $index);
+	}
+	elsif ($type eq "Toggle") {
+		$toggle[$values[0]] = $index;
+
+	}
+	else {
+		warn "invalid mapping type '$type'";
+	}
+}
+
+
+close($fin);
+
+my %json = (
+	modifiers => \@modifiers,
+	toggle => \@toggle,
+	mappings => \@mappings
+);
+
+#my $coder = JSON::XS->new->ascii->pretty->allow_nonref;
+#print $coder->encode (\%json);
+
+#exit(0);
+
+open($fout, ">", "Mapping-$layout.txt") or die "can't create Mapping file";
+
+for (my $i = 0; $i < 8; $i++) {
+	print $fout "$modifiers[$i]\n";
+}
+
+for (my $i = 0; $i < 8; $i++) {
+	print $fout "$toggle[$i]\n";
+}
+
+for (my $code = 0; $code < 256; $code++) {
+	next unless $code_set{$code};
+	
+	print $fout "$code";
+	for (my $type = 0; $type < 8; $type++) {
+		my @keys = sort keys %{$mappings[$code][$type]};
+		if (scalar(@keys) > $max_indices) {
+			warn "too many indices for $code $type";
+		}
+		for (my $i = 0; $i < $max_indices; $i++) {
+			print $fout ",$keys[$i]";
+		}
+	}
+	print $fout "\n";
+}
+
+close($fout);
+
+
+sub add_mapping {
+	my ($code, $modifiers, $index) = @_;
+	
+	$code += 0;
+	
+	my $mask = 0;
+	my $value = 0;
+	
+	for my $modifier (keys %$modifiers) {
+		$mask |= $mapping{$modifier};
+		if ($modifiers->{$modifier}) {
+			$value |= $mapping{$modifier};
+		}
+	}
+	
+	for (my $i = 0; $i < 8; $i++) {
+		if (($i & $mask) == $value) {
+			$mappings[$code][$i]{$index} = 1;
+		}
+	}
+	$code_set{$code} = 1;
+}
