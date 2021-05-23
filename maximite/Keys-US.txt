@@ -29,7 +29,7 @@ Pause	All 158
 9	Shift 57, 40
 0	Shift 48, 41
 -	Shift 45, 95
-=	Shift 61, 42
+=	Shift 61, 43
 Backspace	All 8
 
 Tab	Shift 9, 159

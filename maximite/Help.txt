@@ -1,0 +1,46 @@
+Anykey
+This program monitors the keyboard and
+controllers.
+
+The upper window shows the state of the
+keyboard.
+
+The lower windows shows the state of up to
+three Wii controllers connected to the Nun 
+ports.
+---
+Keyboard
+The keys are displayed in the same layout as
+the physical keyboard. Currently only the
+US layout is supported.
+
+Keys that are currently pressed are
+displayed inverted.
+
+Keys that were previously pressed are
+diplayed in a lighter gray. This helps
+detect dead keys. To reset the state of all
+keys to unpressed, hold F11 for two seconds.
+---
+Controllers
+---
+Technical Limitations
+The Color Maximite 2 does not allow reading
+keyboard scan codes directly. Instead it
+translates the keys to their symbols. Since
+some symbols can be entered via multiple
+keys, Anykey does not know which of these
+were pressed and displays all of them as
+pressed.
+
+This affects the Number Pad and some
+letters in combination with Control.
+
+At most six simultaneous key presses can be
+tracked. Depending on the combination of
+keys, it may be as few as three.
+
+The Break key is reported as being released
+immediately, so Anykey can't detect how
+long it is being pressed and it only flashes
+for a fraction of a second.
