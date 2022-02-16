@@ -153,7 +153,7 @@ display_key_h:
 	lda top_right,x
 	sta (ptr1),y
 	
-	lda #4
+	lda #5
 	sta tmp1
 row:
 	ldy #0
