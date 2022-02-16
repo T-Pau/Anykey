@@ -1,4 +1,4 @@
-;  main-loop.s -- Main loop.
+;  keyboard.s -- Process and display keyboard state, VIC-II / TED specific
 ;  Copyright (C) 2020 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,36 +25,60 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export main_loop, command, last_command
-
 .autoimport +
 
 .include "defines.inc"
 
-.data
+.macpack utility
 
-command:
-	.byte 0
-
-last_command:
-	.byte 0
+.export reset_keyboard
 
 .code
 
-main_loop:
-.ifdef USE_PET
-	jsr process_keyboard
+reset_keyboard:
+.scope
+	lda keyboard_height
+	cmp #12
+	beq low
+	store_word 40 * 12, ptr3
+	bne both
+low:
+	store_word 40 * 10, ptr3
+both:
+	store_word color_ram + 40 * 2, ptr2
+	ldy #0
+	ldx ptr3 + 1
+	beq partial
+loop:
+	lda (ptr2),y
+.ifdef USE_VICII
+	and #$0f
 .endif
-	lda command
-	beq main_loop
-	asl
-	tax
-	lda command_handlers,x
-	sta jump + 1
-	lda command_handlers + 1,x
-	sta jump + 2
-jump:
-	jsr $0000
-	lda #0
-	sta command
-	beq main_loop
+	cmp #CHECKED_COLOR
+	bne :+
+	lda #UNCHECKED_COLOR
+	sta (ptr2),y
+:	iny
+	bne loop
+	inc ptr2 + 1
+	dex
+	bne loop
+
+partial:
+	ldx ptr3
+	beq end
+partial_loop:
+	lda (ptr2),y
+.ifdef USE_VICII
+	and #$0f
+.endif
+	cmp #CHECKED_COLOR
+	bne :+
+	lda #UNCHECKED_COLOR
+	sta (ptr2),y
+:	iny
+	dex
+	bne partial_loop
+end:
+	rts
+.endscope

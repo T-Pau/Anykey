@@ -25,6 +25,25 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.macro adc_16 address
+.scope
+        adc address
+        sta address
+        bcc no_carry
+        inc address + 1
+no_carry:
+.endscope
+.endmacro
+
+.macro inc_16 address
+.scope
+        inc address
+        bne no_carry
+        inc address + 1
+no_carry:
+.endscope
+.endmacro
+
 .macro store_word value, address
 	lda #<(value)
 	sta address
@@ -88,4 +107,11 @@ subtract_word_end:
 	ldx #(new_value)
 	lda #(old_value)
 	jsr memset_if
+.endmacro
+
+
+.macro copy_screen source
+	store_word source, ptr1
+	store_word screen, ptr2
+	jsr expand
 .endmacro

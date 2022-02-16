@@ -56,6 +56,9 @@ keys_size = []
 
 name = ""
 offset = 0
+key_width = 1
+key_height = 1
+screen_width = 40
 
 with open(infile) as fin:
 	for line in fin:
@@ -72,12 +75,24 @@ with open(infile) as fin:
 			name = words[1]
 		elif words[0] == "offset":
 			if len(words) != 2:
-				raise "wrong number of arguments for 'name'"
+				raise "wrong number of arguments for 'offset'"
 			offset = int(words[1])
+		elif words[0] == "key_width":
+			if len(words) != 2:
+				raise "wrong number of arguments for 'key_width'"
+			key_width = int(words[1])
+		elif words[0] == "key_height":
+			if len(words) != 2:
+				raise "wrong number of arguments for 'key_height'"
+			key_height = int(words[1])
+		elif words[0] == "screen_width":
+			if len(words) != 2:
+				raise "wrong number of arguments for 'screen_width'"
+			screen_width = int(words[1])
 		elif words[0] == "key":
 			if len(words) != 4:
 				raise "wrong number of arguments for 'key'"
-			keys_address.append("screen + " + str(offset + int(words[1]) + int(words[2]) * 40))
+			keys_address.append("screen + " + str(offset + int(words[1]) * key_width + int(words[2]) * key_height * screen_width))
 			keys_size.append("display_key_" + words[3])
 		else:
 			raise "unknown command '" + words[0] + "'"

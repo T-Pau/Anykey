@@ -1,5 +1,5 @@
 ;  keyboard.s -- Process and display keyboard state
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) 2020-2022 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -28,7 +28,7 @@
 
 .autoimport +
 
-.export init_keyboard, display_keyboard, reset_keyboard, read_keyboard
+.export init_keyboard, display_keyboard, read_keyboard
 .export key_state, new_key_state, bitmask
 
 .include "defines.inc"
@@ -36,6 +36,12 @@
 .macpack utility
 
 HOLD_FRAMES = 50
+
+.ifdef USE_PET
+MAX_KEY_READ = 80
+.else
+MAX_KEY_READ = 64
+.endif
 
 .bss
 
@@ -45,9 +51,9 @@ key_state:
 new_key_state:
 	.res MAX_NUM_KEYS
 
-f5_count:
+reset_count:
 	.res 1
-f7_count:
+help_count:
 	.res 1
 
 .code
@@ -59,60 +65,13 @@ init_keyboard:
 	sta new_key_state,x
 	dex
 	bpl :-
-	sta f5_count
-	sta f7_count
+	sta reset_count
+	sta help_count
 .ifdef USE_VICII
 	jsr init_keyboard_vicii
 .endif
 	rts
 
-reset_keyboard:
-.scope
-	lda keyboard_height
-	cmp #12
-	beq low
-	store_word 40 * 12, ptr3
-	bne both
-low:
-	store_word 40 * 10, ptr3
-both:
-	store_word color_ram + 40 * 2, ptr2
-	ldy #0
-	ldx ptr3 + 1
-	beq partial
-loop:
-	lda (ptr2),y
-.ifdef USE_VICII
-	and #$0f
-.endif
-	cmp #CHECKED_COLOR
-	bne :+
-	lda #UNCHECKED_COLOR
-	sta (ptr2),y
-:	iny
-	bne loop
-	inc ptr2 + 1
-	dex
-	bne loop
-
-partial:
-	ldx ptr3
-	beq end
-partial_loop:
-	lda (ptr2),y
-.ifdef USE_VICII
-	and #$0f
-.endif
-	cmp #CHECKED_COLOR
-	bne :+
-	lda #UNCHECKED_COLOR
-	sta (ptr2),y
-:	iny
-	dex
-	bne partial_loop
-end:
-	rts
-.endscope
 
 
 display_keyboard:
@@ -139,31 +98,31 @@ loop:
 	lda command
 	bne no_key
 	lda key_state + KEY_INDEX_HELP
-	beq no_f7
-	ldx f7_count
+	beq no_help
+	ldx help_count
 	inx
-	stx f7_count
+	stx help_count
 	cpx #HOLD_FRAMES
 	bcc end
 	lda #COMMAND_HELP
 	sta command
 	bne no_key
-no_f7:
+no_help:
 	lda #0
-	sta f7_count
+	sta help_count
 	lda key_state + KEY_INDEX_RESET
 	beq no_key
-	ldx f5_count
+	ldx reset_count
 	inx
-	stx f5_count
+	stx reset_count
 	cpx #HOLD_FRAMES
 	bcc end
 	lda #COMMAND_RESET_KEYBOARD
 	sta command
 no_key:
 	lda #0
-	sta f5_count
-	sta f7_count
+	sta reset_count
+	sta help_count
 end:
 	rts
 .endscope
@@ -190,7 +149,11 @@ read_keyboard:
 	lda #$00
 	sta CIA1_DDRB
 .endif
+.ifdef USE_PET
+	lda #$00
+.else
 	lda #$fe
+.endif
 	ldx #0
 byteloop:
 	sta KEYBOARD_SELECT
@@ -232,15 +195,17 @@ byteloop:
 	and bitmask,x
 	sta new_key_state,x
 	inx
-	cpx #64
+	cpx #MAX_KEY_READ
 	beq end_read
 	txa
 	lsr
 	lsr
 	lsr
 	tay
+.ifndef USE_PET
 	lda bitmask,y
 	eor #$ff
+.endif
 	bne byteloop
 
 end_read:

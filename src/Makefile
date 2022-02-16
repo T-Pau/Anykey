@@ -3,38 +3,52 @@ DEPDIR := .deps
 CC = cl65
 CFLAGS_64 = -t c64
 CFLAGS_128 = -t c128
+CFLAGS_PET = -t pet
 CFLAGS_PLUS4 = -t plus4
 
 LD = cl65
 LDFLAGS_64 = -t c64 -u __EXEHDR__ -C c64-asm.cfg
 LDFLAGS_128 = -t c128 -u __EXEHDR__ -C c128-asm.cfg
+LDFLAGS_PET = -t pet -u __EXEHDR__ -C pet-asm.cfg
 LDFLAGS_PLUS4 = -t plus4 -u __EXEHDR__ -C plus4-asm.cfg
 LDFLAGS_VIC20 = -t vic20 -u __EXEHDR__ -C vic20-asm.cfg
 # LDFLAGS_64 += -Ln sym
 # LDFLAGS_128 += -Ln sym
+LDFLAGS_PET += -Ln sym
 # LDFLAGS_PLUS4 += -Ln sym
 # LDFLAGS_VIC20 += -Ln sym
 
 DISK = anykey.d64
-PROGRAMS = anykey.prg anykey-64.prg anykey-128.prg anykey-plus4.prg
+PROGRAMS = anykey.prg anykey-64.prg anykey-128.prg anykey-pet.prg anykey-plus4.prg
 
 SOURCES_COMMON = \
+	commands.s \
+	display-key.s \
+	keyboard.s \
+	main-loop.s
+
+SOURCES_VICII_TED = \
 	button.s \
 	charset.s \
 	colors.s \
-	commands.s \
 	copyrect.s \
 	display-joystick.s \
-	display-key.s \
+	display-key-vicii-ted.s \
 	dpad.s \
 	irq.s \
 	irq-table.s \
-	keyboard.s \
+	keyboard-vicii-ted.s \
 	help-screen.s \
-	main-loop.s \
 	memcpy.s \
 	screen.s \
-	state.s \
+	state.s
+
+SOURCES_TED = \
+	start-ted.s \
+	help-ted.s \
+	joysticks-ted.s \
+	switch-ted.s \
+	${SOURCES_VICII_TED}
 
 SOURCES_VICII = \
 	start-vicii.s \
@@ -44,8 +58,9 @@ SOURCES_VICII = \
 	logo.s \
 	sprite.s \
 	sprites.s \
-	switch-vicii.s
-	
+	switch-vicii.s \
+	${SOURCES_VICII_TED}
+
 SOURCES_128 = \
 	${SOURCES_VICII} \
 	${SOURCES_COMMON} \
@@ -61,12 +76,13 @@ SOURCES_64 = \
 	keys-64.s \
 	screen-64.s
 
-SOURCES_TED = \
-	start-ted.s \
-	help-ted.s \
-	joysticks-ted.s \
-	switch-ted.s
-
+SOURCES_PET = \
+	start-pet.s \
+	display-key-pet.s \
+	expand.s \
+	keyboard-pet.s \
+	keys-pet.s \
+	${SOURCES_COMMON}
 
 SOURCES_PLUS4 = \
 	${SOURCES_TED} \
@@ -78,9 +94,10 @@ SOURCES_PLUS4 = \
 
 OBJECTS_64 = ${SOURCES_64:%.s=%-64.o}
 OBJECTS_128 = ${SOURCES_128:%.s=%-128.o}
+OBJECTS_PET = ${SOURCES_PET:%.s=%-pet.o}
 OBJECTS_PLUS4 = ${SOURCES_PLUS4:%.s=%-plus4.o}
 
-ALL_OBJECTS = ${OBJECTS_64} ${OBJECTS_128} ${OBJECTS_PLUS4}
+ALL_OBJECTS = ${OBJECTS_64} ${OBJECTS_128} ${OBJECTS_PET} ${OBJECTS_PLUS4}
 
 all: ${PROGRAMS} ${DISK}
 
@@ -93,6 +110,9 @@ clean:
 
 %-128.o : %.s ${DEPDIR}/%-128.o.d | ${DEPDIR}
 	${CC} -o $@ ${CFLAGS_128} --create-dep ${DEPDIR}/$@.d -c $<
+
+%-pet.o : %.s ${DEPDIR}/%-pet.o.d | ${DEPDIR}
+	${CC} -o $@ ${CFLAGS_PET} --create-dep ${DEPDIR}/$@.d -c $<
 
 %-plus4.o : %.s ${DEPDIR}/%-plus4.o.d | ${DEPDIR}
 	${CC} -o $@ ${CFLAGS_PLUS4} --create-dep ${DEPDIR}/$@.d -c $<
@@ -111,6 +131,7 @@ ${DISK}: ${PROGRAMS}
 	c1541 $$disk -silent -write "anykey.prg" "anykey"; \
 	c1541 $$disk -silent -write "anykey-64.prg" "anykey 64"; \
 	c1541 $$disk -silent -write "anykey-128.prg" "anykey 128"; \
+	c1541 $$disk -silent -write "anykey-pet.prg" "anykey pet"; \
 	c1541 $$disk -silent -write "anykey-plus4.prg" "anykey plus/4"; \
 	ips_util apply comma8.ips $$disk -o ${DISK}); \
 	rm $$disk
@@ -127,11 +148,17 @@ anykey-128.prg: ${OBJECTS_128}
 anykey-plus4.prg: ${OBJECTS_PLUS4}
 	${LD} ${LDFLAGS_PLUS4} -o anykey-plus4.prg ${OBJECTS_PLUS4}
 
+anykey-pet.prg: ${OBJECTS_PET}
+	${LD} ${LDFLAGS_PET} -o anykey-pet.prg ${OBJECTS_PET}
+
 keys-64.s: keys-64.key key-table
 	./key-table keys-64
 
 keys-128.s: keys-128.key key-table
 	./key-table keys-128
+
+keys-pet.s: keys-pet.key key-table
+	./key-table keys-pet
 
 keys-plus4.s: keys-plus4.key key-table
 	./key-table keys-plus4
@@ -174,7 +201,5 @@ dpad.bin: dpad.png charset.bin
 	gfx-convert screen dpad.png charset.bin dpad.bin
 
 
-charset.o: charset.bin keyboard-64-charset-top.bin keyboard-64-charset-bottom.bin keyboard-128-charset-top.bin keyboard-128-charset-bottom.bin
-dpad.o: dpad.bin
-screen.o: keyboard-64-screen.bin keyboard-128-screen.bin
-sprites.o: sprites.bin
+keyboard-pet.bin: keyboard-pet.scr screen.pl
+	perl screen.pl -w 80 -c keyboard-pet.scr > keyboard-pet.bin || (rm keyboard-pet.bin; exit 1)
