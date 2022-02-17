@@ -1,20 +1,20 @@
  keyboard
 
-U```IU```IU```IU```IU```IU```IU```IU```IU```IU```IU```I     U```IU```IU```IU```I
-} ! }} " }} # }} $ }} % }} ' }} & }} \ }} ( }} ) }} _ }     }clr}}u/d}}<=>}}del}
-J```KJ```KJ```KJ```KJ```KJ```KJ```KJ```KJ```KJ```KJ```K     J```KJ```KJ```KJ```K
-U```IU```IU```IU```IU```IU```IU```IU```IU```IU```IU```I     U```IU```IU```IU```I
-} q }} w }} e }} r }} t }} y }} u }} i }} o }} p }} ^ }     } 7 }} 8 }} 9 }} / }
-J```KJ```KJ```KJ```KJ```KJ```KJ```KJ```KJ```KJ```KJ```K     J```KJ```KJ```KJ```K
-U```IU```IU```IU```IU```IU```IU```IU```IU```IU```IU```I     U```IU```IU```IU```I
-} a }} s }} d }} f }} g }} h }} j }} k }} l }} : }} r }     } 4 }} 5 }} 6 }} * }
-J```KJ```KJ```KJ```KJ```KJ```KJ```KJ```KJ```KJ```K} e }     J```KJ```KJ```KJ```K
-U```IU```IU```IU```IU```IU```IU```IU```IU```IU```I} t }     U```IU```IU```IU```I
-} z }} x }} c }} v }} b }} n }} m }} , }} ; }} ? }}   }     } 1 }} 2 }} 3 }} + }
-J```KJ```KJ```KJ```KJ```KJ```KJ```KJ```KJ```KJ```KJ```K     J```KJ```KJ```KJ```K
-U```IU```IU```IU```IU```IU````````IU```IU```IU```IU```I     U```IU```IU```IU```I
-}shf}}rvs}} @ }} [ }} ] }} space  }} < }} > }}run}}shf}     } 0 }} . }} - }} = }
-J```KJ```KJ```KJ```KJ```KJ````````KJ```KJ```KJ```KJ```K     J```KJ```KJ```KJ```K
+UCCCIUCCCIUCCCIUCCCIUCCCIUCCCIUCCCIUCCCIUCCCIUCCCIUCCCI     UCCCIUCCCIUCCCIUCCCI
+B ! HB " HB # HB $ HB % HB ' HB & HB \ HB ( HB ) HB _ H     BclrHBu/dHB<=>HBdelH
+JFFFKJFFFKJFFFKJFFFKJFFFKJFFFKJFFFKJFFFKJFFFKJFFFKJFFFK     JFFFKJFFFKJFFFKJFFFK
+UCCCIUCCCIUCCCIUCCCIUCCCIUCCCIUCCCIUCCCIUCCCIUCCCIUCCCI     UCCCIUCCCIUCCCIUCCCI
+B q HB w HB e HB r HB t HB y HB u HB i HB o HB p HB ^ H     B 7 HB 8 HB 9 HB / H
+JFFFKJFFFKJFFFKJFFFKJFFFKJFFFKJFFFKJFFFKJFFFKJFFFKJFFFK     JFFFKJFFFKJFFFKJFFFK
+UCCCIUCCCIUCCCIUCCCIUCCCIUCCCIUCCCIUCCCIUCCCIUCCCIUCCCI     UCCCIUCCCIUCCCIUCCCI
+B a HB s HB d HB f HB g HB h HB j HB k HB l HB : HB r H     B 4 HB 5 HB 6 HB * H
+JFFFKJFFFKJFFFKJFFFKJFFFKJFFFKJFFFKJFFFKJFFFKJFFFKB e H     JFFFKJFFFKJFFFKJFFFK
+UCCCIUCCCIUCCCIUCCCIUCCCIUCCCIUCCCIUCCCIUCCCIUCCCIB t H     UCCCIUCCCIUCCCIUCCCI
+B z HB x HB c HB v HB b HB n HB m HB , HB ; HB ? HB   H     B 1 HB 2 HB 3 HB + H
+JFFFKJFFFKJFFFKJFFFKJFFFKJFFFKJFFFKJFFFKJFFFKJFFFKJFFFK     JFFFKJFFFKJFFFKJFFFK
+UCCCIUCCCIUCCCIUCCCIUCCCIUCCCCCCCCIUCCCIUCCCIUCCCIUCCCI     UCCCIUCCCIUCCCIUCCCI
+BshfHBrvsHB @ HB [ HB ] HB space  HB < HB > HBrunHBshfH     B 0 HB . HB - HB = H
+JFFFKJFFFKJFFFKJFFFKJFFFKJFFFFFFFFKJFFFKJFFFKJFFFKJFFFK     JFFFKJFFFKJFFFKJFFFK
 
 
 
@@ -22,4 +22,4 @@ J```KJ```KJ```KJ```KJ```KJ````````KJ```KJ```KJ```KJ```K     J```KJ```KJ```KJ```K
                               (hold for 2 seconds)
 
 
-                                                                         W t'pau
+                                                                         Q t'pau

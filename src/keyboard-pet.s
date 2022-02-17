@@ -14,6 +14,7 @@ keyboard_pet_screen:
 reset_keyboard:
 .scope
 	; make all non-inverted square corners round
+	; TODO: also restore horizontal/vertical lines
 	store_word screen + 80 * 2, ptr1
 	ldx #5
 row_loop:
