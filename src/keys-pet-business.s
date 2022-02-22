@@ -1,22 +1,22 @@
-; keys-pet.s -- keyboard layout keys_pet
+; keys-pet-business.s -- keyboard layout keys_pet_business
 
-; This file is automatically created by ./key-table from keys-pet.key.
+; This file is automatically created by ./key-table from keys-pet-business.key.
 ; Do not edit.
 
 .autoimport +
 
 .include "defines.inc"
 
-.export keys_pet_address_low, keys_pet_address_high
-.export keys_pet_display_low, keys_pet_display_high
-.export keys_pet_num_keys
+.export keys_pet_business_address_low, keys_pet_business_address_high
+.export keys_pet_business_display_low, keys_pet_business_display_high
+.export keys_pet_business_num_keys
 
 .rodata
 
-keys_pet_num_keys:
+keys_pet_business_num_keys:
     .byte 80
 
-keys_pet_address_low:
+keys_pet_business_address_low:
     .byte <(screen + 173)
     .byte <(screen + 179)
     .byte <(screen + 185)
@@ -98,7 +98,7 @@ keys_pet_address_low:
     .byte <(screen + 1180)
     .byte <(screen + 1186)
 
-keys_pet_address_high:
+keys_pet_business_address_high:
     .byte >(screen + 173)
     .byte >(screen + 179)
     .byte >(screen + 185)
@@ -180,7 +180,7 @@ keys_pet_address_high:
     .byte >(screen + 1180)
     .byte >(screen + 1186)
 
-keys_pet_display_low:
+keys_pet_business_display_low:
     .byte <(display_key_3)
     .byte <(display_key_3)
     .byte <(display_key_3)
@@ -262,7 +262,7 @@ keys_pet_display_low:
     .byte <(display_key_3)
     .byte <(display_key_3)
 
-keys_pet_display_high:
+keys_pet_business_display_high:
     .byte >(display_key_3)
     .byte >(display_key_3)
     .byte >(display_key_3)

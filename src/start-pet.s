@@ -27,6 +27,8 @@
 
 .autoimport +
 
+USE_BUSINESS_KEYBOARD = 1
+
 .export start, process_keyboard
 ; TODO: dummy stubs for now
 .export display_help_screen, help_next, help_previous, display_main_screen
@@ -37,18 +39,29 @@
 
 start:
 	; TODO: check for 80 column mode, exit if not
+	; TODO: check for business keyboard
 	lda #12
 	sta VIA_PCR
-	
-	copy_screen keyboard_pet_screen
+
+.ifdef USE_BUSINESS_KEYBOARD
+	copy_screen keyboard_pet_business_screen
+.else
+	copy_screen keyboard_pet_graphics_screen
+.endif
 
 	lda #0
 	sta command
 	sta last_command
-	jsr init_keyboard	
-	ldx #<keys_pet_address_low
-	ldy #>keys_pet_address_low
-	lda keys_pet_num_keys
+	jsr init_keyboard
+.ifdef USE_BUSINESS_KEYBOARD
+	ldx #<keys_pet_business_address_low
+	ldy #>keys_pet_business_address_low
+	lda keys_pet_graphics_num_keys
+.else
+	ldx #<keys_pet_graphics_address_low
+	ldy #>keys_pet_graphics_address_low
+	lda keys_pet_graphics_num_keys
+.endif
 	jsr set_keys_table
 	jmp main_loop
 

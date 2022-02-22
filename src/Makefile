@@ -81,7 +81,8 @@ SOURCES_PET = \
 	display-key-pet.s \
 	expand.s \
 	keyboard-pet.s \
-	keys-pet.s \
+	keys-pet-business.s \
+	keys-pet-graphics.s \
 	${SOURCES_COMMON}
 
 SOURCES_PLUS4 = \
@@ -157,8 +158,11 @@ keys-64.s: keys-64.key key-table
 keys-128.s: keys-128.key key-table
 	./key-table keys-128
 
-keys-pet.s: keys-pet.key key-table
-	./key-table keys-pet
+keys-pet-business.s: keys-pet-business.key key-table
+	./key-table keys-pet-business
+
+keys-pet-graphics.s: keys-pet-graphics.key key-table
+	./key-table keys-pet-graphics
 
 keys-plus4.s: keys-plus4.key key-table
 	./key-table keys-plus4
@@ -201,5 +205,8 @@ dpad.bin: dpad.png charset.bin
 	gfx-convert screen dpad.png charset.bin dpad.bin
 
 
-keyboard-pet.bin: keyboard-pet.scr screen.pl
-	perl screen.pl -w 80 -c keyboard-pet.scr > keyboard-pet.bin || (rm keyboard-pet.bin; exit 1)
+keyboard-pet-business.bin: keyboard-pet-business.scr screen.pl
+	perl screen.pl -w 80 -c keyboard-pet-business.scr > keyboard-pet-business.bin || (rm keyboard-pet-business.bin; exit 1)
+
+keyboard-pet-graphics.bin: keyboard-pet-graphics.scr screen.pl
+	perl screen.pl -w 80 -c keyboard-pet-graphics.scr > keyboard-pet-graphics.bin || (rm keyboard-pet-graphics.bin; exit 1)
