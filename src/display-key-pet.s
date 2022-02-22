@@ -27,7 +27,7 @@
 
 .autoimport +
 
-.export display_key_3, display_key_6, display_key_space_26, display_key_h, display_key_n, display_key_s, display_key_w
+.export display_key_3, display_key_4, display_key_6, display_key_space_26, display_key_space_27, display_key_h, display_key_n, display_key_s, display_key_w
 
 .macpack utility
 
@@ -224,6 +224,47 @@ display_key_3:
 	sta (ptr1),y
 	rts
 
+
+display_key_4:
+	lda top_left,x
+	sta (ptr1),y
+	iny
+	lda top,x
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
+	lda top_right,x
+	sta (ptr1),y
+
+	ldy #80
+	lda left,x
+	sta (ptr1),y
+	iny
+:	lda (ptr1),y
+	and #$7f
+	ora current_key_state
+	sta (ptr1),y
+	iny
+	cpy #83
+	bne :-
+	lda right,x
+	sta (ptr1),y
+
+	ldy #160
+	lda bottom_left,x
+	sta (ptr1),y
+	iny
+	lda bottom,x
+	sta (ptr1),y
+	iny
+	sta (ptr1),y
+	iny
+	lda bottom_right,x
+	sta (ptr1),y
+	rts
+
+
 display_key_6:
 	lda top_left,x
 	sta (ptr1),y
@@ -258,6 +299,44 @@ display_key_6:
 :	sta (ptr1),y
 	iny
 	cpy #165
+	bne :-
+	lda bottom_right,x
+	sta (ptr1),y
+	rts
+
+display_key_space_27:
+	lda top_left,x
+	sta (ptr1),y
+	iny
+	lda top,x
+:	sta (ptr1),y
+	iny
+	cpy #26
+	bne :-
+	lda top_right,x
+	sta (ptr1),y
+
+	ldy #80
+	lda left,x
+	sta (ptr1),y
+	iny
+	lda #$20
+	ora current_key_state
+:	sta (ptr1),y
+	iny
+	cpy #106
+	bne :-
+	lda right,x
+	sta (ptr1),y
+
+	ldy #160
+	lda bottom_left,x
+	sta (ptr1),y
+	iny
+	lda bottom,x
+:	sta (ptr1),y
+	iny
+	cpy #186
 	bne :-
 	lda bottom_right,x
 	sta (ptr1),y

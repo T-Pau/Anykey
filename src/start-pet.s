@@ -27,8 +27,6 @@
 
 .autoimport +
 
-USE_BUSINESS_KEYBOARD = 1
-
 .export start, process_keyboard
 ; TODO: dummy stubs for now
 .export display_help_screen, help_next, help_previous, display_main_screen
@@ -38,32 +36,36 @@ USE_BUSINESS_KEYBOARD = 1
 .include "defines.inc"
 
 start:
+.scope
 	; TODO: check for 80 column mode, exit if not
 	; TODO: check for business keyboard
 	lda #12
 	sta VIA_PCR
 
-.ifdef USE_BUSINESS_KEYBOARD
-	copy_screen keyboard_pet_business_screen
-.else
+    ldx #<matrix_graphics
+    ldy #>matrix_graphics
+    jsr compare_matrix
+    bne business_keyboard
 	copy_screen keyboard_pet_graphics_screen
-.endif
+	ldx #<keys_pet_graphics_address_low
+	ldy #>keys_pet_graphics_address_low
+	lda keys_pet_graphics_num_keys
+    bne set_keyboard
+business_keyboard:
+    ; TODO: compare with business_matrix, extended or exit if not?
+	copy_screen keyboard_pet_business_screen
+	ldx #<keys_pet_business_address_low
+	ldy #>keys_pet_business_address_low
+	lda keys_pet_business_num_keys
+set_keyboard:
+	jsr set_keys_table
 
 	lda #0
 	sta command
 	sta last_command
 	jsr init_keyboard
-.ifdef USE_BUSINESS_KEYBOARD
-	ldx #<keys_pet_business_address_low
-	ldy #>keys_pet_business_address_low
-	lda keys_pet_graphics_num_keys
-.else
-	ldx #<keys_pet_graphics_address_low
-	ldy #>keys_pet_graphics_address_low
-	lda keys_pet_graphics_num_keys
-.endif
-	jsr set_keys_table
 	jmp main_loop
+.endscope
 
 process_keyboard:
 	jsr read_keyboard
@@ -83,3 +85,30 @@ help_previous:
 
 display_main_screen:
 	rts
+
+
+compare_matrix:
+.scope
+    stx ptr1
+    sty ptr1 + 1
+    ldy #$f
+loop:
+    lda $e6d1,y
+    cmp (ptr1),y
+    beq :+
+    rts
+:   dey
+    bpl loop
+    cpy #$ff
+    rts
+.endscope
+
+.rodata
+
+matrix_business:
+    .byte $16, $04, $3a, $03, $39, $36, $33, $df
+    .byte $b1, $2f, $15, $13, $4d, $20, $58, $12
+
+matrix_graphics:
+    .byte $3d, $2e, $10, $03, $3c, $20, $5b, $12
+    .byte $2d, $30, $00, $3e, $ff, $5d, $40, $00
