@@ -39,8 +39,10 @@ start:
 .scope
 	; TODO: check for 80 column mode, exit if not
 	; TODO: check for business keyboard
-	lda #12
-	sta VIA_PCR
+	lda #142
+	jsr CHROUT
+;	lda #12
+;	sta VIA_PCR
 
     ldx #<matrix_graphics
     ldy #>matrix_graphics
