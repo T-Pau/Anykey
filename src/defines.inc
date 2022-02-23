@@ -1,5 +1,5 @@
 ;  defines.inc -- Global definitions for Anykey.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) 2020-2022 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -161,8 +161,11 @@ UNPRESSED_VERTICAL = $5d
 
 ptr1 = $54
 ptr2 = $56
+ptr3 = $b7
 tmp1 = $58
 tmp2 = $59
+
+LNMX = $d5 ; Physical Screen Line Length (not on 2001, 80xx)
 
 .endif
 

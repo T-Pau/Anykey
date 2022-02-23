@@ -32,33 +32,50 @@ use strict;
 my $width = 40;
 my $page_size = 12;
 my $mode = "plain";
+my $name_prefix = "";
 
 while ($ARGV[0] =~ m/^-/) {
 	if ($ARGV[0] eq "-c") {
-		$mode = "collapse";
 		shift;
+		$mode = "collapse";
 	}
 	elsif ($ARGV[0] eq "-m") {
-		$mode = "messymaker";
 		shift;
+		$mode = "messymaker";
+	}
+	elsif ($ARGV[0] eq "-s") {
+	    shift;
+	    $mode = "screens";
+	    $name_prefix = shift;
 	}
 	elsif ($ARGV[0] eq "-w") {
 		shift;
 		$width = shift;
 	}
+	elsif ($ARGV[0] eq "-p") {
+	    shift;
+	    $page_size = shift;
+	}
 }
 
 my $screen = "";
 my $lineno = 0;
+my @screens;
 
 while (my $line = <>) {
 	chomp $line;
 	if (length($line) > $width) {
 		die "line too long";
 	}
-	if ($mode eq "messymaker" && $line =~ m//) {
+	if ($line =~ m//) {
 		if ($lineno > 0) {
-			$screen .= " " x (($page_size - $lineno) * $width);
+		    if ($mode eq "messymaker" || ($mode eq "screens" && $lineno < $page_size)) {
+    			$screen .= " " x (($page_size - $lineno) * $width);
+    		}
+    		if ($mode eq "screens") {
+    		    push @screens, collapse($screen);
+    		    $screen = "";
+    		}
 		}
 		$lineno = 0;
 		next;
@@ -143,30 +160,18 @@ while (my $line = <>) {
 	}
 
 	$screen .= $line;
-	$lineno = ($lineno + 1) % $page_size;
+	$lineno = $lineno + 1;
+	 if ($mode eq "messymaker") {
+	    $lineno = $lineno % $page_size;
+	 }
 }
+
 
 if ($mode eq "plain") {
 	print $screen;
 }
 elsif ($mode eq "collapse") {
-	my $runlength = 0;
-	my $runchar = "";
-	foreach my $char (split //, $screen) {
-		if (ord($char) > 0x80) {
-			die "can't collapse inverted character";
-		}
-		if ($char eq $runchar && $runlength < 125) {
-			$runlength += 1;
-		}
-		else {
-			output_collapse_run($runlength, $runchar);
-			$runlength = 1;
-			$runchar = $char;
-		}
-	}
-	output_collapse_run($runlength, $runchar);
-	print("\xff");
+    print collapse($screen);
 }
 elsif ($mode eq "messymaker") {
 	if ($lineno > 0) {
@@ -174,15 +179,83 @@ elsif ($mode eq "messymaker") {
 	}
 	print $screen;
 }
+elsif ($mode eq "screens") {
+    if ($screen ne "") {
+        push @screens, collapse($screen);
+    }
+
+    print <<EOF;
+; This file is automatically created by $0. Do not edit manually.
+
+.export ${name_prefix}_address_low, ${name_prefix}_address_high, ${name_prefix}_count
+
+.rodata
+EOF
+
+    print "\n${name_prefix}_count:\n";
+    print "    .byte " . (scalar(@screens)) . "\n";
+
+    print "\n${name_prefix}_address_low:\n";
+    for (my $i = 0; $i < scalar(@screens); $i++) {
+        print "    .byte <${name_prefix}_$i\n";
+    }
+    print "\n${name_prefix}_address_high:\n";
+    for (my $i = 0; $i < scalar(@screens); $i++) {
+        print "    .byte >${name_prefix}_$i\n";
+    }
+
+    for (my $i = 0; $i < scalar(@screens); $i++) {
+        print "\n${name_prefix}_$i:";
+        my $j = 0;
+       	foreach my $char (split //, $screens[$i]) {
+       	    if ($j % 16 == 0) {
+       	        print "\n    .byte";
+       	    }
+       	    else {
+       	        print ",";
+       	    }
+       	    print " \$" . sprintf("%02x", ord($char));
+       	    $j++;
+       	}
+       	print "\n";
+    }
+}
 
 
-sub output_collapse_run {
+sub collapse {
+    my ($screen) = @_;
+
+    my $output = "";
+
+   	my $runlength = 0;
+   	my $runchar = "";
+   	foreach my $char (split //, $screen) {
+   		if (ord($char) > 0x80) {
+  			die "can't collapse inverted character";
+   		}
+   		if ($char eq $runchar && $runlength < 126) {
+   			$runlength += 1;
+   		}
+   		else {
+ 			$output .= collapse_run($runlength, $runchar);
+   			$runlength = 1;
+   			$runchar = $char;
+   		}
+   	}
+   	$output .= collapse_run($runlength, $runchar);
+   	$output .= "\xff";
+
+    return $output;
+}
+
+
+sub collapse_run {
 	my ($length, $char) = @_;
 
 	if ($length < 3) {
-		print($char x $length);
+		return $char x $length;
 	}
 	else {
-		print(chr(0x80 + $length) . $char);
+		return chr(0x80 + $length) . $char;
 	}
 }

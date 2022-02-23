@@ -25,7 +25,8 @@ SOURCES_COMMON = \
 	commands.s \
 	display-key.s \
 	keyboard.s \
-	main-loop.s
+	main-loop.s \
+	memcpy.s
 
 SOURCES_VICII_TED = \
 	button.s \
@@ -39,7 +40,6 @@ SOURCES_VICII_TED = \
 	irq-table.s \
 	keyboard-vicii-ted.s \
 	help-screen.s \
-	memcpy.s \
 	screen.s \
 	state.s
 
@@ -80,6 +80,7 @@ SOURCES_PET = \
 	start-pet.s \
 	display-key-pet.s \
 	expand.s \
+	help-screen-pet.s \
 	keyboard-pet.s \
 	keys-pet-business.s \
 	keys-pet-graphics.s \
@@ -210,3 +211,6 @@ keyboard-pet-business.bin: keyboard-pet-business.scr screen.pl
 
 keyboard-pet-graphics.bin: keyboard-pet-graphics.scr screen.pl
 	perl screen.pl -w 80 -c keyboard-pet-graphics.scr > keyboard-pet-graphics.bin || (rm keyboard-pet-graphics.bin; exit 1)
+
+help-screen-pet.s: help-screen-pet.scr screen.pl
+	perl screen.pl -w 80 -p 17 -s help_screen help-screen-pet.scr > help-screen-pet.s || (rm help-screen-pet.s; exit 1)

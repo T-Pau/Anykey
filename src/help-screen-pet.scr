@@ -1,0 +1,26 @@
+anykey
+
+this program monitors the keyboard. it requires 80 column mode.
+
+the keys are displayed in the same layout as the physical keyboard. it
+automatically detects which keyboard your computer has.
+
+keys that are currently pressed are displayed inverted.
+
+keys that were previously pressed are displayed with a square frame. this helps
+detect dead keys. to reset the state of all keys to unpressed, hold XXX for two
+seconds.
+
+
+
+
+
+
+                    space or +: next page   -: previous page
+                        clr/home or _: return to program
+
+technical limitations
+
+if you press certain combinations of three keys, a fourth key will also appear
+pressed. this is because the three keys together create the same electrical
+connection the fourth key would.
