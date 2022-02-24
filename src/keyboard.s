@@ -29,13 +29,12 @@
 .autoimport +
 
 .export init_keyboard, display_keyboard, read_keyboard
+.export key_index_help, key_index_reset
 .export key_state, new_key_state, bitmask
 
 .include "defines.inc"
 
 .macpack utility
-
-HOLD_FRAMES = 50
 
 .ifdef USE_PET
 MAX_KEY_READ = 80
@@ -49,8 +48,13 @@ key_state:
 	.res MAX_NUM_KEYS
 
 new_key_state:
-	.res MAX_NUM_KEYS
+	.res MAX_NUM_KEYS + 1
 
+key_index_help:
+    .res 1
+key_index_reset:
+    .res 1
+   
 reset_count:
 	.res 1
 help_count:
@@ -97,7 +101,8 @@ loop:
 
 	lda command
 	bne no_key
-	lda key_state + KEY_INDEX_HELP
+	ldx key_index_help
+	lda key_state,x
 	beq no_help
 	ldx help_count
 	inx
@@ -110,7 +115,8 @@ loop:
 no_help:
 	lda #0
 	sta help_count
-	lda key_state + KEY_INDEX_RESET
+	ldx key_index_reset
+	lda key_state,x
 	beq no_key
 	ldx reset_count
 	inx

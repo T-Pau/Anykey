@@ -69,6 +69,10 @@ init_state:
 	sta joy2
 	sta command
 	sta last_command
+	lda #KEY_INDEX_HELP
+	sta key_index_help
+	lda #KEY_INDEX_RESET
+	sta key_index_reset
 .if .defined(USE_VICII)
 	lda VIC_CLK_128
 	eor #$ff

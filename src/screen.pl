@@ -181,6 +181,9 @@ elsif ($mode eq "messymaker") {
 }
 elsif ($mode eq "screens") {
     if ($screen ne "") {
+	    if ($lineno < $page_size) {
+   			$screen .= " " x (($page_size - $lineno) * $width);
+   		}
         push @screens, collapse($screen);
     }
 

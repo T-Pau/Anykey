@@ -28,10 +28,12 @@
 .autoimport +
 
 .export start, process_keyboard
-; TODO: dummy stubs for now
+
 .export display_help_screen, help_next, help_previous, display_main_screen
 
 .macpack utility
+
+SAVED_SCREEN_SIZE = (80 * 22)
 
 .include "defines.inc"
 
@@ -52,6 +54,11 @@ start:
     jsr compare_matrix
     bne business_keyboard
 	copy_screen keyboard_pet_graphics_screen
+	lda #$0f
+	sta key_index_help
+	lda #$06
+	sta key_index_reset
+	store_word help_keys_graphics, help_keys
 	ldx #<keys_pet_graphics_address_low
 	ldy #>keys_pet_graphics_address_low
 	lda keys_pet_graphics_num_keys
@@ -59,6 +66,11 @@ start:
 business_keyboard:
     ; TODO: compare with business_matrix, extended or exit if not?
 	copy_screen keyboard_pet_business_screen
+	lda #$27
+	sta key_index_help
+	lda #$44
+	sta key_index_reset
+	store_word help_keys_business, help_keys
 	ldx #<keys_pet_business_address_low
 	ldy #>keys_pet_business_address_low
 	lda keys_pet_business_num_keys
@@ -75,14 +87,22 @@ set_keyboard:
 .endscope
 
 process_keyboard:
+.scope
+:   lda $8d + 2
+    cmp last_tick
+    beq :-
+    sta last_tick
 	jsr read_keyboard
-	jsr display_keyboard
-	rts
-
-; TODO: dummy stubs for now
+	lda current_page
+	cmp #$ff
+	bne help_mode
+	jmp display_keyboard
+help_mode:
+    jmp handle_help
+.endscope
 
 display_help_screen:
-    memcpy saved_screen, screen, 80*25
+    memcpy saved_screen, screen, SAVED_SCREEN_SIZE
     ldx #0
     beq update_help_page
 
@@ -112,10 +132,41 @@ update_help_page:
 	jmp expand
 
 display_main_screen:
-    memcpy screen, saved_screen, 80*22
+    memcpy screen, saved_screen, SAVED_SCREEN_SIZE
     ldx #$ff
     stx current_page
 	rts
+
+handle_help:
+.scope
+    ldx help_keys
+    stx ptr1
+    ldx help_keys + 1
+    stx ptr1 + 1
+    ldy #0
+loop:
+    lda (ptr1),y
+    cmp #$ff
+    bne :+
+   	lda #0
+   	sta last_command
+    rts
+:   tax
+    iny
+    lda new_key_state,x
+    beq :+
+    lda (ptr1),y
+    bne got_key
+:   iny
+    bne loop
+got_key:
+	cmp last_command
+	beq end
+	sta last_command
+	sta command
+end:
+    rts
+.endscope
 
 compare_matrix:
 .scope
@@ -158,10 +209,31 @@ matrix_graphics:
 not_80_columns_message:
     .byte "anykey requires an 80 column display.", $0d, $00
 
+help_keys_graphics:
+    .byte $4b, COMMAND_HELP_NEXT ; space
+    .byte $3f, COMMAND_HELP_NEXT ; +
+    .byte $47, COMMAND_HELP_PREVIOUS; -
+    .byte $07, COMMAND_HELP_EXIT ; clr/home
+    .byte $ff
+
+help_keys_business:
+    .byte $42, COMMAND_HELP_NEXT ; space
+    .byte $16, COMMAND_HELP_NEXT ; + (actually ;)
+    .byte $03, COMMAND_HELP_PREVIOUS ; -
+    .byte $44, COMMAND_HELP_EXIT ; clr/home
+    .byte $10, COMMAND_HELP_EXIT ; escape
+    .byte $ff
+
 .bss
 
 current_page:  ; $ff when not in help mode
     .res 1
 
 saved_screen:
-    .res 80*22
+    .res SAVED_SCREEN_SIZE
+
+last_tick:
+    .res 1
+
+help_keys:
+    .res 2

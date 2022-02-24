@@ -86,6 +86,7 @@ MAX_NUM_KEYS = 91
 
 KEY_INDEX_RESET = 6 ; F5
 KEY_INDEX_HELP = 3 ; F7
+HOLD_FRAMES = 50
 
 .elseif .defined(USE_TED)
 .include "ted.inc"
@@ -124,6 +125,8 @@ MAX_NUM_KEYS = 64
 
 KEY_INDEX_RESET = 6 ; F3
 KEY_INDEX_HELP = 3 ; Help
+HOLD_FRAMES = 50
+
 
 .elseif .defined(USE_PET)
 
@@ -131,9 +134,6 @@ screen = $8000
 
 KEYBOARD_SELECT = $E810 ; PIA1_PA
 KEYBOARD_VALUE = $E812 ; PIA1_PB
-
-KEY_INDEX_RESET = 0 ; TODO
-KEY_INDEX_HELP = 0 ; TODO
 
 MAX_NUM_KEYS = 80
 
@@ -166,6 +166,8 @@ tmp1 = $58
 tmp2 = $59
 
 LNMX = $d5 ; Physical Screen Line Length (not on 2001, 80xx)
+
+HOLD_FRAMES = 60
 
 .endif
 

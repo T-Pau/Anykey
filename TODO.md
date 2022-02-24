@@ -2,8 +2,8 @@
 
 ## PET
 
-- implement help and keyboard reset
-- detect and handle business keyboards
+- implement keyboard reset
+- document characters for used non-printing keys on business keyboard
 - check for 80 columns mode
 
 ## other
