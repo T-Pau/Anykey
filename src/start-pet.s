@@ -64,7 +64,6 @@ start:
 	lda keys_pet_graphics_num_keys
     bne set_keyboard
 business_keyboard:
-    ; TODO: compare with business_matrix, extended or exit if not?
 	copy_screen keyboard_pet_business_screen
 	lda #$27
 	sta key_index_help

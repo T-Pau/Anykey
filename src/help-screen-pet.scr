@@ -8,16 +8,39 @@ automatically detects which keyboard your computer has.
 keys that are currently pressed are displayed inverted.
 
 keys that were previously pressed are displayed with a square frame. this helps
-detect dead keys. to reset the state of all keys to unpressed, hold XXX for two
-seconds.
+detect dead keys. to reset the state of all keys to unpressed, hold clr/home
+for two seconds.
 
 
 
 
 
 
-                    space or +: next page   -: previous page
-                        clr/home or _: return to program
+
+
+                    space or +: next page    -: previous page
+                      clr/home or escape: return to program
+
+business keyboard
+
+for the business keyboard layout, most keys are labeled with a single
+character. the keys that produce a symbol when pressed are represented
+by this symbol. for the other keys, see the following list:
+
+                 l: curosr left/right          l: shift lock
+                 Z: run/stop                 ret: return
+                tb: tab                        : reverse on/off
+                 u: cursor up/down            sh: shift
+                 V: insert/delete              r: repeat
+                 e: escape                     : clear/home
+
+graphics keyboard
+
+all original pet model with 80 column display used the business keyboard
+layout.
+
+however, the tynemouth minipet 40/80 uses the graphics keyboard layout for
+both 40 and 80 column mode. anykey supports the minipet in 80 column mode.
 
 technical limitations
 

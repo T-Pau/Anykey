@@ -19,46 +19,75 @@ reset_keyboard:
 	; make all non-inverted square corners round
 	; TODO: also restore horizontal/vertical lines
 	store_word screen + 80 * 2, ptr1
-	ldx #5
+	ldx #0
+	stx reset_row
+	stx reset_leftright
 row_loop:
-	ldy #0
-top_loop:
+	ldy #80
+column_loop:
+    dey
+    bmi column_end
 	lda (ptr1),y
 	cmp #SQUARE_TOP_LEFT
 	bne :+
 	lda #ROUND_TOP_LEFT
 	sta (ptr1),y
-:	iny
-	iny
-	iny
-	lda (ptr1),y
-	cmp #SQUARE_TOP_RIGHT
+	bne column_loop
+:	cmp #SQUARE_TOP_RIGHT
 	bne :+
 	lda #ROUND_TOP_RIGHT
 	sta (ptr1),y
-	cpy #80
-	bne top_loop
-	ldy #160
-bottom_loop:
-	lda (ptr1),y
-	cmp #SQUARE_BOTTOM_LEFT
+	bne column_loop
+:	cmp #SQUARE_BOTTOM_LEFT
 	bne :+
 	lda #ROUND_BOTTOM_LEFT
 	sta (ptr1),y
-:	iny
-	iny
-	iny
-	lda (ptr1),y
-	cmp #SQUARE_BOTTOM_RIGHT
+	bne column_loop
+:	cmp #SQUARE_BOTTOM_RIGHT
 	bne :+
-	lda #ROUND_BOTTOM_LEFT
+	lda #ROUND_BOTTOM_RIGHT
 	sta (ptr1),y
-:	cpy #240
-	bne bottom_loop
-	tya
-	clc
-	adc_16 ptr1
-	dex
-	bpl row_loop
-	rts
+	bne column_loop
+:	cmp #SQUARE_HORIZONTAL
+    bne :+
+    ldx reset_row
+    lda reset_horizontal,x
+    sta (ptr1),y
+    bne column_loop
+:	cmp #SQUARE_VERTICAL
+    bne column_loop
+    ldx reset_leftright
+    lda reset_vertical,x
+    sta (ptr1),y
+    dex
+    bpl :+
+    ldx #1
+:   stx reset_leftright
+    bpl column_loop
+
+column_end:
+    ldx reset_row
+    inx
+    cpx #(5*3)
+    bne :+
+    rts
+:   stx reset_row
+    add_word ptr1, 80
+    jmp row_loop
 .endscope
+
+.rodata
+
+reset_horizontal:
+    .byte ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM
+
+reset_vertical:
+    .byte ROUND_RIGHT, ROUND_LEFT
+
+.bss
+
+reset_row:
+    .res 1
+
+reset_leftright:
+    .res 1
