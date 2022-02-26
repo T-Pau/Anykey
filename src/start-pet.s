@@ -39,21 +39,16 @@ SAVED_SCREEN_SIZE = (80 * 22)
 
 start:
 .scope
-    ; TODO: doesn't work on 2001
-    ; lda LNMX
-    ; cmp #39
-    ; bne :+
-    ; jmp not_80_columns
-:	lda #142
+    jsr detect
+
+	lda #142
 	jsr CHROUT
 ;	lda #12
 ;	sta VIA_PCR
 
-    ldx #<matrix_graphics
-    ldy #>matrix_graphics
-    jsr compare_matrix
-    bne business_keyboard
-	copy_screen keyboard_pet_graphics_screen
+    lda keyboard_type
+    beq business_keyboard
+	copy_screen keyboard_pet_calculator_80_screen
 	lda #$0f
 	sta key_index_help
 	lda #$06
@@ -64,7 +59,7 @@ start:
 	lda keys_pet_graphics_num_keys
     bne set_keyboard
 business_keyboard:
-	copy_screen keyboard_pet_business_screen
+	copy_screen keyboard_pet_business_80_screen
 	lda #$27
 	sta key_index_help
 	lda #$44
@@ -183,30 +178,7 @@ loop:
     rts
 .endscope
 
-not_80_columns:
-.scope
-    ldx #0
-loop:
-    lda not_80_columns_message,x
-    bne :+
-    rts
-:   jsr CHROUT
-    inx
-    bne loop
-.endscope
-
 .rodata
-
-matrix_business:
-    .byte $16, $04, $3a, $03, $39, $36, $33, $df
-    .byte $b1, $2f, $15, $13, $4d, $20, $58, $12
-
-matrix_graphics:
-    .byte $3d, $2e, $10, $03, $3c, $20, $5b, $12
-    .byte $2d, $30, $00, $3e, $ff, $5d, $40, $00
-
-not_80_columns_message:
-    .byte "anykey requires an 80 column display.", $0d, $00
 
 help_keys_graphics:
     .byte $4b, COMMAND_HELP_NEXT ; space

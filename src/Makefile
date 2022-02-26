@@ -84,6 +84,7 @@ SOURCES_PET = \
 	keyboard-pet.s \
 	keys-pet-business.s \
 	keys-pet-graphics.s \
+	pet-detect.s \
 	${SOURCES_COMMON}
 
 SOURCES_PLUS4 = \
@@ -209,8 +210,11 @@ dpad.bin: dpad.png charset.bin
 keyboard-pet-business.bin: keyboard-pet-business.scr screen.pl
 	perl screen.pl -w 80 -c keyboard-pet-business.scr > keyboard-pet-business.bin || (rm keyboard-pet-business.bin; exit 1)
 
-keyboard-pet-graphics.bin: keyboard-pet-graphics.scr screen.pl
-	perl screen.pl -w 80 -c keyboard-pet-graphics.scr > keyboard-pet-graphics.bin || (rm keyboard-pet-graphics.bin; exit 1)
+keyboard-pet-calculator-40.bin: keyboard-pet-calculator-40.scr screen.pl
+	perl screen.pl -w 40 -c keyboard-pet-calculator-40.scr > keyboard-pet-calculator-40.bin || (rm keyboard-pet-calculator-40.bin; exit 1)
+
+keyboard-pet-calculator-80.bin: keyboard-pet-calculator-80.scr screen.pl
+	perl screen.pl -w 80 -c keyboard-pet-calculator-80.scr > keyboard-pet-calculator-80.bin || (rm keyboard-pet-calculator-80.bin; exit 1)
 
 help-screen-pet.s: help-screen-pet.scr screen.pl
 	perl screen.pl -w 80 -p 17 -s help_screen help-screen-pet.scr > help-screen-pet.s || (rm help-screen-pet.s; exit 1)
