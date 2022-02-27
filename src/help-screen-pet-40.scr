@@ -1,0 +1,25 @@
+anykey
+
+this program monitors the keyboard.
+
+the keys are displayed in the same
+layout as the physical keyboard. it
+automatically detects which keyboard
+your computer has.
+
+keys that are currently pressed are
+displayed inverted.
+
+keys that were previously pressed are
+displayed with a square frame. this
+helps detect dead keys. to reset the
+state of all keys to unpressed, hold
+clr/home for two seconds.
+
+        space or +: next page
+          -: previous page
+clr/home or escape: return to program
+
+page 2
+
+to be done

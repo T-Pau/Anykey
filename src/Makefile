@@ -80,11 +80,15 @@ SOURCES_PET = \
 	start-pet.s \
 	display-key-pet.s \
 	expand.s \
+	help-screen-pet-40.s \
 	help-screen-pet-80.s \
 	keyboard-pet-40.s \
 	keyboard-pet-80.s \
-	keys-pet-business.s \
-	keys-pet-graphics.s \
+	keys-pet-business-40.s \
+	keys-pet-business-80.s \
+	keys-pet-calculator-40.s \
+	keys-pet-calculator-80.s \
+	keys-pet-graphics-40.s \
 	pet-detect.s \
 	pet-help.s \
 	pet-model.s \
@@ -171,11 +175,20 @@ keys-64.s: keys-64.key key-table
 keys-128.s: keys-128.key key-table
 	./key-table keys-128
 
-keys-pet-business.s: keys-pet-business.key key-table
-	./key-table keys-pet-business
+keys-pet-business-40.s: keys-pet-business-40.key key-table
+	./key-table keys-pet-business-40
 
-keys-pet-graphics.s: keys-pet-graphics.key key-table
-	./key-table keys-pet-graphics
+keys-pet-business-80.s: keys-pet-business-80.key key-table
+	./key-table keys-pet-business-80
+
+keys-pet-calculator-40.s: keys-pet-calculator-40.key key-table
+	./key-table keys-pet-calculator-40
+
+keys-pet-calculator-80.s: keys-pet-calculator-80.key key-table
+	./key-table keys-pet-calculator-80
+
+keys-pet-graphics-40.s: keys-pet-graphics-40.key key-table
+	./key-table keys-pet-graphics-40
 
 keys-plus4.s: keys-plus4.key key-table
 	./key-table keys-plus4
@@ -218,8 +231,11 @@ dpad.bin: dpad.png charset.bin
 	gfx-convert screen dpad.png charset.bin dpad.bin
 
 
-keyboard-pet-business.bin: keyboard-pet-business.scr screen.pl
-	perl screen.pl -w 80 -c keyboard-pet-business.scr > keyboard-pet-business.bin || (rm keyboard-pet-business.bin; exit 1)
+keyboard-pet-business-40.bin: keyboard-pet-business-40.scr screen.pl
+	perl screen.pl -w 40 -c keyboard-pet-business-40.scr > keyboard-pet-business-40.bin || (rm keyboard-pet-business-40.bin; exit 1)
+
+keyboard-pet-business-80.bin: keyboard-pet-business-80.scr screen.pl
+	perl screen.pl -w 80 -c keyboard-pet-business-80.scr > keyboard-pet-business-80.bin || (rm keyboard-pet-business-80.bin; exit 1)
 
 keyboard-pet-calculator-40.bin: keyboard-pet-calculator-40.scr screen.pl
 	perl screen.pl -w 40 -c keyboard-pet-calculator-40.scr > keyboard-pet-calculator-40.bin || (rm keyboard-pet-calculator-40.bin; exit 1)
@@ -227,8 +243,14 @@ keyboard-pet-calculator-40.bin: keyboard-pet-calculator-40.scr screen.pl
 keyboard-pet-calculator-80.bin: keyboard-pet-calculator-80.scr screen.pl
 	perl screen.pl -w 80 -c keyboard-pet-calculator-80.scr > keyboard-pet-calculator-80.bin || (rm keyboard-pet-calculator-80.bin; exit 1)
 
+keyboard-pet-graphics-40.bin: keyboard-pet-graphics-40.scr screen.pl
+	perl screen.pl -w 40 -c keyboard-pet-graphics-40.scr > keyboard-pet-graphics-40.bin || (rm keyboard-pet-graphics-40.bin; exit 1)
+
 help-screen-pet-80.s: help-screen-pet-80.scr screen.pl
 	perl screen.pl -w 80 -p 17 -s help_80 help-screen-pet-80.scr > help-screen-pet-80.s || (rm help-screen-pet-80.s; exit 1)
+
+help-screen-pet-40.s: help-screen-pet-40.scr screen.pl
+	perl screen.pl -w 40 -p 17 -s help_40 help-screen-pet-40.scr > help-screen-pet-40.s || (rm help-screen-pet-40.s; exit 1)
 
 
 detect-pet.prg: ${OBJECTS_DETECT_PET}

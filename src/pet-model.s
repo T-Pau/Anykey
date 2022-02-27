@@ -24,16 +24,6 @@ keys_pet_graphics_40_address_low = 0
 help_keys_business = 0
 .endif
 
-; TODO: create real data and remove placeholders
-help_40_count = 0
-keyboard_pet_business_40_screen = 0
-keyboard_pet_calculator_40_screen = 0
-keyboard_pet_graphics_40_screen = 0
-keys_pet_business_40_address_low = 0
-keys_pet_calculator_40_address_low = 0
-keys_pet_graphics_40_address_low = 0
-
-
 SAVED_SCREEN_SIZE_40 = (40 * 22)
 SAVED_SCREEN_SIZE_80 = (80 * 22)
 
