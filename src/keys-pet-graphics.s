@@ -1,4 +1,4 @@
-; keys-pet-graphics.s -- keyboard layout keys_pet_graphics
+; keys-pet-graphics.s -- keyboard layout keys_pet_calculator_80
 
 ; This file is automatically created by ./key-table from keys-pet-graphics.key.
 ; Do not edit.
@@ -7,16 +7,16 @@
 
 .include "defines.inc"
 
-.export keys_pet_graphics_address_low, keys_pet_graphics_address_high
-.export keys_pet_graphics_display_low, keys_pet_graphics_display_high
-.export keys_pet_graphics_num_keys
+.export keys_pet_calculator_80_address_low, keys_pet_calculator_80_address_high
+.export keys_pet_calculator_80_display_low, keys_pet_calculator_80_display_high
+.export keys_pet_calculator_80_num_keys
 
 .rodata
 
-keys_pet_graphics_num_keys:
+keys_pet_calculator_80_num_keys:
     .byte 80
 
-keys_pet_graphics_address_low:
+keys_pet_calculator_80_address_low:
     .byte <(screen + 160)
     .byte <(screen + 170)
     .byte <(screen + 180)
@@ -98,7 +98,7 @@ keys_pet_graphics_address_low:
     .byte <(screen + 1185)
     .byte <(screen + 1195)
 
-keys_pet_graphics_address_high:
+keys_pet_calculator_80_address_high:
     .byte >(screen + 160)
     .byte >(screen + 170)
     .byte >(screen + 180)
@@ -180,7 +180,7 @@ keys_pet_graphics_address_high:
     .byte >(screen + 1185)
     .byte >(screen + 1195)
 
-keys_pet_graphics_display_low:
+keys_pet_calculator_80_display_low:
     .byte <(display_key_n)
     .byte <(display_key_n)
     .byte <(display_key_n)
@@ -262,7 +262,7 @@ keys_pet_graphics_display_low:
     .byte <(display_key_n)
     .byte <(display_key_n)
 
-keys_pet_graphics_display_high:
+keys_pet_calculator_80_display_high:
     .byte >(display_key_n)
     .byte >(display_key_n)
     .byte >(display_key_n)

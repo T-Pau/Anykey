@@ -1,4 +1,4 @@
-.export keyboard_pet_business_80_screen, keyboard_pet_calculator_80_screen, reset_keyboard
+.export keyboard_pet_business_40_screen, keyboard_pet_calculator_40_screen, keyboard_pet_graphics_40_screen, reset_keyboard
 
 .macpack utility
 
@@ -6,14 +6,14 @@
 
 .rodata
 
-keyboard_pet_business_80_screen:
-	.incbin "keyboard-pet-business.bin"
+keyboard_pet_business_40_screen:
+    ;.incbin "keyboard-pet-business-40.bin"
 
 keyboard_pet_calculator_40_screen:
     .incbin "keyboard-pet-calculator-40.bin"
 
-keyboard_pet_calculator_80_screen:
-	.incbin "keyboard-pet-graphics.bin"
+keyboard_pet_graphics_40_screen:
+    ;.incbin "keyboard-pet-graphics-40.bin"
 
 .code
 

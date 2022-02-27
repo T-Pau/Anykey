@@ -29,47 +29,24 @@
 
 .export start, process_keyboard
 
-.export display_help_screen, help_next, help_previous, display_main_screen
-
 .macpack utility
 
-SAVED_SCREEN_SIZE = (80 * 22)
+.ifdef ONLY_40_COLUMNS
+MAX_SAVED_SCREEN_SIZE = (40 * 22)
+.else
+MAX_SAVED_SCREEN_SIZE = (80 * 22)
+.endif
 
 .include "defines.inc"
 
 start:
 .scope
-    jsr detect
-
 	lda #142
 	jsr CHROUT
 ;	lda #12
 ;	sta VIA_PCR
 
-    lda keyboard_type
-    beq business_keyboard
-	copy_screen keyboard_pet_calculator_80_screen
-	lda #$0f
-	sta key_index_help
-	lda #$06
-	sta key_index_reset
-	store_word help_keys_graphics, help_keys
-	ldx #<keys_pet_graphics_address_low
-	ldy #>keys_pet_graphics_address_low
-	lda keys_pet_graphics_num_keys
-    bne set_keyboard
-business_keyboard:
-	copy_screen keyboard_pet_business_80_screen
-	lda #$27
-	sta key_index_help
-	lda #$44
-	sta key_index_reset
-	store_word help_keys_business, help_keys
-	ldx #<keys_pet_business_address_low
-	ldy #>keys_pet_business_address_low
-	lda keys_pet_business_num_keys
-set_keyboard:
-	jsr set_keys_table
+    jsr setup_model
 
 	ldx #0
 	stx command
@@ -95,72 +72,6 @@ help_mode:
     jmp handle_help
 .endscope
 
-display_help_screen:
-    memcpy saved_screen, screen, SAVED_SCREEN_SIZE
-    ldx #0
-    beq update_help_page
-
-help_next:
-    ldx current_page
-    inx
-    cpx help_screen_count
-    bne update_help_page
-    ldx #0
-    beq update_help_page
-
-help_previous:
-    ldx current_page
-    dex
-    bpl update_help_page
-    ldx help_screen_count
-    dex
-    bne update_help_page
-
-update_help_page:
-    stx current_page
-    lda help_screen_address_low,x
-    sta ptr1
-    lda help_screen_address_high,x
-    sta ptr1 + 1
-	store_word screen, ptr2
-	jmp expand
-
-display_main_screen:
-    memcpy screen, saved_screen, SAVED_SCREEN_SIZE
-    ldx #$ff
-    stx current_page
-	rts
-
-handle_help:
-.scope
-    ldx help_keys
-    stx ptr1
-    ldx help_keys + 1
-    stx ptr1 + 1
-    ldy #0
-loop:
-    lda (ptr1),y
-    cmp #$ff
-    bne :+
-   	lda #0
-   	sta last_command
-    rts
-:   tax
-    iny
-    lda new_key_state,x
-    beq :+
-    lda (ptr1),y
-    bne got_key
-:   iny
-    bne loop
-got_key:
-	cmp last_command
-	beq end
-	sta last_command
-	sta command
-end:
-    rts
-.endscope
 
 compare_matrix:
 .scope
@@ -180,31 +91,7 @@ loop:
 
 .rodata
 
-help_keys_graphics:
-    .byte $4b, COMMAND_HELP_NEXT ; space
-    .byte $3f, COMMAND_HELP_NEXT ; +
-    .byte $47, COMMAND_HELP_PREVIOUS; -
-    .byte $07, COMMAND_HELP_EXIT ; clr/home
-    .byte $ff
-
-help_keys_business:
-    .byte $42, COMMAND_HELP_NEXT ; space
-    .byte $16, COMMAND_HELP_NEXT ; + (actually ;)
-    .byte $03, COMMAND_HELP_PREVIOUS ; -
-    .byte $44, COMMAND_HELP_EXIT ; clr/home
-    .byte $10, COMMAND_HELP_EXIT ; escape
-    .byte $ff
-
 .bss
-
-current_page:  ; $ff when not in help mode
-    .res 1
-
-saved_screen:
-    .res SAVED_SCREEN_SIZE
 
 last_tick:
     .res 1
-
-help_keys:
-    .res 2

@@ -137,6 +137,17 @@ KEYBOARD_VALUE = $E812 ; PIA1_PB
 
 MAX_NUM_KEYS = 80
 
+ptr1 = $54
+ptr2 = $56
+ptr3 = $b7
+tmp1 = $58
+tmp2 = $59
+
+HOLD_FRAMES = 60
+
+LNMX = $d5 ; Physical Screen Line Length (not on 2001, 80xx)
+
+
 ROUND_TOP_LEFT = $55
 ROUND_TOP_RIGHT = $49
 ROUND_BOTTOM_LEFT = $4a
@@ -162,16 +173,6 @@ PRESSED_RIGHT = $61
 
 SQUARE_HORIZONTAL = $40
 SQUARE_VERTICAL = $5d
-
-ptr1 = $54
-ptr2 = $56
-ptr3 = $b7
-tmp1 = $58
-tmp2 = $59
-
-LNMX = $d5 ; Physical Screen Line Length (not on 2001, 80xx)
-
-HOLD_FRAMES = 60
 
 .endif
 

@@ -1,25 +1,19 @@
 ; This file is automatically created by screen.pl. Do not edit manually.
 
-.export help_screen_address_low, help_screen_address_high, help_screen_count
+.export help_80_pages, help_80_count
 
 .rodata
 
-help_screen_count:
+help_80_count:
     .byte 4
 
-help_screen_address_low:
-    .byte <help_screen_0
-    .byte <help_screen_1
-    .byte <help_screen_2
-    .byte <help_screen_3
+help_80_pages:
+    .word help_80_0
+    .word help_80_1
+    .word help_80_2
+    .word help_80_3
 
-help_screen_address_high:
-    .byte >help_screen_0
-    .byte >help_screen_1
-    .byte >help_screen_2
-    .byte >help_screen_3
-
-help_screen_0:
+help_80_0:
     .byte $01, $0e, $19, $0b, $05, $19, $fe, $20, $9c, $20, $14, $08, $09, $13, $20, $10
     .byte $12, $0f, $07, $12, $01, $0d, $20, $0d, $0f, $0e, $09, $14, $0f, $12, $13, $20
     .byte $14, $08, $05, $20, $0b, $05, $19, $02, $0f, $01, $12, $04, $2e, $20, $09, $14
@@ -54,7 +48,7 @@ help_screen_0:
     .byte $20, $0f, $12, $20, $05, $13, $03, $01, $10, $05, $3a, $20, $12, $05, $14, $15
     .byte $12, $0e, $20, $14, $0f, $20, $10, $12, $0f, $07, $12, $01, $0d, $95, $20, $ff
 
-help_screen_1:
+help_80_1:
     .byte $02, $15, $13, $09, $0e, $05, $13, $13, $20, $0b, $05, $19, $02, $0f, $01, $12
     .byte $04, $fe, $20, $91, $20, $06, $0f, $12, $20, $14, $08, $05, $20, $02, $15, $13
     .byte $09, $0e, $05, $13, $13, $20, $0b, $05, $19, $02, $0f, $01, $12, $04, $20, $0c
@@ -82,7 +76,7 @@ help_screen_1:
     .byte $95, $20, $7e, $3a, $20, $03, $0c, $05, $01, $12, $2f, $08, $0f, $0d, $05, $fe
     .byte $20, $fe, $20, $fe, $20, $aa, $20, $ff
 
-help_screen_2:
+help_80_2:
     .byte $07, $12, $01, $10, $08, $09, $03, $13, $20, $0b, $05, $19, $02, $0f, $01, $12
     .byte $04, $fe, $20, $91, $20, $01, $0c, $0c, $20, $0f, $12, $09, $07, $09, $0e, $01
     .byte $0c, $20, $10, $05, $14, $20, $0d, $0f, $04, $05, $0c, $20, $17, $09, $14, $08
@@ -101,7 +95,7 @@ help_screen_2:
     .byte $20, $38, $30, $20, $03, $0f, $0c, $15, $0d, $0e, $20, $0d, $0f, $04, $05, $2e
     .byte $fe, $20, $fe, $20, $fe, $20, $fe, $20, $fe, $20, $fe, $20, $b2, $20, $ff
 
-help_screen_3:
+help_80_3:
     .byte $14, $05, $03, $08, $0e, $09, $03, $01, $0c, $20, $0c, $09, $0d, $09, $14, $01
     .byte $14, $09, $0f, $0e, $13, $fe, $20, $8d, $20, $09, $06, $20, $19, $0f, $15, $20
     .byte $10, $12, $05, $13, $13, $20, $03, $05, $12, $14, $01, $09, $0e, $20, $03, $0f

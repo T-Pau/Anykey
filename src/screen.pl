@@ -190,7 +190,7 @@ elsif ($mode eq "screens") {
     print <<EOF;
 ; This file is automatically created by $0. Do not edit manually.
 
-.export ${name_prefix}_address_low, ${name_prefix}_address_high, ${name_prefix}_count
+.export ${name_prefix}_pages, ${name_prefix}_count
 
 .rodata
 EOF
@@ -198,13 +198,9 @@ EOF
     print "\n${name_prefix}_count:\n";
     print "    .byte " . (scalar(@screens)) . "\n";
 
-    print "\n${name_prefix}_address_low:\n";
+    print "\n${name_prefix}_pages:\n";
     for (my $i = 0; $i < scalar(@screens); $i++) {
-        print "    .byte <${name_prefix}_$i\n";
-    }
-    print "\n${name_prefix}_address_high:\n";
-    for (my $i = 0; $i < scalar(@screens); $i++) {
-        print "    .byte >${name_prefix}_$i\n";
+        print "    .word ${name_prefix}_$i\n";
     }
 
     for (my $i = 0; $i < scalar(@screens); $i++) {

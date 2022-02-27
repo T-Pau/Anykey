@@ -80,11 +80,14 @@ SOURCES_PET = \
 	start-pet.s \
 	display-key-pet.s \
 	expand.s \
-	help-screen-pet.s \
-	keyboard-pet.s \
+	help-screen-pet-80.s \
+	keyboard-pet-40.s \
+	keyboard-pet-80.s \
 	keys-pet-business.s \
 	keys-pet-graphics.s \
 	pet-detect.s \
+	pet-help.s \
+	pet-model.s \
 	${SOURCES_COMMON}
 
 SOURCES_PLUS4 = \
@@ -100,7 +103,15 @@ OBJECTS_128 = ${SOURCES_128:%.s=%-128.o}
 OBJECTS_PET = ${SOURCES_PET:%.s=%-pet.o}
 OBJECTS_PLUS4 = ${SOURCES_PLUS4:%.s=%-plus4.o}
 
+
 ALL_OBJECTS = ${OBJECTS_64} ${OBJECTS_128} ${OBJECTS_PET} ${OBJECTS_PLUS4}
+
+PROGRAMS += detect-pet.prg
+SOURCES_DETECT_PET = detect-pet-model.s pet-detect.s
+OBJECTS_DETECT_PET = ${SOURCES_DETECT_PET:%.s=%-pet.o}
+ALL_OBJECTS += ${OBJECTS_DETECT_PET}
+
+
 
 all: ${PROGRAMS} ${DISK}
 
@@ -216,5 +227,9 @@ keyboard-pet-calculator-40.bin: keyboard-pet-calculator-40.scr screen.pl
 keyboard-pet-calculator-80.bin: keyboard-pet-calculator-80.scr screen.pl
 	perl screen.pl -w 80 -c keyboard-pet-calculator-80.scr > keyboard-pet-calculator-80.bin || (rm keyboard-pet-calculator-80.bin; exit 1)
 
-help-screen-pet.s: help-screen-pet.scr screen.pl
-	perl screen.pl -w 80 -p 17 -s help_screen help-screen-pet.scr > help-screen-pet.s || (rm help-screen-pet.s; exit 1)
+help-screen-pet-80.s: help-screen-pet-80.scr screen.pl
+	perl screen.pl -w 80 -p 17 -s help_80 help-screen-pet-80.scr > help-screen-pet-80.s || (rm help-screen-pet-80.s; exit 1)
+
+
+detect-pet.prg: ${OBJECTS_DETECT_PET}
+	${LD} ${LDFLAGS_PET} -o detect-pet.prg ${OBJECTS_DETECT_PET}

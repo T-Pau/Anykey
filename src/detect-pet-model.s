@@ -1,43 +1,108 @@
 .autoimport +
 
+.include "defines.inc"
 .include "pet-detect.inc"
-.include "cbm_kernal.inc"
+
+.macpack utility
 
 start:
 .scope
     jsr detect
+    store_word rom_version_header, ptr1
+    jsr output_string
     ldx rom_version
     bpl :+
-    lda #$3f
-    bne version
-:   lda rom_version_name,x
-version:
-    jsr CHROUT
+    jsr print_unknown
+    jmp width
+:   store_word rom_version_name, ptr1
+    lda #4
+    jsr print_name
 
+width:
+    store_word line_width_header, ptr1
+    jsr output_string
     ldx line_width
     bpl :+
-    lda #$3f
-    bne width
-:   lda line_width_name,x
-width:
-    jsr CHROUT
+    jsr print_unknown
+    jmp type
+:   store_word line_width_name, ptr1
+    lda #4
+    jsr print_name
 
+type:
+    store_word keyboard_type_header, ptr1
+    jsr output_string
     ldx keyboard_type
     bpl :+
-    lda #$3f
-    bne type
-:   lda keyboard_type_name,x
-type:
+    jsr print_unknown
+    jmp end
+:   store_word keyboard_type_name, ptr1
+    lda #16
+    jsr print_name
+
+end:
     jsr CHROUT
     lda #$0d
     jmp CHROUT
 .endscope
 
+
+print_unknown:
+    store_word unknown, ptr1
+    jmp output_string
+
+print_name:
+.scope
+    tay
+    cpx #0
+    beq done
+loop:
+    tya
+    clc
+    adc_16 ptr1
+    dex
+    bne loop
+done:
+    jmp output_string
+.endscope
+
+output_string:
+.scope
+    ldy #0
+loop:
+    lda (ptr1),y
+    bne :+
+    rts
+:   jsr CHROUT
+    iny
+    bne loop
+.endscope
+
+
 .rodata
 
 rom_version_name:
-    .byte "124"
+    .byte "1", 0, 0, 0
+    .byte "2", 0, 0, 0
+    .byte "4.0", 0
+
 line_width_name:
-    .byte "48-"
+    .byte "40", 0, 0
+    .byte "80", 0, 0
+
 keyboard_type_name:
-    .byte "bcg"
+    .byte "business", 0, 0, 0, 0, 0, 0, 0, 0
+    .byte "calculator", 0, 0, 0, 0, 0, 0
+    .byte "graphics", 0, 0, 0, 0, 0, 0, 0, 0
+
+unknown:
+    .byte "unknown", 0
+
+rom_version_header:
+    .byte      "rom version: ", 0
+
+line_width_header:
+    .byte $0d, "line width:  ", 0
+
+keyboard_type_header:
+    .byte $0d, "keyboard:    ", 0

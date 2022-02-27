@@ -115,7 +115,7 @@ end:
 type_end:
     inx
     cpx #3
-.if 0
+.if 1
     beq not_recognized
 .else
     ; For 40 columns, detection only works for graphics keyboard, so for now assume business keyboard if not recognized.
@@ -170,7 +170,8 @@ rom_4:
 keyboard_offset:
     .word $e75c ; ROM 1
     .word $e6f8 ; ROM 2
-    .word $e60b ; ROM 4 40 columns
+    ;.word $e60b ; ROM 4 40 columns
+    .word $e73f ; ROM 4 40 columns
     .word $e6d1 ; ROM 4 80 columns
 
 keyboard_matrix:
