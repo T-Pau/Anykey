@@ -47,8 +47,10 @@ start:
 ;	sta VIA_PCR
 
     jsr setup_model
+    bpl :+
+    jmp not_supported
 
-	ldx #0
+:	ldx #0
 	stx command
 	stx last_command
 	dex
@@ -89,7 +91,35 @@ loop:
     rts
 .endscope
 
+not_supported:
+.scope
+    lda line_width
+    bne msg_80
+    store_word not_supported_message_40, ptr1
+    bne print
+msg_80:
+    store_word not_supported_message_80, ptr1
+print:
+    ldy #0
+loop:
+    lda (ptr1),y
+    bne :+
+    rts
+:   jsr CHROUT
+    iny
+    bne loop
+.endscope
+
+
 .rodata
+
+not_supported_message_40:
+    .byte "this model is not supported by this", $0d
+    .byte "version of anykey.", $0d, $0
+
+not_supported_message_80:
+    .byte "this model is not supported by this version of anykey.", $0d, $0
+
 
 .bss
 

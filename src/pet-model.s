@@ -157,7 +157,7 @@ keyboard_screen_table:
 ; indexed by keyboard type (* 2 + line_width)
 keyboard_table:
     .word keys_pet_business_40_address_low
-.ifndef FIT_IN_8k
+.ifndef FIT_IN_8K
     .word keys_pet_business_80_address_low
 .endif
     .word keys_pet_calculator_40_address_low
