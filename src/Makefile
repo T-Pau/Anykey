@@ -78,7 +78,8 @@ SOURCES_64 = \
 
 SOURCES_PET = \
 	start-pet.s \
-	display-key-pet.s \
+	display-key-pet-40.s \
+	display-key-pet-80.s \
 	expand.s \
 	help-screen-pet-40.s \
 	help-screen-pet-80.s \
