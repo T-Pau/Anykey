@@ -3,11 +3,10 @@
 ## PET
 
 - Support 40 columns mode
-  - Help text
-  - Keyboard reset routine (other method for detecting left/right)
-- Make 40 columns calculator version that fits in 4k 
-- Loader that loads fitting version.
-- Create PET specific disk image.
+- Update help text, complete 40 columns version. 
+- Add 40 columns keyboard reset routine (other method for detecting left/right)
+- Document that 8K RAM is required.
+- Fix detecting calculator vs. graphics keyboard (by detecting MiniPET).
 
 ## other
 
