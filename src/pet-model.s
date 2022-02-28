@@ -5,8 +5,6 @@
 
 .export setup_model, saved_screen, saved_screen_size, help_keys, help_count, help_pages
 
-.export help_table ; DEBUG
-
 .macpack utility
 
 .ifdef FIT_IN_4K

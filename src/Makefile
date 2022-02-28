@@ -23,7 +23,15 @@ DISK_PET = anykey-pet.d64
 
 DISKS = ${DISK} ${DISK_PET}
 
-PROGRAMS = anykey.prg anykey-64.prg anykey-128.prg anykey-pet.prg anykey-pet-full.prg anykey-pet-8k.prg anykey-plus4.prg
+PROGRAMS = \
+	anykey.prg \
+	anykey-64.prg \
+	anykey-128.prg \
+	anykey-pet.prg \
+	anykey-pet-8k.prg \
+	anykey-pet-full.prg \
+	anykey-plus4.prg
+#	anykey-pet-4k.prg \
 
 SOURCES_COMMON = \
 	commands.s \
@@ -82,19 +90,23 @@ SOURCES_64 = \
 
 SOURCES_PET_COMMON = \
 	start-pet.s \
-	display-key-pet-40.s \
+	display-key-pet-40c.s \
 	expand.s \
 	help-screen-pet-40.s \
 	keyboard-pet-40.s \
-	keys-pet-business-40.s \
 	keys-pet-calculator-40.s \
-	keys-pet-graphics-40.s \
 	pet-detect.s \
 	pet-help.s \
 	${SOURCES_COMMON}
 
+SOURCES_PET_8K_PLUS = \
+	display-key-pet-40.s \
+	keys-pet-business-40.s \
+	keys-pet-graphics-40.s
+
 SOURCES_PET_FULL = \
 	${SOURCES_PET_COMMON} \
+	${SOURCES_PET_8K_PLUS} \
 	display-key-pet-80.s \
 	help-screen-pet-80.s \
 	keyboard-pet-80.s \
@@ -104,7 +116,12 @@ SOURCES_PET_FULL = \
 
 SOURCES_PET_8K = \
 	${SOURCES_PET_COMMON} \
+	${SOURCES_PET_8K_PLUS} \
 	pet-model-8k.s
+
+SOURCES_PET_4K = \
+	${SOURCES_PET_COMMON} \
+	pet-model-4k.s
 
 SOURCES_PLUS4 = \
 	${SOURCES_TED} \
@@ -116,12 +133,19 @@ SOURCES_PLUS4 = \
 
 OBJECTS_64 = ${SOURCES_64:%.s=%-64.o}
 OBJECTS_128 = ${SOURCES_128:%.s=%-128.o}
-OBJECTS_PET_FULL = ${SOURCES_PET_FULL:%.s=%-pet.o}
+OBJECTS_PET_4K = ${SOURCES_PET_4K:%.s=%-pet.o}
 OBJECTS_PET_8K = ${SOURCES_PET_8K:%.s=%-pet.o}
+OBJECTS_PET_FULL = ${SOURCES_PET_FULL:%.s=%-pet.o}
 OBJECTS_PLUS4 = ${SOURCES_PLUS4:%.s=%-plus4.o}
 
 
-ALL_OBJECTS = ${OBJECTS_64} ${OBJECTS_128} ${OBJECTS_PET_FULL} ${OBJECTS_PET_8K} ${OBJECTS_PLUS4}
+ALL_OBJECTS = \
+	${OBJECTS_64} \
+	${OBJECTS_128} \
+	${OBJECTS_PET_8K} \
+	${OBJECTS_PET_FULL} \
+	${OBJECTS_PLUS4}
+#	${OBJECTS_PET_4K} \
 
 PROGRAMS += detect-pet.prg
 SOURCES_DETECT_PET = detect-pet-model.s pet-detect.s
@@ -194,11 +218,14 @@ anykey-128.prg: ${OBJECTS_128}
 anykey-plus4.prg: ${OBJECTS_PLUS4}
 	${LD} ${LDFLAGS_PLUS4} -o anykey-plus4.prg ${OBJECTS_PLUS4}
 
-anykey-pet-full.prg: ${OBJECTS_PET_FULL}
-	${LD} ${LDFLAGS_PET} -o anykey-pet-full.prg ${OBJECTS_PET_FULL}
+#anykey-pet-4k.prg: ${OBJECTS_PET_4K}
+#	${LD} ${LDFLAGS_PET} -o anykey-pet-4k.prg ${OBJECTS_PET_4K}
 
 anykey-pet-8k.prg: ${OBJECTS_PET_8K}
 	${LD} ${LDFLAGS_PET} -o anykey-pet-8k.prg ${OBJECTS_PET_8K}
+
+anykey-pet-full.prg: ${OBJECTS_PET_FULL}
+	${LD} ${LDFLAGS_PET} -o anykey-pet-full.prg ${OBJECTS_PET_FULL}
 
 keys-64.s: keys-64.key key-table
 	./key-table keys-64

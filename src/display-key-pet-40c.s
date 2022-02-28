@@ -27,9 +27,11 @@
 
 .autoimport +
 
-.export display_key_40_left_2, display_key_40_left_3, display_key_40_mid_2
-.export display_key_40_space_18
-.export display_key_40b_ret, display_key_40b_shl, display_key_40g_shl, display_key_40g_gt
+.export display_key_s
+.export display_key_40_full, display_key_40_top, display_key_40_left, display_key_40_mid
+.export display_key_40_mid_3, display_key_40c_ret
+
+.export char_top_left, char_top, char_top_right, char_left, char_right, char_bottom_left, char_bottom, char_bottom_right
 
 .macpack utility
 
@@ -40,119 +42,98 @@
 ; x is 0 for unpressed, 1 for pressed
 ; current_key_state is $00 for unpressed, $80 for pressed
 
+.rodata
+
+char_top_left:
+	.byte SQUARE_TOP_LEFT, PRESSED_TOP_LEFT
+char_top:
+	.byte SQUARE_HORIZONTAL, PRESSED_TOP
+char_top_right:
+	.byte SQUARE_TOP_RIGHT, PRESSED_TOP_RIGHT
+char_left:
+	.byte SQUARE_VERTICAL, PRESSED_LEFT
+char_right:
+	.byte SQUARE_VERTICAL, PRESSED_RIGHT
+char_bottom_left:
+	.byte SQUARE_BOTTOM_LEFT, PRESSED_BOTTOM_LEFT
+char_bottom:
+	.byte SQUARE_HORIZONTAL, PRESSED_BOTTOM
+char_bottom_right:
+	.byte SQUARE_BOTTOM_RIGHT, PRESSED_BOTTOM_RIGHT
+
+
 .code
 
-display_key_40_left_2:
-	lda char_left,x
-	sta (ptr1),y
-	iny
-:	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #3
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
-
-	ldy #40
-	lda char_bottom_left,x
-	sta (ptr1),y
-	iny
-:	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	cpy #43
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
+display_key_s:
 	rts
 
-display_key_40_left_3:
-	lda char_left,x
+display_key_40_full:
+	lda char_top_left,x
 	sta (ptr1),y
 	iny
-:	lda (ptr1),y
-	and #$7f
-	ora current_key_state
+	lda char_top,x
 	sta (ptr1),y
 	iny
-	cpy #4
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
-
-	ldy #40
-	lda char_bottom_left,x
-	sta (ptr1),y
-	iny
-:	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	cpy #44
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
-
-display_key_40_mid_2:
-:	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #2
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
-
-	ldy #40
-:	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	cpy #42
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
-
-display_key_40b_ret:
-    ldy #3
 	lda char_top_right,x
 	sta (ptr1),y
-
+	
 	ldy #40
-:	lda (ptr1),y
+	lda char_left,x
+	sta (ptr1),y
+	iny
+	lda (ptr1),y
 	and #$7f
 	ora current_key_state
 	sta (ptr1),y
 	iny
-	cpy #43
-	bne :-
 	lda char_right,x
 	sta (ptr1),y
 
 	ldy #80
-:	lda char_bottom,x
+	lda char_bottom_left,x
 	sta (ptr1),y
 	iny
-	cpy #83
-	bne :-
+	lda char_bottom,x
+	sta (ptr1),y
+	iny
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
 
-display_key_40_space_18:
+
+display_key_40_top:
+	lda char_top,x
+	sta (ptr1),y
+	iny
+	lda char_top_right,x
+	sta (ptr1),y
+
+	ldy #40
+	lda (ptr1),y
+	and #$7f
+	ora current_key_state
+	sta (ptr1),y
+	iny
+	lda char_right,x
+	sta (ptr1),y
+
+	ldy #80
+	lda char_bottom,x
+	sta (ptr1),y
+	iny
+	lda char_bottom_right,x
+	sta (ptr1),y
+	rts
+
+display_key_40_left:
 	lda char_left,x
 	sta (ptr1),y
 	iny
-	lda #$20
+	lda (ptr1),y
+	and #$7f
 	ora current_key_state
-:	sta (ptr1),y
+	sta (ptr1),y
 	iny
-	cpy #17
-	bne :-
 	lda char_right,x
 	sta (ptr1),y
 
@@ -161,68 +142,13 @@ display_key_40_space_18:
 	sta (ptr1),y
 	iny
 	lda char_bottom,x
-:	sta (ptr1),y
+	sta (ptr1),y
 	iny
-	cpy #57
-	bne :-
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
 
-display_key_40g_shl:
-	lda char_left,x
-	sta (ptr1),y
-	iny
-:	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #3
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
-
-	ldy #40
-	lda char_bottom_left,x
-	sta (ptr1),y
-	iny
-:	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	cpy #43
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-
-    ldy #80
-	lda char_left,x
-	sta (ptr1),y
-	iny
-:	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #84
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
-
-	ldy #120
-	lda char_bottom_left,x
-	sta (ptr1),y
-	iny
-:	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	cpy #124
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
-
-display_key_40b_shl:
+display_key_40_mid:
 	lda (ptr1),y
 	and #$7f
 	ora current_key_state
@@ -237,34 +163,30 @@ display_key_40b_shl:
 	iny
 	lda char_bottom_right,x
 	sta (ptr1),y
+	rts
 
-    ldy #80
+display_key_40_mid_3:
 :	lda (ptr1),y
 	and #$7f
 	ora current_key_state
 	sta (ptr1),y
 	iny
-	cpy #82
+	cpy #3
 	bne :-
 	lda char_right,x
 	sta (ptr1),y
 
-	ldy #120
+	ldy #40
 :	lda char_bottom,x
 	sta (ptr1),y
 	iny
-	cpy #122
+	cpy #43
 	bne :-
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
 
-display_key_40g_gt:
-    iny
-	lda char_top_right,x
-	sta (ptr1),y
-
-	ldy #40
+display_key_40c_ret:
 	lda (ptr1),y
 	and #$7f
 	ora current_key_state
@@ -273,7 +195,25 @@ display_key_40g_gt:
 	lda char_right,x
 	sta (ptr1),y
 
-	ldy #80
+    ldy #40
+	lda (ptr1),y
+	and #$7f
+	ora current_key_state
+	sta (ptr1),y
+	iny
+	lda char_right,x
+	sta (ptr1),y
+
+    ldy #80
+	lda (ptr1),y
+	and #$7f
+	ora current_key_state
+	sta (ptr1),y
+	iny
+	lda char_right,x
+	sta (ptr1),y
+
+	ldy #120
 	lda char_bottom,x
 	sta (ptr1),y
 	iny
