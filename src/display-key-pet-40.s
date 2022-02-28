@@ -31,7 +31,7 @@
 .export display_key_40_full, display_key_40_top, display_key_40_left, display_key_40_mid
 .export display_key_40_left_2, display_key_40_left_3, display_key_40_mid_2, display_key_40_mid_3
 .export display_key_40_space_18
-.export display_key_40b_ret, display_key_40g_shl, display_key_40g_gt
+.export display_key_40b_ret, display_key_40b_shl, display_key_40c_ret, display_key_40g_shl, display_key_40g_gt
 
 .export char_top_left, char_top, char_top_right, char_left, char_right, char_bottom_left, char_bottom, char_bottom_right
 
@@ -367,6 +367,79 @@ display_key_40g_shl:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+
+display_key_40b_shl:
+	lda (ptr1),y
+	and #$7f
+	ora current_key_state
+	sta (ptr1),y
+	iny
+	lda char_right,x
+	sta (ptr1),y
+
+	ldy #40
+	lda char_bottom,x
+	sta (ptr1),y
+	iny
+	lda char_bottom_right,x
+	sta (ptr1),y
+
+    ldy #80
+:	lda (ptr1),y
+	and #$7f
+	ora current_key_state
+	sta (ptr1),y
+	iny
+	cpy #82
+	bne :-
+	lda char_right,x
+	sta (ptr1),y
+
+	ldy #120
+:	lda char_bottom,x
+	sta (ptr1),y
+	iny
+	cpy #122
+	bne :-
+	lda char_bottom_right,x
+	sta (ptr1),y
+	rts
+
+display_key_40c_ret:
+	lda (ptr1),y
+	and #$7f
+	ora current_key_state
+	sta (ptr1),y
+	iny
+	lda char_right,x
+	sta (ptr1),y
+
+    ldy #40
+	lda (ptr1),y
+	and #$7f
+	ora current_key_state
+	sta (ptr1),y
+	iny
+	lda char_right,x
+	sta (ptr1),y
+
+    ldy #80
+	lda (ptr1),y
+	and #$7f
+	ora current_key_state
+	sta (ptr1),y
+	iny
+	lda char_right,x
+	sta (ptr1),y
+
+	ldy #120
+	lda char_bottom,x
+	sta (ptr1),y
+	iny
+	lda char_bottom_right,x
+	sta (ptr1),y
+	rts
+
 
 display_key_40g_gt:
     iny

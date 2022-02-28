@@ -168,10 +168,10 @@ keyboard_table:
 
 
 help_keys_graphics:
-    .byte $4b, COMMAND_HELP_NEXT ; space
+    .byte $4a, COMMAND_HELP_NEXT ; space
     .byte $3f, COMMAND_HELP_NEXT ; +
     .byte $47, COMMAND_HELP_PREVIOUS; -
-    .byte $07, COMMAND_HELP_EXIT ; clr/home
+    .byte $06, COMMAND_HELP_EXIT ; clr/home
     .byte $ff
 
 .ifndef FIT_IN_4K

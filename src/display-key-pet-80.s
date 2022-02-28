@@ -29,6 +29,8 @@
 
 .export display_key_3, display_key_4, display_key_6, display_key_space_26, display_key_space_27, display_key_h, display_key_n, display_key_w
 
+.export display_key_80b_shl
+
 .macpack utility
 
 .include "defines.inc"
@@ -356,3 +358,10 @@ display_key_space_26:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+
+
+display_key_80b_shl:
+    jsr display_key_3
+    add_word ptr1, 240
+    ldy #0
+    jmp display_key_4
