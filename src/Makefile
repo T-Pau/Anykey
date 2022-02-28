@@ -19,7 +19,11 @@ LDFLAGS_PET += -Ln sym
 # LDFLAGS_VIC20 += -Ln sym
 
 DISK = anykey.d64
-PROGRAMS = anykey.prg anykey-64.prg anykey-128.prg anykey-pet.prg anykey-pet-8k.prg anykey-plus4.prg
+DISK_PET = anykey-pet.d64
+
+DISKS = ${DISK} ${DISK_PET}
+
+PROGRAMS = anykey.prg anykey-64.prg anykey-128.prg anykey-pet.prg anykey-pet-full.prg anykey-pet-8k.prg anykey-plus4.prg
 
 SOURCES_COMMON = \
 	commands.s \
@@ -126,7 +130,7 @@ ALL_OBJECTS += ${OBJECTS_DETECT_PET}
 
 
 
-all: ${PROGRAMS} ${DISK}
+all: ${PROGRAMS} ${DISKS}
 
 clean:
 	rm -f ${ALL_OBJECTS} ${PROGRAMS}
@@ -163,9 +167,24 @@ ${DISK}: ${PROGRAMS}
 	ips_util apply comma8.ips $$disk -o ${DISK}); \
 	rm $$disk
 
+${DISK_PET}: ${PROGRAMS}
+	disk=${DISK_PET}.$$$$; \
+	(set -e; \
+	c1541 -silent -format "anykey pet,tp" d64 $$disk; \
+	c1541 $$disk -silent -write "anykey-pet.prg" "anykey pet"; \
+	c1541 $$disk -silent -write "anykey-pet-full.prg" "anykey pet full"; \
+	c1541 $$disk -silent -write "anykey-pet-8k.prg" "anykey pet 8k"; \
+	ips_util apply comma8-pet.ips $$disk -o ${DISK_PET}); \
+	rm $$disk
+#	c1541 $$disk -silent -write "anykey-pet-4k.prg" "anykey pet 4k"; \
+
+
 anykey.prg: anykey.bas
 	petcat -w3 -l 0801 -o anykey.prg anykey.bas
-	
+
+anykey-pet.prg: anykey-pet.bas
+	petcat -w1p -l 0401 -o anykey-pet.prg anykey-pet.bas
+
 anykey-64.prg: ${OBJECTS_64}
 	${LD} ${LDFLAGS_64} -o anykey-64.prg ${OBJECTS_64}
 
@@ -175,8 +194,8 @@ anykey-128.prg: ${OBJECTS_128}
 anykey-plus4.prg: ${OBJECTS_PLUS4}
 	${LD} ${LDFLAGS_PLUS4} -o anykey-plus4.prg ${OBJECTS_PLUS4}
 
-anykey-pet.prg: ${OBJECTS_PET_FULL}
-	${LD} ${LDFLAGS_PET} -o anykey-pet.prg ${OBJECTS_PET_FULL}
+anykey-pet-full.prg: ${OBJECTS_PET_FULL}
+	${LD} ${LDFLAGS_PET} -o anykey-pet-full.prg ${OBJECTS_PET_FULL}
 
 anykey-pet-8k.prg: ${OBJECTS_PET_8K}
 	${LD} ${LDFLAGS_PET} -o anykey-pet-8k.prg ${OBJECTS_PET_8K}
