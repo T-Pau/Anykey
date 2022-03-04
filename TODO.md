@@ -2,12 +2,9 @@
 
 ## PET
 
-- Update help text, complete 40 columns version. 
 - Add 40 columns keyboard reset routine (other method for detecting left/right)
-- Document that 8K RAM is required.
 - Fix detecting calculator vs. graphics keyboard (by detecting MiniPET).
 - 3032B not recognized
-- Use graphics characters for non-printing key labels.
 
 ## other
 

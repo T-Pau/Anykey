@@ -2,19 +2,20 @@
 
 ![Screenshot](screenshot.png)
 
-This program monitors the keyboard and joysticks. It supports Commodore 64, 128, and Plus/4.
+This program monitors the keyboard and joysticks. It supports Commodore 64, 128, Plus/4, and PET (8k required).
 
 The upper window shows the state of the keyboard.
 
 The lower window shows the state of two joysticks connected to the controller ports.
 
-To test other controller types or joystick adapters, please use the companion program [Joyride](https://github.com/T-Pau/Joyride).
+To test other controller types or joystick adapters, please use the companion program [Joyride](https://github.com/T-Pau/Joyride) (currently only available on C64).
 
 
 ## Loader
 
-The disc image contains a BASIC loader that detects which machine it runs on and automatically loads the correct program. For this to work, you need to load it with `LOAD"*",8`. It will *not* work if you load it with `LAOD"*",8,1`.
+The disc image contains a BASIC loader that detects which machine it runs on and automatically loads the correct program. For this to work on systems other than the C64, you need to load it with `LOAD"*",8`. Loading it with `LAOD"*",8,1` will not work.
 
+Since PET does not support loading programs to a different address, a separate disk image is provided. It also contains a BASIC loader that loads a version suitable for your model. 
 
 ## Keyboard
 
@@ -23,6 +24,8 @@ The keys are displayed in the same layout as the physical keyboard.
 Keys that are currently pressed are displayed inverted.
 
 Keys that were previously pressed are displayed in a lighter gray. This helps detect dead keys. To reset the state of all keys to unpressed, hold `F5` for two seconds.
+
+Since the PET only supports one color, previously pressed keys are displayed with a square frame.
 
 
 ## Joysticks
