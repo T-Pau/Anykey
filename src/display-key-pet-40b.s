@@ -1,4 +1,4 @@
-;  display-key-pet.s -- Display current_key_state of key, PET version
+;  display-key-pet-40b.s -- Display current_key_state of key, PET version
 ;  Copyright (C) 2022 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -27,9 +27,8 @@
 
 .autoimport +
 
-.export display_key_40_left_2, display_key_40_left_3, display_key_40_mid_2
-.export display_key_40_space_18
-.export display_key_40b_ret, display_key_40b_shl, display_key_40g_shl, display_key_40g_gt
+.export display_key_40_left_3
+.export display_key_40b_ret, display_key_40b_shl
 
 .macpack utility
 
@@ -41,33 +40,6 @@
 ; current_key_state is $00 for unpressed, $80 for pressed
 
 .code
-
-display_key_40_left_2:
-	lda char_left,x
-	sta (ptr1),y
-	iny
-:	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #3
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
-
-	ldy #40
-	lda char_bottom_left,x
-	sta (ptr1),y
-	iny
-:	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	cpy #43
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
 
 display_key_40_left_3:
 	lda char_left,x
@@ -96,26 +68,6 @@ display_key_40_left_3:
 	sta (ptr1),y
 	rts
 
-display_key_40_mid_2:
-:	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #2
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
-
-	ldy #40
-:	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	cpy #42
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
 
 display_key_40b_ret:
     ldy #3
@@ -143,84 +95,6 @@ display_key_40b_ret:
 	sta (ptr1),y
 	rts
 
-display_key_40_space_18:
-	lda char_left,x
-	sta (ptr1),y
-	iny
-	lda #$20
-	ora current_key_state
-:	sta (ptr1),y
-	iny
-	cpy #17
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
-
-	ldy #40
-	lda char_bottom_left,x
-	sta (ptr1),y
-	iny
-	lda char_bottom,x
-:	sta (ptr1),y
-	iny
-	cpy #57
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
-
-display_key_40g_shl:
-	lda char_left,x
-	sta (ptr1),y
-	iny
-:	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #3
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
-
-	ldy #40
-	lda char_bottom_left,x
-	sta (ptr1),y
-	iny
-:	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	cpy #43
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-
-    ldy #80
-	lda char_left,x
-	sta (ptr1),y
-	iny
-:	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #84
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
-
-	ldy #120
-	lda char_bottom_left,x
-	sta (ptr1),y
-	iny
-:	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	cpy #124
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
 
 display_key_40b_shl:
 	lda (ptr1),y
@@ -255,28 +129,6 @@ display_key_40b_shl:
 	iny
 	cpy #122
 	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
-
-display_key_40g_gt:
-    iny
-	lda char_top_right,x
-	sta (ptr1),y
-
-	ldy #40
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	lda char_right,x
-	sta (ptr1),y
-
-	ldy #80
-	lda char_bottom,x
-	sta (ptr1),y
-	iny
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts

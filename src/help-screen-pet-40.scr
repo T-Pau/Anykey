@@ -1,14 +1,14 @@
 anykey
 
-this program monitors the keyboard.
+this program monitors the keyboard. it
+requires at least 8k of ram.
 
 the keys are displayed in the same
 layout as the physical keyboard. it
 automatically detects which keyboard
 your computer has.
 
-keys that are currently pressed are
-displayed inverted.
+pressed keys are displayed inverted.
 
 keys that were previously pressed are
 displayed with a square frame. this
@@ -16,10 +16,74 @@ helps detect dead keys. to reset the
 state of all keys to unpressed, hold
 clr/home for two seconds.
 
+
         space or +: next page
           -: previous page
 clr/home or escape: return to program
 
-page 2
+calculator keyboard
 
-to be done
+this keyboard was used in the earliest
+pet models and in the tynemouth
+mimnipet 40/80. keys are arranged in a
+rectangular grid.
+
+
+graphics keyboard
+
+this keyboard was used in some models
+with 40 column displays. it features
+the graphics character on the front of
+the key caps and a 4x5 number block.
+
+business keyboard
+
+this keyboard was used in later models
+with 40 column and all models with 80
+column displays. it features digit keys
+on the main keyboard and a 3x4 number
+block.
+
+key labels
+
+most keys are labeled with the symbol
+they produce when pressed without shift.
+special characters are labeled with a
+short description or graphics symbol,
+depending on the space available.
+
+             clear/home: , clr
+
+      cursor left/right: , <=>
+
+         cursor up/down: , u/d
+
+                 escape: X, esc
+
+
+key labels
+
+     insert/delete: V, del
+
+            repeat: ~
+
+            return: re, ret
+
+    reverse on/off: , rv
+
+          run/stop: Z, r/s
+
+             shift: W, sh, shf, shft
+
+        shift lock: Q, sl
+
+               tab: tb
+
+technical limitations
+
+if you press certain combinations of
+three keys, a fourth key will also
+appear pressed. this is because the
+three keys together create the same
+electrical connection the fourth key
+would.

@@ -100,16 +100,17 @@ SOURCES_PET_COMMON = \
 	${SOURCES_COMMON}
 
 SOURCES_PET_8K_PLUS = \
-	display-key-pet-40.s \
-	keys-pet-business-40.s \
+	display-key-pet-40g.s \
 	keys-pet-graphics-40.s
 
 SOURCES_PET_FULL = \
 	${SOURCES_PET_COMMON} \
 	${SOURCES_PET_8K_PLUS} \
+	display-key-pet-40b.s \
 	display-key-pet-80.s \
 	help-screen-pet-80.s \
 	keyboard-pet-80.s \
+	keys-pet-business-40.s \
 	keys-pet-business-80.s \
 	keys-pet-calculator-80.s \
 	pet-model.s

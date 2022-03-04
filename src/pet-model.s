@@ -13,13 +13,8 @@ FIT_IN_8K = 1
 
 .ifdef FIT_IN_8K
 help_80_count = 0
-.endif
-.ifdef FIT_IN_4K
 keyboard_pet_business_40_screen = 0
-keyboard_pet_graphics_40_screen = 0
 keys_pet_business_40_address_low = 0
-keys_pet_graphics_40_address_low = 0
-help_keys_business = 0
 .endif
 
 SAVED_SCREEN_SIZE_40 = (40 * 22)
