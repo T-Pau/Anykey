@@ -189,7 +189,7 @@ ${DISK}: ${PROGRAMS}
 	c1541 $$disk -silent -write "anykey-128.prg" "anykey 128"; \
 	c1541 $$disk -silent -write "anykey-pet.prg" "anykey pet"; \
 	c1541 $$disk -silent -write "anykey-plus4.prg" "anykey plus/4"; \
-	ips_util apply comma8.ips $$disk -o ${DISK}); \
+	ips_util apply boot-comma8.ips $$disk -o ${DISK}); \
 	rm $$disk
 
 ${DISK_PET}: ${PROGRAMS}
