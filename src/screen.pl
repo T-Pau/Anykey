@@ -1,10 +1,10 @@
 #!/usr/bin/perl
 
 #  screen.pl -- Convert ASCII to run length encoded Commodore 64 screen codes
-#  Copyright (C) 2021 Dieter Baron
+#  Copyright (C) 2021-2022 Dieter Baron
 #
-#  This file is part of Zak Supervisor, a Music Monitor for the Commodore 64.
-#  The authors can be contacted at <zak-supervisor@tpau.group>.
+#  This file is part of Anykey, a keyboard test program for C64.
+#  The authors can be contacted at <anykey@tpau.group>.
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted provided that the following conditions
