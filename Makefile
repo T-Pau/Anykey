@@ -1,14 +1,18 @@
 SUBDIRS = src
 
-VERSION = 1.2
+VERSION = 1.3
 
 FILES = \
 	README.md \
 	NEWS.md \
 	Anykey\ User\ Manual.pdf \
 	screenshot.png \
+	src/anykey.d64 \
+	src/anykey-pet.d64 \
 	src/anykey-64.prg \
 	src/anykey-128.prg \
+	src/anykey-pet-8k.prg \
+	src/anykey-pet-full.prg \
 	src/anykey-plus4.prg
 
 DISTFILE = Anykey-${VERSION}.zip

@@ -1,3 +1,9 @@
+# Version 1.3 (2022-03-19)
+
+- Add support for PET (8k RAM required).
+- Add program that detects computer and loads correct version.
+- Make disk autoboot on C128.
+
 # Version 1.2 (2020-12-26)
 
 - Add support for C128 and Plus/4.
