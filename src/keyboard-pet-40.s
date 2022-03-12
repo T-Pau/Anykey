@@ -1,4 +1,7 @@
-.export keyboard_pet_business_40_screen, keyboard_pet_calculator_40_screen, keyboard_pet_graphics_40_screen, reset_keyboard
+.autoimport +
+
+.export reset_keyboard_40, reset_row
+.export keyboard_pet_business_40_screen, keyboard_pet_calculator_40_screen, keyboard_pet_graphics_40_screen
 
 .macpack utility
 
@@ -17,14 +20,36 @@ keyboard_pet_graphics_40_screen:
 
 .code
 
-reset_keyboard:
+reset_keyboard_40:
 .scope
-	; make all non-inverted square corners round
-	; TODO: also restore horizontal/vertical lines
-	store_word screen + 80 * 2, ptr1
+	store_word screen + 40 * 2, ptr1
+	lda left_list
+	sta ptr2
+	lda left_list + 1
+	sta ptr2 + 1
+    ldy #0
+    ldx #0
+left_loop:
+    lda (ptr2,x)
+    beq left_done
+    tya
+    clc
+    adc (ptr2,x)
+    bcc :+
+    inc ptr1 + 1
+:   tay
+    lda (ptr1),y
+    cmp #SQUARE_VERTICAL
+    bne :+
+    lda #ROUND_LEFT
+    sta (ptr1),y
+:   inc_16 ptr2
+    bne left_loop
+left_done:
+
+	store_word screen + 40 * 2, ptr1
 	ldx #0
 	stx reset_row
-	stx reset_leftright
 row_loop:
 	ldy #80
 column_loop:
@@ -52,20 +77,18 @@ column_loop:
 	sta (ptr1),y
 	bne column_loop
 :	cmp #SQUARE_HORIZONTAL
-    bne :+
+    bne not_horizontal
+    lda #ROUND_BOTTOM
     ldx reset_row
-    lda reset_horizontal,x
-    sta (ptr1),y
+    bne :+
+    lda #ROUND_TOP
+:   sta (ptr1),y
     bne column_loop
-:	cmp #SQUARE_VERTICAL
+not_horizontal:
+	cmp #SQUARE_VERTICAL
     bne column_loop
-    ldx reset_leftright
-    lda reset_vertical,x
+    lda #ROUND_RIGHT
     sta (ptr1),y
-    dex
-    bpl :+
-    ldx #1
-:   stx reset_leftright
     bpl column_loop
 
 column_end:
@@ -75,22 +98,11 @@ column_end:
     bne :+
     rts
 :   stx reset_row
-    add_word ptr1, 80
+    add_word ptr1, 40
     jmp row_loop
 .endscope
-
-.rodata
-
-reset_horizontal:
-    .byte ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM
-
-reset_vertical:
-    .byte ROUND_RIGHT, ROUND_LEFT
 
 .bss
 
 reset_row:
-    .res 1
-
-reset_leftright:
     .res 1

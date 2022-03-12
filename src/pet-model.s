@@ -3,18 +3,15 @@
 
 .autoimport +
 
-.export setup_model, saved_screen, saved_screen_size, help_keys, help_count, help_pages
+.export setup_model, reset_keyboard, saved_screen, saved_screen_size, help_keys, help_count, help_pages, left_list
 
 .macpack utility
 
-.ifdef FIT_IN_4K
-FIT_IN_8K = 1
-.endif
-
 .ifdef FIT_IN_8K
-help_80_count = 0
+saved_screen_size = saved_screen_size_table
 keyboard_pet_business_40_screen = 0
 keys_pet_business_40_address_low = 0
+left_business_40 = 0
 .endif
 
 SAVED_SCREEN_SIZE_40 = (40 * 22)
@@ -33,19 +30,26 @@ setup_model:
     jsr detect
     lda line_width
 .ifdef FIT_IN_8K
-    beq :+
+    beq line_width_supported
 .else
-    bpl :+
+    bpl line_width_supported
 .endif
 not_supported:
     lda #$ff
     rts
-:   asl
+line_width_supported:
+    asl
     tax
+.ifndef FIT_IN_8K
+    lda reset_keyboard_routine_table,x
+    sta reset_keyboard_routine
+    lda reset_keyboard_routine_table + 1,x
+    sta reset_keyboard_routine + 1
     lda saved_screen_size_table,x
     sta saved_screen_size
     lda saved_screen_size_table + 1,x
     sta saved_screen_size + 1
+.endif
     lda help_table,x
     sta ptr1
     lda help_table + 1,x
@@ -58,18 +62,16 @@ not_supported:
     sta help_pages
     lda ptr1 + 1
     sta help_pages + 1
+
     ldx keyboard_type
-.ifdef FIT_IN_4K
-    cpx #1
-    bne not_supported
-.else
+.ifdef FIT_IN_8K
+    beq not_supported
+.endif
     bmi not_supported
     cpx #2
     bne :+
     dex
-:
-.endif
-    lda key_index_help_table,x
+:   lda key_index_help_table,x
     sta key_index_help
     lda key_index_reset_table,x
     sta key_index_reset
@@ -80,6 +82,14 @@ not_supported:
     sta help_keys
     lda help_keys_table + 1,x
     sta help_keys + 1
+
+    lda keyboard_type
+    asl
+    tax
+    lda left_list_table,x
+    sta left_list
+    lda left_list_table + 1,x
+    sta left_list + 1
 
     lda keyboard_type
 .ifndef FIT_IN_8K
@@ -109,17 +119,34 @@ not_supported:
     rts
 .endscope
 
+reset_keyboard:
+.ifdef FIT_IN_8K
+    jmp reset_keyboard_40
+.else
+    jmp (reset_keyboard_routine)
+.endif
+
 .rodata
 
 ; indexed by line_width
+.ifndef FIT_IN_8K
+reset_keyboard_routine_table:
+    .word reset_keyboard_40
+    .word reset_keyboard_80
+.endif
+
 saved_screen_size_table:
     .word SAVED_SCREEN_SIZE_40
+.ifndef FIT_IN_8K
     .word SAVED_SCREEN_SIZE_80
+.endif
 
 ; indexed by line_width
 help_table:
     .word help_40_count
+.ifndef FIT_IN_8K
     .word help_80_count
+.endif
 
 ; indexed by keyboard type != business
 key_index_help_table:
@@ -134,6 +161,11 @@ help_keys_table:
     .word help_keys_business
     .word help_keys_graphics
 
+; indexed by keyboard type
+left_list_table:
+    .word left_business_40
+    .word left_calculator_40
+    .word left_graphics_40
 
 ; indexed by keyboard type (* 2 + line_width)
 keyboard_screen_table:
@@ -180,9 +212,6 @@ help_keys_business:
 
 .bss
 
-saved_screen_size:
-    .res 2
-
 help_count:
     .res 1
 
@@ -192,9 +221,19 @@ help_pages:
 help_keys:
     .res 2
 
+.ifndef FIT_IN_8K
+reset_keyboard_routine:
+    .res 2
+
+saved_screen_size:
+    .res 2
+.endif
+
+left_list:
+    .res 2
+
 saved_screen:
     .res MAX_SAVED_SCREEN_SIZE
-
 
 keyboard_type_index:
     .res 1

@@ -94,6 +94,7 @@ SOURCES_PET_COMMON = \
 	expand.s \
 	help-screen-pet-40.s \
 	keyboard-pet-40.s \
+	keyboard-pet-calculator-40-left.s \
 	keys-pet-calculator-40.s \
 	pet-detect.s \
 	pet-help.s \
@@ -101,6 +102,7 @@ SOURCES_PET_COMMON = \
 
 SOURCES_PET_8K_PLUS = \
 	display-key-pet-40g.s \
+	keyboard-pet-graphics-40-left.s \
 	keys-pet-graphics-40.s
 
 SOURCES_PET_FULL = \
@@ -111,6 +113,7 @@ SOURCES_PET_FULL = \
 	help-screen-pet-80.s \
 	keyboard-pet-80.s \
 	keys-pet-business-40.s \
+	keyboard-pet-business-40-left.s \
 	keys-pet-business-80.s \
 	keys-pet-calculator-80.s \
 	pet-model.s
@@ -304,6 +307,15 @@ keyboard-pet-calculator-80.bin: keyboard-pet-calculator-80.scr screen.pl
 
 keyboard-pet-graphics-40.bin: keyboard-pet-graphics-40.scr screen.pl
 	perl screen.pl -w 40 -c keyboard-pet-graphics-40.scr > keyboard-pet-graphics-40.bin || (rm keyboard-pet-graphics-40.bin; exit 1)
+
+keyboard-pet-business-40-left.s: keyboard-pet-business-40.scr list-left.pl
+	perl list-left.pl keyboard-pet-business-40.scr keyboard-pet-business-40-left.s left_business_40
+
+keyboard-pet-calculator-40-left.s: keyboard-pet-calculator-40.scr list-left.pl
+	perl list-left.pl keyboard-pet-calculator-40.scr keyboard-pet-calculator-40-left.s left_calculator_40
+
+keyboard-pet-graphics-40-left.s: keyboard-pet-graphics-40.scr list-left.pl
+	perl list-left.pl keyboard-pet-graphics-40.scr keyboard-pet-graphics-40-left.s left_graphics_40
 
 help-screen-pet-80.s: help-screen-pet-80.scr screen.pl
 	perl screen.pl -w 80 -p 17 -s help_80 help-screen-pet-80.scr > help-screen-pet-80.s || (rm help-screen-pet-80.s; exit 1)

@@ -2,7 +2,6 @@
 
 ## PET
 
-- Add 40 columns keyboard reset routine (other method for detecting left/right)
 - Fix detecting calculator vs. graphics keyboard (by detecting MiniPET).
 - 3032B not recognized
 
