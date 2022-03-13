@@ -108,15 +108,34 @@ not_recognized:
     ldx #$ff
     bne end
 rom_ok:
-    cmp #ROM_1
     bne :+
     ldx #KEYBOARD_CALCULATOR
-    jmp end
-:   cmp #ROM_4
+    bne end
+:   cmp #ROM_2
+    bne not_rom_2
+    lda $e220
+    cmp #$a9
+    bne not_recognized
+    ldx #2
+:   lda $e222,x
+    cmp screen_mode,x
+    bne not_recognized
+    dex
+    bpl :-
+    lda $e221
+    cmp #$0c
     bne :+
-    clc
-    adc line_width
-    bcs not_recognized
+    ldx #KEYBOARD_GRAPHICS
+    bne end
+:   cmp #$0e
+    bne not_recognized
+    ldx #KEYBOARD_BUSINESS
+    beq end
+not_rom_2:
+    cmp #ROM_4
+    bne not_recognized
+    lda line_width
+    bmi not_recognized
 :   asl
     tax
     lda keyboard_offset,x
@@ -189,13 +208,15 @@ rom_4:
     .byte $2A, $2A, $2A, $20, $43, $4F, $4D, $4D, $4F, $44, $4F, $52, $45, $20, $42, $41
     .byte $53, $49, $43, $20, $34, $2E, $30, $20, $2A, $2A, $2A, 0
 
+; ROM 2
 
+screen_mode:
+    .byte $8d, $4c, $e8
+
+; ROM 4
 keyboard_offset:
-    .word $e75c ; ROM 1
-    .word $e6f8 ; ROM 2
-    ;.word $e60b ; ROM 4 40 columns
-    .word $e73f ; ROM 4 40 columns
-    .word $e6d1 ; ROM 4 80 columns
+    .word $e73f ; 40 columns
+    .word $e6d1 ; 80 columns
 
 keyboard_matrix:
     ; business
