@@ -76,55 +76,11 @@ display_key_40_full:
 	iny
 	lda char_top_right,x
 	sta (ptr1),y
-	
-	ldy #40
-	lda char_left,x
-	sta (ptr1),y
-	iny
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	lda char_right,x
-	sta (ptr1),y
 
-	ldy #80
-	lda char_bottom_left,x
-	sta (ptr1),y
-	iny
-	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
-
-
-display_key_40_top:
-	lda char_top,x
-	sta (ptr1),y
-	iny
-	lda char_top_right,x
-	sta (ptr1),y
-
-	ldy #40
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	lda char_right,x
-	sta (ptr1),y
-
-	ldy #80
-	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
-
+	clc
+	lda #40
+	adc_16 ptr1
+	ldy #0
 display_key_40_left:
 	lda char_left,x
 	sta (ptr1),y
@@ -148,6 +104,18 @@ display_key_40_left:
 	sta (ptr1),y
 	rts
 
+
+display_key_40_top:
+	lda char_top,x
+	sta (ptr1),y
+	iny
+	lda char_top_right,x
+	sta (ptr1),y
+
+	clc
+	lda #40
+	adc_16 ptr1
+	dey
 display_key_40_mid:
 	lda (ptr1),y
 	and #$7f
