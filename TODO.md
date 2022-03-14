@@ -3,7 +3,6 @@
 ## PET
 
 - Fix on ROM version 1 or document version 2 requirement. (Also adapt `anykey-pet.bas`)
-- Fix detecting calculator vs. graphics keyboard (by detecting MiniPET).
 
 ## other
 

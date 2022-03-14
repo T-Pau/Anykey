@@ -112,6 +112,7 @@ rom_version_name:
     .byte "1", 0, 0, 0
     .byte "2", 0, 0, 0
     .byte "4.0", 0
+    .byte "4.1", 0
 
 line_width_name:
     .byte "40", 0, 0

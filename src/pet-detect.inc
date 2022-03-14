@@ -28,6 +28,7 @@
 ROM_1 = 0
 ROM_2 = 1
 ROM_4 = 2
+ROM_4_1 = 3
 
 WIDTH_40 = 0
 WIDTH_80 = 1

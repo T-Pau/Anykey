@@ -50,11 +50,11 @@ detect_rom_version:
 version_loop:
     lda rom_offset,x
     sta ptr1
+    lda rom_offset + 1,x
     bne :+
     lda #$ff
     bne end
-:   lda rom_offset + 1,x
-    sta ptr1 + 1
+:   sta ptr1 + 1
     lda rom_message,x
     sta ptr2
     lda rom_message + 1,x
@@ -73,6 +73,8 @@ byte_loop:
 version_found:
     txa
     lsr
+    tax
+    lda rom_version_number,x
 end:
     sta rom_version
     rts
@@ -88,7 +90,7 @@ detect_line_width:
     dex
     bne end
 :   cmp #ROM_4
-    bne end
+    bcc end
     lda LNMX
     cmp #39
     beq end
@@ -108,10 +110,14 @@ not_recognized:
     ldx #$ff
     bne end
 rom_ok:
-    bne :+
+    beq calculator
+    cmp #ROM_4_1
+    bne not_calculator
+calculator:
     ldx #KEYBOARD_CALCULATOR
     bne end
-:   cmp #ROM_2
+not_calculator:
+    cmp #ROM_2
     bne not_rom_2
     lda $e220
     cmp #$a9
@@ -132,11 +138,9 @@ rom_ok:
     ldx #KEYBOARD_BUSINESS
     beq end
 not_rom_2:
-    cmp #ROM_4
-    bne not_recognized
     lda line_width
     bmi not_recognized
-:   asl
+    asl
     tax
     lda keyboard_offset,x
     sta ptr1
@@ -151,12 +155,15 @@ loop_type:
     bne type_end
     dey
     bpl :-
+    txa
+    asl
+    tax
 end:
     stx keyboard_type
     rts
 type_end:
     inx
-    cpx #3
+    cpx #2
 .if 1
     beq not_recognized
 .else
@@ -188,13 +195,18 @@ keyboard_type:
 rom_offset:
     .word $e180
     .word $e1c4
+    .word $dec2
     .word $dea4
     .word 0
 
 rom_message:
     .word rom_1
     .word rom_2
+    .word rom_41
     .word rom_4
+
+rom_version_number:
+    .byte ROM_1, ROM_2, ROM_4_1, ROM_4
 
 rom_1:
     .byte $2A, $2A, $2A, $20, $43, $4F, $4D, $4D, $4F, $44, $4F, $52, $45, $20, $42, $41
@@ -207,6 +219,10 @@ rom_2:
 rom_4:
     .byte $2A, $2A, $2A, $20, $43, $4F, $4D, $4D, $4F, $44, $4F, $52, $45, $20, $42, $41
     .byte $53, $49, $43, $20, $34, $2E, $30, $20, $2A, $2A, $2A, 0
+
+rom_41:
+    .byte $2a, $2a, $2a, $20, $4d, $49, $4e, $49, $20, $50, $45, $54, $20, $42, $41, $53
+    .byte $49, $43, $20, $34, $2e, $31, $20, $2a, $2a, $2a, 0
 
 ; ROM 2
 
@@ -222,9 +238,6 @@ keyboard_matrix:
     ; business
     .byte $16, $04, $3a, $03, $39, $36, $33, $df
     .byte $b1, $2f, $15, $13, $4d, $20, $58, $12
-    ; calculator
-    .byte $3d, $2e, $10, $03, $3c, $20, $5b, $12
-    .byte $2d, $30, $00, $3e, $ff, $5d, $40, $00
     ; graphics
-    .byte $3d, $2e, $ff, $03, $3c, $20, $5b, $12
+    .byte $3d, $2e, $10, $03, $3c, $20, $5b, $12
     .byte $2d, $30, $00, $3e, $ff, $5d, $40, $00
