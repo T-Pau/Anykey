@@ -61,7 +61,8 @@ start:
 
 process_keyboard:
 .scope
-:   lda $8d + 2
+:   lda $8d + 2 ; TOD in ROM 2 & 4
+    ora $0202   ; TOD in ROM 1
     cmp last_tick
     beq :-
     sta last_tick

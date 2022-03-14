@@ -1,10 +1,11 @@
-10 if peek(53)=255 then 350
-20 size=peek(53)/4
-30 a$="8k"
-40 if size<8 then 300
-50 if size>8 then a$="full"
-60 f$="anykey pet "+a$
-70 print chr$(142)
+10 size=peek(53)
+20 if size=255 then size=peek(131)
+30 size=size/4
+40 a$="8k"
+50 if size<8 then 300
+60 if size>8 then a$="full"
+70 f$="anykey pet "+a$
+80 print chr$(142)
 100 print"{clear}{down}{down}{down}{down}"
 110 printspc(17)"UCCCCI"
 120 printspc(17)"B{CBM-D}{CBM-I}{CBM-I}{CBM-F}H"
