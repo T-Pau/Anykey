@@ -42,8 +42,8 @@ block.
 key labels
 
 most keys are labeled with the symbol they produce when pressed without shift.
-special characters are labeled with a short description or graphics symbol,
-depending on the space available.
+special keys are labeled with a short description or graphics symbol, depending
+on the space available.
 
                clear/home: , clr              return: re, ret
 

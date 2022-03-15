@@ -60,6 +60,24 @@ Anykey PET requires at least 8k RAM. It supports both 40 and 80 column mode and 
 
 Since the PET does not support colors, keys that were previously pressed are displayed as squares.
 
+Most keys are labeled with the symbol
+they produce when pressed without shift.
+Special keys are labeled with a
+short description or graphics symbol,
+depending on the space available:
+
+- Clear/Home: `▘`, `CLR`
+- Cursor Left/Right: `┳`, `<=>`
+- Cursor Up/Down: `┣`, `U/D`
+- Escape: `♣`, `ESC`
+- Insert/Delete: `╳`, `DEL`
+- Repeat: `π`
+- Return: `RE`, `RET`
+- Reverse On/Off: `◥`, `RV`
+- Run/Stop: `◆`, `R/S`
+- Shift: `○`, `SH`, `SHF`, `SHFT`
+- Shift Lock: `●`, `SL`
+- Tab: `TB`
 
 ## Technical Limitations
 
