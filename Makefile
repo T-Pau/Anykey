@@ -5,7 +5,6 @@ VERSION = 1.3
 FILES = \
 	README.md \
 	NEWS.md \
-	Anykey\ User\ Manual.pdf \
 	screenshot.png \
 	src/anykey.d64 \
 	src/anykey-pet.d64 \
