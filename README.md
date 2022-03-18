@@ -13,7 +13,7 @@ To test other controller types or joystick adapters, please use the companion pr
 
 ## Loader
 
-The disc image contains a BASIC loader that detects which machine it runs on and automatically loads the correct program. For this to work on systems other than the C64, you need to load it with `LOAD"*",8`. Loading it with `LAOD"*",8,1` will not work. On C128, the disk will autoboot: simply insert the disk and turn on the computer.
+The disc image contains a BASIC loader that detects which machine it runs on and automatically loads the correct program. For this to work on systems other than the C64, you need to load it with `LOAD"*",8`. Loading it with `LOAD"*",8,1` will not work. On C128, the disk will autoboot: simply insert the disk and turn on the computer.
 
 Since PET does not support loading programs to a different address, a separate disk image is provided. It also contains a BASIC loader that loads a version suitable for your model. 
 
