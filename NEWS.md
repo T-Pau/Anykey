@@ -1,3 +1,7 @@
+# Version 1.4 (2022-05-XX)
+
+- Add support for MEGA65.
+
 # Version 1.3 (2022-03-19)
 
 - Add support for PET (8k RAM required).

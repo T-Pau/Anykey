@@ -2,12 +2,11 @@
 
 ## MEGA65
 
-- black frame sides after keyboard rest
-- Help text
 - joystick buttons 2/3 (pot)
 - logo
-
 - native 320x200 version
+- fix native autoboot
+- use F13/help for reset/help
 
 ## C64
 

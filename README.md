@@ -13,7 +13,7 @@ To test other controller types or joystick adapters, please use the companion pr
 
 ## Loader
 
-The disc image contains a BASIC loader that detects which machine it runs on and automatically loads the correct program. For this to work on systems other than the C64, you need to load it with `LOAD"*",8`. Loading it with `LOAD"*",8,1` will not work. On C128, the disk will autoboot: simply insert the disk and turn on the computer.
+The disc image contains a BASIC loader that detects which machine it runs on and automatically loads the correct program. For this to work on systems other than the C64, you need to load it with `LOAD"*",8`. Loading it with `LOAD"*",8,1` will not work. On C128 and MEGA65, the disk will autoboot: simply insert the disk and turn on the computer.
 
 Since PET does not support loading programs to a different address, a separate disk image is provided. It also contains a BASIC loader that loads a version suitable for your model. 
 
@@ -42,6 +42,12 @@ Buttons 2 and 3 bring an analog potentiometer to a low value by connecting its p
 `Shift Lock` and the left `Shift` key, and on Plus/4 also the right `Shift` key, appear as the same key to the computer and cannot be reliably distinguished on all computers. On Plus/4, both `Control` keys also appear as the same key.
 	
 The `Restore` key cannot be read directly. Anykey can detect when the key is pressed, but it can't detect for how long.
+
+On MEGA65, when pressing `Cursor Up` or `Cursor Left`, `Right Shift` and the opposite cursor keys also appear pressed to software to maintain compatibility with C64. To avoid prematurely marking keys as pressed, these keys are disabled while `Cursor Up` or `Cursor Left is pressed. 
+
+## MEGA65
+
+When run in C64 mode on a MEGA65, Anykey will display and test the full MEGA65 keyboard.
 
 
 ## Commodore 128
@@ -78,6 +84,7 @@ depending on the space available:
 - Shift: `○`, `SH`, `SHF`, `SHFT`
 - Shift Lock: `●`, `SL`
 - Tab: `TB`
+
 
 ## Technical Limitations
 

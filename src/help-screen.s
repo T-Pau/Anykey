@@ -165,6 +165,15 @@ help_screens_data:
 	scrcode "                                      " ;  8
 	scrcode "                                      " ;  9
 .endif
+.if .defined(__C64__) .or .defined(__MEGA65__)
+	scrcode "                                      " ; 10
+	scrcode "on mega65, when pressing cursor up or " ; 11
+	scrcode "left, right shift and the opposite    " ; 12
+	scrcode "cursor keys also appear pressed. to   " ; 13
+	scrcode "avoid prematurely marking keys as     " ; 14
+	scrcode "pressed, these keys are disabled in   " ; 15
+	scrcode "that case.                            " ; 16
+.else
 	scrcode "                                      " ; 10
 	scrcode "                                      " ; 11
 	scrcode "                                      " ; 12
@@ -172,6 +181,7 @@ help_screens_data:
 	scrcode "                                      " ; 14
 	scrcode "                                      " ; 15
 	scrcode "                                      " ; 16
+.endif
 	scrcode "                                      " ; 17
 	scrcode "                                      " ; 18
 
