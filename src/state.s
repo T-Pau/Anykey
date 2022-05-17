@@ -25,7 +25,7 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export joy1, joy2, main_color_save, is_128, init_state
+.export joy1, joy2, main_color_save, machine_type, init_state
 .export joystick_positions
 .export bottom_charset_line, joystick_label_line, keyboard_height
 
@@ -38,7 +38,7 @@
 
 .bss
 
-is_128:
+machine_type:
 	.res 1
 
 joy1:
@@ -64,7 +64,9 @@ keyboard_height:
 .code
 
 init_state:
+.scope
 	lda #0
+	sta machine_type
 	sta joy1
 	sta joy2
 	sta command
@@ -74,20 +76,45 @@ init_state:
 	lda #KEY_INDEX_RESET
 	sta key_index_reset
 .if .defined(USE_VICII)
+.ifdef __C64__
+    lda #1
+    sta VIC_SPR0_X
+    lda #VIC_KNOCK_IV_1
+    sta VIC_KEY
+    lda #VIC_KNOCK_IV_2
+    sta VIC_KEY
+    lda #0
+    sta VIC_PALETTE_RED
+    lda VIC_SPR0_X
+    beq not_m65
+    lda #$ff
+    sta machine_type
+	ldx #<keys_mega65_address_low
+	ldy #>keys_mega65_address_low
+	lda keys_mega65_num_keys
+	jsr set_keys_table
+    jmp not_c64
+not_m65:
+.endif
 	lda VIC_CLK_128
-	eor #$ff
-	sta is_128
+	cmp #$ff
 	beq c64
-	lda #SCREEN_TOP + 8 * 7
-	sta bottom_charset_line
-	lda #SCREEN_TOP + 15 * 8
-	sta joystick_label_line
+	lda #1
+	sta machine_type
 	ldx #<keys_128_address_low
 	ldy #>keys_128_address_low
 	lda keys_128_num_keys
 	jsr set_keys_table
+not_c64:
+	lda #SCREEN_TOP + 8 * 7
+	sta bottom_charset_line
+	lda #SCREEN_TOP + 15 * 8
+	sta joystick_label_line
 	lda #14
 	sta keyboard_height
+.ifdef __C64__
+	; TODO: mega65
+.endif
 	bne both
 c64:
 .ifdef __C64__
@@ -103,7 +130,7 @@ c64:
 	sta keyboard_height
 .endif
 both:
-	memcpy_128 main_color_save, main_color_64, main_color_128, 1000
+	memcpy_128 main_color_save, main_color_64, main_color_128, main_color_mega65_c64, 1000
 .elseif .defined(USE_TED)
 	ldx #<keys_plus4_address_low
 	ldy #>keys_plus4_address_low
@@ -127,3 +154,4 @@ high_keyboard:
 .endif
 	store_word screen + 17 * 40 + 21, joystick_positions + 2
 	jmp init_keyboard
+.endscope

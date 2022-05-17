@@ -1,22 +1,24 @@
+0 c=40
 10 if peek(43)<>1 goto 150
 20 if peek(44)=8 and peek(56)=160 goto 1064
 30 if peek(44)=4 and peek(56)=30 goto 1020:rem 3k
 40 if peek(44)=16 goto 200
-50 if peek(44)=32 goto 1065
-60 if peek(44)<>18 goto 150
-70 if peek(56)=64 goto 1020:rem 8k
-80 if peek(56)=96 goto 1020:rem 16k
-90 if peek(56)=128 goto 1020:rem 24k
+50 if peek(44)<>18 goto 150
+60 if peek(56)=64 goto 1020:rem 8k
+70 if peek(56)=96 goto 1020:rem 16k
+80 if peek(56)=128 goto 1020:rem 24k
 
 150 if peek(46)=28 and peek(45)=1 goto 1128
 160 if peek(223)=1 and peek(224)=8 goto 1216
-170 goto 1000
+170 if peek(194)=1 and peek(195)=32 goto 1065
+180 goto 1000
 
 200 if peek(56)=30 goto 1020
 210 if peek(56)=63 goto 1016
 220 if peek(56)=253 goto 1004
 230 goto 1000
 
+400 if peek(215)>127 then c=80
 500 poke 53280,15
 510 poke 53281,15
 520 print"{dark gray}";
@@ -37,21 +39,34 @@
 1021 print"version of anykey for"
 1022 print"the vic-20 yet.":end
 1064 f$="anykey 64":gosub 500:goto 3000
-1065 c$="mega65":goto 4000
-1128 f$="anykey 128":gosub 500:goto 3000
+1065 f$="anykey mega65":c=80:gosub 500:goto 3000
+1128 f$="anykey 128":gosub 400:goto 3000
 1216 c$="commander x16":goto 4000
 
 3000 print"{clear}{down}{down}{down}{down}"
-3010 printspc(17)"UCCCCI"
-3020 printspc(17)"B{CBM-D}{CBM-I}{CBM-I}{CBM-F}B"
-3030 printspc(17)"B {rvon}{CBM-K}{rvof}{CBM-K} B"
-3030 printspc(17)"B {rvon}{CBM-K}{rvof}{CBM-K} B"
-3030 printspc(17)"B {CBM-C}{CBM-V} B"
-3010 printspc(17)"JCCCCK{down}"
-3020 printspc(13)"anykey / t'pau{down}{down}{down}{down}{down}{down}{down}{down}"
-3030 printspc(16-len(f$)/2)"loading "f$
-3040 d=peek(d)
-3050 if d=0 then d=8
-3060 loadf$,d
+3010 p=c/2-7
+3020 if c<80 then gosub 3100
+3030 if c=80 then gosub 3200
+3040 printspc(p)"{down}anykey / t'pau{down}{down}{down}{down}{down}{down}{down}{down}"
+3050 printspc(p+3-len(f$)/2)"loading "f$
+3060 d=peek(d)
+3070 if d=0 then d=8
+3080 loadf$,d
+
+3100 printspc(p+4)"UCCCCI"
+3110 printspc(p+4)"B{CBM-D}{CBM-I}{CBM-I}{CBM-F}B"
+3120 printspc(p+4)"B {rvon}{CBM-K}{rvof}{CBM-K} B"
+3130 printspc(p+4)"B {rvon}{CBM-K}{rvof}{CBM-K} B"
+3140 printspc(p+4)"B {CBM-C}{CBM-V} B"
+3150 printspc(p+4)"JCCCCK"
+3160 return
+
+3200 printspc(p+2)"UCCCCCCCCI"
+3210 printspc(p+2)"B {CBM-I}{CBM-I}{CBM-I}{CBM-I}{CBM-I}{CBM-I} B"
+3220 printspc(p+2)"B   {rvon}  {rvof}   B"
+3230 printspc(p+2)"B   {rvon}  {rvof}   B"
+3240 printspc(p+2)"B   {rvon}{CBM-I}{CBM-I}{rvof}   B"
+3250 printspc(p+2)"JCCCCCCCCK{down}"
+3260 return
 
 4000 print"{clear}sorry, there is no version of anykey for the "c$" yet.":end

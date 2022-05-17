@@ -158,4 +158,3 @@ addr:
 	ldy #0
 :	sty index
 	rts
-

@@ -6,3 +6,5 @@
 /src/sym
 /src/anykey.d64
 /src/anykey-pet.d64
+*.sym
+/src/anykey.d81

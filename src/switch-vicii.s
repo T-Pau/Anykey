@@ -38,8 +38,9 @@
 switch_keyboard_top:
 	jsr content_background
 	lda #FRAME_COLOR
-	ldy is_128
-	beq :+
+	ldy machine_type
+	dey
+	bne :+
 	lda #BACKGROUND_COLOR
 :
 	ldx #SCREEN_TOP + 8
@@ -54,8 +55,9 @@ switch_keyboard_top:
 	set_vic_text screen, charset_keyboard_top
 	ldx #0
 	jsr read_pots
-	lda is_128
-	beq :+
+	ldy machine_type
+	dey
+	bne :+
 	jsr read_keyboard_128
 :
 	rts

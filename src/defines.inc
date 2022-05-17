@@ -65,12 +65,12 @@ LOGO_COLOR = COLOR_DARK_GRAY
 
 SCREEN_TOP = 50
 
-charset = $8000
-screen = charset + $800
-sprites = screen + $400
+screen = $8c00
 
-charset_keyboard_top = charset + $2000
+charset = $a000
+charset_keyboard_top = charset + $800
 charset_keyboard_bottom = charset_keyboard_top + $800
+sprites = charset_keyboard_bottom + $800
 color_ram = $d800
 
 sprite_logo = (sprites & $3fff) / 64

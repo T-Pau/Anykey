@@ -40,7 +40,10 @@ start:
 	jsr init_state
 
 	memcpy charset, charset_data, $800
-	memcpy charset_keyboard_top, charset_data_plus4, $1000
+	memcpy charset_keyboard_top, keyboard_plus4_charset_top, $0400
+	memcpy charset_keyboard_top + $400, keyboard_plus4_charset_top_inv, $0400
+	memcpy charset_keyboard_bottom, keyboard_plus4_charset_bottom, $0400
+	memcpy charset_keyboard_bottom + $400, keyboard_plus4_charset_bottom_inv, $0400
 
 	lda TED_MULTI1
 	ora #$80

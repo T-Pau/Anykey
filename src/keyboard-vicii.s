@@ -114,7 +114,7 @@ port1_loop_end:
 	bne port1_loop
 	
 port1_clear:
-	lda is_128
+	lda machine_type
 	bne :+
 	sta skip_key + 64 ; don't skip restore
 :
@@ -226,4 +226,3 @@ handle_nmi:
 	jmp (nmi_vector)
 	
 .rodata
-

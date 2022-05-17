@@ -48,7 +48,10 @@ start:
 	jsr init_state
 
 	memcpy charset, charset_data, $800
-	memcpy_128 charset_keyboard_top, charset_data_64, charset_data_128, $1000
+	memcpy_128 charset_keyboard_top, keyboard_64_charset_top, keyboard_128_charset_top, keyboard_mega65_c64_charset_top, $0400
+	memcpy_128 charset_keyboard_top + $400, keyboard_64_charset_top_inv, keyboard_128_charset_top_inv, keyboard_mega65_c64_charset_top_inv, $0400
+	memcpy_128 charset_keyboard_bottom, keyboard_64_charset_bottom, keyboard_128_charset_bottom, keyboard_mega65_c64_charset_bottom, $0400
+	memcpy_128 charset_keyboard_bottom + $400, keyboard_64_charset_bottom_inv, keyboard_128_charset_bottom_inv, keyboard_mega65_c64_charset_bottom_inv, $0400
 	memcpy sprites, sprite_data, (64 * 8)
 
 	jsr display_main_screen

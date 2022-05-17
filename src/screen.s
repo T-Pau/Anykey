@@ -68,10 +68,11 @@ help_color:
 
 display_main_screen:
 .ifdef USE_VICII
-	memcpy_128 screen, main_screen_64, main_screen_128, 1000
+    ; TODO: mega65
+	memcpy_128 screen, main_screen_64, main_screen_128, main_screen_mega65_c64, 1000
 	memcpy color_ram, main_color_save, 1000
 .ifdef __C64__
-	lda is_128
+	lda machine_type
 	beq c64
 .endif
 	ldx #<main_128_irq_table

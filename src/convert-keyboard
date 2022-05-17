@@ -2,7 +2,7 @@
 
 """
   convert-keyboard -- Convert keyboard bitmap to charsets.
-  Copyright (C) 2020 Dieter Baron
+  Copyright (C) 2020-2022 Dieter Baron
 
   This file is part of Anykey, a keyboard test program for C64.
   The authors can be contacted at <anykey@tpau.group>.
@@ -32,67 +32,69 @@
 import sys
 
 class Charset:
-	def	__init__(self, size, empty):
-		self.by_index = dict()
-		self.by_value = dict()
-		self.next_index = 0
-		self.size = size
-		self.empty = empty
+    def	__init__(self, size, empty):
+        self.by_index = dict()
+        self.by_value = dict()
+        self.next_index = 0
+        self.size = size
+        self.empty = empty
 
-	def add(self, value):
-		if value in self.by_value:
-			return self.by_value[value]
-		else:
-			index = self.get_next_index()
-			self.by_value[value] = index
-			self.by_index[index] = value
-			return index
+    def add(self, value):
+        if value in self.by_value:
+            return self.by_value[value]
+        else:
+            index = self.get_next_index()
+            self.by_value[value] = index
+            self.by_index[index] = value
+            return index
 
-	def add_with_index(self, value, index):
-		if index in self.by_index:
-			raise RuntimeError("character already set")
-		else:
-			self.by_index[index] = value
-			self.by_value[value] = index
+    def add_with_index(self, value, index):
+        if index in self.by_index:
+            raise RuntimeError("character already set")
+        else:
+            self.by_index[index] = value
+            self.by_value[value] = index
 
-	def get_next_index(self):
-		while self.next_index in self.by_index:
-			self.next_index += 1
-			if self.next_index >= self.size:
-				raise RuntimeError("out of characters")
-		return self.next_index
+    def get_next_index(self):
+        while self.next_index in self.by_index:
+            self.next_index += 1
+            if self.next_index >= self.size:
+                raise RuntimeError("out of characters")
+        return self.next_index
 
-	def get_values(self, index):
-		if index in self.by_index:
-			return self.by_index[index]
-		else:
-			return self.empty
+    def get_values(self, index):
+        if index in self.by_index:
+            return self.by_index[index]
+        else:
+            return self.empty
 
 def setup_charset(charset, top, bottom, rounded):
-	charset.add_with_index((0, 0xffffffffffffffff), 32)
-	if top and rounded:
-		charset.add_with_index((0xf0c0808000000000, 0xf0c0808000000000), 0x49)
-		charset.add_with_index((0x0f03010100000000, 0x0f03010100000000), 0x4a)
-	if bottom:
-		if rounded:
-			charset.add_with_index((0x0000008080c0f0ff, 0x0000008080c0f0ff), 0x4b)
-			charset.add_with_index((0x0000000101030fff, 0x0000000101030fff), 0x4c)
-		charset.add_with_index((0x00000000000000ff, 0x00000000000000ff), 0x4d)
+    charset.add_with_index((0, 0xffffffffffffffff), 32)
+    if top and rounded:
+        charset.add_with_index((0xf0c0808000000000, 0xf0c0808000000000), 0x49)
+        charset.add_with_index((0x0f03010100000000, 0x0f03010100000000), 0x4a)
+    if bottom:
+        if rounded:
+            charset.add_with_index((0x0000008080c0f0ff, 0x0000008080c0f0ff), 0x4b)
+            charset.add_with_index((0x0000000101030fff, 0x0000000101030fff), 0x4c)
+        charset.add_with_index((0x00000000000000ff, 0x00000000000000ff), 0x4d)
 
-def save_charset(charset, name):
-	data = b""
-	data_inv = b""
-	for i in range(0, 128):
-		pair = charset.get_values(i)
-		data += pair[0].to_bytes(8, byteorder="big")
-		data_inv += pair[1].to_bytes(8, byteorder="big")
-	with open(name, "wb") as file:
-		file.write(data)
-		file.write(data_inv)
+def save_charset_half(charset, file, index):
+    for i in range(0, max(charset.by_index.keys()) + 1):
+        pair = charset.get_values(i)
+        print("\t.byte $", file=file, end="") # ", $"
+        print(", $".join("{:02x}".format(x) for x in pair[index].to_bytes(8, byteorder="big")), file=file)
+
+def save_charset(charset, file, symbol_prefix):
+    print(f".export {symbol_prefix}, {symbol_prefix}_inv", file=file)
+    print(f"{symbol_prefix}:", file=file)
+    save_charset_half(charset, file, 0)
+    print(f"{symbol_prefix}_inv:", file=file)
+    save_charset_half(charset, file, 1)
 
 def save(data, name):
-	with open(name, mode="wb") as file:
-		file.write(data)
+    with open(name, mode="wb") as file:
+        file.write(data)
 
 if len(sys.argv) != 5:
      print("usage: ", sys.argv[0], " name-prefix width height split-line\n")
@@ -102,33 +104,33 @@ name_prefix = sys.argv[1]
 width = int(sys.argv[2])
 height = int(sys.argv[3])
 top_lines = int(sys.argv[4])
-
+symbol_prefix = name_prefix.replace("-", "_")
 
 screen = b""
 
 with open(name_prefix + "-normal-bitmap.bin", mode='rb') as file_normal:
-	with open(name_prefix + "-pressed-bitmap.bin", mode='rb') as file_pressed:
-		for y in range(0, height):
-			if y == 0:
-				charset = Charset(128, (0, 0))
-				setup_charset(charset, True, False, name_prefix != "keyboard-128")
-			if y == top_lines:
-				#print("------")
-				save_charset(charset, name_prefix + "-charset-top.bin")
-				charset = Charset(128, (0, 0))
-				setup_charset(charset, False, True, name_prefix != "keyboard-128")
-			for x in range(0, int((40-width)/2)):
-				screen += 0xa0.to_bytes(1, byteorder="big")
-			for x in range(0, width):
-				char_normal = int.from_bytes(file_normal.read(8), byteorder='big')
-				char_pressed = int.from_bytes(file_pressed.read(8), byteorder='big')
-				if char_normal == 0 and char_pressed == 0:
-					char_pressed = 0xffffffffffffffff
-				char = charset.add((char_normal, char_pressed))
-				#print("(%02d, %02d): (%016x, %016x) -> %d" % (x, y, char_normal, char_pressed, char))
-				screen += char.to_bytes(1, byteorder="big")
-			for x in range(0, int((40-width+1)/2)):
-				screen += 0xa0.to_bytes(1, byteorder="big")
-
-save_charset(charset, name_prefix + "-charset-bottom.bin")
-save(screen, name_prefix + "-screen.bin")
+    with open(name_prefix + "-pressed-bitmap.bin", mode='rb') as file_pressed:
+        with open(name_prefix + "-charset.s", mode='w') as file_charset:
+            for y in range(0, height):
+                if y == 0:
+                    charset = Charset(128, (0, 0))
+                    setup_charset(charset, True, False, name_prefix != "keyboard-128")
+                if y == top_lines:
+                    #print("------")
+                    save_charset(charset, file_charset, symbol_prefix + "_charset_top")
+                    charset = Charset(128, (0, 0))
+                    setup_charset(charset, False, True, name_prefix != "keyboard-128")
+                for x in range(0, int((40-width)/2)):
+                    screen += 0xa0.to_bytes(1, byteorder="big")
+                for x in range(0, width):
+                    char_normal = int.from_bytes(file_normal.read(8), byteorder='big')
+                    char_pressed = int.from_bytes(file_pressed.read(8), byteorder='big')
+                    if char_normal == 0 and char_pressed == 0:
+                        char_pressed = 0xffffffffffffffff
+                    char = charset.add((char_normal, char_pressed))
+                    #print("(%02d, %02d): (%016x, %016x) -> %d" % (x, y, char_normal, char_pressed, char))
+                    screen += char.to_bytes(1, byteorder="big")
+                for x in range(0, int((40-width+1)/2)):
+                    screen += 0xa0.to_bytes(1, byteorder="big")
+            save_charset(charset, file_charset, symbol_prefix + "_charset_bottom")
+            save(screen, name_prefix + "-screen.bin")

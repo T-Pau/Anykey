@@ -1,5 +1,5 @@
-;  c128.mac -- Macros for C128.
-;  Copyright (C) 2020 Dieter Baron
+;  charset-mega65-c64.s -- Binary data of MEGA65 keyboard character sets (C64 mode).
+;  Copyright (C) 2022 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,25 +25,11 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.macro memcpy_128 destination, source_64, source_128, source_mega65, length
-.scope
-	store_word destination, ptr2
-.ifdef __C64__
-	lda machine_type
-	beq c64
-	bpl c128
-	store_word source_mega65, ptr1
-	jmp copy
-c128:
-.endif
-	store_word source_128, ptr1
-.ifdef __C64__
-	jmp copy
-c64:
-	store_word source_64, ptr1
-copy:
-.endif
-	store_word length, ptr3
-	jsr memcpy
-.endscope
-.endmacro
+
+.export charset_data_mega65_c64
+
+.rodata
+
+charset_data_mega65_c64:
+	.incbin "keyboard-mega65-c64-charset-top.bin"
+	.incbin "keyboard-mega65-c64-charset-bottom.bin"
