@@ -28,19 +28,19 @@
 
 .autoimport +
 
-.export main_128_irq_table, main_128_irq_table_length
+.export main_mega65_c64_irq_table, main_mega65_c64_irq_table_length
 
 .include "defines.inc"
 
 .data
 
-main_128_irq_table:
+main_mega65_c64_irq_table:
 	.word SCREEN_TOP - 1, top_label
-	.word SCREEN_TOP + 8 - 2, switch_keyboard_top
+	.word SCREEN_TOP + 8, switch_keyboard_top_mega65
 	.word SCREEN_TOP + 7 * 8 - 2, switch_keyboard_bottom
 	.word SCREEN_TOP + 15 * 8 - 2, switch_joystick_label
 	.word SCREEN_TOP + 17 * 8 - 1, switch_joystick
 	.word SCREEN_TOP + 22 * 8 - 2, switch_joystick_bottom
 	.word SCREEN_TOP + 24 * 8 + 7, switch_bottom
-main_128_irq_table_length:
-	.byte * - main_128_irq_table
+main_mega65_c64_irq_table_length:
+	.byte * - main_mega65_c64_irq_table

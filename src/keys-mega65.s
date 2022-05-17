@@ -14,7 +14,7 @@
 .rodata
 
 keys_mega65_num_keys:
-    .byte 73
+    .byte 76
 
 keys_mega65_address_low:
     .byte <(screen + 194)
@@ -81,7 +81,7 @@ keys_mega65_address_low:
     .byte <(screen + 404)
     .byte <(screen + 247)
     .byte <(screen + 84)
-    .byte <(screen + 484)
+    .byte <(screen + 94)
     .byte <(screen + 244)
     .byte <(screen + 90)
     .byte <(screen + 114)
@@ -89,7 +89,10 @@ keys_mega65_address_low:
     .byte <(screen + 110)
     .byte <(screen + 112)
     .byte <(screen + 88)
-    .byte <(screen + 193)
+    .byte <(screen + 92)
+    .byte <(screen + 510)
+    .byte <(screen + 432)
+    .byte <(screen + 273)
 
 keys_mega65_address_high:
     .byte >(screen + 194)
@@ -156,7 +159,7 @@ keys_mega65_address_high:
     .byte >(screen + 404)
     .byte >(screen + 247)
     .byte >(screen + 84)
-    .byte >(screen + 484)
+    .byte >(screen + 94)
     .byte >(screen + 244)
     .byte >(screen + 90)
     .byte >(screen + 114)
@@ -164,7 +167,10 @@ keys_mega65_address_high:
     .byte >(screen + 110)
     .byte >(screen + 112)
     .byte >(screen + 88)
-    .byte >(screen + 193)
+    .byte >(screen + 92)
+    .byte >(screen + 510)
+    .byte >(screen + 432)
+    .byte >(screen + 273)
 
 keys_mega65_display_low:
     .byte <(display_key_2)
@@ -233,6 +239,9 @@ keys_mega65_display_low:
     .byte <(display_key_2)
     .byte <(display_key_2)
     .byte <(display_key_3)
+    .byte <(display_key_2)
+    .byte <(display_key_2)
+    .byte <(display_key_2)
     .byte <(display_key_2)
     .byte <(display_key_2)
     .byte <(display_key_2)
@@ -308,6 +317,9 @@ keys_mega65_display_high:
     .byte >(display_key_2)
     .byte >(display_key_2)
     .byte >(display_key_3)
+    .byte >(display_key_2)
+    .byte >(display_key_2)
+    .byte >(display_key_2)
     .byte >(display_key_2)
     .byte >(display_key_2)
     .byte >(display_key_2)

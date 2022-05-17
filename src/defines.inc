@@ -49,6 +49,7 @@ USE_PET = 1
 .if .defined(USE_VICII)
 .include "vic-ii.inc"
 
+tmp1 = $02
 ptr1 = $fb
 ptr2 = $fd
 ptr3 = $c1

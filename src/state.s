@@ -93,8 +93,24 @@ init_state:
 	ldy #>keys_mega65_address_low
 	lda keys_mega65_num_keys
 	jsr set_keys_table
-    jmp not_c64
+	lda #(9 * 8)
+	sta tmp1
+    ldx #<$D614
+    ldy #<$D613
+    lda #>$D614
+    jsr set_keyboard_registers
+	lda #SCREEN_TOP + 8 * 7 + 1
+	sta bottom_charset_line
+	lda #65 ; set CPU to fast
+	sta 0
+    bne not_c64
 not_m65:
+	lda #64
+	sta tmp1
+    ldx #<KEYBOARD_SELECT
+    ldy #<KEYBOARD_VALUE
+    lda #>KEYBOARD_SELECT
+    jsr set_keyboard_registers
 .endif
 	lda VIC_CLK_128
 	cmp #$ff
@@ -105,9 +121,9 @@ not_m65:
 	ldy #>keys_128_address_low
 	lda keys_128_num_keys
 	jsr set_keys_table
-not_c64:
 	lda #SCREEN_TOP + 8 * 7
 	sta bottom_charset_line
+not_c64:
 	lda #SCREEN_TOP + 15 * 8
 	sta joystick_label_line
 	lda #14

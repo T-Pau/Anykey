@@ -28,6 +28,9 @@
 .autoimport +
 
 .export switch_keyboard_bottom, switch_keyboard_top, switch_joystick_label, switch_joystick, switch_bottom, switch_joystick_bottom
+.ifdef __C64__
+.export switch_keyboard_top_mega65
+.endif
 
 .include "defines.inc"
 
@@ -118,3 +121,17 @@ switch_bottom:
 	jsr display_keyboard
 :
 	rts
+
+.ifdef __C64__
+switch_keyboard_top_mega65:
+	jsr content_background
+	lda #FRAME_COLOR
+	ldx #SCREEN_TOP + 8 + 5
+:	cpx VIDEO_CURRENT_LINE
+	bne :-
+	set_vic_text screen, charset_keyboard_top
+	ldx #0
+	jsr read_pots
+	jsr read_keyboard_mega65
+	rts
+.endif

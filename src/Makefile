@@ -1,13 +1,13 @@
 DEPDIR := .deps
 
-CC = cl65
+CC = CC65_HOME=/usr/local/share/cc65 cl65
 CFLAGS_64 = -t c64
 CFLAGS_128 = -t c128
 CFLAGS_MEGA65 = -t mega65
 CFLAGS_PET = -t pet
 CFLAGS_PLUS4 = -t plus4
 
-LD = cl65
+LD = CC65_HOME=/usr/local/share/cc65 cl65
 LDFLAGS_64 = -t c64 -u __EXEHDR__ -C c64-asm.cfg
 LDFLAGS_128 = -t c128 -u __EXEHDR__ -C c128-asm.cfg
 LDFLAGS_MEGA65 = -t mega65 -u __EXEHDR__ -C mega65-asm.cfg
@@ -93,6 +93,7 @@ SOURCES_64 = \
 	keys-64.s \
 	keys-mega65.s \
 	irq-table-64.s \
+	irq-table-mega65-c64.s \
 	screen-64.s \
 	screen-mega65-c64.s
 

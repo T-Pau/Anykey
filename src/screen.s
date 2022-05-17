@@ -74,7 +74,13 @@ display_main_screen:
 .ifdef __C64__
 	lda machine_type
 	beq c64
+    bpl c128
+    ldx #<main_mega65_c64_irq_table
+    ldy #>main_mega65_c64_irq_table
+    lda main_mega65_c64_irq_table_length
+    bne both
 .endif
+c128:
 	ldx #<main_128_irq_table
 	ldy #>main_128_irq_table
 	lda main_128_irq_table_length

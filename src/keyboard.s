@@ -32,6 +32,10 @@
 .export key_index_help, key_index_reset
 .export key_state, new_key_state, bitmask
 
+.ifdef __C64__
+.export set_keyboard_registers, read_keyboard_mega65
+.endif
+
 .include "defines.inc"
 
 .macpack utility
@@ -75,8 +79,6 @@ init_keyboard:
 	jsr init_keyboard_vicii
 .endif
 	rts
-
-
 
 display_keyboard:
 .scope
@@ -135,7 +137,7 @@ end:
 
 
 read_keyboard:
-.scope
+.scope read_keyboard
 .ifdef USE_VICII
 	lda #$ff
 	sta CIA1_PRA
@@ -155,18 +157,28 @@ read_keyboard:
 	lda #$00
 	sta CIA1_DDRB
 .endif
-.ifdef USE_PET
-	lda #$00
+.if .defined(__C64__)
+    lda machine_type
+    bpl init_bits
+    lda #0
+    beq init_end
+init_bits:
+    lda #$fe
+init_end:
+.elseif .defined(USE_PET)
+	lda #0
 .else
 	lda #$fe
 .endif
 	ldx #0
 byteloop:
+select:
 	sta KEYBOARD_SELECT
 .ifdef USE_TED
 	lda #$ff
 	sta KEYBOARD_VALUE
 .endif
+value:
 	lda KEYBOARD_VALUE
 	eor #$ff
 	tay
@@ -201,6 +213,7 @@ byteloop:
 	and bitmask,x
 	sta new_key_state,x
 	inx
+max_key_read:
 	cpx #MAX_KEY_READ
 	beq end_read
 	txa
@@ -208,7 +221,16 @@ byteloop:
 	lsr
 	lsr
 	tay
-.ifndef USE_PET
+.if .defined(__C64__)
+    lda machine_type
+    bpl next_bits
+    tya
+    bne next_end
+next_bits:
+    lda bitmask,y
+    eor #$ff
+next_end:
+.elseif .not(.defined(USE_PET))
 	lda bitmask,y
 	eor #$ff
 .endif
@@ -216,6 +238,18 @@ byteloop:
 
 end_read:
 .ifdef USE_VICII
+.ifdef __C64__
+    lda machine_type
+    bpl :+
+    lda $d60f
+    and #$03
+    beq :+
+    ldy #0
+    sty new_key_state + 2
+    sty new_key_state + 7
+    sty new_key_state + 6 * 8 + 4
+:
+.endif
 	ldx restore_countdown
 	beq :+
 	dex
@@ -239,6 +273,35 @@ end_read:
 .endif
 	rts
 .endscope
+
+.ifdef __C64__
+set_keyboard_registers:
+    stx read_keyboard::select + 1
+    sta read_keyboard::select + 2
+    sty read_keyboard::value + 1
+    sta read_keyboard::value + 2
+    lda tmp1
+    sta read_keyboard::max_key_read + 1
+    rts
+
+read_keyboard_mega65:
+.scope
+    ; Caps
+    lda $d611
+    and #%01000000
+    sta new_key_state + 9 * 8
+    lda $d60f
+    tax
+    ; Cursor Left
+    and #$01
+    sta new_key_state + 9 * 8 + 1
+    txa
+    ; Cursor up
+    and #02
+    sta new_key_state + 9 * 8 + 2
+    rts
+.endscope
+.endif
 
 .rodata
 
