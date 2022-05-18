@@ -6,7 +6,6 @@
 - logo
 - native 320x200 version
 - fix native autoboot
-- use F13/help for reset/help
 
 ## C64
 

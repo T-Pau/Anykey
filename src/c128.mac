@@ -28,16 +28,22 @@
 .macro memcpy_128 destination, source_64, source_128, source_mega65, length
 .scope
 	store_word destination, ptr2
-.ifdef __C64__
+.if .defined(__C64__)
 	lda machine_type
 	beq c64
 	bpl c128
+.endif
+.if .defined(__C64__) .or .defined(__MEGA65__)
 	store_word source_mega65, ptr1
+.endif
+.if .defined(__C64__)
 	jmp copy
 c128:
 .endif
+.if .defined(__C64__) .or .defined(__C128__)
 	store_word source_128, ptr1
-.ifdef __C64__
+.endif
+.if .defined(__C64__)
 	jmp copy
 c64:
 	store_word source_64, ptr1

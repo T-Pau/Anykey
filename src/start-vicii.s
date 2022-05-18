@@ -39,10 +39,66 @@
 .code
 
 start:
-.ifdef __C128__
+.scope
+.if .defined(__C64__)
+    ; detect machine type
+    lda #1
+    sta VIC_SPR0_X
+    lda #VIC_KNOCK_IV_1
+    sta VIC_KEY
+    lda #VIC_KNOCK_IV_2
+    sta VIC_KEY
+    lda #0
+    sta VIC_PALETTE_RED
+    lda VIC_SPR0_X
+    beq not_m65
+    lda #$ff
+    bne end_detect
+not_m65:
+    lda VIC_CLK_128
+    cmp #$ff
+    beq not_128
+    lda #1
+    bne end_detect
+not_128:
+    lda #0
+end_detect:
+	sta machine_type
+.elseif .defined(__C128__)
 	lda MMU_CR
 	ora #$0e
 	sta MMU_CR
+	lda #1
+	sta machine_type
+.elseif .defined(__MEGA65__)
+    ; Set up C64 environment, taken from mega65-tools c65toc64wrapper.asm
+    sei
+    lda #$37
+    sta $01
+    lda #0
+    tax
+    tay
+    taz
+    map
+    eom
+    ;; Enable fast CPU for quick depack
+    lda #65
+    sta 0
+    ;; Enable IO for DMA
+    lda #$47
+    sta $d02f
+    lda #$53
+    sta $d02f
+    ;; Reset C64 mode KERNAL stuff
+    jsr $fda3 ; init I/O
+    jsr $fd15 ; set I/O vectors
+    lda #>$0400             ; Make sure screen memory set to sensible location
+    sta $0288               ; before we call screen init $FF5B
+    jsr $ff5b ; more init
+    jsr $f7a9 ; C65 DOS reinit
+
+    lda #$ff
+	sta machine_type
 .endif
 
 	jsr init_state
@@ -78,3 +134,4 @@ start:
 	jsr init_irq
 	
 	jmp main_loop
+.endscope

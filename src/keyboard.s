@@ -32,7 +32,7 @@
 .export key_index_help, key_index_reset
 .export key_state, new_key_state, bitmask
 
-.ifdef __C64__
+.if .defined(__C64__) .or .defined(__MEGA65__)
 .export set_keyboard_registers, read_keyboard_mega65
 .endif
 
@@ -274,7 +274,7 @@ end_read:
 	rts
 .endscope
 
-.ifdef __C64__
+.if .defined(__C64__) .or .defined(__MEGA65__)
 set_keyboard_registers:
     stx read_keyboard::select + 1
     sta read_keyboard::select + 2

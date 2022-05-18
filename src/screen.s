@@ -68,29 +68,34 @@ help_color:
 
 display_main_screen:
 .ifdef USE_VICII
-    ; TODO: mega65
 	memcpy_128 screen, main_screen_64, main_screen_128, main_screen_mega65_c64, 1000
 	memcpy color_ram, main_color_save, 1000
-.ifdef __C64__
+.if .defined(__C64__)
 	lda machine_type
 	beq c64
     bpl c128
+.endif
+.if .defined(__C64__) .or .defined(__MEGA65__)
     ldx #<main_mega65_c64_irq_table
     ldy #>main_mega65_c64_irq_table
     lda main_mega65_c64_irq_table_length
-    bne both
 .endif
+.if .defined(__C64__)
+    bne set
 c128:
+.endif
+.if .defined(__C64__) .or .defined(__C128__)
 	ldx #<main_128_irq_table
 	ldy #>main_128_irq_table
 	lda main_128_irq_table_length
-.ifdef __C64__
-	bne both
+.endif
+.if .defined(__C64__)
+	bne set
 c64:
 	ldx #<main_64_irq_table
 	ldy #>main_64_irq_table
 	lda main_64_irq_table_length
-both:
+set:
 .endif
 .else
 	memcpy screen, main_screen_plus4, 1000

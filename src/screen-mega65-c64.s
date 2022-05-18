@@ -57,7 +57,7 @@ main_screen_mega65_c64:
 	scrcode     "K                              L"
     invcode                                     "    "
 	invcode "                                        "
-	invcode "      f5: reset keyboard  f7: help      "
+	invcode "    f13: reset keyboard   help: help    "
 	invcode "          (hold for 2 seconds)          "
 
 main_color_mega65_c64:

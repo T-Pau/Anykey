@@ -26,7 +26,8 @@
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 .if .defined(__C64__)
-.include "c64.inc"
+; .include "c64.inc" ; included by mega65.inc
+.include "mega65.inc"
 USE_VICII = 1
 
 .elseif .defined(__C128__)
@@ -42,6 +43,10 @@ USE_TED = 1
 .include "pet.inc"
 USE_PET = 1
 
+.elseif .defined(__MEGA65__)
+.include "mega65.inc"
+USE_VICII = 1
+
 .else
 .error "Target not supported"
 .endif
@@ -49,6 +54,7 @@ USE_PET = 1
 .if .defined(USE_VICII)
 .include "vic-ii.inc"
 
+; TODO: Do these work on MEGA65?
 tmp1 = $02
 ptr1 = $fb
 ptr2 = $fd

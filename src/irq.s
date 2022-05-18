@@ -40,6 +40,19 @@ USE_VICII = 1
 END_OF_IRQ = $ff33
 USE_VICII = 1
 
+.elseif .defined(__MEGA65__)
+.include "mega65.inc"
+; TODO: find in ROM?
+.code
+END_OF_IRQ:
+    pla
+    tay
+    pla
+    tax
+    pla
+    rti
+USE_VICII = 1
+
 .elseif .defined(__PLUS4__)
 .include "plus4.inc"
 END_OF_IRQ = $fcbe

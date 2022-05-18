@@ -28,7 +28,7 @@
 .autoimport +
 
 .export switch_keyboard_bottom, switch_keyboard_top, switch_joystick_label, switch_joystick, switch_bottom, switch_joystick_bottom
-.ifdef __C64__
+.if .defined(__C64__) .or .defined(__MEGA65__)
 .export switch_keyboard_top_mega65
 .endif
 
@@ -122,7 +122,7 @@ switch_bottom:
 :
 	rts
 
-.ifdef __C64__
+.if .defined(__C64__) .or .defined(__MEGA65__)
 switch_keyboard_top_mega65:
 	jsr content_background
 	lda #FRAME_COLOR

@@ -98,7 +98,12 @@ SOURCES_64 = \
 	screen-mega65-c64.s
 
 SOURCES_MEGA65 = \
-	start-mega65.s
+	${SOURCES_VICII} \
+	${SOURCES_COMMON} \
+	keyboard-mega65-c64-charset.s \
+	keys-mega65.s \
+	irq-table-mega65-c64.s \
+	screen-mega65-c64.s
 
 SOURCES_PET_COMMON = \
 	start-pet.s \
