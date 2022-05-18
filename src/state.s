@@ -170,8 +170,6 @@ init_mega65:
     jsr set_keyboard_registers
 	lda #SCREEN_TOP + 8 * 7 + 1
 	sta bottom_charset_line
-	lda #65 ; set CPU to fast
-	sta 0
 	; fall through to init_c128_mega65
 .endif
 

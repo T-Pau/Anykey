@@ -3,7 +3,6 @@
 ## MEGA65
 
 - joystick buttons 2/3 (pot)
-- logo
 - native 320x200 version
 - fix native autoboot
 

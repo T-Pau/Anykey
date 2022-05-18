@@ -43,7 +43,16 @@ stripe_colors:
 .code
 
 display_logo:
+.if .defined(__C64__)
+    lda machine_type
+    bmi :+
+.endif
+.if .not .defined(__MEGA65__)
 	set_vic_24_lines
+.endif
+.if .defined(__C64__)
+:
+.endif
 	lda #COLOR_MID_GRAY
 	sta VIC_BG_COLOR0
 	
@@ -60,8 +69,17 @@ loop:
 	cpx #5
 	bne loop
 	
+.if .defined(__C64__)
+    lda machine_type
+    bmi :+
+.endif
+.if .not .defined(__MEGA65__)
 	set_vic_25_lines
-	
+.endif
+.if .defined(__C64__)
+:
+.endif
+
 	rts
 
 setup_logo:

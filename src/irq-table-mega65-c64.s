@@ -41,6 +41,6 @@ main_mega65_c64_irq_table:
 	.word SCREEN_TOP + 15 * 8 - 2, switch_joystick_label
 	.word SCREEN_TOP + 17 * 8 - 1, switch_joystick
 	.word SCREEN_TOP + 22 * 8 - 2, switch_joystick_bottom
-	.word SCREEN_TOP + 24 * 8 + 7, switch_bottom
+	.word SCREEN_TOP + 24 * 8 + 7, switch_bottom_mega65
 main_mega65_c64_irq_table_length:
 	.byte * - main_mega65_c64_irq_table

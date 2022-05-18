@@ -29,7 +29,7 @@
 
 .export switch_keyboard_bottom, switch_keyboard_top, switch_joystick_label, switch_joystick, switch_bottom, switch_joystick_bottom
 .if .defined(__C64__) .or .defined(__MEGA65__)
-.export switch_keyboard_top_mega65
+.export switch_keyboard_top_mega65, switch_bottom_mega65
 .endif
 
 .include "defines.inc"
@@ -134,4 +134,9 @@ switch_keyboard_top_mega65:
 	jsr read_pots
 	jsr read_keyboard_mega65
 	rts
+
+switch_bottom_mega65:
+    lda #2
+   	sta VIC_BOTTOM_BORDER_POSITION + 1
+   	jmp switch_bottom
 .endif
