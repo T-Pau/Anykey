@@ -165,7 +165,7 @@ read_keyboard:
 init_bits:
     lda #$fe
 init_end:
-.elseif .defined(USE_PET)
+.elseif .defined(USE_PET) .or .defined(__MEGA65__)
 	lda #0
 .else
 	lda #$fe
@@ -230,7 +230,7 @@ next_bits:
     lda bitmask,y
     eor #$ff
 next_end:
-.elseif .not(.defined(USE_PET))
+.elseif .not(.defined(USE_PET) .or .defined(__MEGA65__))
 	lda bitmask,y
 	eor #$ff
 .endif
