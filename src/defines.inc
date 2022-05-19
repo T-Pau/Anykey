@@ -77,7 +77,11 @@ screen = $8c00
 charset = $a000
 charset_keyboard_top = charset + $800
 charset_keyboard_bottom = charset_keyboard_top + $800
+.if .defined(__MEGA65__)
+sprites = $0800
+.else
 sprites = charset_keyboard_bottom + $800
+.endif
 color_ram = $d800
 
 sprite_logo = (sprites & $3fff) / 64

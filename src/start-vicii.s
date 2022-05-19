@@ -97,6 +97,26 @@ end_detect:
     jsr $ff5b ; more init
     jsr $f7a9 ; C65 DOS reinit
 
+    lda #VIC_KNOCK_IV_1
+    sta VIC_KEY
+    lda #VIC_KNOCK_IV_2
+    sta VIC_KEY
+    lda $d05d
+    and #$7f
+    sta $d05d
+    ; swtich to 40 column mode
+    lda #60
+    sta VIC_CHAR_X_SCALE
+    lda #40
+    sta VIC_CHAR_COUNT
+    sta VIC_LINE_STEP
+    store_word screen + $03f8, VIC_SPRITE_POINTER
+    lda #$00 ; $80
+    sta VIC_SPRITE_BANK
+    clc
+    lda VIC_TEXT_X_POSITION
+    adc #3
+    sta VIC_TEXT_X_POSITION
     lda #$ff
 	sta machine_type
 .endif

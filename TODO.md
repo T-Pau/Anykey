@@ -2,9 +2,8 @@
 
 ## MEGA65
 
-- joystick buttons 2/3 (pot)
-- native 320x200 version
-- fix native autoboot
+- pot port selection not working (always reading port 1)
+- reading keyboard not working in native version 
 
 ## C64
 

@@ -26,15 +26,28 @@
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 .macro set_vic_bank base_address
+.if .not .defined(__MEGA65__)
     lda CIA2_PRA ; switch VIC bank
     and #$fc
     ora #((base_address >> 14) ^ 3)
     sta CIA2_PRA
+.endif
 .endmacro
 
 .macro set_vic_text screen, charset
+.if .defined(__MEGA65__)
+    lda #<screen
+    sta VIC_SCREEN_POINTER
+    lda #>screen
+    sta VIC_SCREEN_POINTER + 1
+    lda #<charset
+    sta VIC_CHARSET_POINTER
+    lda #>charset
+    sta VIC_CHARSET_POINTER + 1
+.else
 	lda #(((screen & $3c00) >> 6) | ((charset & $3800) >> 10))
 	sta VIC_VIDEO_ADR
+.endif
 .endmacro
 
 .macro set_ted_charset charset

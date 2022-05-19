@@ -35,6 +35,7 @@
 .include "defines.inc"
 
 .macpack cbm_ext
+.macpack utility
 
 .code
 
@@ -75,7 +76,11 @@ switch_keyboard_bottom:
 	bpl :-
 	nop
 	nop
+.if .defined(__MEGA65__)
+    store_word charset_keyboard_bottom, VIC_CHARSET_POINTER
+.else
 	sta VIC_VIDEO_ADR
+.endif
 	lda command
 	bne :+
 	jsr handle_joysticks
