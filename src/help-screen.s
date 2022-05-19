@@ -69,7 +69,7 @@ help_screens_data:
 	scrcode "two joysticks connected to the        " ;  8
 	scrcode "controller ports.                     " ;  9
 	scrcode "                                      " ; 10
-.ifdef USE_VICII
+.if .defined(USE_VICII)  .and (.not .defined(__MEGA65__))
 	scrcode "to test other controller types or     " ; 11
 	scrcode "joystick adapters, please use the     " ; 12
 	scrcode "companion program joyride which can be" ; 13
@@ -98,8 +98,10 @@ help_screens_data:
 	scrcode "displayed in a lighter gray. this     " ;  8
 	scrcode "helps detect dead keys. to reset the  " ;  9
 	scrcode "state of all keys to unpressed, hold  " ; 10
-.ifdef USE_TED
+.if .defined(USE_TED)
 	scrcode "f3 for two seconds.                   " ; 11
+.elseif .defined(__MEGA65__)
+	scrcode "f13 for two seconds.                  " ; 11
 .else
 	scrcode "f5 for two seconds.                   " ; 11
 .endif

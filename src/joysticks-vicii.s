@@ -49,6 +49,34 @@ select_pots2:
 	rts
 
 read_pots:
+.scope
+.if .defined(__C64__)
+    lda machine_type
+    bpl not_mega65
+.endif
+.if .defined(__C64__) .or .defined(__MEGA65__)
+    lda joy1,x
+    and #$1f
+    sta joy1,x
+    txa
+    asl
+    tay
+    lda $d620,y
+    bmi :+
+    lda joy1,x
+    ora #$20
+    sta joy1,x
+:   lda $d621,y
+    bmi :+
+    lda joy1,x
+    ora #$40
+    sta joy1,x
+:   rts
+.endif
+.if .defined(__C64__)
+not_mega65:
+.endif
+.if .not .defined(__MEGA65__)
 	lda joy1,x
 	and #$1f
 	ldy SID_ADConv1
@@ -59,6 +87,8 @@ read_pots:
 	ora #$40
 :	sta joy1,x
 	rts
+.endif
+.endscope
 
 handle_joysticks:
     lda #$00

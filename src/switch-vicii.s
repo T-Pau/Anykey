@@ -143,5 +143,7 @@ switch_keyboard_top_mega65:
 switch_bottom_mega65:
     lda #2
    	sta VIC_BOTTOM_BORDER_POSITION + 1
+   	lda #30
+   	sta VIC_BOTTOM_BORDER_POSITION
    	jmp switch_bottom
 .endif

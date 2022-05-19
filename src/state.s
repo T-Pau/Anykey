@@ -154,9 +154,9 @@ init_c64_c128:
 init_mega65:
 	lda #65 ; set CPU to fast
 	sta 0
-	lda #68 ; Help
+	lda #67 ; Help
 	sta key_index_help
-	lda #71 ; F13
+	lda #70 ; F13
 	sta key_index_reset
 	ldx #<keys_mega65_address_low
 	ldy #>keys_mega65_address_low

@@ -1,15 +1,17 @@
 SUBDIRS = src
 
-VERSION = 1.3
+VERSION = 1.4
 
 FILES = \
 	README.md \
 	NEWS.md \
 	screenshot.png \
 	src/anykey.d64 \
+	src/anykey.d81 \
 	src/anykey-pet.d64 \
 	src/anykey-64.prg \
 	src/anykey-128.prg \
+	src/anykey-mega65.prg \
 	src/anykey-pet-8k.prg \
 	src/anykey-pet-full.prg \
 	src/anykey-plus4.prg

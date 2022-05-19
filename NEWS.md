@@ -1,4 +1,4 @@
-# Version 1.4 (2022-05-XX)
+# Version 1.4 (2022-05-21)
 
 - Add support for MEGA65.
 

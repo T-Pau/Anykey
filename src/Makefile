@@ -215,7 +215,7 @@ ${DISK}: ${PROGRAMS}
 	c1541 $$disk -silent -write "anykey-mega65.prg" "anykey mega65"; \
 	c1541 $$disk -silent -write "anykey-pet.prg" "anykey pet"; \
 	c1541 $$disk -silent -write "anykey-plus4.prg" "anykey plus/4"; \
-	ips_util apply boot-comma8.ips $$disk -o ${DISK}); \
+	ips_util apply boot-comma8-d64.ips $$disk -o ${DISK}); \
 	rm $$disk
 
 ${DISK_D81}: ${PROGRAMS}
@@ -229,9 +229,8 @@ ${DISK_D81}: ${PROGRAMS}
 	c1541 $$disk -silent -write "anykey-pet.prg" "anykey pet"; \
 	c1541 $$disk -silent -write "anykey-plus4.prg" "anykey plus/4"; \
 	c1541 $$disk -silent -write "autoboot-mega65.prg" "autoboot.c65"; \
-	mv $$disk ${DISK_D81})
-#	ips_util apply boot-comma8.ips $$disk -o ${DISK_D81}); \
-#	rm $$disk
+	ips_util apply boot-comma8-d81.ips $$disk -o ${DISK_D81}); \
+	rm $$disk
 
 ${DISK_PET}: ${PROGRAMS}
 	disk=${DISK_PET}.$$$$; \

@@ -238,9 +238,11 @@ next_end:
 
 end_read:
 .ifdef USE_VICII
-.ifdef __C64__
+.if .defined(__C64__)
     lda machine_type
     bpl :+
+.endif
+.if .defined(__C64__) .or .defined(__MEGA65__)
     lda $d60f
     and #$03
     beq :+
@@ -248,6 +250,8 @@ end_read:
     sty new_key_state + 2
     sty new_key_state + 7
     sty new_key_state + 6 * 8 + 4
+.endif
+.if .defined(__C64__)
 :
 .endif
 	ldx restore_countdown

@@ -113,6 +113,7 @@ end_detect:
     store_word screen + $03f8, VIC_SPRITE_POINTER
     lda #$00 ; $80
     sta VIC_SPRITE_BANK
+    inc VIC_SDBDRWD
     clc
     lda VIC_TEXT_X_POSITION
     adc #3
@@ -129,6 +130,10 @@ end_detect:
 	memcpy_128 charset_keyboard_bottom, keyboard_64_charset_bottom, keyboard_128_charset_bottom, keyboard_mega65_c64_charset_bottom, $0400
 	memcpy_128 charset_keyboard_bottom + $400, keyboard_64_charset_bottom_inv, keyboard_128_charset_bottom_inv, keyboard_mega65_c64_charset_bottom_inv, $0400
 	memcpy sprites, sprite_data, (64 * 8)
+.if .defined(__MEGA65__)
+    ; The xmega65 emulator ignores the VIC-II bank, so copy it in both banks.
+	memcpy $0800, sprite_data, (64 * 8)
+.endif
 
 	jsr display_main_screen
 	lda #FRAME_COLOR

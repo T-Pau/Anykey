@@ -32,7 +32,7 @@
 .macpack cbm_ext
 .include "defines.inc"
 
-LOGO_X = 32 + 40 * 8 - (15 + 36) - 8
+LOGO_X = 32 + 40 * 8 - (15 + 36) - 8 - 1
 LOGO_Y = 50 + 25 * 8
 
 .rodata

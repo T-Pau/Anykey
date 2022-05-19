@@ -78,7 +78,7 @@ charset = $a000
 charset_keyboard_top = charset + $800
 charset_keyboard_bottom = charset_keyboard_top + $800
 .if .defined(__MEGA65__)
-sprites = $0800
+sprites = $8800
 .else
 sprites = charset_keyboard_bottom + $800
 .endif
