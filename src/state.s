@@ -87,6 +87,10 @@ init_state:
 	lda #14
 	sta keyboard_height
 	memcpy main_color_save, main_color_plus4, 1000
+	lda #KEY_INDEX_HELP
+	sta key_index_help
+	lda #KEY_INDEX_RESET
+	sta key_index_reset
 .endif
 	lda keyboard_height
 	cmp #12
