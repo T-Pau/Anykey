@@ -2,7 +2,7 @@
 
 ![Screenshot](screenshot.png)
 
-This program monitors the keyboard and joysticks. It supports Commodore 64, 128, Plus/4, and PET (8k required).
+This program monitors the keyboard and joysticks. It supports Commodore 64, 128, Plus/4, PET (8k required), and MEGA65.
 
 The upper window shows the state of the keyboard.
 
