@@ -4,9 +4,12 @@ PROGRAMS = \
 	anykey-zx48k.tap
 
 SOURCES_48K = \
-	start-zx.s
+	start-zx.asm \
+	copy-colors.asm \
+	copy-screen.asm \
+	platform-48k.asm
 
-OBJECTS_48K = ${SOURCES_48K:%.s=%-48k.o}
+OBJECTS_48K = ${SOURCES_48K:%.asm=%-48k.o}
 
 ALL_OBJECTS = ${OBJECTS_48K}
 
@@ -15,12 +18,12 @@ all: ${PROGRAMS}
 clean:
 	rm -f ${ALL_OBJECTS} ${PROGRAMS}
 
-%-48k.o : %.s
+%-48k.o : %.asm
 	zcc +zx -o $@ -c $<
 
 # zcc +zx -vn -startup=31 -clib=new -O3 terminals_x2.c -o terminals_x2 -pragma-include:zpragma.inc -create-app
 anykey-zx48k.tap: loading-48k.scr ${OBJECTS_48K}
-	zcc +zx -startup=31 -clib=new -pragma-include:zpragma.inc -create-app -Cz--screen=loading-48k.scr -o anykey-zx48k ${OBJECTS_48K}
+	zcc +zx -startup=31 -clib=new -pragma-include:zpragma.inc -create-app -m -Cz--screen=loading-48k.scr -o anykey-zx48k ${OBJECTS_48K}
 
 
 loading-48k.scr: loading-48k.png
@@ -30,4 +33,12 @@ charset.bin: charset.png
 	gfx-convert -b 255 charset charset.png charset.bin
 
 charset-48k.bin keyboard-48k.bin: charset.bin keyboard-48k.png
-	gfx-convert screen charset.bin all-chars.bin keyboard-48k.png
+	gfx-convert -b 1 screen charset.bin charset-48k.bin keyboard-48k.png
+
+
+# TODO: auto track dependencies
+
+copy-colors-48k.o: copy-colors.asm platform.inc
+copy-screen-48k.o: copy-screen.asm platform.inc
+platform-48k-48k.o: platform-48k.asm platform.inc charset-48k.bin keyboard-48k.bin
+start-zx-48k.o: start-zx.asm platform.inc
