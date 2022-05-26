@@ -1,4 +1,4 @@
-SUBDIRS = src
+SUBDIRS = Commodore ZX-Spectrum
 
 VERSION = 1.4
 
@@ -6,15 +6,16 @@ FILES = \
 	README.md \
 	NEWS.md \
 	screenshot.png \
-	src/anykey.d64 \
-	src/anykey.d81 \
-	src/anykey-pet.d64 \
-	src/anykey-64.prg \
-	src/anykey-128.prg \
-	src/anykey-mega65.prg \
-	src/anykey-pet-8k.prg \
-	src/anykey-pet-full.prg \
-	src/anykey-plus4.prg
+	Commodore/anykey.d64 \
+	Commodore/anykey.d81 \
+	Commodore/anykey-pet.d64 \
+	Commodore/anykey-64.prg \
+	Commodore/anykey-128.prg \
+	Commodore/anykey-mega65.prg \
+	Commodore/anykey-pet-8k.prg \
+	Commodore/anykey-pet-full.prg \
+	Commodore/anykey-plus4.prg \
+	ZX-Spectrum/anykey-zx48k.tap
 
 DISTFILE = Anykey-${VERSION}.zip
 
@@ -35,4 +36,4 @@ clean:
 	done
 
 ${DISTFILE}: ${FILES}
-	zip -9jq ${DISTFILE} ${FILES}
+	zip -9q ${DISTFILE} ${FILES}
