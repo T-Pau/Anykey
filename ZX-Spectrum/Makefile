@@ -7,6 +7,9 @@ SOURCES_48K = \
 	start-zx.asm \
 	copy-colors.asm \
 	copy-screen.asm \
+	display-keys.asm \
+	keyboard.asm \
+	keys-48k.asm \
 	platform-48k.asm
 
 OBJECTS_48K = ${SOURCES_48K:%.asm=%-48k.o}
@@ -35,10 +38,14 @@ charset.bin: charset.png
 charset-48k.bin keyboard-48k.bin: charset.bin keyboard-48k.png
 	gfx-convert -b 1 screen charset.bin charset-48k.bin keyboard-48k.png
 
+keys-48k.asm: keys-48k.key key-table
+	./key-table keys-48k
 
 # TODO: auto track dependencies
 
 copy-colors-48k.o: copy-colors.asm platform.inc
 copy-screen-48k.o: copy-screen.asm platform.inc
+display-keyboard-48k.o: display-keys.asm keyboard.inc
+keyboard-48k.o: keyboard.asm keyboard.inc platform.inc
 platform-48k-48k.o: platform-48k.asm platform.inc charset-48k.bin keyboard-48k.bin
 start-zx-48k.o: start-zx.asm platform.inc
