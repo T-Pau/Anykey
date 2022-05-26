@@ -8,8 +8,9 @@ SOURCES_48K = \
 	copy-colors.asm \
 	copy-screen.asm \
 	display-keys.asm \
-	keyboard.asm \
+	display-keyboard.asm \
 	keys-48k.asm \
+	read-keyboard.asm \
 	platform-48k.asm
 
 OBJECTS_48K = ${SOURCES_48K:%.asm=%-48k.o}
@@ -46,6 +47,7 @@ keys-48k.asm: keys-48k.key key-table
 copy-colors-48k.o: copy-colors.asm platform.inc
 copy-screen-48k.o: copy-screen.asm platform.inc
 display-keyboard-48k.o: display-keys.asm keyboard.inc
-keyboard-48k.o: keyboard.asm keyboard.inc platform.inc
+keyboard-48k.o: display-keyboard.asm keyboard.inc platform.inc
 platform-48k-48k.o: platform-48k.asm platform.inc charset-48k.bin keyboard-48k.bin
-start-zx-48k.o: start-zx.asm platform.inc
+read-keyboard-48k.o: read-keyboard.asm platform.inc keyboard.inc
+start-zx-48k.o: start-zx.asm platform.inc keyboard.inc

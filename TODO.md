@@ -1,3 +1,9 @@
+# General
+
+- Rename directory `src` to `Commodore`.
+- Split build instrucitons into `BUILD.md`.
+- Split manual into own file, add screenshots for all versions.
+
 # Commodore
 
 ## MEGA65
@@ -13,6 +19,13 @@
 ## other
 
 - Use proper tool for modifying directory listing.
+
+# ZX Spectrum
+
+- Implement reset keyboard.
+- Implement help screen.
+- Update README.
+- Include in dist file.
 
 # Maximite
 

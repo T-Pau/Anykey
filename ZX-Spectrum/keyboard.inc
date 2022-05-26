@@ -1,4 +1,4 @@
-global display_keyboard, key_state, new_key_state
+global display_keyboard, key_state, new_key_state, read_keyboard
 
 key_screen_offset = 0
 key_color_offset = 2

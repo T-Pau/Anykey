@@ -1,6 +1,7 @@
 public _main
 
 include "platform.inc"
+include "keyboard.inc"
 
 global copy_screen, copy_colors
 
@@ -14,4 +15,6 @@ _main:
     ld de,colors_main
     call copy_colors
 loop:
+    call read_keyboard
+    call display_keyboard
     jp loop

@@ -61,6 +61,7 @@ offset_x = 0
 offset_y = 0
 key_width = 1
 key_height = 1
+row_offset = 0
 screen_width = 32
 lines_per_part = 8
 

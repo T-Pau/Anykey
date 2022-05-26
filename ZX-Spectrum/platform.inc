@@ -1,4 +1,4 @@
-global charset, screen_main, colors_main, keys
+global charset, screen_main, colors_main, keys_48k
 
 PRESSED_COLOR =  $07 ; white on black
 UNCHECKED_COLOR = $47 ; bright white on black

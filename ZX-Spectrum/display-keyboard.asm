@@ -6,16 +6,17 @@ include "keyboard.inc"
 section code_user
 
 display_keyboard:
-    ld ix,(keys)
-    ld iy,(key_state)
+    ld ix,keys_48k
+    ld iy,key_state
     ld a,num_keys
     ld (current_key),a
 
 display_loop:
-    ld a,(iy+num_keys)
-    cp a,(iy)
+    ld a,(iy+num_keys) ; new state
+    cp a,(iy) ; old state
     jr z,next_key
 
+    ld (iy),a
     ld c,CHECKED_COLOR
     or a
     jr z, not_pressed
@@ -26,10 +27,10 @@ not_pressed:
     call display_key
 
 next_key:
-    inc ix
+    inc iy
     ld e,key_size
     ld d,0
-    add iy,de
+    add ix,de
     ld a,(current_key)
     dec a
     ret z

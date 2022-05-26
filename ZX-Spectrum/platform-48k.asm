@@ -23,7 +23,3 @@ colors_main:
     byte 255, 7<<3
     byte (11*32+4) - 255, 7<<3
     byte 0
-
-; TODO: create from .keys file
-keys:
-    byte 0
