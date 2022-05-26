@@ -22,10 +22,9 @@
 
 # ZX Spectrum
 
-- Implement reset keyboard.
+- Increase key hold duration, make CPU frequency independent.
 - Implement help screen.
 - Update README.
-- Include in dist file.
 
 # Maximite
 

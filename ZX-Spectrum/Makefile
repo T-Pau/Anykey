@@ -10,7 +10,9 @@ SOURCES_48K = \
 	display-keys.asm \
 	display-keyboard.asm \
 	keys-48k.asm \
+	main-view.asm \
 	read-keyboard.asm \
+	reset-keyboard.asm \
 	platform-48k.asm
 
 OBJECTS_48K = ${SOURCES_48K:%.asm=%-48k.o}
@@ -39,8 +41,8 @@ loading-48k.scr: loading-48k.png
 charset.bin: charset.png
 	gfx-convert -b 255 charset charset.png charset.bin
 
-charset-48k.bin keyboard-48k.bin: charset.bin keyboard-48k.png
-	gfx-convert -b 1 screen charset.bin charset-48k.bin keyboard-48k.png
+charset-48k.bin keyboard-48k.bin help-48k.bin: charset.bin keyboard-48k.png help-48k.png
+	gfx-convert -b 1 screen charset.bin charset-48k.bin keyboard-48k.png help-48k.png
 
 keys-48k.asm: keys-48k.key key-table
 	./key-table keys-48k
@@ -51,6 +53,8 @@ copy-colors-48k.o: copy-colors.asm platform.inc
 copy-screen-48k.o: copy-screen.asm platform.inc
 display-keyboard-48k.o: display-keys.asm keyboard.inc
 keyboard-48k.o: display-keyboard.asm keyboard.inc platform.inc
+main-view-48k.o: main-view.asm keyboard.inc platform.inc
 platform-48k-48k.o: platform-48k.asm platform.inc charset-48k.bin keyboard-48k.bin
 read-keyboard-48k.o: read-keyboard.asm platform.inc keyboard.inc
-start-zx-48k.o: start-zx.asm platform.inc keyboard.inc
+reset-keyboard-48k.o: reset-keyboard.asm platform.inc
+start-zx-48k.o: start-zx.asm platform.inc

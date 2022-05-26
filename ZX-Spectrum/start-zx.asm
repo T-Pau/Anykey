@@ -1,9 +1,8 @@
 public _main
 
 include "platform.inc"
-include "keyboard.inc"
 
-global copy_screen, copy_colors
+global copy_screen, copy_colors, main_loop
 
 section code_user
 
@@ -14,7 +13,9 @@ _main:
     call copy_screen
     ld de,colors_main
     call copy_colors
-loop:
-    call read_keyboard
-    call display_keyboard
-    jp loop
+    jp main_loop
+
+section bss_user
+
+frame:
+    defs 1
