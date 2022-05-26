@@ -29,9 +29,9 @@ Since PET does not support loading programs to a different address, a separate d
 
 ### ZX Spectrum
 
-The program is provided as a TAP tape image. Insert the tape and enter `LOAD ""` by pressing `j` and `Symbol-P` twice. Then press `Enter` and the play button on the tape deck.
+The program is provided as a tape image in both TAP and TZX formats. Insert the tape and enter `LOAD ""` by pressing `J` and `Symbol-P` twice. Then press `Enter` and the play button on the tape deck.
 
-## Keyboard
+## The Keyboard Window
 
 The keys are displayed in the same layout as the physical keyboard.
 
@@ -42,7 +42,7 @@ Keys that were previously pressed are displayed in a different color. This helps
 Since the PET only supports one color, previously pressed keys are displayed with a square frame.
 
 
-## Joysticks
+## The Joysticks Window
 
 Joysticks contain a stick or d-pad with switches for the four cardinal directions and up to three buttons.
 

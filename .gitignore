@@ -2,12 +2,12 @@
 *.o
 *.zip
 /Commodore/.deps
-/Commodore/anykey.d64
-/Commodore/anykey.d81
-/Commodore/anykey-pet.d64
+/Commodore/*.d64
+/Commodore/*.d81
 /Commodore/*.prg
 /Commodore/*.sym
 /ZX-Spectrum/*_CODE.bin
 /ZX-Spectrum/*_UNASSIGNED.bin
-/ZX-Spectrum/*.tap
 /ZX-Spectrum/*.map
+/ZX-Spectrum/*.tap
+/ZX-Spectrum/*.tzx

@@ -1,7 +1,7 @@
 ZCC = zcc
 
 PROGRAMS = \
-	anykey-zx48k.tap
+	anykey-zx48k.tzx
 
 SOURCES_48K = \
 	start-zx.asm \
@@ -21,6 +21,9 @@ all: ${PROGRAMS}
 
 clean:
 	rm -f ${ALL_OBJECTS} ${PROGRAMS}
+
+%.tzx: %.tap
+	tzxmerge -o $@ $<
 
 %-48k.o : %.asm
 	zcc +zx -o $@ -c $<
