@@ -2,7 +2,16 @@
 
 ![Screenshot](screenshot.png)
 
-This program monitors the keyboard and joysticks. It supports Commodore 64, 128, Plus/4, PET (8k required), and MEGA65.
+This program monitors the keyboard and joysticks. It is useful to test hardware or to explore the key bindings of emulators.
+
+It supports the following computers:
+
+- Commodore 64
+- Commodore 128 (128 mode in 40 columns or 64 mode)
+- Commodore PET (8k required)
+- Commodore Plus/4
+- MEGA65 (native and 64 mode)
+- Sinclair ZX Spectrum 48k
 
 The upper window shows the state of the keyboard.
 
@@ -10,12 +19,17 @@ The lower window shows the state of two joysticks connected to the controller po
 
 To test other controller types or joystick adapters, please use the companion program [Joyride](https://github.com/T-Pau/Joyride) (currently only available on C64).
 
+## Loading the Program
 
-## Loader
+### Commodore 
 
 The disc image contains a BASIC loader that detects which machine it runs on and automatically loads the correct program. For this to work on systems other than the C64, you need to load it with `LOAD"*",8`. Loading it with `LOAD"*",8,1` will not work. On C128 and MEGA65, the disk will autoboot: simply insert the disk and turn on the computer.
 
 Since PET does not support loading programs to a different address, a separate disk image is provided. It also contains a BASIC loader that loads a version suitable for your model. 
+
+### ZX Spectrum
+
+The program is provided as a TAP tape image. Insert the tape and enter `LOAD ""` by pressing `j` and `Symbol-P` twice. Then press `Enter` and the play button on the tape deck.
 
 ## Keyboard
 
@@ -23,7 +37,7 @@ The keys are displayed in the same layout as the physical keyboard.
 
 Keys that are currently pressed are displayed inverted.
 
-Keys that were previously pressed are displayed in a lighter gray. This helps detect dead keys. To reset the state of all keys to unpressed, hold `F5` for two seconds.
+Keys that were previously pressed are displayed in a different color. This helps detect dead keys. To reset the state of all keys to unpressed, hold `F5` for two seconds.
 
 Since the PET only supports one color, previously pressed keys are displayed with a square frame.
 
@@ -34,7 +48,7 @@ Joysticks contain a stick or d-pad with switches for the four cardinal direction
 
 Pressed directions and buttons are displayed inverted.
 
-Buttons 2 and 3 bring an analog potentiometer to a low value by connecting its pin to +5V. This is not supported on Plus/4.
+On Commodore machines and MEGA65, buttons 2 and 3 bring an analog potentiometer to a low value by connecting its pin to +5V. This is not supported on Plus/4.
 	
 
 ## Special Keys
@@ -95,6 +109,4 @@ On C64 and C128, joysticks interfere with reading the keyboard. When a joystick 
 
 # Building Anykey
 
-Anykey is written in CC65 assembler. To build it, you need [cc65](https://cc65.github.io) and GNU make. You also need the `petcat` and `c1541` utilities from [Vice](http://vice-emu.sourceforge.net).
-
-The graphics are drawn in [Affinity Photo](https://affinity.serif.com/en-gb/photo/) and converted with a custom, as yet unreleased, program and a [Python](https://www.python.org/) script. If you want to work on them, please contact me.  Screen text is converted with a [Perl](https://perl.org/) script.
+See [BUILDING.md](BUILDING.md)
