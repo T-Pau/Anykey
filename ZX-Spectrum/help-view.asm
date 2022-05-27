@@ -30,7 +30,7 @@ public help
 include "platform.inc"
 include "keyboard.inc"
 
-global copy_screen, copy_colors, main_loop
+global copy_screen, copy_chars, copy_colors, main_loop, help_screens, help_num_screens
 
 NEXT = 1
 PREVIOUS = 2
@@ -67,13 +67,31 @@ help_loop:
     jr help_loop
 
 display_page:
-    ; TODO; implement
+    rlc a
+    ld c,a
+    ld b,0
+    ld hl,help_screens
+    add hl,bc
+    ld a,(hl)
+    ld (tmp_addr),a
+    inc hl
+    ld a,(hl)
+    ld (tmp_addr + 1),a
+    ld iy,(tmp_addr)
+    ld hl,screen + 1
+    call copy_chars
+    inc iy
+    ld hl,screen + 64
+    call copy_chars
     ret
 
 handle_keys:
     call read_keys
     cp a,0
-    ret z
+    jr nz, got_key
+    ld (current_key),a
+    ret
+got_key:
     ld c,a
     ld a,(current_key)
     cp a,c
@@ -82,12 +100,31 @@ handle_keys:
     ld (current_key),a
     dec a
     jr nz,not_next
-    ; handle next
+    ; next page
+    ld a,(current_page)
+    inc a
+    ld c,a
+    ld a,(help_num_screens)
+    cp a,c
+    ld a,c
+    jr nz,next_no_wraparound
+    ld a,0
+next_no_wraparound:
+    ld (current_page),a
+    call display_page
     ret
 not_next:
     dec a
     jr nz,not_previous
-    ; handle previous
+    ; previous page
+    ld a,(current_page)
+    cp a,0
+    jr nz,previous_no_wraparound
+    ld a,(help_num_screens)
+previous_no_wraparound:
+    dec a
+    ld (current_page),a
+    call display_page
     ret
 not_previous:
     ; return to main view
@@ -145,6 +182,9 @@ current_page:
 
 current_key:
     defs 1
+
+tmp_addr:
+    defs 2
 
 saved_color:
     defs screen_size

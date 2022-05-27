@@ -2,12 +2,18 @@
 
 import sys
 
+# TODO: support for cc65 assembler syntax
+
 class RunlengthEncoder :
     def __init__(self):
-        self.compressed = b"";
-        self.escape = 0xff;
+        self.compressed = b""
+        self.escape = 0xff
         self.last_byte = -1
         self.runlength = 0
+
+    def add_bytes(self, bytes):
+        for byte in bytes:
+            self.add(byte)
 
     def add(self, byte):
         if byte != self.last_byte:
@@ -23,7 +29,9 @@ class RunlengthEncoder :
         self.end_run()
         self.output(self.escape)
         self.output(0)
-        return self.compressed
+        result = self.compressed
+        self.compressed = b""
+        return result
 
     def end_run(self):
         if self.runlength > 2 or self.last_byte == self.escape:
@@ -42,16 +50,182 @@ class RunlengthEncoder :
         else:
             self.compressed += byte.to_bytes(1, byteorder="little")
 
+class Screens:
+    def __init__(self):
+        self.name = ""
+        self.title_length = 0
+        self.line_length = 40
+        self.lines = 25
+        self.prefix = b""
+        self.postfix = b""
+        self.charmap = {}
+        self.syntax = "z88dk"
+
+        self.encoder = RunlengthEncoder()
+        self.in_preamble = True
+        self.compressed_screens = []
+        self.current_line = 0
+        self.current_title = b""
+        self.ignore_empty_line = False
+
+    def process_line(self, line):
+        line = line.rstrip(" \n")
+        if line == "---":
+            if self.in_preamble:
+                self.in_preamble = False
+            else:
+                self.end_screen()
+        else:
+            if self.in_preamble:
+                self.process_preamble_line(line)
+            else:
+                self.process_screen_line(line)
+
+    def process_preamble_line(self, line):
+        if line.startswith(";") or line == "":
+            return
+        elif line.startswith("prefix"):
+            self.prefix = self.parse_fix(line)
+        elif line.startswith("postfix"):
+            self.postfix = self.parse_fix(line)
+        else:
+            words = line.split(" ")
+            if words[0] == "line_length":
+                self.line_length = int(words[1])
+            elif words[0] == "lines":
+                self.lines = int(words[1])
+            elif words[0] == "title_length":
+                self.title_length = int(words[1])
+            elif words[0] == "map":
+                self.add_map(words[1], words[2])
+            elif words[0] == "syntax":
+                self.syntax = words[1]
+            elif words[0] == "name":
+                self.name = words[1]
+            else:
+                raise RuntimeError("unknown command '" + words[0] + "'")
+
+    def process_screen_line(self, line):
+        if line == "---":
+            self.end_screen()
+        else:
+            if self.title_length > 0 and self.current_title == b"":
+                if len(line) > self.title_length:
+                    raise RuntimeError("title too long: '" + line + "'")
+                self.add_string(line, self.title_length)
+                self.current_title = self.encoder.end()
+                self.ignore_empty_line = True
+                return
+            if self.ignore_empty_line and line == "":
+                self.ignore_empty_line = False
+                return
+            self.ignore_empty_line = False
+            if len(line) > self.line_length:
+                raise RuntimeError("line too long: '" + line + "'")
+            self.current_line += 1
+            if self.current_line > self.lines:
+                raise RuntimeError("too many lines in screen")
+            self.encoder.add_bytes(self.prefix)
+            self.add_string(line, self.line_length)
+            self.encoder.add_bytes(self.postfix)
+
+    def end_screen(self):
+        if self.current_title != b"" and self.current_line > 0:
+            while self.current_line < self.lines:
+                self.encoder.add_bytes(self.prefix)
+                self.add_string("", self.line_length)
+                self.encoder.add_bytes(self.postfix)
+                self.current_line += 1
+            self.compressed_screens.append(self.current_title + self.encoder.end())
+            self.current_title = b""
+            self.current_line = 0
+            self.ignore_empty_line = False
+
+    def end(self):
+        self.end_screen()
+        return self.compressed_screens
+
+    def add_map(self, source_string, target_string):
+        source_range = list(map(lambda x: int(x, 0), source_string.replace("$", "0x").split("-")))
+        if len(source_range) == 1:
+            source_range.append(source_range[0])
+        target = int(target_string.replace("$", "0x"), 0)
+
+        for source in range(source_range[0], source_range[1] + 1):
+            self.charmap[source] = target
+            target += 1
+
+    def add_string(self, string, length):
+        self.encoder.add_bytes(self.map_string(string.ljust(length)))
+
+    def map_string(self, string):
+        bytes = b""
+        for c in string:
+            if ord(c) not in self.charmap:
+                raise RuntimeError("unmapped character '" + c + "'")
+            bytes += self.charmap[ord(c)].to_bytes(1, byteorder="little")
+        return bytes
+
+    def parse_fix(self, line):
+        # TODO: support for byte list
+        start = line.find("\"")
+        end = line.rfind("\"")
+        return self.map_string(line[start+1:end])
+
+def write_bytes(file, bytes):
+    i = 0
+    for byte in bytes:
+        if i == 0:
+            file.write("    byte ")
+        else:
+            file.write(", ")
+        file.write(f'${byte:02x}')
+        i += 1
+        if i == 8:
+            file.write("\n")
+            i = 0
+    if i > 0:
+        file.write("\n")
 
 input_file_name = sys.argv[1]
-ouput_file_name = sys.argv[2]
+output_file_name = sys.argv[2]
 
-encoder = RunlengthEncoder()
+if input_file_name.endswith(".bin"):
+    encoder = RunlengthEncoder()
+    with open(input_file_name, "rb") as input_file:
+        while byte := input_file.read(1):
+            encoder.add(byte)
 
-with open(input_file_name, "rb") as input_file:
-    while byte := input_file.read(1):
-        encoder.add(byte)
+    compressed = encoder.end()
+    with open(output_file_name, "wb") as output_file:
+        output_file.write(compressed)
+else:
+    screens = Screens()
+    with open(input_file_name, "r") as input_file:
+        for line in input_file.readlines():
+            screens.process_line(line)
+    compressed_screens = screens.end()
+    with open(output_file_name, "w") as output_file:
+        header = """; This file is automatically created by {program} from {infile}.
+; Do not edit.
 
-compressed = encoder.end()
-with open(ouput_file_name, "wb") as output_file:
-    output_file.write(compressed)
+public {name}_screens, {name}_num_screens
+
+section data_user
+
+{name}_num_screens:
+    byte {num_screens}
+
+{name}_screens:
+""".format(outfile=output_file_name, name=screens.name, infile=input_file_name, program=sys.argv[0], num_screens=len(compressed_screens))
+        output_file.write(header)
+
+        for i in range(len(compressed_screens)):
+            output_file.write("    word " + screens.name + "_" + str(i) + "\n")
+        output_file.write("\n")
+
+        # write screen index
+        for i in range(len(compressed_screens)):
+            output_file.write(screens.name + "_" + str(i) + ":\n")
+            write_bytes(output_file, compressed_screens[i])
+            output_file.write("\n")

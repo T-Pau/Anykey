@@ -9,6 +9,7 @@ SOURCES_48K = \
 	copy-screen.asm \
 	display-keys.asm \
 	display-keyboard.asm \
+	help-screens.asm \
 	help-view.asm \
 	keys-48k.asm \
 	main-view.asm \
@@ -46,13 +47,16 @@ charset-48k.bin keyboard-48k.bin help-48k.bin: charset.bin keyboard-48k.png help
 	gfx-convert -b 1 screen charset.bin charset-48k.bin keyboard-48k.png help-48k.png
 
 keyboard-48k-rl.bin: keyboard-48k.bin compress-screen
-	./compress-screen keyboard-48k.bin keyboard-48-rl.bin
+	./compress-screen keyboard-48k.bin keyboard-48k-rl.bin
 
 help-48k-rl.bin: help-48k.bin compress-screen
 	./compress-screen help-48k.bin help-48-rl.bin
 
 keys-48k.asm: keys-48k.key key-table
 	./key-table keys-48k
+
+help-screens.asm: help-screens.txt compress-screen
+	./compress-screen help-screens.txt help-screens.asm
 
 # TODO: auto track dependencies
 

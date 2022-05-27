@@ -22,7 +22,7 @@
 
 # ZX Spectrum
 
-- Implement help screen.
+- Fix first character of help screen titles.
 - Update README.
 
 # Maximite
