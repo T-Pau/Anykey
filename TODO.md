@@ -22,7 +22,6 @@
 
 # ZX Spectrum
 
-- Increase key hold duration, make CPU frequency independent.
 - Implement help screen.
 - Update README.
 

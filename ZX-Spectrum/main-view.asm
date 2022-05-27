@@ -9,6 +9,9 @@ main_loop:
     call read_keyboard
     call display_keyboard
     call handle_keys_main
+    ei
+    halt
+    di
     jr main_loop
 
 handle_keys_main:
