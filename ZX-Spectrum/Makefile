@@ -9,6 +9,7 @@ SOURCES_48K = \
 	copy-screen.asm \
 	display-keys.asm \
 	display-keyboard.asm \
+	help-view.asm \
 	keys-48k.asm \
 	main-view.asm \
 	read-keyboard.asm \
@@ -44,6 +45,12 @@ charset.bin: charset.png
 charset-48k.bin keyboard-48k.bin help-48k.bin: charset.bin keyboard-48k.png help-48k.png
 	gfx-convert -b 1 screen charset.bin charset-48k.bin keyboard-48k.png help-48k.png
 
+keyboard-48k-rl.bin: keyboard-48k.bin compress-screen
+	./compress-screen keyboard-48k.bin keyboard-48-rl.bin
+
+help-48k-rl.bin: help-48k.bin compress-screen
+	./compress-screen help-48k.bin help-48-rl.bin
+
 keys-48k.asm: keys-48k.key key-table
 	./key-table keys-48k
 
@@ -52,9 +59,10 @@ keys-48k.asm: keys-48k.key key-table
 copy-colors-48k.o: copy-colors.asm platform.inc
 copy-screen-48k.o: copy-screen.asm platform.inc
 display-keyboard-48k.o: display-keys.asm keyboard.inc
+help-view-48k.o: help-view.asm platform.inc keyboard.inc
 keyboard-48k.o: display-keyboard.asm keyboard.inc platform.inc
 main-view-48k.o: main-view.asm keyboard.inc platform.inc
-platform-48k-48k.o: platform-48k.asm platform.inc charset-48k.bin keyboard-48k.bin
+platform-48k-48k.o: platform-48k.asm platform.inc charset-48k.bin keyboard-48k-rl.bin
 read-keyboard-48k.o: read-keyboard.asm platform.inc keyboard.inc
 reset-keyboard-48k.o: reset-keyboard.asm platform.inc
 start-zx-48k.o: start-zx.asm platform.inc

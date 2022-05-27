@@ -25,7 +25,7 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-global display_keyboard, key_state, new_key_state, read_keyboard, reset_keyboard
+global display_keyboard, key_state, new_key_state, read_keyboard, reset_keyboard, change_keyboard_colors
 
 key_screen_offset = 0
 key_color_offset = 2

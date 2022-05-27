@@ -25,7 +25,7 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-global charset, screen_main, colors_main, keys_48k
+global charset, screen_main, colors_main, screen_help, colors_help, keys_48k
 
 screen_size = 32 * 24
 screen = $4000
@@ -46,4 +46,4 @@ KEY_INDEX_NEXT = 35
 KEY_INDEX_PREVIOUS = 25
 KEY_INDEX_RETURN = 20
 
-PRESS_DURATION = 100
+PRESS_DURATION = 90

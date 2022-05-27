@@ -25,56 +25,126 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-public main_loop
+public help
 
 include "platform.inc"
 include "keyboard.inc"
 
-global help
+global copy_screen, copy_colors, main_loop
+
+NEXT = 1
+PREVIOUS = 2
+EXIT = 3
 
 section code_user
 
-main_loop:
-    call read_keyboard
-    call display_keyboard
-    call handle_keys_main
+help:
+    call reset_keyboard_state
+    ld b,PRESSED_COLOR
+    ld c,CHECKED_COLOR
+    call change_keyboard_colors
+
+    ; save color ram
+    ld de,saved_color
+    ld hl,color
+    ld bc,screen_size
+    ldir
+
+    ld iy,screen_help
+    call copy_screen
+    ld de,colors_help
+    call copy_colors
+    ld a,0
+    ld (current_page),a
+    ld (current_key),a
+    call display_page
+
+help_loop:
+    call handle_keys
     ei
     halt
     di
-    jr main_loop
+    jr help_loop
 
-handle_keys_main:
-    ld ix,key_state
-    ld a,(ix + KEY_INDEX_RESET)
-    cp a,0
-    jr z,not_reset
-    ld a,(reset_pressed)
-    inc a
-    ld (reset_pressed),a
-    cp a,PRESS_DURATION
-    jr c,check_help
-    call reset_keyboard
-    jr check_help
-not_reset:
-    ld (reset_pressed),a
-check_help:
-    ld a,(ix + KEY_INDEX_HELP)
-    cp a,0
-    jr z,not_help
-    ld a,(help_pressed)
-    inc a
-    ld (help_pressed),a
-    cp a,PRESS_DURATION
-    ret c
-    jp help
-not_help:
-    ld (help_pressed),a
+display_page:
+    ; TODO; implement
     ret
+
+handle_keys:
+    call read_keys
+    cp a,0
+    ret z
+    ld c,a
+    ld a,(current_key)
+    cp a,c
+    ret z
+    ld a,c
+    ld (current_key),a
+    dec a
+    jr nz,not_next
+    ; handle next
+    ret
+not_next:
+    dec a
+    jr nz,not_previous
+    ; handle previous
+    ret
+not_previous:
+    ; return to main view
+    ld iy,screen_main
+    call copy_screen
+    ; restore color
+    ld de,color
+    ld hl,saved_color
+    ld bc,screen_size
+    ldir
+
+    jp main_loop
+
+read_keys:
+    ld a,$7f
+    in a,($fe)
+    bit 0,a
+    jr nz,no_space
+    ld a,NEXT
+    ret
+no_space:
+    ld a,$df
+    in a,($fe)
+    bit 0,a
+    jr nz,no_p
+    ld a,PREVIOUS
+    ret
+no_p:
+    ld a,$f7
+    in a,($fe)
+    bit 0,a
+    jr nz,no_1
+    ld a,EXIT
+    ret
+no_1:
+    ld a,0
+    ret
+
+
+reset_keyboard_state:
+    ld b,num_keys
+    ld a,0
+    ld hl,key_state
+reset_state_loop:
+    ld (hl),a
+    inc hl
+    djnz reset_state_loop
+    ret
+
 
 section bss_user
 
-reset_pressed:
+current_page:
     defs 1
 
-help_pressed:
+current_key:
     defs 1
+
+saved_color:
+    defs screen_size

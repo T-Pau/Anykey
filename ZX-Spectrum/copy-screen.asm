@@ -34,15 +34,25 @@ section code_user
 ; iy - chars to copy from
 copy_screen:
     ld hl, screen
-    ld ix, screen_size
     ; fallthrough
 
 ; iy - chars to copy from
 ; hl - screen position to copy to
-; ix - length
 copy_chars:
     ; calculate address of character in set
     ld a,(iy)
+    ld c,1
+    cp a,$ff
+    jr nz,no_runlength
+    inc iy
+    ld a,(iy)
+    cp a,0
+    ret z
+    ld c,a
+    inc iy
+    ld a,(iy)
+no_runlength:
+    inc iy
     ld e,a
     ld d,0
     scf
@@ -50,8 +60,14 @@ copy_chars:
     rl de
     rl de
     rl de
-    add de,charset
+    ld a,e
+    add a,charset&$ff
+    ld e,a
+    ld a,d
+    adc a,charset>>8
+    ld d,a
 
+runlength_loop:
     ; copy character
     ld b, 8
 copy_char_loop:
@@ -61,16 +77,18 @@ copy_char_loop:
     inc de
     djnz copy_char_loop
 
-    dec ix
-    ld de,ix
-    ld a,0
-    or d
-    or e
-    ret z
-    inc iy
     inc l
-    jr z,copy_chars
+    jr z,runlength_next
     ld a,h
     sub 8
     ld h,a
-    jr copy_chars
+runlength_next:
+    dec c
+    jr z,copy_chars
+    ld a,e
+    sub 8
+    ld e,a
+    ld a,d
+    sbc 0
+    ld d,a
+    jr runlength_loop

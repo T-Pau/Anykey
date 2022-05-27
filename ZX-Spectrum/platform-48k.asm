@@ -33,7 +33,7 @@ charset:
     incbin "charset-48k.bin"
 
 screen_main:
-    incbin "keyboard-48k.bin"
+    incbin "keyboard-48k-rl.bin"
 
 colors_main:
     byte 32 * 3 + 4, 7<<3
@@ -50,3 +50,11 @@ colors_main:
     byte 255, 7<<3
     byte (11*32+4) - 255, 7<<3
     byte 0
+
+screen_help:
+    incbin "help-48k-rl.bin"
+
+colors_help:
+    byte 32, 7<<3
+    byte 255, 7, 255, 7, 2, 7 ; 16 lines
+    byte 32*7, 7<<3

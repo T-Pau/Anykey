@@ -25,20 +25,27 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-public reset_keyboard
+public reset_keyboard, change_keyboard_colors
 
 include "platform.inc"
 
 section code_user
 
 reset_keyboard:
+    ld b,CHECKED_COLOR
+    ld c,UNCHECKED_COLOR
+    ; fallthrough
+
+; b: color to reset
+; c: color to replace with
+change_keyboard_colors:
     ld hl,color + KEYBOARD_OFFSET
     ld de, KEYBOARD_SIZE
 reset_loop:
     ld a,(hl)
-    cp a,CHECKED_COLOR
+    cp a,b
     jr nz,not_checked
-    ld (hl),UNCHECKED_COLOR
+    ld (hl),c
 not_checked:
     inc hl
     dec de

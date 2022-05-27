@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+
+import sys
+
+class RunlengthEncoder :
+    def __init__(self):
+        self.compressed = b"";
+        self.escape = 0xff;
+        self.last_byte = -1
+        self.runlength = 0
+
+    def add(self, byte):
+        if byte != self.last_byte:
+            self.end_run()
+            self.last_byte = byte
+            self.runlength = 1
+        else:
+            self.runlength += 1
+            if self.runlength == 255:
+                    self.end_run()
+
+    def end(self):
+        self.end_run()
+        self.output(self.escape)
+        self.output(0)
+        return self.compressed
+
+    def end_run(self):
+        if self.runlength > 2 or self.last_byte == self.escape:
+            self.output(self.escape)
+            self.output(self.runlength)
+            self.output(self.last_byte)
+        else:
+            for i in range(self.runlength):
+                self.output(self.last_byte)
+        self.last_byte = -1
+        self.runlength = 0
+
+    def output(self, byte):
+        if type(byte) is bytes:
+            self.compressed += byte
+        else:
+            self.compressed += byte.to_bytes(1, byteorder="little")
+
+
+input_file_name = sys.argv[1]
+ouput_file_name = sys.argv[2]
+
+encoder = RunlengthEncoder()
+
+with open(input_file_name, "rb") as input_file:
+    while byte := input_file.read(1):
+        encoder.add(byte)
+
+compressed = encoder.end()
+with open(ouput_file_name, "wb") as output_file:
+    output_file.write(compressed)
