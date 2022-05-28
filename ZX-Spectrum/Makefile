@@ -94,10 +94,10 @@ keys-plus.asm: keys-plus.key key-table
 	./key-table keys-plus
 
 help-screens-48k.asm: help-screens.txt compress-screen
-	./compress-screen help-screens.txt $@
+	./compress-screen -DPLATFORM_48K help-screens.txt $@
 
 help-screens-plus.asm: help-screens.txt compress-screen
-	./compress-screen help-screens.txt $@
+	./compress-screen -DPLATFORM_PLUS help-screens.txt $@
 
 # TODO: auto track dependencies
 

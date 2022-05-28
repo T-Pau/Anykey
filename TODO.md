@@ -1,6 +1,7 @@
 # General
 
 - Split manual into own file, add screenshots for all versions.
+- Include version in help screens.
 
 # Commodore
 
@@ -20,12 +21,11 @@
 # ZX Spectrum
 
 - Update README.
-- Add #ifdef support to `compress-screen`.
 
 ## ZX Plus
 
 - Display space, enter, right caps, right symbol.
-- Add combined keys to help.
+
 
 # Maximite
 

@@ -63,6 +63,21 @@ keys. to reset the state of
 all keys to unpressed, hold 9
 for two seconds.
 ---
+.if not PLATFORM_48K
+special keys
+
+all keys except for digits,
+letters, space, caps and
+symbol shift are read by the
+computer as two key presses.
+
+the computer can't tell if
+such a key or the two
+corresponding keys are
+pressed, so anykey displays
+all three as pressed.
+---
+.endif
 technical limitations
 
 if you press certain
