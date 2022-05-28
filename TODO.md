@@ -1,7 +1,5 @@
 # General
 
-- Rename directory `src` to `Commodore`.
-- Split build instrucitons into `BUILD.md`.
 - Split manual into own file, add screenshots for all versions.
 
 # Commodore
@@ -22,6 +20,12 @@
 # ZX Spectrum
 
 - Update README.
+- Add #ifdef support to `compress-screen`.
+
+## ZX Plus
+
+- Display space, enter, right caps, right symbol.
+- Add combined keys to help.
 
 # Maximite
 

@@ -1,4 +1,4 @@
-;  display-keys.asm -- Key update routines.
+;  display-keys-48k.asm -- Key update routines.
 ;  Copyright (C) 2022 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,7 +25,7 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-public display_key_2, display_key_3
+public display_key_2, display_key_3, display_key_4, display_key_9, display_key_caps, display_key_enter, display_key_symbol
 
 include "keyboard.inc"
 
@@ -37,9 +37,9 @@ section code_user
 display_key_2:
     ld l,(ix + key_screen_offset)
     ld a,(ix + key_screen_offset + 1)
-    add 3
+    add 2
     ld h,a
-    ld b,9
+    ld b,11
 loop2_char:
     ld a,(hl)
     xor a,%00111111
@@ -48,7 +48,7 @@ loop2_char:
     ld a,(hl)
     xor a,%11111100
     ld (hl),a
-    ld a,5
+    ld a,6
     cp a,b
     jr z,next_line2
     inc h
@@ -80,9 +80,9 @@ loop2_color:
 display_key_3:
     ld l,(ix + key_screen_offset)
     ld a,(ix + key_screen_offset + 1)
-    add 3
+    add 2
     ld h,a
-    ld b,9
+    ld b,11
 loop3_char:
     ld a,(hl)
     xor a,%00111111
@@ -95,7 +95,7 @@ loop3_char:
     ld a,(hl)
     xor a,%11111100
     ld (hl),a
-    ld a,5
+    ld a,6
     cp a,b
     jr z,next_line3
     inc h
@@ -125,4 +125,79 @@ loop3_color:
     ld l,a
     djnz loop3_color
 
+    ret
+
+
+display_key_4:
+    ld l,(ix + key_screen_offset)
+    ld a,(ix + key_screen_offset + 1)
+    add 2
+    ld h,a
+    ld b,11
+loop4_char:
+    ld a,(hl)
+    xor a,%00111111
+    ld (hl),a
+    inc l
+    ld a,(hl)
+    xor a,%11111111
+    ld (hl),a
+    inc l
+    ld a,(hl)
+    xor a,%11111111
+    ld (hl),a
+    inc l
+    ld a,(hl)
+    xor a,%11111100
+    ld (hl),a
+    ld a,6
+    cp a,b
+    jr z,next_line4
+    inc h
+    dec l
+    dec l
+    dec l
+    jr next_row4
+next_line4:
+    ld a,(ix + key_screen_offset)
+    add 32
+    ld l,a
+    ld h,(ix + key_screen_offset + 1)
+next_row4:
+    djnz loop4_char
+
+    ld l,(ix+key_color_offset)
+    ld h,(ix+key_color_offset+1)
+    ld b,2
+loop4_color:
+    ld a,c
+    ld (hl),a
+    inc l
+    ld (hl),a
+    inc l
+    ld (hl),a
+    inc l
+    ld (hl),a
+    ld a,l
+    add 29
+    ld l,a
+    djnz loop4_color
+
+    ret
+
+display_key_9:
+    ; TODO: space
+    ret
+
+display_key_caps:
+    call display_key_4
+    ; TODO: right caps key
+    ret
+
+display_key_enter:
+    ret
+
+display_key_symbol:
+    call display_key_2
+    ; TODO: right symbol key
     ret

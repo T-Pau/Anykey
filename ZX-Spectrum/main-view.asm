@@ -30,12 +30,13 @@ public main_loop
 include "platform.inc"
 include "keyboard.inc"
 
-global help
+global help, combine_keys
 
 section code_user
 
 main_loop:
     call read_keyboard
+    call combine_keys
     call display_keyboard
     call handle_keys_main
     ei

@@ -27,39 +27,34 @@
 
 include "platform.inc"
 
-global combine_keys
-
-section code_user
-
-combine_keys:
-    ret
-
 section data_user
 
 charset:
-    incbin "charset-48k.bin"
+    incbin "charset-plus.bin"
 
 screen_main:
-    incbin "keyboard-48k-rl.bin"
+    incbin "keyboard-plus-rl.bin"
 
 colors_main:
-    byte 32 * 3 + 4, 7<<3
-    byte 24, 7, 8, 7<<3
-    byte 24, UNCHECKED_COLOR, 8, 7<<3
-    byte 24, UNCHECKED_COLOR, 8, 7<<3
-    byte 24, UNCHECKED_COLOR, 8, 7<<3
-    byte 24, UNCHECKED_COLOR, 8, 7<<3
-    byte 24, UNCHECKED_COLOR, 8, 7<<3
-    byte 24, UNCHECKED_COLOR, 8, 7<<3
-    byte 24, UNCHECKED_COLOR, 8, 7<<3
-    byte 24, UNCHECKED_COLOR, 8, 7<<3
-    byte 24, 7
+    byte 32 * 3 + 2, 7<<3
+    byte 29, 7, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, 7
     byte 255, 7<<3
-    byte (11*32+4) - 255, 7<<3
+    byte (9*32+2) - 255, 7<<3
     byte 0
 
 screen_help:
-    incbin "help-48k-rl.bin"
+    incbin "help-plus-rl.bin"
 
 colors_help:
     byte 32, 7<<3
