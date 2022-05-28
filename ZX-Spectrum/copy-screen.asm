@@ -41,18 +41,18 @@ copy_screen:
 copy_chars:
     ; calculate address of character in set
     ld a,(iy)
+    inc iy
     ld c,1
     cp a,$ff
     jr nz,no_runlength
-    inc iy
     ld a,(iy)
+    inc iy
     cp a,0
     ret z
     ld c,a
-    inc iy
     ld a,(iy)
-no_runlength:
     inc iy
+no_runlength:
     ld e,a
     ld d,0
     scf

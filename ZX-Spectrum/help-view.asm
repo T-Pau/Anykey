@@ -80,9 +80,9 @@ display_page:
     ld iy,(tmp_addr)
     ld hl,screen + 1
     call copy_chars
-    inc iy
     ld hl,screen + 64
     call copy_chars
+    ld iy,0 ; clear iy so interrupt routine doesn't clobber next help page
     ret
 
 handle_keys:
