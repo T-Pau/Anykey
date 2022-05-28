@@ -6,6 +6,8 @@
 
 # Commodore
 
+- Use proper tool for modifying directory listing.
+
 ## MEGA65
 
 - Fix Restore detection.
@@ -16,9 +18,6 @@
 
 - Ignore phantom keys when joystick 2 and certain keys are pressed at once.
 
-## other
-
-- Use proper tool for modifying directory listing.
 
 # ZX Spectrum
 
