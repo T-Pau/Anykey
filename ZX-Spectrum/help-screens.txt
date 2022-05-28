@@ -57,7 +57,7 @@ pressed are displayed
 inverted.
 
 keys that were previously
-pressed are displayed in a
+pressed are displayed in
 yellow. this helps detect dead
 keys. to reset the state of
 all keys to unpressed, hold 9
