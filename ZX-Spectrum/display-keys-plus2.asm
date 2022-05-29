@@ -35,34 +35,30 @@ section code_user
 ; c: color
 
 display_key_2:
-    ld e,(ix + key_screen_offset)
+    ld l,(ix + key_screen_offset)
     ld a,(ix + key_screen_offset + 1)
-    add 3
-    ld d,a
-    ld hl,circle_mask
-    ld b,9
+    add 2
+    ld h,a
+    ld b,11
 loop2_char:
-    ld a,(de)
-    xor a,(hl)
-    inc hl
-    ld (de),a
-    inc e
-
-    ld a,(de)
-    xor a,(hl)
-    inc hl
-    ld (de),a
-    ld a,5
+    ld a,(hl)
+    xor a,%00111111
+    ld (hl),a
+    inc l
+    ld a,(hl)
+    xor a,%11111100
+    ld (hl),a
+    ld a,6
     cp a,b
     jr z,next_line2
-    inc d
-    dec e
+    inc h
+    dec l
     jr next_row2
 next_line2:
     ld a,(ix + key_screen_offset)
     add 32
-    ld e,a
-    ld d,(ix + key_screen_offset + 1)
+    ld l,a
+    ld h,(ix + key_screen_offset + 1)
 next_row2:
     djnz loop2_char
 
@@ -82,8 +78,55 @@ loop2_color:
     ret
 
 display_key_3:
-    ld d,3
-    jp display_key_n
+    ld l,(ix + key_screen_offset)
+    ld a,(ix + key_screen_offset + 1)
+    add 2
+    ld h,a
+    ld b,11
+loop3_char:
+    ld a,(hl)
+    xor a,%00111111
+    ld (hl),a
+    inc l
+    ld a,(hl)
+    xor a,%11111111
+    ld (hl),a
+    inc l
+    ld a,(hl)
+    xor a,%11111100
+    ld (hl),a
+    ld a,6
+    cp a,b
+    jr z,next_line3
+    inc h
+    dec l
+    dec l
+    jr next_row3
+next_line3:
+    ld a,(ix + key_screen_offset)
+    add 32
+    ld l,a
+    ld h,(ix + key_screen_offset + 1)
+next_row3:
+    djnz loop3_char
+
+    ld l,(ix+key_color_offset)
+    ld h,(ix+key_color_offset+1)
+    ld b,2
+loop3_color:
+    ld a,c
+    ld (hl),a
+    inc l
+    ld (hl),a
+    inc l
+    ld (hl),a
+    ld a,l
+    add 30
+    ld l,a
+    djnz loop3_color
+
+    ret
+
 
 display_key_4:
     ld d,4
@@ -98,64 +141,48 @@ display_key_9:
     jr display_key_n
 
 display_key_n:
-    ld a,d
-    ld (key_width),a
-    ld a,c
-    ld (key_color),a
-    ld e,(ix + key_screen_offset)
+    ld l,(ix + key_screen_offset)
     ld a,(ix + key_screen_offset + 1)
-    add 3
-    ld d,a
-    ld hl,circle_mask
-    ld c,9
+    add 2
+    ld h,a
+    ld e,11
 loop_n_char:
-    ld a,(de)
-    xor a,(hl)
-    inc hl
-    ld (de),a
-    inc e
-
-    ld a,(key_width)
-    ld b,a
+    ld b,d
     dec b
     dec b
+    ld a,(hl)
+    xor a,%00111111
+    ld (hl),a
+    inc l
 loop_n_x:
-    ld a,(de)
+    ld a,(hl)
     xor a,%11111111
-    ld (de),a
-    inc e
+    ld (hl),a
+    inc l
     djnz loop_n_x
-
-    ld a,(de)
-    xor a,(hl)
-    inc hl
-    ld (de),a
-    inc e
-    ld a,5
-    cp a,c
+    ld a,(hl)
+    xor a,%11111100
+    ld (hl),a
+    inc l
+    ld a,6
+    cp a,e
     jr z,next_line_n
-    inc d
-    ld a,(key_width)
-    ld b,a
-    ld a,e
-    sub a,b
-    ld e,a
+    inc h
+    ld a,l
+    sub a,d
+    ld l,a
     jr next_row_n
 next_line_n:
     ld a,(ix + key_screen_offset)
     add 32
-    ld e,a
-    ld d,(ix + key_screen_offset + 1)
+    ld l,a
+    ld h,(ix + key_screen_offset + 1)
 next_row_n:
-    dec c
-    ld a,c
+    dec e
+    ld a,e
     cp a,0
     jr nz,loop_n_char
 
-    ld a,(key_color)
-    ld c,a
-    ld a,(key_width)
-    ld d,a
     ld l,(ix+key_color_offset)
     ld h,(ix+key_color_offset+1)
     ld e,2
@@ -179,88 +206,83 @@ loop_n_color_x:
 
 
 display_key_enter:
-    ld hl,circle_mask_enter
-    ld e,(ix + key_screen_offset)
-    inc e
-    inc e
+    ld l,(ix + key_screen_offset)
+    inc l
+    inc l
     ld a,(ix + key_screen_offset + 1)
-    add 3
-    ld d,a
+    add 2
+    ld h,a
     ld b,16
 loop_enter_top_char:
-    ld a,(de)
-    xor a,(hl)
-    inc hl
-    ld (de),a
-    inc e
-    ld a,(de)
-    xor a,(hl)
-    inc hl
-    ld (de),a
+    ld a,(hl)
+    xor a,%00111111
+    ld (hl),a
+    inc l
+    ld a,(hl)
+    xor a,%11111100
+    ld (hl),a
     ld a,b
-    cp a,12
+    cp a,11
     jr z,next_line_enter_top
-    cp a,4
+    cp a,3
     jr z,next_line_enter_top_2
-    inc d
-    dec e
+    inc h
+    dec l
     jr next_row_enter_top
 next_line_enter_top:
     ld a,(ix + key_screen_offset)
     add 34
-    ld e,a
-    ld d,(ix + key_screen_offset + 1)
+    ld l,a
+    ld h,(ix + key_screen_offset + 1)
     jr next_row_enter_top
 next_line_enter_top_2:
     ld a,(ix + key_screen_offset)
     add 66
-    ld e,a
+    ld l,a
     ld a,(ix + key_screen_offset + 1)
     add a,8
-    ld d,a
+    ld h,a
 next_row_enter_top:
     djnz loop_enter_top_char
 
     ld a,(ix + key_screen_offset)
     add a,64
-    ld e,a
+    ld l,a
     ld a,(ix + key_screen_offset + 1)
-    add 3+8
-    ld d,a
-    ld b,9
+    add 2+8
+    ld h,a
+    ld b,11
 loop_enter_bottom_char:
-    ld a,(de)
-    xor a,(hl)
-    inc hl
-    ld (de),a
-    inc e
-    ld a,(de)
+    ld a,(hl)
+    xor a,%00111111
+    ld (hl),a
+    inc l
+    ld a,(hl)
     xor a,%11111111
-    ld (de),a
-    inc e
-    ld a,(de)
+    ld (hl),a
+    inc l
+    ld a,(hl)
     xor a,%11111111
-    ld (de),a
-    inc e
-    ld a,(de)
-    xor a,(hl)
-    inc hl
-    ld (de),a
+    ld (hl),a
+    inc l
+    ld a,(hl)
+    xor a,%11111100
+    ld (hl),a
     ld a,b
     cp a,5
     jr z,next_line_enter_bottom
-    inc d
-    dec e
-    dec e
-    dec e
+    inc h
+    dec l
+    dec l
+    dec l
     jr next_row_enter_bottom
 next_line_enter_bottom:
     ld a,(ix + key_screen_offset)
     add 32+64
-    ld e,a
+    ld l,a
     ld a,(ix + key_screen_offset + 1)
     add a,8
-    ld d,a
+    ld h,a
 next_row_enter_bottom:
     djnz loop_enter_bottom_char
 
@@ -299,54 +321,3 @@ enter_color_bottom:
     djnz enter_color_bottom
 
     ret
-
-section data_user
-
-circle_mask:
-    byte %00011111, %11111000
-    byte %00011111, %11111000
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00011111, %11111000
-    byte %00011111, %11111000
-    byte %00001111, %11110000
-    byte %00000011, %11000000
-
-circle_mask_enter:
-    byte %00011111, %11111000
-    byte %00011111, %11111000
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00011111, %11111100
-    byte %00011111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-
-    byte %00011111, %11111000
-    byte %00011111, %11111000
-    byte %00001111, %11110000
-    byte %00000011, %11000000
-
-section bss_user
-
-key_color:
-    defs 1
-
-key_width:
-    defs 1

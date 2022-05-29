@@ -23,9 +23,6 @@
 - Update README.
 - Spectrum +2/+3/Next version.
 
-## ZX Plus
-
-- Round keys.
 
 # Maximite
 
