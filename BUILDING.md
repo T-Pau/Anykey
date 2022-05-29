@@ -6,7 +6,7 @@
 
 You will need GNU make, [Python](https://www.python.org/), and [Perl](https://perl.org/).
 
-Graphics are drawn in [Affinity Photo](https://affinity.serif.com/en-gb/photo/) and converted with a custom, as yet unreleased, program. If you want to work on them, please contact me.
+Graphics are drawn in [Affinity Photo](https://affinity.serif.com/en-gb/photo/) and converted with the custom program [gfx-converter](https://github.com/T-Pau/gfx-converter).
 
 ### Commodore
 

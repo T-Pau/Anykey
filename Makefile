@@ -15,10 +15,10 @@ FILES = \
 	Commodore/anykey-pet-8k.prg \
 	Commodore/anykey-pet-full.prg \
 	Commodore/anykey-plus4.prg \
-	ZX-Spectrum/anykey-zx-48k.tap \
-	ZX-Spectrum/anykey-zx-48k.tzx \
-	ZX-Spectrum/anykey-zx-plus.tap \
-	ZX-Spectrum/anykey-zx-plus.tzx
+	ZX-Spectrum/anykey-spectrum-48k.tap \
+	ZX-Spectrum/anykey-spectrum-48k.tzx \
+	ZX-Spectrum/anykey-spectrum-48k+-128k.tap \
+	ZX-Spectrum/anykey-spectrum-48k+-128k.tzx
 
 DISTFILE = Anykey-${VERSION}.zip
 

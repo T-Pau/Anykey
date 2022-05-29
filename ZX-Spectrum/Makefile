@@ -4,8 +4,8 @@ CFLAGS_48K = -Ca-DPLATFORM_48K
 CFLAGS_PLUS = -Ca-DPLATFORM_PLUS
 
 PROGRAMS = \
-	anykey-zx-48k.tzx \
-	anykey-zx-plus.tzx
+	anykey-spectrum-48k.tzx \
+	anykey-spectrum-48k+-128k.tzx
 
 SOURCES_COMMON = \
 	start-zx.asm \
@@ -51,11 +51,11 @@ clean:
 %-plus.o: %.asm
 	zcc +zx ${CFLAGS_PLUS} -o $@ -c $<
 
-anykey-zx-48k.tap: loading-48k.scr ${OBJECTS_48K}
-	zcc +zx -startup=31 -clib=new -pragma-include:zpragma.inc -create-app -m -Cz--screen=loading-48k.scr -o anykey-zx-48k ${OBJECTS_48K}
+anykey-spectrum-48k.tap: loading-48k.scr ${OBJECTS_48K}
+	zcc +zx -startup=31 -clib=new -pragma-include:zpragma.inc -create-app -m -Cz--screen=loading-48k.scr -o anykey-spectrum-48k ${OBJECTS_48K}
 
-anykey-zx-plus.tap: loading-plus.scr ${OBJECTS_PLUS}
-	zcc +zx -startup=31 -clib=new -pragma-include:zpragma.inc -create-app -m -Cz--screen=loading-plus.scr -o anykey-zx-plus ${OBJECTS_PLUS}
+anykey-spectrum-48k+-128k.tap: loading-plus.scr ${OBJECTS_PLUS}
+	zcc +zx -startup=31 -clib=new -pragma-include:zpragma.inc -create-app -m -Cz--screen=loading-plus.scr -o anykey-spectrum-48k+-128k ${OBJECTS_PLUS}
 
 loading-48k.scr: loading-48k.png
 	gfx-convert -b 7 spectrum $< $@

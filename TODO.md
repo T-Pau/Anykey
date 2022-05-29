@@ -21,7 +21,6 @@
 # ZX Spectrum
 
 - Update README.
-- Rename binaries.
 - Spectrum +2/+3/Next version.
 
 ## ZX Plus
