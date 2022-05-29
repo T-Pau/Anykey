@@ -21,11 +21,12 @@
 # ZX Spectrum
 
 - Update README.
+- Rename binaries.
+- Spectrum +2/+3/Next version.
 
 ## ZX Plus
 
-- Display space, enter, right caps, right symbol.
-
+- Round keys.
 
 # Maximite
 

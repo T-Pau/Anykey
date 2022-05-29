@@ -76,6 +76,9 @@ such a key or the two
 corresponding keys are
 pressed, so anykey displays
 all three as pressed.
+
+for best results, test the
+normal keys first.
 ---
 .endif
 technical limitations

@@ -16,7 +16,7 @@ FILES = \
 	Commodore/anykey-pet-full.prg \
 	Commodore/anykey-plus4.prg \
 	ZX-Spectrum/anykey-zx-48k.tap \
-	ZX-Spectrum/anykey-zx-48k.tzx
+	ZX-Spectrum/anykey-zx-48k.tzx \
 	ZX-Spectrum/anykey-zx-plus.tap \
 	ZX-Spectrum/anykey-zx-plus.tzx
 

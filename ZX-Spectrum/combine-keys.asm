@@ -51,4 +51,7 @@ combine_list:
     byte  0, 23 ; caps + 7: cursor up
     byte  0, 24 ; caps + 6: cursor down
     byte 36, 38 ; symbol + n: ,
+
+    byte  0,  0 ; right caps
+    byte 36, 36 ; right symbol
     byte $ff

@@ -3,17 +3,17 @@
 ; This file is automatically created by ./key-table from keys-plus.key.
 ; Do not edit.
 
-global keys_48k, num_keys_48k, display_key_caps,display_key_2,display_key_enter,display_key_9,display_key_symbol,display_key_3
+global keys_48k, num_keys_48k, display_key_4,display_key_2,display_key_enter,display_key_9,display_key_3,display_key_5
 
 include "platform.inc"
 
 section data_user
 
 num_keys_48k:
-	byte 56
+	byte 58
 
 keys_48k:
-    word screen + 2115, color + 323, display_key_caps
+    word screen + 2115, color + 323, display_key_4
     word screen + 2121, color + 329, display_key_2
     word screen + 2123, color + 331, display_key_2
     word screen + 2125, color + 333, display_key_2
@@ -49,7 +49,7 @@ keys_48k:
     word screen + 2068, color + 276, display_key_2
     word screen + 2066, color + 274, display_key_2
     word screen + 2189, color + 397, display_key_9
-    word screen + 2179, color + 387, display_key_symbol
+    word screen + 2179, color + 387, display_key_2
     word screen + 2133, color + 341, display_key_2
     word screen + 2131, color + 339, display_key_2
     word screen + 2129, color + 337, display_key_2
@@ -69,3 +69,5 @@ keys_48k:
     word screen + 2198, color + 406, display_key_2
     word screen + 2200, color + 408, display_key_2
     word screen + 2202, color + 410, display_key_2
+    word screen + 2137, color + 345, display_key_5
+    word screen + 2204, color + 412, display_key_2
