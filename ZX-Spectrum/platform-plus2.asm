@@ -1,4 +1,4 @@
-;  platform.inc -- general defines
+;  platform-48k.asm -- 48k specific code
 ;  Copyright (C) 2022 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,31 +25,43 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-global charset, screen_main, colors_main, screen_help, colors_help, keys_48k
+include "platform.inc"
 
-IF PLATFORM_48K
-include "platform-48k.inc"
-ELIFDEF PLATFORM_PLUS
-include "platform-plus.inc"
-ELIFDEF PLATFORM_PLUS2
-include "platform-plus2.inc"
-ELSE
-ERROR "platform not supported"
-ENDIF
+section data_user
 
-screen_size = 32 * 24
-screen = $4000
-color = screen + screen_size * 8
+charset:
+    incbin "charset-plus2.bin"
 
+screen_main:
+    incbin "keyboard-plus2-rl.bin"
 
-PRESSED_COLOR =  $07 ; white on black
-UNCHECKED_COLOR = $47 ; bright white on black
-CHECKED_COLOR = $06 ; yellow on black
+colors_main:
+    byte 32 + 2, 7<<3
+    byte 29, 7, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, UNCHECKED_COLOR, 3, 7<<3
+    byte 29, 7
+    byte 32 * 2 + 7, 7<<3
+    byte 20, 7, 12, 7<<3
+    byte 20, 7, 12, 7<<3
+    byte 20, 7, 12, 7<<3
+    byte 20, 7, 12, 7<<3
+    byte 20, 7, 12, 7<<3
+    byte 32 * 5 + 6, 7<<3
+    byte 0
 
-KEY_INDEX_RESET = 21
-KEY_INDEX_HELP = 20
-KEY_INDEX_NEXT = 35
-KEY_INDEX_PREVIOUS = 25
-KEY_INDEX_RETURN = 20
+screen_help:
+    incbin "help-plus2-rl.bin"
 
-PRESS_DURATION = 90
+colors_help:
+    byte 32, 7<<3
+    byte 255, 7, 255, 7, 2, 7 ; 16 lines
+    byte 32*7, 7<<3

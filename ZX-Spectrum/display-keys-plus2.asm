@@ -239,9 +239,7 @@ next_line_enter_top_2:
     ld a,(ix + key_screen_offset)
     add 66
     ld l,a
-    ld a,(ix + key_screen_offset + 1)
-    add a,8
-    ld h,a
+    ld h,(ix + key_screen_offset + 1)
 next_row_enter_top:
     djnz loop_enter_top_char
 
@@ -249,7 +247,7 @@ next_row_enter_top:
     add a,64
     ld l,a
     ld a,(ix + key_screen_offset + 1)
-    add 2+8
+    add 2
     ld h,a
     ld b,11
 loop_enter_bottom_char:
@@ -269,7 +267,7 @@ loop_enter_bottom_char:
     xor a,%11111100
     ld (hl),a
     ld a,b
-    cp a,5
+    cp a,6
     jr z,next_line_enter_bottom
     inc h
     dec l
@@ -280,9 +278,7 @@ next_line_enter_bottom:
     ld a,(ix + key_screen_offset)
     add 32+64
     ld l,a
-    ld a,(ix + key_screen_offset + 1)
-    add a,8
-    ld h,a
+    ld h,(ix + key_screen_offset + 1)
 next_row_enter_bottom:
     djnz loop_enter_bottom_char
 
@@ -302,7 +298,6 @@ enter_color_top:
     ld l,a
     djnz enter_color_top
 
-    inc h
     dec hl
     dec hl
     ld b,2

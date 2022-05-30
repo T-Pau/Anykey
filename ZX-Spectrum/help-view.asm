@@ -30,7 +30,7 @@ public help
 include "platform.inc"
 include "keyboard.inc"
 
-global copy_screen, copy_chars, copy_colors, main_loop, help_screens, help_num_screens
+global copy_screen, copy_chars, copy_colors, main_loop, help_screens, num_help_screens
 
 NEXT = 1
 PREVIOUS = 2
@@ -104,7 +104,7 @@ got_key:
     ld a,(current_page)
     inc a
     ld c,a
-    ld a,(help_num_screens)
+    ld a,(num_help_screens)
     cp a,c
     ld a,c
     jr nz,next_no_wraparound
@@ -120,7 +120,7 @@ not_next:
     ld a,(current_page)
     cp a,0
     jr nz,previous_no_wraparound
-    ld a,(help_num_screens)
+    ld a,(num_help_screens)
 previous_no_wraparound:
     dec a
     ld (current_page),a

@@ -2,13 +2,16 @@
 
 import argparse
 import sys
+import json
 
 # TODO: support for cc65 assembler syntax
 
-class RunlengthEncoder :
+
+class RunlengthEncoder:
     def __init__(self):
         self.compressed = b""
-        self.escape = 0xff
+        self.code_runlength = 0xff
+        self.code_skip = 0xfe
         self.last_byte = -1
         self.runlength = 0
 
@@ -24,19 +27,28 @@ class RunlengthEncoder :
         else:
             self.runlength += 1
             if self.runlength == 255:
-                    self.end_run()
+                self.end_run()
+
+    def skip(self, amount):
+        while amount > 255:
+            self.output(self.code_skip)
+            self.output(255)
+            amount -= 255
+        if amount > 0:
+            self.output(self.code_skip)
+            self.output(amount)
 
     def end(self):
         self.end_run()
-        self.output(self.escape)
+        self.output(self.code_runlength)
         self.output(0)
         result = self.compressed
         self.compressed = b""
         return result
 
     def end_run(self):
-        if self.runlength > 2 or self.last_byte == self.escape:
-            self.output(self.escape)
+        if self.runlength > 2 or self.last_byte == self.code_runlength or self.last_byte == self.code_skip:
+            self.output(self.code_runlength)
             self.output(self.runlength)
             self.output(self.last_byte)
         else:
@@ -50,6 +62,7 @@ class RunlengthEncoder :
             self.compressed += byte
         else:
             self.compressed += byte.to_bytes(1, byteorder="little")
+
 
 class Screens:
     def __init__(self, defines):
@@ -221,6 +234,7 @@ class Screens:
         end = line.rfind("\"")
         return self.map_string(line[start+1:end])
 
+
 def write_bytes(file, bytes):
     i = 0
     for byte in bytes:
@@ -237,12 +251,38 @@ def write_bytes(file, bytes):
         file.write("\n")
 
 
+def write_parts(output_file_name, parts, name):
+    with open(output_file_name, "w") as output_file:
+        header = """; This file is automatically created by {program} from {infile}.
+; Do not edit.
+
+public {name}, num_{name}
+
+section data_user
+
+num_{name}:
+    byte {num_parts}
+
+{name}:
+""".format(outfile=output_file_name, name=name, infile=input_file_name, program=sys.argv[0], num_parts=len(parts))
+        output_file.write(header)
+
+        for i in range(len(parts)):
+            output_file.write("    word " + name + "_" + str(i) + "\n")
+        output_file.write("\n")
+
+        # write screen index
+        for i in range(len(parts)):
+            output_file.write(name + "_" + str(i) + ":\n")
+            write_bytes(output_file, parts[i])
+            output_file.write("\n")
+
+
 parser = argparse.ArgumentParser(description='Runlength encode screen data.')
 
 parser.add_argument("input_file")
 parser.add_argument("output_file")
 parser.add_argument("-D", action="append", dest="defines")
-
 args = parser.parse_args()
 
 input_file_name = args.input_file
@@ -257,33 +297,44 @@ if input_file_name.endswith(".bin"):
     compressed = encoder.end()
     with open(output_file_name, "wb") as output_file:
         output_file.write(compressed)
+elif input_file_name.endswith(".json"):
+    with open(input_file_name, "r") as json_file:
+        spec = json.load(json_file)
+
+        screen_width = spec.get("screen_width", 0)
+        width = spec.get("width", 0)
+        height = spec.get("width", 0)
+        skip = max(screen_width - width, 0)
+
+        parts = []
+        encoder = RunlengthEncoder()
+        with open(spec["input_file"], "rb") as input_file:
+            x = 0
+            y = 0
+            while byte := input_file.read(1):
+                encoder.add(byte)
+                if width > 0:
+                    x += 1
+                    if x == width:
+                        x = 0
+                        if height > 0:
+                            y += 1
+                            if y == height:
+                                parts.append(encoder.end())
+                                y = 0
+                                continue
+                        encoder.skip(skip)
+        rest = encoder.end()
+        if len(rest) > 2:
+            parts.append(rest)
+
+        write_parts(output_file_name, parts, spec["name"])
+
 else:
     screens = Screens(args.defines)
     with open(input_file_name, "r") as input_file:
         for line in input_file.readlines():
             screens.process_line(line)
     compressed_screens = screens.end()
-    with open(output_file_name, "w") as output_file:
-        header = """; This file is automatically created by {program} from {infile}.
-; Do not edit.
 
-public {name}_screens, {name}_num_screens
-
-section data_user
-
-{name}_num_screens:
-    byte {num_screens}
-
-{name}_screens:
-""".format(outfile=output_file_name, name=screens.name, infile=input_file_name, program=sys.argv[0], num_screens=len(compressed_screens))
-        output_file.write(header)
-
-        for i in range(len(compressed_screens)):
-            output_file.write("    word " + screens.name + "_" + str(i) + "\n")
-        output_file.write("\n")
-
-        # write screen index
-        for i in range(len(compressed_screens)):
-            output_file.write(screens.name + "_" + str(i) + ":\n")
-            write_bytes(output_file, compressed_screens[i])
-            output_file.write("\n")
+    write_parts(output_file_name, compressed_screens, screens.name + "_screens")

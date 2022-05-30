@@ -1,19 +1,19 @@
 ; This file is automatically created by ./compress-screen from help-screens.txt.
 ; Do not edit.
 
-public help_screens, help_num_screens
+public help_screens, num_help_screens
 
 section data_user
 
-help_num_screens:
+num_help_screens:
     byte 3
 
 help_screens:
-    word help_0
-    word help_1
-    word help_2
+    word help_screens_0
+    word help_screens_1
+    word help_screens_2
 
-help_0:
+help_screens_0:
     byte $01, $0e, $19, $0b, $05, $19, $ff, $18
     byte $20, $ff, $00, $20, $14, $08, $09, $13
     byte $20, $10, $12, $0f, $07, $12, $01, $0d
@@ -29,7 +29,7 @@ help_0:
     byte $2e, $ff, $ff, $20, $ff, $33, $20, $ff
     byte $00
 
-help_1:
+help_screens_1:
     byte $0b, $05, $19, $02, $0f, $01, $12, $04
     byte $ff, $16, $20, $ff, $00, $20, $14, $08
     byte $05, $20, $0b, $05, $19, $13, $20, $01
@@ -71,7 +71,7 @@ help_1:
     byte $17, $0f, $20, $13, $05, $03, $0f, $0e
     byte $04, $13, $2e, $ff, $0f, $20, $ff, $00
 
-help_2:
+help_screens_2:
     byte $14, $05, $03, $08, $0e, $09, $03, $01
     byte $0c, $20, $0c, $09, $0d, $09, $14, $01
     byte $14, $09, $0f, $0e, $13, $ff, $09, $20
