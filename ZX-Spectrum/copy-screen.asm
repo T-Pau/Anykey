@@ -47,20 +47,21 @@ copy_screen:
 ; iy - chars to copy from
 ; hl - screen position to copy to
 copy_chars:
-    ; calculate address of character in set
     ld a,(iy)
     inc iy
-    ld c,1
     cp a,$fe
     jr nz,no_skip
     ld a,(iy)
     inc iy
     add a,l
     ld l,a
-    ld a,0
-    adc a,h
+    jr nc,copy_chars
+    ld a,8
+    add a,h
     ld h,a
+    jr copy_chars
 no_skip:
+    ld c,1
     cp a,$ff
     jr nz,no_runlength
     ld a,(iy)
@@ -71,6 +72,7 @@ no_skip:
     ld a,(iy)
     inc iy
 no_runlength:
+    ; calculate address of character in set
     ld e,a
     ld d,0
     scf

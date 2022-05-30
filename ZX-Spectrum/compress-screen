@@ -30,6 +30,9 @@ class RunlengthEncoder:
                 self.end_run()
 
     def skip(self, amount):
+        if amount == 0:
+            return
+        self.end_run()
         while amount > 255:
             self.output(self.code_skip)
             self.output(255)

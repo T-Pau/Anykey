@@ -30,7 +30,7 @@ public main_loop
 include "platform.inc"
 include "keyboard.inc"
 
-global help, combine_keys
+global help, combine_keys, display_joystick
 
 section code_user
 
@@ -38,7 +38,16 @@ main_loop:
     call read_keyboard
     call combine_keys
     call display_keyboard
+IF JOYSTICK_1_DPAD_OFFSET
+    ld a,0
+    call display_joystick
+ENDIF
+IF JOYSTICK_2_DPAD_OFFSET
+    ld a,1
+    call display_joystick
+ENDIF
     call handle_keys_main
+    ld iy,0 ; clear iy so interrupt routine doesn't clobber memory
     ei
     halt
     di

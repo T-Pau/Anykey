@@ -30,7 +30,7 @@ public help
 include "platform.inc"
 include "keyboard.inc"
 
-global copy_screen, copy_chars, copy_colors, main_loop, help_screens, num_help_screens
+global copy_screen, copy_chars, set_charset, copy_colors, main_loop, help_screens, num_help_screens
 
 NEXT = 1
 PREVIOUS = 2
@@ -50,6 +50,9 @@ help:
     ld bc,screen_size
     ldir
 
+    ld h,charset >> 8
+    ld l,charset & $ff
+    call set_charset
     ld iy,screen_help
     call copy_screen
     ld de,colors_help

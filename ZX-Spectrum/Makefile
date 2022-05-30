@@ -39,6 +39,7 @@ SOURCES_PLUS2 = \
 	button.asm \
 	combine-keys.asm \
 	dpad.asm \
+	joystick.asm \
 	display-keys-plus2.asm \
 	help-screens-plus2.asm \
 	keys-plus2.asm \
@@ -173,6 +174,7 @@ copy-colors-plus2.o: copy-colors.asm platform.inc platform-plus2.inc
 copy-screen-plus2.o: copy-screen.asm platform.inc platform-plus2.inc
 display-keyboard-plus2.o: display-keys-plus2.asm keyboard.inc platform-plus2.inc
 help-view-plus2.o: help-view.asm platform.inc keyboard.inc platform-plus2.inc
+joystick-plus2.o: joystick.asm charset-joystick.bin platform.inc platform-plus2.inc
 keyboard-plus2.o: display-keyboard.asm keyboard.inc platform.inc platform-plus2.inc
 main-view-plus2.o: main-view.asm keyboard.inc platform.inc platform-plus2.inc
 platform-plus2.plus.o: platform-plus2.asm platform.inc platform-plus2.inc charset-plus2.bin keyboard-plus2-rl.bin help-plus2-rl.bin

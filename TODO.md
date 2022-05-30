@@ -21,7 +21,9 @@
 # ZX Spectrum
 
 - Update README.
-- Spectrum +2/+3/Next version.
+- Check if joystick bits are mapped correctly.
+- Spectrum Next version.
+- Spectrum N-Go version.
 
 
 # Maximite
