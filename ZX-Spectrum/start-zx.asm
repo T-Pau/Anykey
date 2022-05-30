@@ -29,11 +29,14 @@ public _main
 
 include "platform.inc"
 
-global copy_screen, copy_colors, main_loop
+global copy_screen, copy_colors, main_loop, set_charset
 
 section code_user
 
 _main:
+    ld h,charset>>8
+    ld l,charset & $ff
+    call set_charset
     ld a,7
     out (254),a
     ld iy,screen_main

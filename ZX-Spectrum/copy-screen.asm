@@ -25,11 +25,19 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-public copy_screen, copy_chars
+public copy_screen, copy_chars, set_charset
 
 include "platform.inc"
 
 section code_user
+
+; hl - address of charset
+set_charset:
+    ld a,l
+    ld (current_charset),a
+    ld a,h
+    ld (current_charset + 1),a
+    ret
 
 ; iy - chars to copy from
 copy_screen:
@@ -43,6 +51,16 @@ copy_chars:
     ld a,(iy)
     inc iy
     ld c,1
+    cp a,$fe
+    jr nz,no_skip
+    ld a,(iy)
+    inc iy
+    add a,l
+    ld l,a
+    ld a,0
+    adc a,h
+    ld h,a
+no_skip:
     cp a,$ff
     jr nz,no_runlength
     ld a,(iy)
@@ -60,11 +78,11 @@ no_runlength:
     rl de
     rl de
     rl de
-    ld a,e
-    add a,charset&$ff
+    ld a,(current_charset)
+    add a,e
     ld e,a
-    ld a,d
-    adc a,charset>>8
+    ld a,(current_charset + 1)
+    adc a,d
     ld d,a
 
 runlength_loop:
@@ -92,3 +110,8 @@ runlength_next:
     sbc 0
     ld d,a
     jr runlength_loop
+
+section bss_user
+
+current_charset:
+    defs 2
