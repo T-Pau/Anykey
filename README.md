@@ -12,52 +12,29 @@ It supports the following computers:
 - Commodore Plus/4
 - MEGA65 (native and 64 mode)
 - Sinclair ZX Spectrum 48k
+- Sinclair ZX Spectrum 48k+
+- Sinclair ZX Spectrum 128k
 
 The upper window shows the state of the keyboard.
 
-The lower window shows the state of two joysticks connected to the controller ports.
+If the computer has controller ports, the lower window shows the state of connected joysticks.
 
 To test other controller types or joystick adapters, please use the companion program [Joyride](https://github.com/T-Pau/Joyride) (currently only available on C64).
 
-## Loading the Program
+For detailed usage instructions, see the documentation pages:
 
-### Commodore 
+- [Commodore 8-Bit Computers](Documentation/Commodore.md)
+- [Commodore PET](Documentation/Commodore%20PET.md)
+- [Sinclair ZX Spectrum](Documentation/ZX%20Spectrum.md)
 
-The disc image contains a BASIC loader that detects which machine it runs on and automatically loads the correct program. For this to work on systems other than the C64, you need to load it with `LOAD"*",8`. Loading it with `LOAD"*",8,1` will not work. On C128 and MEGA65, the disk will autoboot: simply insert the disk and turn on the computer.
-
-Since PET does not support loading programs to a different address, a separate disk image is provided. It also contains a BASIC loader that loads a version suitable for your model. 
-
-### ZX Spectrum
-
-The program is provided as a tape image in both TAP and TZX formats. Insert the tape and enter `LOAD ""` by pressing `J` and `Symbol-P` twice. Then press `Enter` and the play button on the tape deck.
-
-## The Keyboard Window
-
-The keys are displayed in the same layout as the physical keyboard.
-
-Keys that are currently pressed are displayed inverted.
-
-Keys that were previously pressed are displayed in a different color. This helps detect dead keys. To reset the state of all keys to unpressed, hold `F5` for two seconds.
-
-Since the PET only supports one color, previously pressed keys are displayed with a square frame.
-
-
-## The Joysticks Window
-
-Joysticks contain a stick or d-pad with switches for the four cardinal directions and up to three buttons.
-
-Pressed directions and buttons are displayed inverted.
-
-On Commodore machines and MEGA65, buttons 2 and 3 bring an analog potentiometer to a low value by connecting its pin to +5V. This is not supported on Plus/4.
-	
 
 ## Special Keys
 
 `Shift Lock` and the left `Shift` key, and on Plus/4 also the right `Shift` key, appear as the same key to the computer and cannot be reliably distinguished on all computers. On Plus/4, both `Control` keys also appear as the same key.
 	
-The `Restore` key cannot be read directly. Anykey can detect when the key is pressed, but it can't detect for how long.
+The `Restore` key cannot be read directly. Anykey can detect when the key is pressed, but it can't detect for how long, is it assumes the key was released after a short while.
 
-On MEGA65, when pressing `Cursor Up` or `Cursor Left`, `Right Shift` and the opposite cursor keys also appear pressed to software to maintain compatibility with C64. To avoid prematurely marking keys as pressed, these keys are disabled while `Cursor Up` or `Cursor Left is pressed. 
+On MEGA65, when pressing `Cursor Up` or `Cursor Left`, `Right Shift` and the opposite cursor keys also appear pressed to software to maintain compatibility with C64. To avoid prematurely marking keys as pressed, these keys are disabled while `Cursor Up` or `Cursor Left` is pressed. 
 
 ## MEGA65
 
