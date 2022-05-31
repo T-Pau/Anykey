@@ -4,12 +4,14 @@ CFLAGS_48K = -Ca-DPLATFORM_48K
 CFLAGS_PLUS = -Ca-DPLATFORM_PLUS
 CFLAGS_PLUS2 = -Ca-DPLATFORM_PLUS2
 CFLAGS_NEXT = -Ca-DPLATFORM_NEXT
+CFLAGS_N_GO = -Ca-DPLATFORM_N_GO
 
 PROGRAMS = \
 	anykey-spectrum-48k.tzx \
 	anykey-spectrum-48k+-128k.tzx \
 	anykey-spectrum-+2-+3.tzx \
-	anykey-spectrum-next.tzx
+	anykey-spectrum-next.tzx \
+	anykey-spectrum-n-go.tzx
 
 SOURCES_COMMON = \
 	start-zx.asm \
@@ -58,13 +60,21 @@ SOURCES_NEXT = \
 	keys-plus2.asm \
 	platform-next.asm
 
+SOURCES_N_GO = \
+	${SOURCES_COMMON} \
+	${SOURCES_COMMON_PLUS2} \
+	display-keys-plus2.asm \
+	help-screens-n-go.asm \
+	keys-n-go.asm \
+	platform-n-go.asm
 
 OBJECTS_48K = ${SOURCES_48K:%.asm=%-48k.o}
 OBJECTS_PLUS = ${SOURCES_PLUS:%.asm=%-plus.o}
 OBJECTS_PLUS2 = ${SOURCES_PLUS2:%.asm=%-plus2.o}
 OBJECTS_NEXT = ${SOURCES_NEXT:%.asm=%-next.o}
+OBJECTS_N_GO = ${SOURCES_N_GO:%.asm=%-n-go.o}
 
-ALL_OBJECTS = ${OBJECTS_48K} ${OBJECTS_PLUS} ${OBJECTS_PLUS2} ${OBJECTS_NEXT}
+ALL_OBJECTS = ${OBJECTS_48K} ${OBJECTS_PLUS} ${OBJECTS_PLUS2} ${OBJECTS_NEXT} ${OBJECTS_N_GO}
 
 all: ${PROGRAMS}
 
@@ -86,6 +96,9 @@ clean:
 %-next.o: %.asm
 	zcc +zx ${CFLAGS_NEXT} -o $@ -c $<
 
+%-n-go.o: %.asm
+	zcc +zx ${CFLAGS_N_GO} -o $@ -c $<
+
 anykey-spectrum-48k.tap: loading-48k.scr ${OBJECTS_48K}
 	zcc +zx -startup=31 -clib=new -pragma-include:zpragma.inc -create-app -m -Cz--screen=loading-48k.scr -o anykey-spectrum-48k ${OBJECTS_48K}
 
@@ -98,6 +111,9 @@ anykey-spectrum-+2-+3.tap: loading-plus2.scr ${OBJECTS_PLUS2}
 anykey-spectrum-next.tap: loading-next.scr ${OBJECTS_NEXT}
 	zcc +zx -startup=31 -clib=new -pragma-include:zpragma.inc -create-app -m -Cz--screen=loading-next.scr -o anykey-spectrum-next ${OBJECTS_NEXT}
 
+anykey-spectrum-n-go.tap: loading-n-go.scr ${OBJECTS_N_GO}
+	zcc +zx -startup=31 -clib=new -pragma-include:zpragma.inc -create-app -m -Cz--screen=loading-n-go.scr -o anykey-spectrum-n-go ${OBJECTS_N_GO}
+
 loading-48k.scr: loading-48k.png
 	gfx-convert -b 7 spectrum $< $@
 
@@ -108,6 +124,9 @@ loading-plus2.scr: loading-plus2.png
 	gfx-convert -b 7 spectrum $< $@
 
 loading-next.scr: loading-next.png
+	gfx-convert -b 7 spectrum $< $@
+
+loading-n-go.scr: loading-n-go.png
 	gfx-convert -b 7 spectrum $< $@
 
 charset.bin: charset.png
@@ -124,6 +143,9 @@ charset-plus2.bin keyboard-plus2.bin help-plus2.bin: charset.bin keyboard-plus2.
 
 charset-next.bin keyboard-next.bin help-next.bin: charset.bin keyboard-next.png help-next.png
 	gfx-convert -b 1 screen charset.bin charset-next.bin keyboard-next.png help-next.png
+
+charset-n-go.bin keyboard-n-go.bin help-n-go.bin: charset.bin keyboard-n-go.png help-n-go.png
+	gfx-convert -b 1 screen charset.bin charset-n-go.bin keyboard-n-go.png help-n-go.png
 
 charset-joystick.bin button.bin dpad.bin: button.png dpad.png
 	gfx-convert -b 1 screen "" charset-joystick.bin button.png dpad.png
@@ -152,6 +174,12 @@ keyboard-next-rl.bin: keyboard-next.bin compress-screen
 help-next-rl.bin: help-next.bin compress-screen
 	./compress-screen help-next.bin help-next-rl.bin
 
+keyboard-n-go-rl.bin: keyboard-n-go.bin compress-screen
+	./compress-screen keyboard-n-go.bin $@
+
+help-n-go-rl.bin: help-n-go.bin compress-screen
+	./compress-screen help-n-go.bin help-n-go-rl.bin
+
 button.asm: button.json button.bin compress-screen
 	./compress-screen button.json $@
 
@@ -167,8 +195,8 @@ keys-plus.asm: keys-plus.key key-table
 keys-plus2.asm: keys-plus2.key key-table
 	./key-table keys-plus2
 
-keys-next.asm: keys-next.key key-table
-	./key-table keys-next
+keys-n-go.asm: keys-n-go.key key-table
+	./key-table keys-n-go
 
 help-screens-48k.asm: help-screens.txt compress-screen
 	./compress-screen -DPLATFORM_48K help-screens.txt $@
@@ -181,6 +209,9 @@ help-screens-plus2.asm: help-screens.txt compress-screen
 
 help-screens-next.asm: help-screens.txt compress-screen
 	./compress-screen -DPLATFORM_NEXT help-screens.txt $@
+
+help-screens-n-go.asm: help-screens.txt compress-screen
+	./compress-screen -DPLATFORM_N_GO help-screens.txt $@
 
 # TODO: auto track dependencies
 
@@ -232,3 +263,16 @@ platform-next.plus.o: platform-next.asm platform.inc platform-next.inc charset-n
 read-keyboard-next.o: read-keyboard.asm platform.inc platform-next.inc keyboard.inc
 reset-keyboard-next.o: reset-keyboard.asm platform.inc platform-next.inc
 start-zx-next.o: start-zx.asm platform.inc platform-next.inc
+
+combine-keys-n-go.o: combine-keys.asm platform.inc platform-n-go.inc keyboard.inc
+copy-colors-n-go.o: copy-colors.asm platform.inc platform-n-go.inc
+copy-screen-n-go.o: copy-screen.asm platform.inc platform-n-go.inc
+display-keys-plus2-n-go.o: display-keys-plus2.asm keyboard.inc platform-n-go.inc
+help-view-n-go.o: help-view.asm platform.inc keyboard.inc platform-n-go.inc
+joystick-n-go.o: joystick.asm charset-joystick.bin platform.inc platform-n-go.inc
+display-keyboard-n-go.o: display-keyboard.asm keyboard.inc platform.inc platform-n-go.inc
+main-view-n-go.o: main-view.asm keyboard.inc platform.inc platform-n-go.inc
+platform-n-go.plus.o: platform-n-go.asm platform.inc platform-n-go.inc charset-n-go.bin keyboard-n-go-rl.bin help-n-go-rl.bin
+read-keyboard-n-go.o: read-keyboard.asm platform.inc platform-n-go.inc keyboard.inc
+reset-keyboard-n-go.o: reset-keyboard.asm platform.inc platform-n-go.inc
+start-zx-n-go.o: start-zx.asm platform.inc platform-n-go.inc

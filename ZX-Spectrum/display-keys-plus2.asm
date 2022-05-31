@@ -25,7 +25,7 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-public display_key_2, display_key_3, display_key_4, display_key_5, display_key_9, display_key_enter
+public display_key_2, display_key_3, display_key_4, display_key_5, display_key_9
 
 include "keyboard.inc"
 
@@ -140,6 +140,13 @@ display_key_9:
     ld d,9
     jr display_key_n
 
+IF PLATFORM_N_GO
+public display_key_13
+display_key_13:
+    ld d,13
+    jr display_key_n
+ENDIF
+
 display_key_n:
     ld l,(ix + key_screen_offset)
     ld a,(ix + key_screen_offset + 1)
@@ -204,7 +211,8 @@ loop_n_color_x:
 
     ret
 
-
+IF PLATFORM_PLUS2
+public display_key_enter
 display_key_enter:
     ld l,(ix + key_screen_offset)
     inc l
@@ -316,3 +324,4 @@ enter_color_bottom:
     djnz enter_color_bottom
 
     ret
+ENDIF
