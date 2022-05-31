@@ -24,6 +24,7 @@
 - Use R/H for reset/help.
 - Fix Kempston joystick in Next verison. 
 - Spectrum N-Go version.
+- Document Next/N-Go joystick window.
 
 
 # Maximite
