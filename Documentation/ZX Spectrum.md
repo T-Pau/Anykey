@@ -19,8 +19,8 @@ There are five versions of Anykey for the various ZX Spectrum models to account 
 ### Anykey Spectrum +2 / +3
 ![](Anykey%20Spectrum%20+2%20+3.png)
 
-- ZX Spectrum +2 (gray, made by Sinclair)
-- ZX Spectrum +2A (black, made by Amstrad)
+- ZX Spectrum +2 (gray model, made by Sinclair)
+- ZX Spectrum +2A (black model, made by Amstrad)
 - ZX Spectrum +3
 
 ### Anykey Spectrum Next

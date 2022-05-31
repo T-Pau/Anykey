@@ -57,32 +57,6 @@ Anykey PET requires at least 8k RAM. It supports both 40 and 80 column mode and 
 
 Since the PET does not support colors, keys that were previously pressed are displayed as squares.
 
-Most keys are labeled with the symbol
-they produce when pressed without shift.
-Special keys are labeled with a
-short description or graphics symbol,
-depending on the space available:
-
-- Clear/Home: `▘`, `CLR`
-- Cursor Left/Right: `┳`, `<=>`
-- Cursor Up/Down: `┣`, `U/D`
-- Escape: `♣`, `ESC`
-- Insert/Delete: `╳`, `DEL`
-- Repeat: `π`
-- Return: `RE`, `RET`
-- Reverse On/Off: `◥`, `RV`
-- Run/Stop: `◆`, `R/S`
-- Shift: `○`, `SH`, `SHF`, `SHFT`
-- Shift Lock: `●`, `SL`
-- Tab: `TB`
-
-
-## Technical Limitations
-
-If you press certain combinations of three keys, a fourth key will also appear pressed. This is because the three keys together create the same electrical connection the fourth key would.                            
-
-On C64 and C128, joysticks interfere with reading the keyboard. When a joystick is pressed, certain keys can't be read. These keys will be ignored while the joystick is pressed. If such a key was pressed before the joystick, it will remain pressed until the joystick is released. Auto fire might defeat this detection and result in phantom key presses.                              
-
 
 # Building Anykey
 
