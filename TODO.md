@@ -21,8 +21,8 @@
 # ZX Spectrum
 
 - Update README.
-- Don't use 9/0 for reset/help (used by joystick). 
-- Spectrum Next version.
+- Use R/H for reset/help.
+- Fix Kempston joystick in Next verison. 
 - Spectrum N-Go version.
 
 

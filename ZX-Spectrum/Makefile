@@ -3,11 +3,13 @@ ZCC = zcc
 CFLAGS_48K = -Ca-DPLATFORM_48K
 CFLAGS_PLUS = -Ca-DPLATFORM_PLUS
 CFLAGS_PLUS2 = -Ca-DPLATFORM_PLUS2
+CFLAGS_NEXT = -Ca-DPLATFORM_NEXT
 
 PROGRAMS = \
 	anykey-spectrum-48k.tzx \
 	anykey-spectrum-48k+-128k.tzx \
-	anykey-spectrum-+2-+3.tzx
+	anykey-spectrum-+2-+3.tzx \
+	anykey-spectrum-next.tzx
 
 SOURCES_COMMON = \
 	start-zx.asm \
@@ -18,6 +20,12 @@ SOURCES_COMMON = \
 	main-view.asm \
 	read-keyboard.asm \
 	reset-keyboard.asm \
+
+SOURCES_COMMON_PLUS2 = \
+	button.asm \
+	combine-keys.asm \
+	dpad.asm \
+	joystick.asm \
 
 SOURCES_48K = \
 	${SOURCES_COMMON} \
@@ -36,21 +44,27 @@ SOURCES_PLUS = \
 
 SOURCES_PLUS2 = \
 	${SOURCES_COMMON} \
-	button.asm \
-	combine-keys.asm \
-	dpad.asm \
-	joystick.asm \
+	${SOURCES_COMMON_PLUS2} \
 	display-keys-plus2.asm \
 	help-screens-plus2.asm \
 	keys-plus2.asm \
 	platform-plus2.asm
 
+SOURCES_NEXT = \
+	${SOURCES_COMMON} \
+	${SOURCES_COMMON_PLUS2} \
+	display-keys-plus.asm \
+	help-screens-next.asm \
+	keys-plus2.asm \
+	platform-next.asm
+
 
 OBJECTS_48K = ${SOURCES_48K:%.asm=%-48k.o}
 OBJECTS_PLUS = ${SOURCES_PLUS:%.asm=%-plus.o}
 OBJECTS_PLUS2 = ${SOURCES_PLUS2:%.asm=%-plus2.o}
+OBJECTS_NEXT = ${SOURCES_NEXT:%.asm=%-next.o}
 
-ALL_OBJECTS = ${OBJECTS_48K} ${OBJECTS_PLUS} ${OBJECTS_PLUS2}
+ALL_OBJECTS = ${OBJECTS_48K} ${OBJECTS_PLUS} ${OBJECTS_PLUS2} ${OBJECTS_NEXT}
 
 all: ${PROGRAMS}
 
@@ -69,6 +83,9 @@ clean:
 %-plus2.o: %.asm
 	zcc +zx ${CFLAGS_PLUS2} -o $@ -c $<
 
+%-next.o: %.asm
+	zcc +zx ${CFLAGS_NEXT} -o $@ -c $<
+
 anykey-spectrum-48k.tap: loading-48k.scr ${OBJECTS_48K}
 	zcc +zx -startup=31 -clib=new -pragma-include:zpragma.inc -create-app -m -Cz--screen=loading-48k.scr -o anykey-spectrum-48k ${OBJECTS_48K}
 
@@ -78,6 +95,9 @@ anykey-spectrum-48k+-128k.tap: loading-plus.scr ${OBJECTS_PLUS}
 anykey-spectrum-+2-+3.tap: loading-plus2.scr ${OBJECTS_PLUS2}
 	zcc +zx -startup=31 -clib=new -pragma-include:zpragma.inc -create-app -m -Cz--screen=loading-plus2.scr -o anykey-spectrum-+2-+3 ${OBJECTS_PLUS2}
 
+anykey-spectrum-next.tap: loading-next.scr ${OBJECTS_NEXT}
+	zcc +zx -startup=31 -clib=new -pragma-include:zpragma.inc -create-app -m -Cz--screen=loading-next.scr -o anykey-spectrum-next ${OBJECTS_NEXT}
+
 loading-48k.scr: loading-48k.png
 	gfx-convert -b 7 spectrum $< $@
 
@@ -85,6 +105,9 @@ loading-plus.scr: loading-plus.png
 	gfx-convert -b 7 spectrum $< $@
 
 loading-plus2.scr: loading-plus2.png
+	gfx-convert -b 7 spectrum $< $@
+
+loading-next.scr: loading-next.png
 	gfx-convert -b 7 spectrum $< $@
 
 charset.bin: charset.png
@@ -98,6 +121,9 @@ charset-plus.bin keyboard-plus.bin help-plus.bin: charset.bin keyboard-plus.png 
 
 charset-plus2.bin keyboard-plus2.bin help-plus2.bin: charset.bin keyboard-plus2.png help-plus2.png
 	gfx-convert -b 1 screen charset.bin charset-plus2.bin keyboard-plus2.png help-plus2.png
+
+charset-next.bin keyboard-next.bin help-next.bin: charset.bin keyboard-next.png help-next.png
+	gfx-convert -b 1 screen charset.bin charset-next.bin keyboard-next.png help-next.png
 
 charset-joystick.bin button.bin dpad.bin: button.png dpad.png
 	gfx-convert -b 1 screen "" charset-joystick.bin button.png dpad.png
@@ -120,6 +146,12 @@ keyboard-plus2-rl.bin: keyboard-plus2.bin compress-screen
 help-plus2-rl.bin: help-plus2.bin compress-screen
 	./compress-screen help-plus2.bin help-plus2-rl.bin
 
+keyboard-next-rl.bin: keyboard-next.bin compress-screen
+	./compress-screen keyboard-next.bin $@
+
+help-next-rl.bin: help-next.bin compress-screen
+	./compress-screen help-next.bin help-next-rl.bin
+
 button.asm: button.json button.bin compress-screen
 	./compress-screen button.json $@
 
@@ -135,6 +167,9 @@ keys-plus.asm: keys-plus.key key-table
 keys-plus2.asm: keys-plus2.key key-table
 	./key-table keys-plus2
 
+keys-next.asm: keys-next.key key-table
+	./key-table keys-next
+
 help-screens-48k.asm: help-screens.txt compress-screen
 	./compress-screen -DPLATFORM_48K help-screens.txt $@
 
@@ -143,6 +178,9 @@ help-screens-plus.asm: help-screens.txt compress-screen
 
 help-screens-plus2.asm: help-screens.txt compress-screen
 	./compress-screen -DPLATFORM_PLUS2 help-screens.txt $@
+
+help-screens-next.asm: help-screens.txt compress-screen
+	./compress-screen -DPLATFORM_NEXT help-screens.txt $@
 
 # TODO: auto track dependencies
 
@@ -175,9 +213,22 @@ copy-screen-plus2.o: copy-screen.asm platform.inc platform-plus2.inc
 display-keyboard-plus2.o: display-keys-plus2.asm keyboard.inc platform-plus2.inc
 help-view-plus2.o: help-view.asm platform.inc keyboard.inc platform-plus2.inc
 joystick-plus2.o: joystick.asm charset-joystick.bin platform.inc platform-plus2.inc
-keyboard-plus2.o: display-keyboard.asm keyboard.inc platform.inc platform-plus2.inc
+display-keyboard-plus2.o: display-keyboard.asm keyboard.inc platform.inc platform-plus2.inc
 main-view-plus2.o: main-view.asm keyboard.inc platform.inc platform-plus2.inc
 platform-plus2.plus.o: platform-plus2.asm platform.inc platform-plus2.inc charset-plus2.bin keyboard-plus2-rl.bin help-plus2-rl.bin
 read-keyboard-plus2.o: read-keyboard.asm platform.inc platform-plus2.inc keyboard.inc
 reset-keyboard-plus2.o: reset-keyboard.asm platform.inc platform-plus2.inc
 start-zx-plus2.o: start-zx.asm platform.inc platform-plus2.inc
+
+combine-keys-next.o: combine-keys.asm platform.inc platform-next.inc keyboard.inc
+copy-colors-next.o: copy-colors.asm platform.inc platform-next.inc
+copy-screen-next.o: copy-screen.asm platform.inc platform-next.inc
+display-keys-plus-next.o: display-keys-plus.asm keyboard.inc platform-next.inc
+help-view-next.o: help-view.asm platform.inc keyboard.inc platform-next.inc
+joystick-next.o: joystick.asm charset-joystick.bin platform.inc platform-next.inc
+display-keyboard-next.o: display-keyboard.asm keyboard.inc platform.inc platform-next.inc
+main-view-next.o: main-view.asm keyboard.inc platform.inc platform-next.inc
+platform-next.plus.o: platform-next.asm platform.inc platform-next.inc charset-next.bin keyboard-next-rl.bin help-next-rl.bin
+read-keyboard-next.o: read-keyboard.asm platform.inc platform-next.inc keyboard.inc
+reset-keyboard-next.o: reset-keyboard.asm platform.inc platform-next.inc
+start-zx-next.o: start-zx.asm platform.inc platform-next.inc

@@ -16,16 +16,24 @@ display_joystick:
     ld ix,joystick
     ld c,a
     cp a,0
-    jr z,not_1
+    jr z,port_0
     ld d,0
     ld e,JOYSTICK_SIZE
+    ld b,a
+index_loop:
     add ix,de
-not_1:
+    djnz index_loop
+port_0:
     ld h,charset_joystick >> 8
     ld l,charset_joystick & $ff
     call set_charset
 
     ld a,(ix + JOYSTICK_OFFSET_PORT)
+    cp a,0
+    jr nz,not_kempston
+    in a,(31)
+    jr not_1_read
+not_kempston:
     in a,($fe)
     xor a,$ff
     dec c
@@ -88,6 +96,11 @@ joystick:
     word screen + JOYSTICK_2_DPAD_OFFSET
     word screen + JOYSTICK_2_BUTTON_OFFSET
 
+IF JOYSTICK_3_DPAD_OFFSET
+    byte $00
+    word screen + JOYSTICK_3_DPAD_OFFSET
+    word screen + JOYSTICK_3_BUTTON_OFFSET
+ENDIF
 
 section bss_user
 

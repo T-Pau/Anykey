@@ -46,6 +46,10 @@ IF JOYSTICK_2_DPAD_OFFSET
     ld a,1
     call display_joystick
 ENDIF
+IF JOYSTICK_3_DPAD_OFFSET
+    ld a,2
+    call display_joystick
+ENDIF
     call handle_keys_main
     ld iy,0 ; clear iy so interrupt routine doesn't clobber memory
     ei
