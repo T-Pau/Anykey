@@ -84,9 +84,10 @@ Joystick 1 uses the keys
 special keys
 
 all keys except for digits,
-letters, space, caps and
-symbol shift are read by the
-computer as two key presses.
+letters, space, enter, caps
+shift and symbol shift are
+read by the computer as two
+key presses.
 
 the computer can't tell if
 such a key or the two

@@ -21,6 +21,7 @@
 # ZX Spectrum
 
 - Update README.
+- Don't use 9/0 for reset/help (used by joystick). 
 - Spectrum Next version.
 - Spectrum N-Go version.
 

@@ -56,6 +56,16 @@ Pressed directions and buttons are displayed inverted.
 
 Joystick movement is seen by the computer as key presses. Joystick 1 uses the keys 6-0, joystick 2 the keys 1-5.
 
+
+## Special Keys
+
+All keys except for digits, letters, `Space`, `Enter`, `Caps Shift` and `Symbol Shift` are read by the computer as two key presses.
+
+The computer can't tell if such a key or the two corresponding keys are pressed, so Anykey displays all three as pressed.
+
+For best results, test the normal keys first.
+
+
 ## Technical Limitations
 
 If you press certain combinations of three keys, a fourth key will also appear pressed. This is because the three keys together create the same electrical connection the fourth key would.
