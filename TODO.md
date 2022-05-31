@@ -21,7 +21,6 @@
 # ZX Spectrum
 
 - Update README.
-- Check if joystick bits are mapped correctly.
 - Spectrum Next version.
 - Spectrum N-Go version.
 

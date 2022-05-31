@@ -54,6 +54,7 @@ Joysticks contain a stick or d-pad with switches for the four cardinal direction
 
 Pressed directions and buttons are displayed inverted.
 
+Joystick movement is seen by the computer as key presses. Joystick 1 uses the keys 6-0, joystick 2 the keys 1-5.
 
 ## Technical Limitations
 

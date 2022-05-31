@@ -14,6 +14,7 @@ section code_user
 ; a: port (0 or 1)
 display_joystick:
     ld ix,joystick
+    ld c,a
     cp a,0
     jr z,not_1
     ld d,0
@@ -27,9 +28,18 @@ not_1:
     ld a,(ix + JOYSTICK_OFFSET_PORT)
     in a,($fe)
     xor a,$ff
+    dec c
+    jr nz,not_1_read
+    ld c,0
+    ld b,5
+mirror_loop:
+    rr a
+    rl c
+    djnz mirror_loop
+    ld a,c
+not_1_read:
     ld (value),a
-    and a,$0f
-    rlc a
+    and a,$1e
     add a,dpad & $ff
     ld e,a
     ld a,0
@@ -46,10 +56,8 @@ not_1:
     call copy_chars
 
     ld a,(value)
-    and a,$10
-    rrc a
-    rrc a
-    rrc a
+    and a,$01
+    rlc a
     add a,button & 0xff
     ld e,a
     ld a,0

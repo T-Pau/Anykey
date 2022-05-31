@@ -63,6 +63,23 @@ keys. to reset the state of
 all keys to unpressed, hold 9
 for two seconds.
 ---
+.if PLATFORM_PLUS2
+joysticks
+
+joysticks contain a stick or
+d-pad with switches for the
+four cardinal directions and a
+fire button.
+
+pressed directions and buttons
+are displayed inverted.
+
+joystick movement is seen by
+the computer as key presses.
+Joystick 1 uses the keys
+6-0, joystick 2 the keys 1-5.
+---
+.endif
 .if not PLATFORM_48K
 special keys
 
