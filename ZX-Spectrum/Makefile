@@ -246,7 +246,7 @@ help-view-plus2.o: help-view.asm platform.inc keyboard.inc platform-plus2.inc
 joystick-plus2.o: joystick.asm charset-joystick.bin platform.inc platform-plus2.inc
 display-keyboard-plus2.o: display-keyboard.asm keyboard.inc platform.inc platform-plus2.inc
 main-view-plus2.o: main-view.asm keyboard.inc platform.inc platform-plus2.inc
-platform-plus2.plus.o: platform-plus2.asm platform.inc platform-plus2.inc charset-plus2.bin keyboard-plus2-rl.bin help-plus2-rl.bin
+platform-plus2-plus2.o: platform-plus2.asm platform.inc platform-plus2.inc charset-plus2.bin keyboard-plus2-rl.bin help-plus2-rl.bin
 read-keyboard-plus2.o: read-keyboard.asm platform.inc platform-plus2.inc keyboard.inc
 reset-keyboard-plus2.o: reset-keyboard.asm platform.inc platform-plus2.inc
 start-zx-plus2.o: start-zx.asm platform.inc platform-plus2.inc
@@ -259,7 +259,7 @@ help-view-next.o: help-view.asm platform.inc keyboard.inc platform-next.inc
 joystick-next.o: joystick.asm charset-joystick.bin platform.inc platform-next.inc
 display-keyboard-next.o: display-keyboard.asm keyboard.inc platform.inc platform-next.inc
 main-view-next.o: main-view.asm keyboard.inc platform.inc platform-next.inc
-platform-next.plus.o: platform-next.asm platform.inc platform-next.inc charset-next.bin keyboard-next-rl.bin help-next-rl.bin
+platform-next-next.o: platform-next.asm platform.inc platform-next.inc charset-next.bin keyboard-next-rl.bin help-next-rl.bin
 read-keyboard-next.o: read-keyboard.asm platform.inc platform-next.inc keyboard.inc
 reset-keyboard-next.o: reset-keyboard.asm platform.inc platform-next.inc
 start-zx-next.o: start-zx.asm platform.inc platform-next.inc
@@ -272,7 +272,7 @@ help-view-n-go.o: help-view.asm platform.inc keyboard.inc platform-n-go.inc
 joystick-n-go.o: joystick.asm charset-joystick.bin platform.inc platform-n-go.inc
 display-keyboard-n-go.o: display-keyboard.asm keyboard.inc platform.inc platform-n-go.inc
 main-view-n-go.o: main-view.asm keyboard.inc platform.inc platform-n-go.inc
-platform-n-go.plus.o: platform-n-go.asm platform.inc platform-n-go.inc charset-n-go.bin keyboard-n-go-rl.bin help-n-go-rl.bin
+platform-n-go-n-go.o: platform-n-go.asm platform.inc platform-n-go.inc charset-n-go.bin keyboard-n-go-rl.bin help-n-go-rl.bin
 read-keyboard-n-go.o: read-keyboard.asm platform.inc platform-n-go.inc keyboard.inc
 reset-keyboard-n-go.o: reset-keyboard.asm platform.inc platform-n-go.inc
 start-zx-n-go.o: start-zx.asm platform.inc platform-n-go.inc

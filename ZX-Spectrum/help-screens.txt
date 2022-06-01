@@ -77,11 +77,10 @@ are displayed inverted.
 .if PLATFORM_PLUS2
 The +2 and +3 have two
 joystick ports, Sinclair 1 and
-Sinclair 2. Jostick movement
-is seen by the computer as key
-presses. Sinclair 1 uses the
-keys 6-0, Sinclair 2 the keys
-1-5.
+2. Jostick movement is seen by
+the computer as key presses.
+Sinclair 1 uses the keys 6-0,
+Sinclair 2 the keys 1-5.
 .else
 On Next and N-Go, the three
 joysticks displayed are

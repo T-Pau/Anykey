@@ -1,30 +1,24 @@
-# General
+# Before Next Release
 
-- Split manual into own file, add screenshots for all versions.
+- Remove remaining sections from README to Documentation.
+- **PET**: Add screenshots and model information.
 - Include version in help screens.
 
-# Commodore
+# Soonish
 
-- Use proper tool for modifying directory listing.
+- **MEGA65**: Fix Restore detection.
+- **MEGA65**: Don't disable keys due to joystick input.
+- **C64/C128**: Ignore phantom keys when joystick 2 and certain keys are pressed at once.
 
-## MEGA65
+# Later
 
-- Fix Restore detection.
-- Don't disable keys due to joystick input.
-- High resolution native version.
+- **MEGA65**: High resolution native version.
+- **Commodore**: Use proper tool for modifying directory listing.
 
-## C64
+# Incomplete Ports
 
-- Ignore phantom keys when joystick 2 and certain keys are pressed at once.
+## Maximite
 
-
-# ZX Spectrum
-
-- Fix logo placement in help screen.
-
-
-# Maximite
-
-- README
-- Create dist file.
-- Controller.
+- Documentation
+- include in dist file.
+- Support controller.
