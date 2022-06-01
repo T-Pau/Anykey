@@ -1,3 +1,5 @@
+VERSION = $(shell cat ../version.txt)
+
 ZCC = zcc
 
 CFLAGS_48K = -Ca-DPLATFORM_48K
@@ -199,19 +201,19 @@ keys-n-go.asm: keys-n-go.key key-table
 	./key-table keys-n-go
 
 help-screens-48k.asm: help-screens.txt compress-screen
-	./compress-screen -DPLATFORM_48K help-screens.txt $@
+	./compress-screen -DVERSION=${VERSION} -DPLATFORM_48K help-screens.txt $@
 
 help-screens-plus.asm: help-screens.txt compress-screen
-	./compress-screen -DPLATFORM_PLUS help-screens.txt $@
+	./compress-screen -DVERSION=${VERSION} -DPLATFORM_PLUS help-screens.txt $@
 
 help-screens-plus2.asm: help-screens.txt compress-screen
-	./compress-screen -DPLATFORM_PLUS2 help-screens.txt $@
+	./compress-screen -DVERSION=${VERSION} -DPLATFORM_PLUS2 help-screens.txt $@
 
 help-screens-next.asm: help-screens.txt compress-screen
-	./compress-screen -DPLATFORM_NEXT help-screens.txt $@
+	./compress-screen -DVERSION=${VERSION} -DPLATFORM_NEXT help-screens.txt $@
 
 help-screens-n-go.asm: help-screens.txt compress-screen
-	./compress-screen -DPLATFORM_N_GO help-screens.txt $@
+	./compress-screen -DVERSION=${VERSION} -DPLATFORM_N_GO help-screens.txt $@
 
 # TODO: auto track dependencies
 

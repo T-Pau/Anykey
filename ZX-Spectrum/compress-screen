@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import re
 import sys
 import json
 
@@ -79,7 +80,11 @@ class Screens:
         self.syntax = "z88dk"
         self.defines = {}
         for define in defines:
-            self.defines[define] = True
+            parts = define.split("=")
+            if len(parts) == 1:
+                self.defines[define] = True
+            else:
+                self.defines[parts[0]] = parts[1]
 
         self.line_number = 0
         self.encoder = RunlengthEncoder()
@@ -174,6 +179,7 @@ class Screens:
         if line == "---":
             self.end_screen()
         else:
+            line = re.sub(r"\${[A-Z_]*}", lambda m : self.replace_variable(m), line)
             if self.title_length > 0 and self.current_title == b"":
                 if len(line) > self.title_length:
                     raise RuntimeError(f"title too long: '" + line + "' in line {self.line_number}")
@@ -239,6 +245,12 @@ class Screens:
         end = line.rfind("\"")
         return self.map_string(line[start+1:end])
 
+    def replace_variable(self, match):
+        if match.group() is not None:
+            name = match.group()[2:-1]
+            if not name in self.defines:
+                raise RuntimeError(f"undefined variable '{name}' in line {self.line_number}")
+            return self.defines[name]
 
 def write_bytes(file, bytes):
     i = 0

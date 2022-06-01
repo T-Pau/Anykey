@@ -1,6 +1,6 @@
 SUBDIRS = Commodore ZX-Spectrum
 
-VERSION = 1.4
+VERSION = $(shell cat version.txt)
 
 FILES = \
 	README.md \
@@ -18,7 +18,14 @@ FILES = \
 	ZX-Spectrum/anykey-spectrum-48k.tap \
 	ZX-Spectrum/anykey-spectrum-48k.tzx \
 	ZX-Spectrum/anykey-spectrum-48k+-128k.tap \
-	ZX-Spectrum/anykey-spectrum-48k+-128k.tzx
+	ZX-Spectrum/anykey-spectrum-48k+-128k.tzx \
+	ZX-Spectrum/anykey-spectrum-+2-+3.tap \
+	ZX-Spectrum/anykey-spectrum-+2-+3.tzx \
+	ZX-Spectrum/anykey-spectrum-next.tap \
+	ZX-Spectrum/anykey-spectrum-next.tzx \
+	ZX-Spectrum/anykey-spectrum-n-go.tap \
+	ZX-Spectrum/anykey-spectrum-n-go.tzx \
+	Documentation
 
 DISTFILE = Anykey-${VERSION}.zip
 
@@ -27,10 +34,10 @@ DISTFILE = Anykey-${VERSION}.zip
 all:
 	@for dir in ${SUBDIRS}; \
 	do \
-		(cd $$dir && make VERSION="${VERSION}" all) || exit 1; \
+		(cd $$dir && make all) || exit 1; \
 	done
 
-dist: ${DISTFILE}
+dist: all ${DISTFILE}
 
 clean:
 	@for dir in ${SUBDIRS}; \
@@ -39,4 +46,4 @@ clean:
 	done
 
 ${DISTFILE}: ${FILES}
-	zip -9q ${DISTFILE} ${FILES}
+	zip -9rq ${DISTFILE} ${FILES}

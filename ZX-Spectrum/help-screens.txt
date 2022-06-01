@@ -43,8 +43,22 @@ anykey
 this program monitors the
 keyboard.
 
+.if PLATFORM_48K PLATFORM_PLUS
 it shows the current state of
 the keyboard.
+.else
+the upper window shows the
+state of the keyboard.
+
+the lower window shows the
+state of joysticks connected
+to the controller ports.
+.endif
+
+this is anykey ${VERSION}.
+the newest version and further
+information can be found at
+   github.com/T-Pau/Anykey
 ---
 keyboard
 
