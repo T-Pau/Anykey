@@ -30,7 +30,7 @@
 
 .autoimport +
 
-.export setup_model, reset_keyboard, saved_screen, saved_screen_size, help_keys, help_count, help_pages, left_list
+.export setup_model, reset_keyboard, saved_screen, saved_screen_size, help_keys, help_count, help_pages, help_footer, left_list
 
 .macpack utility
 
@@ -83,12 +83,25 @@ line_width_supported:
     sta ptr1 + 1
     ldy #0
     lda (ptr1),y
+    iny
+    sta ptr2
+    lda (ptr1),y
+    sta ptr2 + 1
+    ldy #0
+    lda (ptr2),y
     sta help_count
-    inc_16 ptr1
-    lda ptr1
+    ldy #2
+    lda (ptr1),y
+    iny
     sta help_pages
-    lda ptr1 + 1
+    lda (ptr1),y
+    iny
     sta help_pages + 1
+    lda (ptr1),y
+    iny
+    sta help_footer
+    lda (ptr1),y
+    sta help_footer + 1
 
     ldx keyboard_type
 .ifdef FIT_IN_8K
@@ -170,9 +183,21 @@ saved_screen_size_table:
 
 ; indexed by line_width
 help_table:
-    .word help_40_count
+    .word help_40
 .ifndef FIT_IN_8K
-    .word help_80_count
+    .word help_80
+.endif
+
+help_40:
+    .word num_help_40_screens
+    .word help_40_screens
+    .word help_40_footer
+
+.ifndef FIT_IN_8K
+help_80:
+    .word num_help_80_screens
+    .word help_80_screens
+    .word help_80_footer
 .endif
 
 ; indexed by keyboard type != business
@@ -243,6 +268,9 @@ help_count:
     .res 1
 
 help_pages:
+    .res 2
+
+help_footer:
     .res 2
 
 help_keys:

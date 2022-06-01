@@ -43,6 +43,12 @@ display_help_screen:
     lda saved_screen_size + 1
     sta ptr3 + 1
     jsr memcpy
+    store_word screen, ptr2
+    lda help_footer
+    sta ptr1
+    lda help_footer + 1
+    sta ptr1 + 1
+    jsr rl_expand
     ldx #0
     beq update_help_page
 
@@ -80,7 +86,7 @@ update_help_page:
     lda (ptr3),y
     sta ptr1 + 1
 	store_word screen, ptr2
-	jmp expand
+	jmp rl_expand
 
 display_main_screen:
     store_word screen, ptr2

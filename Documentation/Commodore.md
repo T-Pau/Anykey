@@ -47,6 +47,29 @@ Pressed directions and buttons are displayed inverted.
 Buttons 2 and 3 bring an analog potentiometer to a low value by connecting its pin to +5V. This is not supported on Plus/4.
 
 
+## Model Specific Notes
+
+### Commodore 128
+
+When run in C64 mode on a C128, Anykey will display and test the full C128 keyboard. However, the `40/80 Display` key cannot be read in C64 mode, therefore it is displayed grayed out. To test it, use the native version, Anykey 128.
+
+In C128 mode, Anykey will always display on the 40 columns (VIC) display, even if started from 80 columns mode.
+
+
+### MEGA65
+
+When run in C64 mode on a MEGA65, Anykey will display and test the full MEGA65 keyboard.
+
+
+## Special Keys
+
+`Shift Lock` and the left `Shift` key, and on Plus/4 also the right `Shift` key, appear as the same key to the computer and cannot be reliably distinguished on all computers. On Plus/4, both `Control` keys also appear as the same key.
+
+The `Restore` key cannot be read directly. Anykey can detect when the key is pressed, but it can't detect for how long, is it assumes the key was released after a short while.
+
+On MEGA65, when pressing `Cursor Up` or `Cursor Left`, `Right Shift` and the opposite cursor keys also appear pressed to software to maintain compatibility with C64. To avoid prematurely marking keys as pressed, these keys are disabled while `Cursor Up` or `Cursor Left` is pressed. 
+
+
 ## Technical Limitations
 
 If you press certain combinations of three keys, a fourth key will also appear pressed. This is because the three keys together create the same electrical connection the fourth key would.

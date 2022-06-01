@@ -1,0 +1,138 @@
+;  help-screens-pet-40.txt -- Text for help screens, PET 40 columns mode.
+;  Copyright (C) 2020-2022 Dieter Baron
+;
+;  This file is part of Anykey, a keyboard test program for C64.
+;  The authors can be contacted at <anykey@tpau.group>.
+;
+;  Redistribution and use in source and binary forms, with or without
+;  modification, are permitted provided that the following conditions
+;  are met:
+;  1. Redistributions of source code must retain the above copyright
+;     notice, this list of conditions and the following disclaimer.
+;  2. The names of the authors may not be used to endorse or promote
+;     products derived from this software without specific prior
+;     written permission.
+;
+;  THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
+;  OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+;  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+;  ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY
+;  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+;  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+;  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+;  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+;  IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+name help_40
+
+map $40-$5a $00
+map $61-$7a $01
+map $20-$3f $20
+map $2523 $6b ; ┣
+map $25e5 $5f ; ◥
+map $2598 $7e ; ▘
+map $2533 $72 ; ┳
+map $25c6 $5a ; ◆
+map $25cb $57 ; ○
+map $25cf $51 ; ●
+map $2573 $56 ; ╳
+map $2663 $58 ; ♣
+map $03c0 $5e ; π
+
+line_length 40
+lines 20
+assembler cc65
+---
+anykey
+
+this program monitors the keyboard. it
+requires at least 8k of ram.
+
+this is anykey ${VERSION}. the newest
+version and further information can be
+found at
+   https://github.com/T-Pau/Anykey
+---
+keyboard
+
+the keys are displayed in the same
+layout as the physical keyboard. it
+automatically detects which keyboard
+your computer has.
+
+pressed keys are displayed inverted.
+
+keys that were previously pressed are
+displayed with a square frame. this
+helps detect dead keys. to reset the
+state of all keys to unpressed, hold
+clr/home for two seconds.
+---
+calculator keyboard
+
+this keyboard was used in the earliest
+pet models and in the tynemouth
+minipet 40/80. keys are arranged in a
+rectangular grid.
+
+
+graphics keyboard
+
+this keyboard was used in some models
+with 40 column displays. it features
+the graphics character on the front of
+the key caps and a 4x5 number block.
+---
+business keyboard
+
+this keyboard was used in later models
+with 40 column and all models with 80
+column displays. it features digit keys
+on the main keyboard and a 3x4 number
+block.
+---
+key labels
+
+most keys are labeled with the symbol
+they produce when pressed without shift.
+special keys are labeled with a short
+description or graphics symbol,
+depending on the space available.
+
+             clear/home: ▘, clr
+
+      cursor left/right: ┳, <=>
+
+         cursor up/down: ┣, u/d
+
+                 escape: ♣, esc
+
+---
+key labels
+
+     insert/delete: ╳, del
+
+            repeat: π
+
+            return: re, ret
+
+    reverse on/off: ◥, rv
+
+          run/stop: ◆, r/s
+
+             shift: ○, sh, shf, shft
+
+        shift lock: ●, sl
+
+               tab: tb
+---
+technical limitations
+
+if you press certain combinations of
+three keys, a fourth key will also
+appear pressed. this is because the
+three keys together create the same
+electrical connection the fourth key
+would.

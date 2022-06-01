@@ -90,17 +90,19 @@ class Screens:
         self.title_xor = 0
         self.line_length = 40
         self.lines = 25
+        self.single_screen = False
         self.prefix = b""
         self.postfix = b""
         self.charmap = {}
         self.assembler = "z88dk"
         self.defines = {}
-        for define in defines:
-            parts = define.split("=")
-            if len(parts) == 1:
-                self.defines[define] = True
-            else:
-                self.defines[parts[0]] = parts[1]
+        if defines:
+            for define in defines:
+                parts = define.split("=")
+                if len(parts) == 1:
+                    self.defines[define] = True
+                else:
+                    self.defines[parts[0]] = parts[1]
 
         self.line_number = 0
         self.encoder = RunlengthEncoder()
@@ -190,6 +192,8 @@ class Screens:
                 self.name = words[1]
             elif words[0] == "title_xor":
                 self.title_xor =int(words[1])
+            elif words[0] == "single_screen":
+                self.single_screen =int(words[1])
             else:
                 raise RuntimeError(f"unknown command '" + words[0] + "' in line {self.line_number}")
 
@@ -197,6 +201,9 @@ class Screens:
         if line == "---":
             self.end_screen()
         else:
+            if line.startswith(".skip "):
+                self.encoder.skip(int(line.split(" ")[1]))
+                return
             line = re.sub(r"\${[A-Z_]*}", lambda m: self.replace_variable(m), line)
             if self.title_length > 0 and self.current_title == b"":
                 if len(line) > self.title_length:
@@ -219,7 +226,7 @@ class Screens:
             self.encoder.add_bytes(self.postfix)
 
     def end_screen(self):
-        if self.current_title != b"" and self.current_line > 0:
+        if self.current_title != b"" or self.current_line > 0:
             while self.current_line < self.lines:
                 self.encoder.add_bytes(self.prefix)
                 self.add_string("", self.line_length)
@@ -232,12 +239,12 @@ class Screens:
 
     def end(self):
         if len(self.skipping) != 1:
-            raise RuntimeError("unclosed .if in line {self.line_number}")
+            raise RuntimeError(f"unclosed .if in line {self.line_number}")
         self.end_screen()
         return self.compressed_screens
 
     def add_map(self, source_string, target_string):
-        source_range = list(map(lambda x: int(x, 0), source_string.replace("$", "0x").split("-")))
+        source_range = list(map(lambda x: int(x, 0), re.sub(r" *;.*", "", source_string.replace("$", "0x")).split("-")))
         if len(source_range) == 1:
             source_range.append(source_range[0])
         target = int(target_string.replace("$", "0x"), 0)
@@ -253,7 +260,7 @@ class Screens:
         bytes = b""
         for c in string:
             if ord(c) not in self.charmap:
-                raise RuntimeError("unmapped character '" + c + "' in line {self.line_number}")
+                raise RuntimeError(f"unmapped character '{c}' in line {self.line_number}")
             bytes += (self.charmap[ord(c)] ^ byte_xor).to_bytes(1, byteorder="little")
         return bytes
 
@@ -319,6 +326,26 @@ num_{name}:
             write_bytes(output_file, parts[i], assembler_format)
             output_file.write("\n")
 
+def write_screen(output_file_name, screen, name, assembler_format):
+    with open(output_file_name, "w") as output_file:
+        header = """; This file is automatically created by {program} from {infile}.
+; Do not edit.
+
+{export} {name}
+
+{data_section}
+
+{name}:
+""".format(outfile=output_file_name,
+           data_section=assembler_format["data_section"],
+           export=assembler_format["export"],
+           name=name, infile=input_file_name,
+           program=sys.argv[0])
+        output_file.write(header)
+
+        write_bytes(output_file, screen, assembler_format)
+        output_file.write("\n")
+
 
 parser = argparse.ArgumentParser(description='Runlength encode screen data.')
 
@@ -379,4 +406,7 @@ else:
             screens.process_line(line)
     compressed_screens = screens.end()
 
-    write_parts(output_file_name, compressed_screens, screens.name + "_screens", assembler_formats[screens.assembler])
+    if screens.single_screen:
+        write_screen(output_file_name, compressed_screens[0], screens.name, assembler_formats[screens.assembler])
+    else:
+        write_parts(output_file_name, compressed_screens, screens.name + "_screens", assembler_formats[screens.assembler])

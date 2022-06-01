@@ -35,7 +35,6 @@ PROGRAMS = \
 	anykey-pet-full.prg \
 	anykey-plus4.prg \
 	autoboot-mega65.prg
-#	anykey-pet-4k.prg \
 
 SOURCES_COMMON = \
 	commands.s \
@@ -116,6 +115,7 @@ SOURCES_PET_COMMON = \
 	display-key-pet-40c.s \
 	expand.s \
 	help-screen-pet-40.s \
+	pet-help-footer-40.s \
 	keyboard-pet-40.s \
 	keyboard-pet-calculator-40-left.s \
 	keys-pet-calculator-40.s \
@@ -134,6 +134,7 @@ SOURCES_PET_FULL = \
 	display-key-pet-40b.s \
 	display-key-pet-80.s \
 	help-screen-pet-80.s \
+	pet-help-footer-80.s \
 	keyboard-pet-80.s \
 	keys-pet-business-40.s \
 	keyboard-pet-business-40-left.s \
@@ -145,10 +146,6 @@ SOURCES_PET_8K = \
 	${SOURCES_PET_COMMON} \
 	${SOURCES_PET_8K_PLUS} \
 	pet-model-8k.s
-
-SOURCES_PET_4K = \
-	${SOURCES_PET_COMMON} \
-	pet-model-4k.s
 
 SOURCES_PLUS4 = \
 	${SOURCES_TED} \
@@ -162,7 +159,6 @@ SOURCES_PLUS4 = \
 OBJECTS_64 = ${SOURCES_64:%.s=%-64.o}
 OBJECTS_128 = ${SOURCES_128:%.s=%-128.o}
 OBJECTS_MEGA65 = ${SOURCES_MEGA65:%.s=%-mega65.o}
-OBJECTS_PET_4K = ${SOURCES_PET_4K:%.s=%-pet.o}
 OBJECTS_PET_8K = ${SOURCES_PET_8K:%.s=%-pet.o}
 OBJECTS_PET_FULL = ${SOURCES_PET_FULL:%.s=%-pet.o}
 OBJECTS_PLUS4 = ${SOURCES_PLUS4:%.s=%-plus4.o}
@@ -175,7 +171,6 @@ ALL_OBJECTS = \
 	${OBJECTS_PET_8K} \
 	${OBJECTS_PET_FULL} \
 	${OBJECTS_PLUS4}
-#	${OBJECTS_PET_4K} \
 
 PROGRAMS += detect-pet.prg
 SOURCES_DETECT_PET = detect-pet-model.s pet-detect.s
@@ -248,7 +243,6 @@ ${DISK_PET}: ${PROGRAMS}
 	c1541 $$disk -silent -write "anykey-pet-8k.prg" "anykey pet 8k"; \
 	ips_util apply comma8-pet.ips $$disk -o ${DISK_PET}); \
 	rm $$disk
-#	c1541 $$disk -silent -write "anykey-pet-4k.prg" "anykey pet 4k"; \
 
 
 anykey.prg: anykey.bas
@@ -268,9 +262,6 @@ anykey-mega65.prg: ${OBJECTS_MEGA65}
 
 anykey-plus4.prg: ${OBJECTS_PLUS4}
 	${LD} ${LDFLAGS_PLUS4} -o anykey-plus4.prg -Ln anykey-plus4.sym ${OBJECTS_PLUS4}
-
-#anykey-pet-4k.prg: ${OBJECTS_PET_4K}
-#	${LD} ${LDFLAGS_PET} -o anykey-pet-4k.prg -Ln anykey-pet-4k.sym ${OBJECTS_PET_4K}
 
 anykey-pet-8k.prg: ${OBJECTS_PET_8K}
 	${LD} ${LDFLAGS_PET} -o anykey-pet-8k.prg  -Ln anykey-pet-8k.sym ${OBJECTS_PET_8K}
@@ -391,12 +382,17 @@ keyboard-pet-calculator-40-left.s: keyboard-pet-calculator-40.scr list-left.pl
 keyboard-pet-graphics-40-left.s: keyboard-pet-graphics-40.scr list-left.pl
 	perl list-left.pl keyboard-pet-graphics-40.scr keyboard-pet-graphics-40-left.s left_graphics_40
 
-help-screen-pet-80.s: help-screen-pet-80.scr screen.pl
-	perl screen.pl -w 80 -p 17 -s help_80 help-screen-pet-80.scr > help-screen-pet-80.s || (rm help-screen-pet-80.s; exit 1)
+help-screen-pet-40.s: help-screen-pet-40.txt ${COMPRESS_SCREEN}
+	${COMPRESS_SCREEN} -DVERSION=${VERSION} help-screen-pet-40.txt $@
 
-help-screen-pet-40.s: help-screen-pet-40.scr screen.pl
-	perl screen.pl -w 40 -p 17 -s help_40 help-screen-pet-40.scr > help-screen-pet-40.s || (rm help-screen-pet-40.s; exit 1)
+help-screen-pet-80.s: help-screen-pet-80.txt ${COMPRESS_SCREEN}
+	${COMPRESS_SCREEN} -DVERSION=${VERSION} help-screen-pet-80.txt $@
 
+pet-help-footer-40.s: pet-help-footer-40.txt ${COMPRESS_SCREEN}
+	${COMPRESS_SCREEN} pet-help-footer-40.txt $@
+
+pet-help-footer-80.s: pet-help-footer-80.txt ${COMPRESS_SCREEN}
+	${COMPRESS_SCREEN} pet-help-footer-80.txt $@
 
 detect-pet.prg: ${OBJECTS_DETECT_PET}
 	${LD} ${LDFLAGS_PET} -o detect-pet.prg ${OBJECTS_DETECT_PET}

@@ -1,3 +1,7 @@
+# Version 1.5 (2022-06-xx)
+
+- Add support for ZX Spectrum.
+
 # Version 1.4 (2022-05-21)
 
 - Add support for MEGA65.

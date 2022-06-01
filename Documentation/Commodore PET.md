@@ -40,6 +40,11 @@ Most keys are labeled with the symbol they produce when pressed without shift. S
 - Tab: `TB`
 
 
+## Special Keys
+
+`Shift Lock` and the left `Shift` key appear as the same key to the computer and cannot be reliably distinguished on all computers.
+
+
 ## Technical Limitations
 
 If you press certain combinations of three keys, a fourth key will also appear pressed. This is because the three keys together create the same electrical connection the fourth key would.

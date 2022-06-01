@@ -1,5 +1,5 @@
-;  expand.s -- expand run length encoded data.
-;  Copyright (C) 2021 Dieter Baron
+;  help-screens-pet-40.txt -- Text for help screens, PET 40 columns mode.
+;  Copyright (C) 2020-2022 Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,54 +25,20 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export rl_expand
+name help_40_footer
 
-.autoimport +
+map $40-$5a $00
+map $61-$7a $01
+map $20-$3f $20
 
-.macpack utility
+line_length 40
+lines 5
+single_screen 1
+assembler cc65
+---
+.skip 720
 
-.include "defines.inc"
 
-; ptr1: runlength encoded string
-; ptr2: destination to expand to
-rl_expand:
-.scope
-	ldy #0
-loop:
-	lda (ptr1),y
-	inc_16 ptr1
-	cmp #$fe
-	bne no_skip
-    lda (ptr1),y
-    inc_16 ptr1
-    clc
-    adc ptr2
-    sta ptr2
-    bcc loop
-    inc ptr2 + 1
-    bne loop
-no_skip:
-	ldx #$01
-	cmp #$ff
-	bne runlength_loop
-	lda (ptr1),y
-	inc_16 ptr1
-	cmp #$00
-	bne :+
-	rts
-:   tax
-    lda (ptr1),y
-    inc_16 ptr1
-runlength_loop:
-	sta (ptr2),y
-	iny
-	dex
-	bne runlength_loop
-	tya
-    clc
-    adc ptr2
-    sta ptr2
-    bcc :+
-    inc ptr2 + 1
-:   jmp rl_expand
-.endscope
+        space or +: next page
+          -: previous page
+clr/home or escape: return to program
