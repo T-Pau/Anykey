@@ -20,8 +20,7 @@
 
 # ZX Spectrum
 
-- Update README.
-- Document Next/N-Go joystick window.
+- Fix logo placement in help screen.
 
 
 # Maximite

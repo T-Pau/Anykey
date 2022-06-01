@@ -54,8 +54,11 @@ Joysticks contain a stick or d-pad with switches for the four cardinal direction
 
 Pressed directions and buttons are displayed inverted.
 
-Joystick movement is seen by the computer as key presses. Joystick 1 uses the keys 6-0, joystick 2 the keys 1-5.
+The +2 and +3 has two joystick ports, Sinclair 1 and Sinclair 2. Jostick movement is seen by the computer as key presses. Sinclair 1 uses the keys 6-0, Sinclair 2 the keys 1-5.
 
+On Next and N-Go, the three joysticks displayed are Sinclair 1, Sinclair 2, and Kempston. There are two joystick physical ports. The user can configure each of these as any of the three joysticks.
+
+Anykey doesn't know which are in use, so it always displays all three.
 
 ## Special Keys
 

@@ -63,7 +63,7 @@ keys. to reset the state of
 all keys to unpressed, hold 9
 for two seconds.
 ---
-.if PLATFORM_PLUS2
+.if PLATFORM_PLUS2 PLATFORM_NEXT PLATFORM_N_GO
 joysticks
 
 joysticks contain a stick or
@@ -74,10 +74,37 @@ fire button.
 pressed directions and buttons
 are displayed inverted.
 
-joystick movement is seen by
-the computer as key presses.
-Joystick 1 uses the keys
-6-0, joystick 2 the keys 1-5.
+.if PLATFORM_PLUS2
+The +2 and +3 have two
+joystick ports, Sinclair 1 and
+Sinclair 2. Jostick movement
+is seen by the computer as key
+presses. Sinclair 1 uses the
+keys 6-0, Sinclair 2 the keys
+1-5.
+.else
+On Next and N-Go, the three
+joysticks displayed are
+Sinclair 1, Sinclair 2, and
+Kempston.
+---
+Joysticks (continued)
+
+For Sinclair 1 and 2 movement
+is seen by the computer as key
+presses. Sinclair 1 uses the
+keys 6-0, Sinclair 2 the keys
+1-5.
+
+There are two joystick
+physical ports. The user can
+configure each of these as any
+of the three joysticks.
+
+Anykey doesn't know which are
+in use, so it always displays
+all three.
+.endif
 ---
 .endif
 .if not PLATFORM_48K

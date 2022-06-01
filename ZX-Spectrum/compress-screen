@@ -81,6 +81,7 @@ class Screens:
         for define in defines:
             self.defines[define] = True
 
+        self.line_number = 0
         self.encoder = RunlengthEncoder()
         self.in_preamble = True
         self.compressed_screens = []
@@ -91,6 +92,7 @@ class Screens:
 
     def process_line(self, line):
         line = line.rstrip(" \n")
+        self.line_number += 1
         if line.startswith(".if not"):
             skip = False
             for define in line.split(" ")[2:]:
@@ -121,16 +123,16 @@ class Screens:
             return
         elif line.startswith(".else"):
             if len(self.skipping) == 1:
-                raise RuntimeError(".else outside .if")
+                raise RuntimeError(f".else outside .if in line {self.line_number}")
             self.skipping[-1] = not self.skipping[-1]
             return
         elif line.startswith(".endif"):
             if len(self.skipping) == 1:
-                raise RuntimeError(".endif outside .if")
+                raise RuntimeError(f".endif outside .if in line {self.line_number}")
             self.skipping.pop(-1)
             return
 
-        if self.skipping[-1]:
+        if any(self.skipping):
             return
 
         if line == "---":
@@ -166,7 +168,7 @@ class Screens:
             elif words[0] == "name":
                 self.name = words[1]
             else:
-                raise RuntimeError("unknown command '" + words[0] + "'")
+                raise RuntimeError(f"unknown command '" + words[0] + "' in line {self.line_number}")
 
     def process_screen_line(self, line):
         if line == "---":
@@ -174,7 +176,7 @@ class Screens:
         else:
             if self.title_length > 0 and self.current_title == b"":
                 if len(line) > self.title_length:
-                    raise RuntimeError("title too long: '" + line + "'")
+                    raise RuntimeError(f"title too long: '" + line + "' in line {self.line_number}")
                 self.add_string(line, self.title_length)
                 self.current_title = self.encoder.end()
                 self.ignore_empty_line = True
@@ -184,10 +186,10 @@ class Screens:
                 return
             self.ignore_empty_line = False
             if len(line) > self.line_length:
-                raise RuntimeError("line too long: '" + line + "'")
+                raise RuntimeError(f"line too long: '" + line + "' in line {self.line_number}")
             self.current_line += 1
             if self.current_line > self.lines:
-                raise RuntimeError("too many lines in screen")
+                raise RuntimeError(f"too many lines in screen in line {self.line_number}")
             self.encoder.add_bytes(self.prefix)
             self.add_string(line, self.line_length)
             self.encoder.add_bytes(self.postfix)
@@ -206,7 +208,7 @@ class Screens:
 
     def end(self):
         if len(self.skipping) != 1:
-            raise RuntimeError("unclosed .if")
+            raise RuntimeError("unclosed .if in line {self.line_number}")
         self.end_screen()
         return self.compressed_screens
 
@@ -227,7 +229,7 @@ class Screens:
         bytes = b""
         for c in string:
             if ord(c) not in self.charmap:
-                raise RuntimeError("unmapped character '" + c + "'")
+                raise RuntimeError("unmapped character '" + c + "' in line {self.line_number}")
             bytes += self.charmap[ord(c)].to_bytes(1, byteorder="little")
         return bytes
 
