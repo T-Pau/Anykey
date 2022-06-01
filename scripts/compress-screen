@@ -5,7 +5,22 @@ import re
 import sys
 import json
 
-# TODO: support for cc65 assembler syntax
+# TODO: support for cc65 assembler assembler
+
+assembler_formats = {
+    "cc65": {
+        "byte": ".byte",
+        "data_section": ".rodata",
+        "export": ".export",
+        "word": ".word"
+    },
+    "z88dk": {
+        "byte": "byte",
+        "data_section": "section data_user",
+        "export": "public",
+        "word": "word"
+    }
+}
 
 
 class RunlengthEncoder:
@@ -72,12 +87,13 @@ class Screens:
     def __init__(self, defines):
         self.name = ""
         self.title_length = 0
+        self.title_xor = 0
         self.line_length = 40
         self.lines = 25
         self.prefix = b""
         self.postfix = b""
         self.charmap = {}
-        self.syntax = "z88dk"
+        self.assembler = "z88dk"
         self.defines = {}
         for define in defines:
             parts = define.split("=")
@@ -168,10 +184,12 @@ class Screens:
                 self.title_length = int(words[1])
             elif words[0] == "map":
                 self.add_map(words[1], words[2])
-            elif words[0] == "syntax":
-                self.syntax = words[1]
+            elif words[0] == "assembler":
+                self.assembler = words[1]
             elif words[0] == "name":
                 self.name = words[1]
+            elif words[0] == "title_xor":
+                self.title_xor =int(words[1])
             else:
                 raise RuntimeError(f"unknown command '" + words[0] + "' in line {self.line_number}")
 
@@ -179,11 +197,11 @@ class Screens:
         if line == "---":
             self.end_screen()
         else:
-            line = re.sub(r"\${[A-Z_]*}", lambda m : self.replace_variable(m), line)
+            line = re.sub(r"\${[A-Z_]*}", lambda m: self.replace_variable(m), line)
             if self.title_length > 0 and self.current_title == b"":
                 if len(line) > self.title_length:
                     raise RuntimeError(f"title too long: '" + line + "' in line {self.line_number}")
-                self.add_string(line, self.title_length)
+                self.add_string(line, self.title_length, self.title_xor)
                 self.current_title = self.encoder.end()
                 self.ignore_empty_line = True
                 return
@@ -228,35 +246,36 @@ class Screens:
             self.charmap[source] = target
             target += 1
 
-    def add_string(self, string, length):
-        self.encoder.add_bytes(self.map_string(string.ljust(length)))
+    def add_string(self, string, length, byte_xor=0):
+        self.encoder.add_bytes(self.map_string(string.ljust(length), byte_xor))
 
-    def map_string(self, string):
+    def map_string(self, string, byte_xor=0):
         bytes = b""
         for c in string:
             if ord(c) not in self.charmap:
                 raise RuntimeError("unmapped character '" + c + "' in line {self.line_number}")
-            bytes += self.charmap[ord(c)].to_bytes(1, byteorder="little")
+            bytes += (self.charmap[ord(c)] ^ byte_xor).to_bytes(1, byteorder="little")
         return bytes
 
     def parse_fix(self, line):
         # TODO: support for byte list
         start = line.find("\"")
         end = line.rfind("\"")
-        return self.map_string(line[start+1:end])
+        return self.map_string(line[start + 1:end])
 
     def replace_variable(self, match):
         if match.group() is not None:
             name = match.group()[2:-1]
-            if not name in self.defines:
+            if name not in self.defines:
                 raise RuntimeError(f"undefined variable '{name}' in line {self.line_number}")
             return self.defines[name]
 
-def write_bytes(file, bytes):
+
+def write_bytes(file, bytes, assembler_format):
     i = 0
     for byte in bytes:
         if i == 0:
-            file.write("    byte ")
+            file.write("    " + assembler_format["byte"] + " ")
         else:
             file.write(", ")
         file.write(f'${byte:02x}')
@@ -268,30 +287,36 @@ def write_bytes(file, bytes):
         file.write("\n")
 
 
-def write_parts(output_file_name, parts, name):
+def write_parts(output_file_name, parts, name, assembler_format):
     with open(output_file_name, "w") as output_file:
         header = """; This file is automatically created by {program} from {infile}.
 ; Do not edit.
 
-public {name}, num_{name}
+{export} {name}, num_{name}
 
-section data_user
+{data_section}
 
 num_{name}:
-    byte {num_parts}
+    {byte} {num_parts}
 
 {name}:
-""".format(outfile=output_file_name, name=name, infile=input_file_name, program=sys.argv[0], num_parts=len(parts))
+""".format(outfile=output_file_name,
+           byte=assembler_format["byte"],
+           data_section=assembler_format["data_section"],
+           export=assembler_format["export"],
+           name=name, infile=input_file_name,
+           program=sys.argv[0],
+           num_parts=len(parts))
         output_file.write(header)
 
         for i in range(len(parts)):
-            output_file.write("    word " + name + "_" + str(i) + "\n")
+            output_file.write("    " + assembler_format["word"] + " " + name + "_" + str(i) + "\n")
         output_file.write("\n")
 
         # write screen index
         for i in range(len(parts)):
             output_file.write(name + "_" + str(i) + ":\n")
-            write_bytes(output_file, parts[i])
+            write_bytes(output_file, parts[i], assembler_format)
             output_file.write("\n")
 
 
@@ -345,7 +370,7 @@ elif input_file_name.endswith(".json"):
         if len(rest) > 2:
             parts.append(rest)
 
-        write_parts(output_file_name, parts, spec["name"])
+        write_parts(output_file_name, parts, spec["name"], assembler_formats["z88dk"])
 
 else:
     screens = Screens(args.defines)
@@ -354,4 +379,4 @@ else:
             screens.process_line(line)
     compressed_screens = screens.end()
 
-    write_parts(output_file_name, compressed_screens, screens.name + "_screens")
+    write_parts(output_file_name, compressed_screens, screens.name + "_screens", assembler_formats[screens.assembler])

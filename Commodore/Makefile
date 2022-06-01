@@ -1,24 +1,23 @@
-DEPDIR := .deps
+VERSION = $(shell cat ../version.txt)
 
 CC = CC65_HOME=/usr/local/share/cc65 cl65
+LD = CC65_HOME=/usr/local/share/cc65 cl65
+COMPRESS_SCREEN = ../scripts/compress-screen
+
 CFLAGS_64 = -t c64
 CFLAGS_128 = -t c128
 CFLAGS_MEGA65 = -t mega65
 CFLAGS_PET = -t pet
 CFLAGS_PLUS4 = -t plus4
 
-LD = CC65_HOME=/usr/local/share/cc65 cl65
 LDFLAGS_64 = -t c64 -u __EXEHDR__ -C c64-asm.cfg
 LDFLAGS_128 = -t c128 -u __EXEHDR__ -C c128-asm.cfg
 LDFLAGS_MEGA65 = -t mega65 -u __EXEHDR__ -C mega65-asm.cfg
 LDFLAGS_PET = -t pet -u __EXEHDR__ -C pet-asm.cfg
 LDFLAGS_PLUS4 = -t plus4 -u __EXEHDR__ -C plus4-asm.cfg
 LDFLAGS_VIC20 = -t vic20 -u __EXEHDR__ -C vic20-asm.cfg
-# LDFLAGS_64 += -Ln sym
-# LDFLAGS_128 += -Ln sym
-# LDFLAGS_PET += -Ln sym
-# LDFLAGS_PLUS4 += -Ln sym
-# LDFLAGS_VIC20 += -Ln sym
+
+DEPDIR := .deps
 
 DISK = anykey.d64
 DISK_D81 = anykey.d81
@@ -43,7 +42,8 @@ SOURCES_COMMON = \
 	display-key.s \
 	keyboard.s \
 	main-loop.s \
-	memcpy.s
+	memcpy.s \
+	rl-expand.s
 
 SOURCES_VICII_TED = \
 	button.s \
@@ -56,7 +56,7 @@ SOURCES_VICII_TED = \
 	irq.s \
 	irq-table.s \
 	keyboard-vicii-ted.s \
-	help-screen.s \
+	help-commands.s \
 	screen.s \
 	state.s
 
@@ -78,7 +78,7 @@ SOURCES_VICII = \
 	switch-vicii.s \
 	${SOURCES_VICII_TED}
 
-SOURCES_128 = \
+SOURCES_64_128 = \
 	${SOURCES_VICII} \
 	${SOURCES_COMMON} \
 	keyboard-128-charset.s \
@@ -87,7 +87,8 @@ SOURCES_128 = \
 	screen-128.s
 
 SOURCES_64 = \
-	${SOURCES_128} \
+	${SOURCES_64_128} \
+	help-screens-64.s \
 	keyboard-64-charset.s \
 	keyboard-mega65-c64-charset.s \
 	keys-64.s \
@@ -97,9 +98,14 @@ SOURCES_64 = \
 	screen-64.s \
 	screen-mega65-c64.s
 
+SOURCES_128 = \
+	${SOURCES_64_128} \
+	help-screens-128.s
+
 SOURCES_MEGA65 = \
 	${SOURCES_VICII} \
 	${SOURCES_COMMON} \
+	help-screens-mega65.s \
 	keyboard-mega65-c64-charset.s \
 	keys-mega65.s \
 	irq-table-mega65-c64.s \
@@ -147,6 +153,7 @@ SOURCES_PET_4K = \
 SOURCES_PLUS4 = \
 	${SOURCES_TED} \
 	${SOURCES_COMMON} \
+	help-screens-plus4.s \
 	keyboard-plus4-charset.s \
 	keys-plus4.s \
 	irq-table-plus4.s \
@@ -273,6 +280,18 @@ anykey-pet-full.prg: ${OBJECTS_PET_FULL}
 
 autoboot-mega65.prg: autoboot-mega65.bas
 	petcat -w65 -l 0801 -o autoboot-mega65.prg autoboot-mega65.bas
+
+help-screens-64.s: help-screens.txt ${COMPRESS_SCREEN}
+	${COMPRESS_SCREEN} -DVERSION=${VERSION} -D__C64__ -DUSE_VICII help-screens.txt $@
+
+help-screens-128.s: help-screens.txt ${COMPRESS_SCREEN}
+	${COMPRESS_SCREEN} -DVERSION=${VERSION} -D__C64__ -DUSE_VICII help-screens.txt $@
+
+help-screens-mega65.s: help-screens.txt ${COMPRESS_SCREEN}
+	${COMPRESS_SCREEN} -DVERSION=${VERSION} -D__MEGA65__ help-screens.txt $@
+
+help-screens-plus4.s: help-screens.txt ${COMPRESS_SCREEN}
+	${COMPRESS_SCREEN} -DVERSION=${VERSION} -D__PLUS4__ -DUSE_TED help-screens.txt $@
 
 keys-64.s: keys-64.key key-table
 	./key-table keys-64

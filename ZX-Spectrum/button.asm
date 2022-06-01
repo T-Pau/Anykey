@@ -1,4 +1,4 @@
-; This file is automatically created by ./compress-screen from button.json.
+; This file is automatically created by ./../scripts/compress-screen from button.json.
 ; Do not edit.
 
 public button, num_button

@@ -36,7 +36,7 @@ lines 14
 prefix " "
 postfix " "
 title_length 30
-syntax z88dk
+assembler z88dk
 ---
 anykey
 

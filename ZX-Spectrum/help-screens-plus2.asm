@@ -1,4 +1,4 @@
-; This file is automatically created by ./compress-screen from help-screens.txt.
+; This file is automatically created by ./../scripts/compress-screen from help-screens.txt.
 ; Do not edit.
 
 public help_screens, num_help_screens

@@ -1,4 +1,4 @@
-; This file is automatically created by ./compress-screen from dpad.json.
+; This file is automatically created by ./../scripts/compress-screen from dpad.json.
 ; Do not edit.
 
 public dpad, num_dpad
