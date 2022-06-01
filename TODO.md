@@ -21,8 +21,6 @@
 # ZX Spectrum
 
 - Update README.
-- Fix Kempston joystick in Next verison. 
-- Spectrum N-Go version.
 - Document Next/N-Go joystick window.
 
 
