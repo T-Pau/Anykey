@@ -1,6 +1,6 @@
 # Before Next Release
 
-- **PET**: Add screenshots and model information to documentation.
+- **PET**: Add 40xx model information to documentation.
 - **MEGA65**: Fix `Restore` detection.
 - **MEGA65**: Don't disable keys due to joystick input.
 
@@ -19,4 +19,5 @@
 
 - Support controller.
 - Documentation
-- include in dist file.
+- Include in dist file.
+- Support more keyboard layouts.

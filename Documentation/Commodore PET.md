@@ -6,6 +6,8 @@ The programs are provided as disk images in `D64` and `D81` format, which also c
 
 ### Anykey PET 8k
 
+![](Anykey%20PET%20Graphics%2040.png)
+
 This version requires at least 8k RAM and supports only 40 columns mode and calculator or graphcis style keyboards. 
 
 - PET 2001 with at least 8k RAM
@@ -14,6 +16,8 @@ This version requires at least 8k RAM and supports only 40 columns mode and calc
 - CBM 3032
 
 ### Anykey PET Full
+
+![](Anykey%20PET%20Business%2080.png)
 
 This version requires at least 16k RAM and supports 40 and 80 columns modes and all keyboard types.
 
@@ -37,6 +41,23 @@ The keys are displayed in the same layout as the physical keyboard.
 Keys that are currently pressed are displayed inverted.
 
 Keys that were previously pressed are displayed with a square frame. This helps detect dead keys. To reset the state of all keys to unpressed, hold `Clr/Home` for two seconds.
+
+
+## Keyboard Types
+
+### Calculator Keyboard
+
+This keyboard was used in the earliest pet models and in the Tynemouth Mini PET 40/80. keys are arranged in a rectangular grid.
+
+
+### Graphics Keyboard
+
+Khis keyboard was used in some models with 40 column displays. It features the graphics character on the front of the key caps and a 4x5 number block.
+
+
+### Business Keyboard
+
+This keyboard was used in later models with 40 column and all models with 80 column displays. It features digit keys on the main keyboard and a 3x4 number block.
 
 
 ## Key Labels

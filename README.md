@@ -8,12 +8,17 @@ It supports the following computers:
 
 - Commodore 64
 - Commodore 128 (128 mode in 40 columns or 64 mode)
-- Commodore PET (8k required)
+- Commodore PET (all models with at least 8k RAM)
 - Commodore Plus/4
 - MEGA65 (native and 64 mode)
 - Sinclair ZX Spectrum 48k
 - Sinclair ZX Spectrum 48k+
 - Sinclair ZX Spectrum 128k
+- Sinclair ZX Spectrum +2 (gray model, made by Sinclair)
+- Sinclair ZX Spectrum +2A (black model, made by Amstrad)
+- Sinclair ZX Spectrum +3
+- Sinclair ZX Spectrum Next
+- N-Go (ZX Spectrum Next clone)
 
 The upper window shows the state of the keyboard.
 
@@ -31,6 +36,6 @@ For detailed usage instructions, see the documentation pages:
 - [Sinclair ZX Spectrum](Documentation/ZX%20Spectrum.md)
 
 
-# Building Anykey
+## Building Anykey
 
 See [BUILDING.md](BUILDING.md)
