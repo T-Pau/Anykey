@@ -4,9 +4,26 @@ The programs are provided as disk images in `D64` and `D81` format, which also c
 
 ## Supported Models
 
-- Anykey PET 8k
-- Anykey PET Full
-  - any PET with at least 18k RAM
+### Anykey PET 8k
+
+This version requires at least 8k RAM and supports only 40 columns mode and calculator or graphcis style keyboards. 
+
+- PET 2001 with at least 8k RAM
+- CBM 3008
+- CBM 3016
+- CBM 3032
+
+### Anykey PET Full
+
+This version requires at least 16k RAM and supports 40 and 80 columns modes and all keyboard types.
+
+- CBM 2001
+- CBM 3016
+- CBM 3032
+- CBM 8032
+- CBM 8096
+- CBM 8296
+- Tynemouth Mini PET 40/80
 
 ## Loading the Program
 
