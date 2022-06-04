@@ -83,9 +83,18 @@ init_keyboard:
 display_keyboard:
 .scope
 .ifdef USE_VICII
+.if .defined(__C64__)
+    lda machine_type
+    bmi mega65
+.endif
+.if .not .defined(__MEGA65__)
 	jsr process_skip
 .endif
-	
+.if .defined(__C64__)
+mega65:
+.endif
+.endif
+
 	ldx num_keys
 	dex
 loop:
@@ -240,7 +249,7 @@ end_read:
 .ifdef USE_VICII
 .if .defined(__C64__)
     lda machine_type
-    bpl :+
+    bpl not_mega65
 .endif
 .if .defined(__C64__) .or .defined(__MEGA65__)
     lda $d60f
@@ -250,9 +259,10 @@ end_read:
     sty new_key_state + 2
     sty new_key_state + 7
     sty new_key_state + 6 * 8 + 4
+:
 .endif
 .if .defined(__C64__)
-:
+not_mega65:
 .endif
 	ldx restore_countdown
 	beq :+

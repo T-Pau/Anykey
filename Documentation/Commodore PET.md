@@ -24,9 +24,13 @@ This version requires at least 16k RAM and supports 40 and 80 columns modes and 
 - CBM 2001
 - CBM 3016
 - CBM 3032
+- CBM 4016
+- CBM 4032
 - CBM 8032
 - CBM 8096
 - CBM 8296
+- PET 4016
+- PET 4032
 - Tynemouth Mini PET 40/80
 
 ## Loading the Program

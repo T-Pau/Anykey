@@ -1,8 +1,5 @@
 # Before Next Release
 
-- **PET**: Add 40xx model information to documentation.
-- **MEGA65**: Fix `Restore` detection.
-- **MEGA65**: Don't disable keys due to joystick input.
 
 # Soonish
 

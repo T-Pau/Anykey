@@ -1,6 +1,9 @@
 # Version 1.5 (2022-06-xx)
 
-- Add support for ZX Spectrum.
+- Add support for ZX Spectrum (48k RAM required).
+- Improve documentation.
+- MEGA65: Fix `Restore` detection, don't ignore keys due joystick movement.
+- Include version number in help text.
 
 # Version 1.4 (2022-05-21)
 
