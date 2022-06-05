@@ -1,4 +1,4 @@
-# Version 1.5 (2022-06-xx)
+# Version 1.5 (2022-06-05)
 
 - Add support for ZX Spectrum (48k RAM required).
 - Improve documentation.
