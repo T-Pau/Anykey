@@ -1,0 +1,15 @@
+# input filename
+normal_bitmap = "keyboard-128-normal-bitmap.bin"
+pressed_bitmap = "keyboard-128-pressed-bitmap.bin"
+
+# output files
+charset = "keyboard-128-charset.s"
+symbol_prefix = "keyboard_128"
+screen = "keyboard-128-screen.bin"
+
+# keyboard layout
+screen_width = 40
+width = 40
+height = 14
+top_lines = 6
+line_bottom =    0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_11111111

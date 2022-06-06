@@ -30,9 +30,11 @@
 """
 
 import sys
+import toml
+
 
 class Charset:
-    def	__init__(self, size, empty):
+    def __init__(self, size, empty):
         self.by_index = dict()
         self.by_value = dict()
         self.next_index = 0
@@ -68,22 +70,46 @@ class Charset:
         else:
             return self.empty
 
-def setup_charset(charset, top, bottom, rounded):
+
+def mirror(char):
+    # 76543310
+    # 01234567
+    mirrored = (char & 0x0101010101010101) << 7
+    mirrored |= (char & 0x0202020202020202) << 5
+    mirrored |= (char & 0x0404040404040404) << 3
+    mirrored |= (char & 0x0808080808080808) << 1
+    mirrored |= (char & 0x1010101010101010) >> 1
+    mirrored |= (char & 0x2020202020202020) >> 3
+    mirrored |= (char & 0x4040404040404040) >> 5
+    mirrored |= (char & 0x8080808080808080) >> 7
+    return mirrored
+
+
+def setup_charset(charset, config, top):
     charset.add_with_index((0, 0xffffffffffffffff), 32)
-    if top and rounded:
-        charset.add_with_index((0xf0c0808000000000, 0xf0c0808000000000), 0x49)
-        charset.add_with_index((0x0f03010100000000, 0x0f03010100000000), 0x4a)
-    if bottom:
-        if rounded:
-            charset.add_with_index((0x0000008080c0f0ff, 0x0000008080c0f0ff), 0x4b)
-            charset.add_with_index((0x0000000101030fff, 0x0000000101030fff), 0x4c)
-        charset.add_with_index((0x00000000000000ff, 0x00000000000000ff), 0x4d)
+    if top:
+        if "rounded_top" in config:
+            char_left = config["rounded_top"]
+            char_right = mirror(char_left)
+            charset.add_with_index((char_left, char_left), 0x49)
+            charset.add_with_index((char_right, char_right), 0x4a)
+    else:
+        if "rounded_bottom" in config:
+            char_left = config["rounded_bottom"]
+            char_right = mirror(char_left)
+            charset.add_with_index((char_left, char_left), 0x4b)
+            charset.add_with_index((char_right, char_right), 0x4c)
+        if "line_bottom" in config:
+            char = config["line_bottom"]
+            charset.add_with_index((char, char), 0x4d)
+
 
 def save_charset_half(charset, file, index):
     for i in range(0, max(charset.by_index.keys()) + 1):
         pair = charset.get_values(i)
-        print("\t.byte $", file=file, end="") # ", $"
+        print("\t.byte $", file=file, end="")  # ", $"
         print(", $".join("{:02x}".format(x) for x in pair[index].to_bytes(8, byteorder="big")), file=file)
+
 
 def save_charset(charset, file, symbol_prefix):
     print(f".export {symbol_prefix}, {symbol_prefix}_inv", file=file)
@@ -92,45 +118,43 @@ def save_charset(charset, file, symbol_prefix):
     print(f"{symbol_prefix}_inv:", file=file)
     save_charset_half(charset, file, 1)
 
+
 def save(data, name):
     with open(name, mode="wb") as file:
         file.write(data)
 
-if len(sys.argv) != 5:
-     print("usage: ", sys.argv[0], " name-prefix width height split-line\n")
-     sys.exit(1)
 
-name_prefix = sys.argv[1]
-width = int(sys.argv[2])
-height = int(sys.argv[3])
-top_lines = int(sys.argv[4])
-symbol_prefix = name_prefix.replace("-", "_")
+if len(sys.argv) != 2:
+    print("usage: ", sys.argv[0], " config.toml\n")
+    sys.exit(1)
+
+config = toml.load(sys.argv[1])
 
 screen = b""
 
-with open(name_prefix + "-normal-bitmap.bin", mode='rb') as file_normal:
-    with open(name_prefix + "-pressed-bitmap.bin", mode='rb') as file_pressed:
-        with open(name_prefix + "-charset.s", mode='w') as file_charset:
-            for y in range(0, height):
+with open(config["normal_bitmap"], mode='rb') as file_normal:
+    with open(config["pressed_bitmap"], mode='rb') as file_pressed:
+        with open(config["charset"], mode='w') as file_charset:
+            for y in range(0, config["height"]):
                 if y == 0:
                     charset = Charset(128, (0, 0))
-                    setup_charset(charset, True, False, name_prefix != "keyboard-128")
-                if y == top_lines:
-                    #print("------")
-                    save_charset(charset, file_charset, symbol_prefix + "_charset_top")
+                    setup_charset(charset, config, True)
+                if "top_lines" in config and y == config["top_lines"]:
+                    # print("------")
+                    save_charset(charset, file_charset, config["symbol_prefix"] + "_charset_top")
                     charset = Charset(128, (0, 0))
-                    setup_charset(charset, False, True, name_prefix != "keyboard-128")
-                for x in range(0, int((40-width)/2)):
+                    setup_charset(charset, config, False)
+                for x in range(0, int((config["screen_width"]-config["width"])/2)):
                     screen += 0xa0.to_bytes(1, byteorder="big")
-                for x in range(0, width):
+                for x in range(0, config["width"]):
                     char_normal = int.from_bytes(file_normal.read(8), byteorder='big')
                     char_pressed = int.from_bytes(file_pressed.read(8), byteorder='big')
                     if char_normal == 0 and char_pressed == 0:
                         char_pressed = 0xffffffffffffffff
                     char = charset.add((char_normal, char_pressed))
-                    #print("(%02d, %02d): (%016x, %016x) -> %d" % (x, y, char_normal, char_pressed, char))
+                    # print("(%02d, %02d): (%016x, %016x) -> %d" % (x, y, char_normal, char_pressed, char))
                     screen += char.to_bytes(1, byteorder="big")
-                for x in range(0, int((40-width+1)/2)):
+                for x in range(0, int((config["screen_width"]-config["width"]+1)/2)):
                     screen += 0xa0.to_bytes(1, byteorder="big")
-            save_charset(charset, file_charset, symbol_prefix + "_charset_bottom")
-            save(screen, name_prefix + "-screen.bin")
+            save_charset(charset, file_charset, config["symbol_prefix"] + ("_charset_bottom" if "top_lines" in config else "_charset"))
+            save(screen, config["screen"])

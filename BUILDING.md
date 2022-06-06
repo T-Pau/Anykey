@@ -4,7 +4,12 @@
 
 ### All Versions
 
-You will need GNU make, [Python](https://www.python.org/), and [Perl](https://perl.org/).
+You will need the following programs installed:
+
+- GNU make
+- [Python](https://www.python.org/)
+  - [toml](https://github.com/uiri/toml) module
+- [Perl](https://perl.org/)
 
 Graphics are drawn in [Affinity Photo](https://affinity.serif.com/en-gb/photo/) and converted with the custom program [gfx-converter](https://github.com/T-Pau/gfx-converter).
 

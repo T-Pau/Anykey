@@ -58,6 +58,11 @@ USE_VICII = 1
 END_OF_IRQ = $fcbe
 USE_TED = 1
 
+.elseif .defined(__VIC20__)
+.include "vic20.inc"
+END_OF_IRQ = $eb18
+USE_VIC = 1
+
 .else
 .error "Target not supported"
 .endif
@@ -71,6 +76,11 @@ HLINE_BIT8 = $80
 IRR = VIC_IRR
 IMR = VIC_IMR
 IRQ_RASTER = 1
+
+.elseif .defined(USE_VIC)
+
+table = $bb
+BORDERCOLOR = VIC_COLOR
 
 .elseif .defined(USE_TED)
 table = $e7
@@ -91,6 +101,14 @@ index:
 table_length:
 	.res 1
 
+.if .defined(USE_VIC)
+next_line:
+    .res 1
+
+timer_length:
+    .res 2
+.endif
+
 .code
 
 init_irq:
@@ -101,9 +119,26 @@ init_irq:
     sta CIA1_ICR
 .endif
 
+.if .defined(USE_VIC)
+    lda #$7f
+    sta VIA1_IER    ; disable all interrupts on VIA1
+    sta VIA2_IER    ; disable all interrupts on VIA2
+    ; set timer 1 to free run
+    lda	#$40
+  	sta	VIA2_ACR
+    ; enable timer 1 interrupts
+    lda #$c0
+    sta VIA2_IER
+    ; set initial run time to more than 1 frame
+    lda #$00
+    sta VIA2_T1LL
+    lda #87
+    sta VIA2_T1LH
+.else
 	; enable rasterline irq
 	ldx #IRQ_RASTER
     stx IMR
+.endif
 
 	lda #<irq_main
 	sta IRQVec
@@ -121,6 +156,14 @@ set_irq_table:
 	jmp setup_next_irq
 
 irq_main:
+.if .defined(USE_VIC)
+    dec BORDERCOLOR
+    ; synchronize with raster line
+    lda next_line
+:   cmp VIC_HLINE
+    bne :-
+    inc BORDERCOLOR
+.endif
 .ifdef IRQ_DEBUG
 	inc BORDERCOLOR
 .endif
@@ -132,8 +175,12 @@ irq_jsr:
 	jsr $0000
 	jsr setup_next_irq
 	; acknowledge irq
+.if .defined(USE_VIC)
+    lda VIA2_T1CL
+.else
 	lda #IRQ_RASTER
     sta IRR
+.endif
 .ifdef IRQ_DEBUG
 	dec BORDERCOLOR
 .endif
@@ -143,6 +190,44 @@ irq_jsr:
 setup_next_irq:
 	ldy index
 
+.if .defined(USE_VIC)
+    lda #0
+    sta timer_length + 1
+	lda (table),y
+	sta next_line
+	sec
+	sbc VIC_HLINE
+	bcs :+
+	adc #312/2
+:	sbc #2
+	sta timer_length
+	asl
+	rol timer_length + 1
+	asl
+	rol timer_length + 1
+    asl
+	rol timer_length + 1
+	asl
+	rol timer_length + 1
+    adc timer_length
+    bcc :+
+    inc timer_length + 1
+:	asl
+ 	rol timer_length + 1
+    adc timer_length
+    bcc :+
+    inc timer_length + 1
+:	asl
+ 	rol timer_length + 1
+    adc timer_length
+    bcc :+
+    inc timer_length + 1
+:	asl
+  	rol timer_length + 1
+  	sta VIA2_T1CL
+  	lda timer_length + 1
+  	sta VIA2_T1CH
+.else
 	; activate next entry
 	lda (table),y
 	sta HLINE_LOW
@@ -157,6 +242,7 @@ high0:
 	lda HLINE_HIGH
 	and #HLINE_BIT8 ^ $ff
 	sta HLINE_HIGH
+.endif
 addr:
 	iny
 	lda (table),y

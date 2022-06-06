@@ -311,17 +311,20 @@ keys-pet-graphics-40.s: keys-pet-graphics-40.key key-table
 keys-plus4.s: keys-plus4.key key-table
 	./key-table keys-plus4
 
-keyboard-64-charset.s keyboard-64-screen.bin: keyboard-64-normal-bitmap.bin keyboard-64-pressed-bitmap.bin convert-keyboard
-	./convert-keyboard keyboard-64 40 12 3
+keyboard-64-charset.s keyboard-64-screen.bin: keyboard-64.toml keyboard-64-normal-bitmap.bin keyboard-64-pressed-bitmap.bin convert-keyboard
+	./convert-keyboard $<
 
-keyboard-128-charset.s keyboard-128-screen.bin: keyboard-128-normal-bitmap.bin keyboard-128-pressed-bitmap.bin convert-keyboard
-	./convert-keyboard keyboard-128 40 14 6
+keyboard-128-charset.s keyboard-128-screen.bin: keyboard-128.toml keyboard-128-normal-bitmap.bin keyboard-128-pressed-bitmap.bin convert-keyboard
+	./convert-keyboard $<
 	
-keyboard-mega65-c64-charset.s keyboard-mega65-c64-screen.bin: keyboard-mega65-c64-normal-bitmap.bin keyboard-mega65-c64-pressed-bitmap.bin convert-keyboard
-	./convert-keyboard keyboard-mega65-c64 34 14 6
+keyboard-mega65-c64-charset.s keyboard-mega65-c64-screen.bin: keyboard-mega65-c64.toml keyboard-mega65-c64-normal-bitmap.bin keyboard-mega65-c64-pressed-bitmap.bin convert-keyboard
+	./convert-keyboard $<
 
-keyboard-plus4.s keyboard-plus4-screen.bin: keyboard-plus4-normal-bitmap.bin keyboard-plus4-pressed-bitmap.bin convert-keyboard
-	./convert-keyboard keyboard-plus4 36 14 4
+keyboard-plus4-charset.s keyboard-plus4-screen.bin: keyboard-plus4.toml keyboard-plus4-normal-bitmap.bin keyboard-plus4-pressed-bitmap.bin convert-keyboard
+	./convert-keyboard $<
+
+keyboard-vic20-charset.s keyboard-vic20-screen.bin: keyboard-vic20.toml keyboard-vic20-normal-bitmap.bin keyboard-vic20-pressed-bitmap.bin convert-keyboard
+	./convert-keyboard $<
 
 
 keyboard-64-pressed-bitmap.bin: keyboard-64-pressed.png
@@ -347,6 +350,13 @@ keyboard-plus4-normal-bitmap.bin: keyboard-plus4-normal.png
 
 keyboard-plus4-pressed-bitmap.bin: keyboard-plus4-pressed.png
 	gfx-convert -b 1 bitmap keyboard-plus4-pressed.png keyboard-plus4-pressed
+
+keyboard-vic20-normal-bitmap.bin: keyboard-vic20-normal.png
+	gfx-convert -b 1 bitmap $< keyboard-vic20-normal
+
+keyboard-vic20-pressed-bitmap.bin: keyboard-vic20-pressed.png
+	gfx-convert -b 1 bitmap $< keyboard-vic20-pressed
+
 
 charset.bin: charset.png
 	gfx-convert -b 255 charset charset.png charset.bin
