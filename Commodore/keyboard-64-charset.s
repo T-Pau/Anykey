@@ -1,4 +1,6 @@
-.export keyboard_64_charset_top, keyboard_64_charset_top_inv
+.rodata
+.export keyboard_64_charset_top
+.export keyboard_64_charset_top_inv
 keyboard_64_charset_top:
 	.byte $00, $3f, $60, $40, $40, $40, $43, $47
 	.byte $00, $fc, $06, $02, $02, $02, $02, $e2
@@ -151,7 +153,8 @@ keyboard_64_charset_top_inv:
 	.byte $00, $00, $00, $00, $00, $00, $00, $00
 	.byte $f0, $c0, $80, $80, $00, $00, $00, $00
 	.byte $0f, $03, $01, $01, $00, $00, $00, $00
-.export keyboard_64_charset_bottom, keyboard_64_charset_bottom_inv
+.export keyboard_64_charset_bottom
+.export keyboard_64_charset_bottom_inv
 keyboard_64_charset_bottom:
 	.byte $00, $3f, $60, $40, $40, $46, $48, $48
 	.byte $00, $ff, $00, $00, $00, $ec, $4a, $4c

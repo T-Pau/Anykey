@@ -157,12 +157,12 @@ set_irq_table:
 
 irq_main:
 .if .defined(USE_VIC)
-    dec BORDERCOLOR
+    ;dec BORDERCOLOR
     ; synchronize with raster line
     lda next_line
 :   cmp VIC_HLINE
     bne :-
-    inc BORDERCOLOR
+    ;inc BORDERCOLOR
 .endif
 .ifdef IRQ_DEBUG
 	inc BORDERCOLOR

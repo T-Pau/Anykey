@@ -1,4 +1,6 @@
-.export keyboard_mega65_c64_charset_top, keyboard_mega65_c64_charset_top_inv
+.rodata
+.export keyboard_mega65_c64_charset_top
+.export keyboard_mega65_c64_charset_top_inv
 keyboard_mega65_c64_charset_top:
 	.byte $3f, $60, $40, $40, $58, $54, $59, $55
 	.byte $fc, $06, $02, $02, $9a, $a2, $92, $0a
@@ -207,7 +209,8 @@ keyboard_mega65_c64_charset_top_inv:
 	.byte $00, $00, $3f, $7f, $7f, $7f, $73, $75
 	.byte $00, $00, $ff, $ff, $ff, $ff, $19, $77
 	.byte $00, $00, $fc, $fe, $fe, $fe, $1e, $be
-.export keyboard_mega65_c64_charset_bottom, keyboard_mega65_c64_charset_bottom_inv
+.export keyboard_mega65_c64_charset_bottom
+.export keyboard_mega65_c64_charset_bottom_inv
 keyboard_mega65_c64_charset_bottom:
 	.byte $41, $41, $41, $40, $40, $60, $3f, $00
 	.byte $3b, $2a, $2b, $00, $00, $00, $ff, $00

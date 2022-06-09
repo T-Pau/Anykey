@@ -25,7 +25,7 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-name help
+name help_screens
 
 map $40-$5a $00
 map $61-$7a $01
@@ -94,7 +94,7 @@ buttons 2 and 3 bring an analog
 potentiometer to a low value by
 connecting its pin to +5v.
 .endif
-.if __C64__ __C128__
+.if __C64__ or __C128__
 
 to test other controller types or
 joystick adapters, please use the
@@ -122,7 +122,7 @@ and cannot be reliably distinguished
 on all computers.  the same is true
 for the two control keys.
 .endif
-.if __C64__ __MEGA65__
+.if __C64__ or __MEGA65__
 
 on mega65, when pressing cursor up or
 left, right shift and the opposite
@@ -132,7 +132,7 @@ pressed, these keys are disabled in
 that case.
 .endif
 
-.ifdef __C64__
+.if __C64__
 ---
 commodore 128
 
@@ -148,7 +148,7 @@ version, anykey 128.
 ---
 technical limitations
 
-.ifdef USE_VICII
+.if USE_VICII
 joysticks interfere with reading the
 keyboard. when a joystick is pressed,
 certain keys can't be read. these keys

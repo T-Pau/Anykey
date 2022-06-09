@@ -1,13 +1,13 @@
-; This file is automatically created by ../scripts/compress-screen from help-screen-pet-40.txt.
-; Do not edit.
-
-.export help_40_screens, num_help_40_screens
+;  This file is automatically created by ../scripts/convert-screens from help-screen-pet-40.txt.
+;  Do not edit.
 
 .rodata
 
+.export num_help_40_screens
 num_help_40_screens:
     .byte 7
 
+.export help_40_screens
 help_40_screens:
     .word help_40_screens_0
     .word help_40_screens_1
@@ -30,20 +30,20 @@ help_40_screens_0:
     .byte $20, $12, $01, $0d, $2e, $ff, $34, $20
     .byte $14, $08, $09, $13, $20, $09, $13, $20
     .byte $01, $0e, $19, $0b, $05, $19, $20, $31
-    .byte $2e, $35, $2e, $20, $14, $08, $05, $20
-    .byte $0e, $05, $17, $05, $13, $14, $ff, $0a
-    .byte $20, $16, $05, $12, $13, $09, $0f, $0e
-    .byte $20, $01, $0e, $04, $20, $06, $15, $12
-    .byte $14, $08, $05, $12, $20, $09, $0e, $06
-    .byte $0f, $12, $0d, $01, $14, $09, $0f, $0e
-    .byte $20, $03, $01, $0e, $20, $02, $05, $20
-    .byte $20, $06, $0f, $15, $0e, $04, $20, $01
-    .byte $14, $ff, $23, $20, $08, $14, $14, $10
-    .byte $13, $3a, $2f, $2f, $07, $09, $14, $08
-    .byte $15, $02, $2e, $03, $0f, $0d, $2f, $14
-    .byte $2d, $10, $01, $15, $2f, $01, $0e, $19
-    .byte $0b, $05, $19, $ff, $ff, $20, $ff, $bf
-    .byte $20, $ff, $00
+    .byte $2e, $35, $01, $2e, $20, $14, $08, $05
+    .byte $20, $0e, $05, $17, $05, $13, $14, $ff
+    .byte $09, $20, $16, $05, $12, $13, $09, $0f
+    .byte $0e, $20, $01, $0e, $04, $20, $06, $15
+    .byte $12, $14, $08, $05, $12, $20, $09, $0e
+    .byte $06, $0f, $12, $0d, $01, $14, $09, $0f
+    .byte $0e, $20, $03, $01, $0e, $20, $02, $05
+    .byte $20, $20, $06, $0f, $15, $0e, $04, $20
+    .byte $01, $14, $ff, $23, $20, $08, $14, $14
+    .byte $10, $13, $3a, $2f, $2f, $07, $09, $14
+    .byte $08, $15, $02, $2e, $03, $0f, $0d, $2f
+    .byte $14, $2d, $10, $01, $15, $2f, $01, $0e
+    .byte $19, $0b, $05, $19, $ff, $ff, $20, $ff
+    .byte $bf, $20, $ff, $00
 
 help_40_screens_1:
     .byte $0b, $05, $19, $02, $0f, $01, $12, $04
@@ -257,4 +257,3 @@ help_40_screens_6:
     .byte $20, $0b, $05, $19, $ff, $04, $20, $17
     .byte $0f, $15, $0c, $04, $2e, $ff, $ff, $20
     .byte $ff, $ff, $20, $ff, $04, $20, $ff, $00
-

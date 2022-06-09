@@ -2,13 +2,21 @@ VERSION = $(shell cat ../version.txt)
 
 CC = CC65_HOME=/usr/local/share/cc65 cl65
 LD = CC65_HOME=/usr/local/share/cc65 cl65
-COMPRESS_SCREEN = ../scripts/compress-screen
+CONVERT_SCREENS = ../scripts/convert-screens
+
+CONVERT_SCREENS_DEPENDENCIES = \
+	../scripts/convert-screens \
+	../scripts/AssemblerFormat.py \
+	../scripts/AssemblerOutput.py \
+	../scripts/RunlengthEncoder.py \
+	../scripts/Screens.py
 
 CFLAGS_64 = -t c64
 CFLAGS_128 = -t c128
 CFLAGS_MEGA65 = -t mega65
 CFLAGS_PET = -t pet
 CFLAGS_PLUS4 = -t plus4
+CFLAGS_VIC20 = -t vic20
 
 LDFLAGS_64 = -t c64 -u __EXEHDR__ -C c64-asm.cfg
 LDFLAGS_128 = -t c128 -u __EXEHDR__ -C c128-asm.cfg
@@ -34,6 +42,7 @@ PROGRAMS = \
 	anykey-pet-8k.prg \
 	anykey-pet-full.prg \
 	anykey-plus4.prg \
+	anykey-vic20.prg \
 	autoboot-mega65.prg
 
 SOURCES_COMMON = \
@@ -156,12 +165,30 @@ SOURCES_PLUS4 = \
 	irq-table-plus4.s \
 	screen-plus4.s
 
+SOURCES_VIC20 = \
+	start-vic20.s \
+	${SOURCES_COMMON} \
+	button.s \
+	copyrect.s \
+	display-joystick.s \
+	dpad.s \
+	irq.s \
+	irq-table-vic20.s \
+	help-commands.s \
+	help-screens-vic20.s \
+	keyboard-vic20-charset.s \
+	platform-vic20.s \
+	state.s \
+	vic20-main-screen.s
+
+
 OBJECTS_64 = ${SOURCES_64:%.s=%-64.o}
 OBJECTS_128 = ${SOURCES_128:%.s=%-128.o}
 OBJECTS_MEGA65 = ${SOURCES_MEGA65:%.s=%-mega65.o}
 OBJECTS_PET_8K = ${SOURCES_PET_8K:%.s=%-pet.o}
 OBJECTS_PET_FULL = ${SOURCES_PET_FULL:%.s=%-pet.o}
 OBJECTS_PLUS4 = ${SOURCES_PLUS4:%.s=%-plus4.o}
+OBJECTS_VIC20 = ${SOURCES_VIC20:%.s=%-vic20.o}
 
 
 ALL_OBJECTS = \
@@ -170,7 +197,8 @@ ALL_OBJECTS = \
 	${OBJECTS_MEGA65} \
 	${OBJECTS_PET_8K} \
 	${OBJECTS_PET_FULL} \
-	${OBJECTS_PLUS4}
+	${OBJECTS_PLUS4} \
+	${OBJECTS_VIC20}
 
 PROGRAMS += detect-pet.prg
 SOURCES_DETECT_PET = detect-pet-model.s pet-detect.s
@@ -200,6 +228,9 @@ clean:
 %-plus4.o : %.s ${DEPDIR}/%-plus4.o.d | ${DEPDIR}
 	${CC} -o $@ ${CFLAGS_PLUS4} --create-dep ${DEPDIR}/$@.d -c $<
 
+%-vic20.o : %.s ${DEPDIR}/%-vic20.o.d | ${DEPDIR}
+	${CC} -o $@ ${CFLAGS_VIC20} --create-dep ${DEPDIR}/$@.d -c $<
+
 ${DEPDIR}: ; @mkdir -p $@
 
 DEPFILES := ${ALL_OBJECTS:%=${DEPDIR}/%.d}
@@ -217,6 +248,7 @@ ${DISK}: ${PROGRAMS}
 	c1541 $$disk -silent -write "anykey-mega65.prg" "anykey mega65"; \
 	c1541 $$disk -silent -write "anykey-pet.prg" "anykey pet"; \
 	c1541 $$disk -silent -write "anykey-plus4.prg" "anykey plus/4"; \
+	c1541 $$disk -silent -write "anykey-vic20.prg" "anykey vic-20"; \
 	ips_util apply boot-comma8-d64.ips $$disk -o ${DISK}); \
 	rm $$disk
 
@@ -230,6 +262,7 @@ ${DISK_D81}: ${PROGRAMS}
 	c1541 $$disk -silent -write "anykey-mega65.prg" "anykey mega65"; \
 	c1541 $$disk -silent -write "anykey-pet.prg" "anykey pet"; \
 	c1541 $$disk -silent -write "anykey-plus4.prg" "anykey plus/4"; \
+	c1541 $$disk -silent -write "anykey-vic20.prg" "anykey vic-20"; \
 	c1541 $$disk -silent -write "autoboot-mega65.prg" "autoboot.c65"; \
 	ips_util apply boot-comma8-d81.ips $$disk -o ${DISK_D81}); \
 	rm $$disk
@@ -269,20 +302,26 @@ anykey-pet-8k.prg: ${OBJECTS_PET_8K}
 anykey-pet-full.prg: ${OBJECTS_PET_FULL}
 	${LD} ${LDFLAGS_PET} -o anykey-pet-full.prg -Ln anykey-pet-full.sym ${OBJECTS_PET_FULL}
 
+anykey-vic20.prg: ${OBJECTS_VIC20}
+	${LD} ${LDFLAGS_VIC20} -o $@ -Ln anykey-vic20.sym ${OBJECTS_VIC20}
+
 autoboot-mega65.prg: autoboot-mega65.bas
 	petcat -w65 -l 0801 -o autoboot-mega65.prg autoboot-mega65.bas
 
-help-screens-64.s: help-screens.txt ${COMPRESS_SCREEN}
-	${COMPRESS_SCREEN} -DVERSION=${VERSION} -D__C64__ -DUSE_VICII help-screens.txt $@
+help-screens-64.s: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
+	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__C64__ -DUSE_VICII $< $@
 
-help-screens-128.s: help-screens.txt ${COMPRESS_SCREEN}
-	${COMPRESS_SCREEN} -DVERSION=${VERSION} -D__C64__ -DUSE_VICII help-screens.txt $@
+help-screens-128.s: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
+	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__C64__ -DUSE_VICII $< $@
 
-help-screens-mega65.s: help-screens.txt ${COMPRESS_SCREEN}
-	${COMPRESS_SCREEN} -DVERSION=${VERSION} -D__MEGA65__ help-screens.txt $@
+help-screens-mega65.s: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
+	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__MEGA65__ $< $@
 
-help-screens-plus4.s: help-screens.txt ${COMPRESS_SCREEN}
-	${COMPRESS_SCREEN} -DVERSION=${VERSION} -D__PLUS4__ -DUSE_TED help-screens.txt $@
+help-screens-plus4.s: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
+	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__PLUS4__ -DUSE_TED $< $@
+
+help-screens-vic20.s: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
+	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__VIC20__ -DUSE_TED $< $@
 
 keys-64.s: keys-64.key key-table
 	./key-table keys-64
@@ -359,7 +398,7 @@ keyboard-vic20-pressed-bitmap.bin: keyboard-vic20-pressed.png
 
 
 charset.bin: charset.png
-	gfx-convert -b 255 charset charset.png charset.bin
+	gfx-convert -b 255 charset $< $@
 
 sprites.bin: sprites.png
 	gfx-convert sprites sprites.png sprites.bin
@@ -392,17 +431,20 @@ keyboard-pet-calculator-40-left.s: keyboard-pet-calculator-40.scr list-left.pl
 keyboard-pet-graphics-40-left.s: keyboard-pet-graphics-40.scr list-left.pl
 	perl list-left.pl keyboard-pet-graphics-40.scr keyboard-pet-graphics-40-left.s left_graphics_40
 
-help-screen-pet-40.s: help-screen-pet-40.txt ${COMPRESS_SCREEN}
-	${COMPRESS_SCREEN} -DVERSION=${VERSION} help-screen-pet-40.txt $@
+help-screen-pet-40.s: help-screen-pet-40.txt ${CONVERT_SCREENS_DEPENDENCIES}
+	${CONVERT_SCREENS} -DVERSION=${VERSION} $< $@
 
-help-screen-pet-80.s: help-screen-pet-80.txt ${COMPRESS_SCREEN}
-	${COMPRESS_SCREEN} -DVERSION=${VERSION} help-screen-pet-80.txt $@
+help-screen-pet-80.s: help-screen-pet-80.txt ${CONVERT_SCREENS_DEPENDENCIES}
+	${CONVERT_SCREENS} -DVERSION=${VERSION} $< $@
 
-pet-help-footer-40.s: pet-help-footer-40.txt ${COMPRESS_SCREEN}
-	${COMPRESS_SCREEN} pet-help-footer-40.txt $@
+pet-help-footer-40.s: pet-help-footer-40.txt ${CONVERT_SCREENS_DEPENDENCIES}
+	${CONVERT_SCREENS} $< $@
 
-pet-help-footer-80.s: pet-help-footer-80.txt ${COMPRESS_SCREEN}
-	${COMPRESS_SCREEN} pet-help-footer-80.txt $@
+pet-help-footer-80.s: pet-help-footer-80.txt ${CONVERT_SCREENS_DEPENDENCIES}
+	${CONVERT_SCREENS} $< $@
+
+vic20-main-screen.s: vic20-main-screen.txt keyboard-vic20-screen.bin ${CONVERT_SCREENS_DEPENDENCIES}
+	${CONVERT_SCREENS} $< $@
 
 detect-pet.prg: ${OBJECTS_DETECT_PET}
 	${LD} ${LDFLAGS_PET} -o detect-pet.prg ${OBJECTS_DETECT_PET}

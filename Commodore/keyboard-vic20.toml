@@ -5,12 +5,14 @@ pressed_bitmap = "keyboard-vic20-pressed-bitmap.bin"
 # output files
 charset = "keyboard-vic20-charset.s"
 symbol_prefix = "keyboard_vic20"
+segment = "CHARSET"
+full_charset = true
 screen = "keyboard-vic20-screen.bin"
 
 # keyboard layout
 screen_width = 22
 width = 22
-height = 14
+height = 12
 rounded_top =    0b11000000_10000000_10000000_10000000_00000000_00000000_00000000_00000000
 rounded_bottom = 0b00000000_00000000_00000000_10000000_10000000_10000000_11000000_11111111
 line_bottom =    0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_11111111

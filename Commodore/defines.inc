@@ -25,31 +25,7 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.if .defined(__C64__)
-; .include "c64.inc" ; included by mega65.inc
-.include "mega65.inc"
-USE_VICII = 1
-
-.elseif .defined(__C128__)
-.include "c128.inc"
-.include "mmu.inc"
-USE_VICII = 1
-
-.elseif .defined(__PLUS4__)
-.include "plus4.inc"
-USE_TED = 1
-
-.elseif .defined(__PET__)
-.include "pet.inc"
-USE_PET = 1
-
-.elseif .defined(__MEGA65__)
-.include "mega65.inc"
-USE_VICII = 1
-
-.else
-.error "Target not supported"
-.endif
+.if 0
 
 .if .defined(USE_VICII)
 .include "vic-ii.inc"
@@ -139,6 +115,10 @@ KEY_INDEX_HELP = 3 ; Help
 HOLD_FRAMES = 50
 
 
+.elseif .defined(USE_VIC)
+
+; TODO
+
 .elseif .defined(USE_PET)
 
 screen = $8000
@@ -186,6 +166,10 @@ SQUARE_HORIZONTAL = $40
 SQUARE_VERTICAL = $5d
 
 .endif
+
+.endif
+
+.include "platform.inc"
 
 COMMAND_NONE = 0
 COMMAND_HELP = 1

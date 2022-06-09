@@ -104,19 +104,24 @@ def setup_charset(charset, config, top):
             charset.add_with_index((char, char), 0x4d)
 
 
-def save_charset_half(charset, file, index):
-    for i in range(0, max(charset.by_index.keys()) + 1):
+def save_charset_half(charset, file, index, full):
+    count = 128 if full else max(charset.by_index.keys()) + 1
+    for i in range(0, count):
         pair = charset.get_values(i)
         print("\t.byte $", file=file, end="")  # ", $"
         print(", $".join("{:02x}".format(x) for x in pair[index].to_bytes(8, byteorder="big")), file=file)
 
 
 def save_charset(charset, file, symbol_prefix):
-    print(f".export {symbol_prefix}, {symbol_prefix}_inv", file=file)
+    full = config["full_charset"] if "full_charset" in config else False
+    print(f".export {symbol_prefix}", file=file)
+    if not full:
+        print(f".export {symbol_prefix}_inv", file=file)
     print(f"{symbol_prefix}:", file=file)
-    save_charset_half(charset, file, 0)
-    print(f"{symbol_prefix}_inv:", file=file)
-    save_charset_half(charset, file, 1)
+    save_charset_half(charset, file, 0, full)
+    if not full:
+        print(f"{symbol_prefix}_inv:", file=file)
+    save_charset_half(charset, file, 1, full)
 
 
 def save(data, name):
@@ -135,6 +140,11 @@ screen = b""
 with open(config["normal_bitmap"], mode='rb') as file_normal:
     with open(config["pressed_bitmap"], mode='rb') as file_pressed:
         with open(config["charset"], mode='w') as file_charset:
+            if "segment" in config:
+                segment = config["segment"]
+                print(f".segment \"{segment}\"", file=file_charset)
+            else:
+                print(".rodata", file=file_charset)
             for y in range(0, config["height"]):
                 if y == 0:
                     charset = Charset(128, (0, 0))

@@ -1,4 +1,6 @@
-.export keyboard_plus4_charset_top, keyboard_plus4_charset_top_inv
+.rodata
+.export keyboard_plus4_charset_top
+.export keyboard_plus4_charset_top_inv
 keyboard_plus4_charset_top:
 	.byte $3f, $60, $4f, $4c, $4e, $4c, $4c, $60
 	.byte $ff, $00, $18, $38, $19, $1b, $1b, $00
@@ -151,7 +153,8 @@ keyboard_plus4_charset_top_inv:
 	.byte $00, $00, $00, $00, $00, $00, $00, $00
 	.byte $f0, $c0, $80, $80, $00, $00, $00, $00
 	.byte $0f, $03, $01, $01, $00, $00, $00, $00
-.export keyboard_plus4_charset_bottom, keyboard_plus4_charset_bottom_inv
+.export keyboard_plus4_charset_bottom
+.export keyboard_plus4_charset_bottom_inv
 keyboard_plus4_charset_bottom:
 	.byte $50, $5d, $40, $40, $60, $3f, $00, $00
 	.byte $52, $8a, $02, $02, $06, $fc, $00, $00

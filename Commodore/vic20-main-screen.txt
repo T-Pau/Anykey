@@ -1,0 +1,21 @@
+name main_screen
+single_screen 1
+assembler cc65
+
+line_length 22
+lines 23
+map $40-$5a $00
+map $61-$7a $01
+map $20-$3f $20
+---
+ keyboard
+.include "keyboard-vic20-screen.bin"
+
+ joystick
+A                   B
+
+CDDDDDDDDDDDDDDDDDDDE
+
+ f5: reset keyboard
+      f7: help
+(hold for 2 seconds)
