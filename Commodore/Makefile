@@ -369,9 +369,8 @@ keyboard-mega65-c64-charset.s keyboard-mega65-c64-screen.bin: keyboard-mega65-c6
 keyboard-plus4-charset.s keyboard-plus4-screen.bin: keyboard-plus4.toml keyboard-plus4-normal-bitmap.bin keyboard-plus4-pressed-bitmap.bin convert-keyboard
 	./convert-keyboard $<
 
-keyboard-vic20-charset.s keyboard-vic20-screen.bin: keyboard-vic20.toml keyboard-vic20-normal-bitmap.bin keyboard-vic20-pressed-bitmap.bin convert-keyboard
+keyboard-vic20-charset.s keyboard-vic20-screen.bin: keyboard-vic20.toml keyboard-vic20-normal-bitmap.bin keyboard-vic20-pressed-bitmap.bin dpad-vic20.png buttons-vic20.png convert-keyboard
 	./convert-keyboard $<
-
 
 keyboard-64-pressed-bitmap.bin: keyboard-64-pressed.png
 	gfx-convert -b 1 bitmap keyboard-64-pressed.png  keyboard-64-pressed

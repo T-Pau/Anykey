@@ -137,9 +137,9 @@ config = toml.load(sys.argv[1])
 
 screen = b""
 
-with open(config["normal_bitmap"], mode='rb') as file_normal:
-    with open(config["pressed_bitmap"], mode='rb') as file_pressed:
-        with open(config["charset"], mode='w') as file_charset:
+with open(config["charset"], mode='w') as file_charset:
+    with open(config["normal_bitmap"], mode='rb') as file_normal:
+        with open(config["pressed_bitmap"], mode='rb') as file_pressed:
             if "segment" in config:
                 segment = config["segment"]
                 print(f".segment \"{segment}\"", file=file_charset)
@@ -168,3 +168,9 @@ with open(config["normal_bitmap"], mode='rb') as file_normal:
                     screen += 0xa0.to_bytes(1, byteorder="big")
             save_charset(charset, file_charset, config["symbol_prefix"] + ("_charset_bottom" if "top_lines" in config else "_charset"))
             save(screen, config["screen"])
+
+#    if "additional" in config:
+#        for name in config["additional"]:
+#            additional = config["additional"][name]
+#            with open(additional["input"]) as bitmap_file:
+#                # TODO
