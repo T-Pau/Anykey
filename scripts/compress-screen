@@ -1,364 +1,43 @@
 #!/usr/bin/env python3
 
 import argparse
-import re
 import sys
 import json
 
-# TODO: support for cc65 assembler assembler
-
-assembler_formats = {
-    "cc65": {
-        "byte": ".byte",
-        "data_section": ".rodata",
-        "export": ".export",
-        "word": ".word"
-    },
-    "z88dk": {
-        "byte": "byte",
-        "data_section": "section data_user",
-        "export": "public",
-        "word": "word"
-    }
-}
-
-
-class RunlengthEncoder:
-    def __init__(self):
-        self.compressed = b""
-        self.code_runlength = 0xff
-        self.code_skip = 0xfe
-        self.last_byte = -1
-        self.runlength = 0
-
-    def add_bytes(self, bytes):
-        for byte in bytes:
-            self.add(byte)
-
-    def add(self, byte):
-        if byte != self.last_byte:
-            self.end_run()
-            self.last_byte = byte
-            self.runlength = 1
-        else:
-            self.runlength += 1
-            if self.runlength == 255:
-                self.end_run()
-
-    def skip(self, amount):
-        if amount == 0:
-            return
-        self.end_run()
-        while amount > 255:
-            self.output(self.code_skip)
-            self.output(255)
-            amount -= 255
-        if amount > 0:
-            self.output(self.code_skip)
-            self.output(amount)
-
-    def end(self):
-        self.end_run()
-        self.output(self.code_runlength)
-        self.output(0)
-        result = self.compressed
-        self.compressed = b""
-        return result
-
-    def end_run(self):
-        if self.runlength > 2 or self.last_byte == self.code_runlength or self.last_byte == self.code_skip:
-            self.output(self.code_runlength)
-            self.output(self.runlength)
-            self.output(self.last_byte)
-        else:
-            for i in range(self.runlength):
-                self.output(self.last_byte)
-        self.last_byte = -1
-        self.runlength = 0
-
-    def output(self, byte):
-        if type(byte) is bytes:
-            self.compressed += byte
-        else:
-            self.compressed += byte.to_bytes(1, byteorder="little")
-
-
-class Screens:
-    def __init__(self, defines):
-        self.name = ""
-        self.title_length = 0
-        self.title_xor = 0
-        self.line_length = 40
-        self.lines = 25
-        self.single_screen = False
-        self.prefix = b""
-        self.postfix = b""
-        self.charmap = {}
-        self.assembler = "z88dk"
-        self.defines = {}
-        if defines:
-            for define in defines:
-                parts = define.split("=")
-                if len(parts) == 1:
-                    self.defines[define] = True
-                else:
-                    self.defines[parts[0]] = parts[1]
-
-        self.line_number = 0
-        self.encoder = RunlengthEncoder()
-        self.in_preamble = True
-        self.compressed_screens = []
-        self.current_line = 0
-        self.current_title = b""
-        self.ignore_empty_line = False
-        self.skipping = [False]
-
-    def process_line(self, line):
-        line = line.rstrip(" \n")
-        self.line_number += 1
-        if line.startswith(".if not"):
-            skip = False
-            for define in line.split(" ")[2:]:
-                if define in self.defines:
-                    skip = True
-            self.skipping.append(skip)
-            return
-        if line.startswith(".if"):
-            skip = True
-            for define in line.split(" ")[1:]:
-                if define in self.defines:
-                    skip = False
-            self.skipping.append(skip)
-            return
-        if line.startswith(".else if not"):
-            skip = False
-            for define in line.split(" ")[2:]:
-                if define in self.defines:
-                    skip = True
-            self.skipping[-1] = skip
-            return
-        if line.startswith(".else if"):
-            skip = True
-            for define in line.split(" ")[2:]:
-                if define in self.defines:
-                    skip = False
-            self.skipping[-1] = skip
-            return
-        elif line.startswith(".else"):
-            if len(self.skipping) == 1:
-                raise RuntimeError(f".else outside .if in line {self.line_number}")
-            self.skipping[-1] = not self.skipping[-1]
-            return
-        elif line.startswith(".endif"):
-            if len(self.skipping) == 1:
-                raise RuntimeError(f".endif outside .if in line {self.line_number}")
-            self.skipping.pop(-1)
-            return
-
-        if any(self.skipping):
-            return
-
-        if line == "---":
-            if self.in_preamble:
-                self.in_preamble = False
-            else:
-                self.end_screen()
-        else:
-            if self.in_preamble:
-                self.process_preamble_line(line)
-            else:
-                self.process_screen_line(line)
-
-    def process_preamble_line(self, line):
-        if line.startswith(";") or line == "":
-            return
-        elif line.startswith("prefix"):
-            self.prefix = self.parse_fix(line)
-        elif line.startswith("postfix"):
-            self.postfix = self.parse_fix(line)
-        else:
-            words = line.split(" ")
-            if words[0] == "line_length":
-                self.line_length = int(words[1])
-            elif words[0] == "lines":
-                self.lines = int(words[1])
-            elif words[0] == "title_length":
-                self.title_length = int(words[1])
-            elif words[0] == "map":
-                self.add_map(words[1], words[2])
-            elif words[0] == "assembler":
-                self.assembler = words[1]
-            elif words[0] == "name":
-                self.name = words[1]
-            elif words[0] == "title_xor":
-                self.title_xor =int(words[1])
-            elif words[0] == "single_screen":
-                self.single_screen =int(words[1])
-            else:
-                raise RuntimeError(f"unknown command '" + words[0] + "' in line {self.line_number}")
-
-    def process_screen_line(self, line):
-        if line == "---":
-            self.end_screen()
-        else:
-            if line.startswith(".skip "):
-                self.encoder.skip(int(line.split(" ")[1]))
-                return
-            line = re.sub(r"\${[A-Z_]*}", lambda m: self.replace_variable(m), line)
-            if self.title_length > 0 and self.current_title == b"":
-                if len(line) > self.title_length:
-                    raise RuntimeError(f"title too long: '" + line + "' in line {self.line_number}")
-                self.add_string(line, self.title_length, self.title_xor)
-                self.current_title = self.encoder.end()
-                self.ignore_empty_line = True
-                return
-            if self.ignore_empty_line and line == "":
-                self.ignore_empty_line = False
-                return
-            self.ignore_empty_line = False
-            if len(line) > self.line_length:
-                raise RuntimeError(f"line too long: '" + line + "' in line {self.line_number}")
-            self.current_line += 1
-            if self.current_line > self.lines:
-                raise RuntimeError(f"too many lines in screen in line {self.line_number}")
-            self.encoder.add_bytes(self.prefix)
-            self.add_string(line, self.line_length)
-            self.encoder.add_bytes(self.postfix)
-
-    def end_screen(self):
-        if self.current_title != b"" or self.current_line > 0:
-            while self.current_line < self.lines:
-                self.encoder.add_bytes(self.prefix)
-                self.add_string("", self.line_length)
-                self.encoder.add_bytes(self.postfix)
-                self.current_line += 1
-            self.compressed_screens.append(self.current_title + self.encoder.end())
-            self.current_title = b""
-            self.current_line = 0
-            self.ignore_empty_line = False
-
-    def end(self):
-        if len(self.skipping) != 1:
-            raise RuntimeError(f"unclosed .if in line {self.line_number}")
-        self.end_screen()
-        return self.compressed_screens
-
-    def add_map(self, source_string, target_string):
-        source_range = list(map(lambda x: int(x, 0), re.sub(r" *;.*", "", source_string.replace("$", "0x")).split("-")))
-        if len(source_range) == 1:
-            source_range.append(source_range[0])
-        target = int(target_string.replace("$", "0x"), 0)
-
-        for source in range(source_range[0], source_range[1] + 1):
-            self.charmap[source] = target
-            target += 1
-
-    def add_string(self, string, length, byte_xor=0):
-        self.encoder.add_bytes(self.map_string(string.ljust(length), byte_xor))
-
-    def map_string(self, string, byte_xor=0):
-        bytes = b""
-        for c in string:
-            if ord(c) not in self.charmap:
-                raise RuntimeError(f"unmapped character '{c}' in line {self.line_number}")
-            bytes += (self.charmap[ord(c)] ^ byte_xor).to_bytes(1, byteorder="little")
-        return bytes
-
-    def parse_fix(self, line):
-        # TODO: support for byte list
-        start = line.find("\"")
-        end = line.rfind("\"")
-        return self.map_string(line[start + 1:end])
-
-    def replace_variable(self, match):
-        if match.group() is not None:
-            name = match.group()[2:-1]
-            if name not in self.defines:
-                raise RuntimeError(f"undefined variable '{name}' in line {self.line_number}")
-            return self.defines[name]
-
-
-def write_bytes(file, bytes, assembler_format):
-    i = 0
-    for byte in bytes:
-        if i == 0:
-            file.write("    " + assembler_format["byte"] + " ")
-        else:
-            file.write(", ")
-        file.write(f'${byte:02x}')
-        i += 1
-        if i == 8:
-            file.write("\n")
-            i = 0
-    if i > 0:
-        file.write("\n")
+import AssemblerFormat
+import AssemblerOutput
+import RunlengthEncoder
 
 
 def write_parts(output_file_name, parts, name, assembler_format):
     with open(output_file_name, "w") as output_file:
-        header = """; This file is automatically created by {program} from {infile}.
-; Do not edit.
+        output = AssemblerOutput.AssemblerOutput(AssemblerFormat.AssemblerFormat(assembler_format), output_file)
+        output.header(input_file_name)
+        output.data_section()
+        output.global_symbol(f"num_{name}")
+        output.byte(len(parts))
 
-{export} {name}, num_{name}
-
-{data_section}
-
-num_{name}:
-    {byte} {num_parts}
-
-{name}:
-""".format(outfile=output_file_name,
-           byte=assembler_format["byte"],
-           data_section=assembler_format["data_section"],
-           export=assembler_format["export"],
-           name=name, infile=input_file_name,
-           program=sys.argv[0],
-           num_parts=len(parts))
-        output_file.write(header)
-
+        output.global_symbol(name)
         for i in range(len(parts)):
-            output_file.write("    " + assembler_format["word"] + " " + name + "_" + str(i) + "\n")
-        output_file.write("\n")
+            output.word(f"{name}_{i}")
 
         # write screen index
         for i in range(len(parts)):
-            output_file.write(name + "_" + str(i) + ":\n")
-            write_bytes(output_file, parts[i], assembler_format)
-            output_file.write("\n")
-
-def write_screen(output_file_name, screen, name, assembler_format):
-    with open(output_file_name, "w") as output_file:
-        header = """; This file is automatically created by {program} from {infile}.
-; Do not edit.
-
-{export} {name}
-
-{data_section}
-
-{name}:
-""".format(outfile=output_file_name,
-           data_section=assembler_format["data_section"],
-           export=assembler_format["export"],
-           name=name, infile=input_file_name,
-           program=sys.argv[0])
-        output_file.write(header)
-
-        write_bytes(output_file, screen, assembler_format)
-        output_file.write("\n")
+            output.local_symbol(f"{name}_{i}")
+            output.bytes(parts[i])
 
 
 parser = argparse.ArgumentParser(description='Runlength encode screen data.')
 
 parser.add_argument("input_file")
 parser.add_argument("output_file")
-parser.add_argument("-D", action="append", dest="defines")
 args = parser.parse_args()
 
 input_file_name = args.input_file
 output_file_name = args.output_file
 
 if input_file_name.endswith(".bin"):
-    encoder = RunlengthEncoder()
+    encoder = RunlengthEncoder.RunlengthEncoder()
     with open(input_file_name, "rb") as input_file:
         while byte := input_file.read(1):
             encoder.add(byte)
@@ -373,10 +52,11 @@ elif input_file_name.endswith(".json"):
         screen_width = spec.get("screen_width", 0)
         width = spec.get("width", 0)
         height = spec.get("width", 0)
+        assembler_format = spec.get("assembler", "z88dk")
         skip = max(screen_width - width, 0)
 
         parts = []
-        encoder = RunlengthEncoder()
+        encoder = RunlengthEncoder.RunlengthEncoder()
         with open(spec["input_file"], "rb") as input_file:
             x = 0
             y = 0
@@ -397,16 +77,7 @@ elif input_file_name.endswith(".json"):
         if len(rest) > 2:
             parts.append(rest)
 
-        write_parts(output_file_name, parts, spec["name"], assembler_formats["z88dk"])
+        write_parts(output_file_name, parts, spec["name"], assembler_format)
 
 else:
-    screens = Screens(args.defines)
-    with open(input_file_name, "r") as input_file:
-        for line in input_file.readlines():
-            screens.process_line(line)
-    compressed_screens = screens.end()
-
-    if screens.single_screen:
-        write_screen(output_file_name, compressed_screens[0], screens.name, assembler_formats[screens.assembler])
-    else:
-        write_parts(output_file_name, compressed_screens, screens.name + "_screens", assembler_formats[screens.assembler])
+    raise RuntimeError("unsupported file format")

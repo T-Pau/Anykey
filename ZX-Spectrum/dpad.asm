@@ -1,13 +1,13 @@
-; This file is automatically created by ./../scripts/compress-screen from dpad.json.
-; Do not edit.
-
-public dpad, num_dpad
+;  This file is automatically created by ./../scripts/compress-screen from dpad.json.
+;  Do not edit.
 
 section data_user
 
+public num_dpad
 num_dpad:
     byte 16
 
+public dpad
 dpad:
     word dpad_0
     word dpad_1
@@ -137,4 +137,3 @@ dpad_15:
     byte $4b, $34, $35, $fe, $1b, $41, $46, $2c
     byte $3b, $37, $fe, $1b, $1f, $2e, $2f, $30
     byte $1f, $ff, $00
-

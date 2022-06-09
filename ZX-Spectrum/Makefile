@@ -2,6 +2,21 @@ VERSION = $(shell cat ../version.txt)
 
 ZCC = zcc
 COMPRESS_SCREEN = ../scripts/compress-screen
+CONVERT_SCREENS = ../scripts/convert-screens
+
+COMPRESS_SCREEN_DEPENDENCIES = \
+	../scripts/compress-screen \
+	../scripts/AssemblerFormat.py \
+	../scripts/AssemblerOutput.py \
+	../scripts/RunlengthEncoder.py
+
+CONVERT_SCREENS_DEPENDENCIES = \
+	../scripts/convert-screens \
+	../scripts/AssemblerFormat.py \
+	../scripts/AssemblerOutput.py \
+	../scripts/RunlengthEncoder.py \
+	../scripts/Screens.py
+
 
 CFLAGS_48K = -Ca-DPLATFORM_48K
 CFLAGS_PLUS = -Ca-DPLATFORM_PLUS
@@ -153,40 +168,40 @@ charset-n-go.bin keyboard-n-go.bin help-n-go.bin: charset.bin keyboard-n-go.png 
 charset-joystick.bin button.bin dpad.bin: button.png dpad.png
 	gfx-convert -b 1 screen "" charset-joystick.bin button.png dpad.png
 
-keyboard-48k-rl.bin: keyboard-48k.bin ${COMPRESS_SCREEN}
+keyboard-48k-rl.bin: keyboard-48k.bin ${COMPRESS_SCREEN_DEPENDENCIES}
 	./${COMPRESS_SCREEN} keyboard-48k.bin $@
 
-help-48k-rl.bin: help-48k.bin ${COMPRESS_SCREEN}
+help-48k-rl.bin: help-48k.bin ${COMPRESS_SCREEN_DEPENDENCIES}
 	./${COMPRESS_SCREEN} help-48k.bin $@
 
-keyboard-plus-rl.bin: keyboard-plus.bin ${COMPRESS_SCREEN}
+keyboard-plus-rl.bin: keyboard-plus.bin ${COMPRESS_SCREEN_DEPENDENCIES}
 	./${COMPRESS_SCREEN} keyboard-plus.bin $@
 
-help-plus-rl.bin: help-plus.bin ${COMPRESS_SCREEN}
+help-plus-rl.bin: help-plus.bin ${COMPRESS_SCREEN_DEPENDENCIES}
 	./${COMPRESS_SCREEN} help-plus.bin help-plus-rl.bin
 
-keyboard-plus2-rl.bin: keyboard-plus2.bin ${COMPRESS_SCREEN}
+keyboard-plus2-rl.bin: keyboard-plus2.bin ${COMPRESS_SCREEN_DEPENDENCIES}
 	./${COMPRESS_SCREEN} keyboard-plus2.bin $@
 
-help-plus2-rl.bin: help-plus2.bin ${COMPRESS_SCREEN}
+help-plus2-rl.bin: help-plus2.bin ${COMPRESS_SCREEN_DEPENDENCIES}
 	./${COMPRESS_SCREEN} help-plus2.bin help-plus2-rl.bin
 
-keyboard-next-rl.bin: keyboard-next.bin ${COMPRESS_SCREEN}
+keyboard-next-rl.bin: keyboard-next.bin ${COMPRESS_SCREEN_DEPENDENCIES}
 	./${COMPRESS_SCREEN} keyboard-next.bin $@
 
-help-next-rl.bin: help-next.bin ${COMPRESS_SCREEN}
+help-next-rl.bin: help-next.bin ${COMPRESS_SCREEN_DEPENDENCIES}
 	./${COMPRESS_SCREEN} help-next.bin help-next-rl.bin
 
-keyboard-n-go-rl.bin: keyboard-n-go.bin ${COMPRESS_SCREEN}
+keyboard-n-go-rl.bin: keyboard-n-go.bin ${COMPRESS_SCREEN_DEPENDENCIES}
 	./${COMPRESS_SCREEN} keyboard-n-go.bin $@
 
-help-n-go-rl.bin: help-n-go.bin ${COMPRESS_SCREEN}
+help-n-go-rl.bin: help-n-go.bin ${COMPRESS_SCREEN_DEPENDENCIES}
 	./${COMPRESS_SCREEN} help-n-go.bin help-n-go-rl.bin
 
-button.asm: button.json button.bin ${COMPRESS_SCREEN}
+button.asm: button.json button.bin ${COMPRESS_SCREEN_DEPENDENCIES}
 	./${COMPRESS_SCREEN} button.json $@
 
-dpad.asm: dpad.json dpad.bin ${COMPRESS_SCREEN}
+dpad.asm: dpad.json dpad.bin ${COMPRESS_SCREEN_DEPENDENCIES}
 	./${COMPRESS_SCREEN} dpad.json $@
 
 keys-48k.asm: keys-48k.key key-table
@@ -201,20 +216,20 @@ keys-plus2.asm: keys-plus2.key key-table
 keys-n-go.asm: keys-n-go.key key-table
 	./key-table keys-n-go
 
-help-screens-48k.asm: help-screens.txt ${COMPRESS_SCREEN}
-	./${COMPRESS_SCREEN} -DVERSION=${VERSION} -DPLATFORM_48K help-screens.txt $@
+help-screens-48k.asm: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
+	./${CONVERT_SCREENS} -DVERSION=${VERSION} -DPLATFORM_48K help-screens.txt $@
 
-help-screens-plus.asm: help-screens.txt ${COMPRESS_SCREEN}
-	./${COMPRESS_SCREEN} -DVERSION=${VERSION} -DPLATFORM_PLUS help-screens.txt $@
+help-screens-plus.asm: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
+	./${CONVERT_SCREENS} -DVERSION=${VERSION} -DPLATFORM_PLUS help-screens.txt $@
 
-help-screens-plus2.asm: help-screens.txt ${COMPRESS_SCREEN}
-	./${COMPRESS_SCREEN} -DVERSION=${VERSION} -DPLATFORM_PLUS2 help-screens.txt $@
+help-screens-plus2.asm: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
+	./${CONVERT_SCREENS} -DVERSION=${VERSION} -DPLATFORM_PLUS2 help-screens.txt $@
 
-help-screens-next.asm: help-screens.txt ${COMPRESS_SCREEN}
-	./${COMPRESS_SCREEN} -DVERSION=${VERSION} -DPLATFORM_NEXT help-screens.txt $@
+help-screens-next.asm: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
+	./${CONVERT_SCREENS} -DVERSION=${VERSION} -DPLATFORM_NEXT help-screens.txt $@
 
-help-screens-n-go.asm: help-screens.txt ${COMPRESS_SCREEN}
-	./${COMPRESS_SCREEN} -DVERSION=${VERSION} -DPLATFORM_N_GO help-screens.txt $@
+help-screens-n-go.asm: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
+	./${CONVERT_SCREENS} -DVERSION=${VERSION} -DPLATFORM_N_GO help-screens.txt $@
 
 # TODO: auto track dependencies
 
