@@ -9,6 +9,9 @@
 POSITION_LEFT = 12
 POSITION_RIGHT = 13
 
+DPAD_OFFSET = 15 * 22 + 7
+BUTTONS_OFFSET = DPAD_OFFSET + 22 + 3
+
 .segment "CODE_LOW"
 
 display_help_screen:
@@ -97,6 +100,7 @@ top_joystick:
     jsr wait_line
     stx VIC_COLOR
     sty $9005
+    jsr read_joystick
     rts
 
 .code
@@ -124,11 +128,61 @@ bottom_joystick:
 	lda command
 	bne :+
 	jsr display_keyboard
+	jsr display_joystick
 :
     rts
 
 reset_keyboard:
     rts
+
+read_joystick:
+    lda #0
+    sta VIA2_DDRB
+    sta VIA1_DDRA
+    lda VIA1_PA1
+    lsr
+    and #$1e
+    eor #$1e
+    tax
+    lda VIA2_PB
+    bmi :+
+    inx
+:   txa
+    ldx $9008
+    bpl :+
+    ora #$20
+:   ldx $9009
+    bpl :+
+    ora #$40
+:   sta joystick_value
+    rts
+
+display_joystick:
+    lda joystick_value
+    and #$0f
+    asl
+    tax
+    lda dpad_vic20,x
+    inx
+    sta ptr1
+    lda dpad_vic20,x
+    sta ptr1 + 1
+    store_word screen + DPAD_OFFSET, ptr2
+    jsr rl_expand
+
+    lda joystick_value
+    and #$70
+    lsr
+    lsr
+    lsr
+    tax
+    lda buttons_vic20,x
+    inx
+    sta ptr1
+    lda buttons_vic20,x
+    sta ptr1 + 1
+    store_word screen + BUTTONS_OFFSET, ptr2
+    jmp rl_expand
 
 
 .segment "CHARSET"
@@ -157,3 +211,6 @@ main_color:
 .export nmi_vector
 nmi_vector:
     .res 2
+
+joystick_value:
+    .res 1

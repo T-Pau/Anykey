@@ -14,17 +14,7 @@ def write_parts(output_file_name, parts, name, assembler_format):
         output = AssemblerOutput.AssemblerOutput(AssemblerFormat.AssemblerFormat(assembler_format), output_file)
         output.header(input_file_name)
         output.data_section()
-        output.global_symbol(f"num_{name}")
-        output.byte(len(parts))
-
-        output.global_symbol(name)
-        for i in range(len(parts)):
-            output.word(f"{name}_{i}")
-
-        # write screen index
-        for i in range(len(parts)):
-            output.local_symbol(f"{name}_{i}")
-            output.bytes(parts[i])
+        output.parts(name, parts)
 
 
 parser = argparse.ArgumentParser(description='Runlength encode screen data.')

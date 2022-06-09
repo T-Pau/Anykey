@@ -349,11 +349,4 @@ class Screens:
                 output.global_symbol(self.name)
                 output.bytes(self.compressed_screens[0])
             else:
-                output.global_symbol(f"num_{self.name}")
-                output.byte(len(self.compressed_screens))
-                output.global_symbol(self.name)
-                for i in range(len(self.compressed_screens)):
-                    output.word(f"{self.name}_{i}")
-                for i in range(len(self.compressed_screens)):
-                    output.local_symbol(f"{self.name}_{i}")
-                    output.bytes(self.compressed_screens[i])
+                output.parts(self.name, self.compressed_screens)

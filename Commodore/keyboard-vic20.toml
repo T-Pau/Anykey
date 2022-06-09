@@ -17,12 +17,14 @@ rounded_top =    0b11000000_10000000_10000000_10000000_00000000_00000000_0000000
 rounded_bottom = 0b00000000_00000000_00000000_10000000_10000000_10000000_11000000_11111111
 line_bottom =    0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_11111111
 
-[additional.buttons]
+[additional.buttons_vic20]
 input = "buttons-vic20.bin"
-width = 3
-height = 4
-
-[additional.dpad]
-input = "dpad-vic20.bin"
 width = 4
 height = 2
+num_parts = 8
+
+[additional.dpad_vic20]
+input = "dpad-vic20.bin"
+width = 3
+height = 4
+num_parts = 16

@@ -3,6 +3,7 @@ VERSION = $(shell cat ../version.txt)
 CC = CC65_HOME=/usr/local/share/cc65 cl65
 LD = CC65_HOME=/usr/local/share/cc65 cl65
 CONVERT_SCREENS = ../scripts/convert-screens
+CONVERT_KEYBOARD = ../scripts/convert-keyboard
 
 CONVERT_SCREENS_DEPENDENCIES = \
 	../scripts/convert-screens \
@@ -10,6 +11,12 @@ CONVERT_SCREENS_DEPENDENCIES = \
 	../scripts/AssemblerOutput.py \
 	../scripts/RunlengthEncoder.py \
 	../scripts/Screens.py
+
+CONVERT_KEYBOARD_DEPENDENCIES = \
+	../scripts/convert-keyboard \
+	../scripts/AssemblerFormat.py \
+	../scripts/AssemblerOutput.py \
+	../scripts/RunlengthEncoder.py
 
 CFLAGS_64 = -t c64
 CFLAGS_128 = -t c128
@@ -169,11 +176,7 @@ SOURCES_PLUS4 = \
 SOURCES_VIC20 = \
 	start-vic20.s \
 	${SOURCES_COMMON} \
-	button.s \
-	copyrect.s \
-	display-joystick.s \
 	display-key-vic20.s \
-	dpad.s \
 	irq.s \
 	irq-table-vic20.s \
 	help-commands.s \
@@ -357,20 +360,20 @@ keys-plus4.s: keys-plus4.key key-table
 keys-vic20.s: keys-vic20.key key-table
 	./key-table keys-vic20
 
-keyboard-64-charset.s keyboard-64-screen.bin: keyboard-64.toml keyboard-64-normal-bitmap.bin keyboard-64-pressed-bitmap.bin convert-keyboard
-	./convert-keyboard $<
+keyboard-64-charset.s keyboard-64-screen.bin: keyboard-64.toml keyboard-64-normal-bitmap.bin keyboard-64-pressed-bitmap.bin ${CONVERT_KEYBOARD_DEPENDENCIES}
+	${CONVERT_KEYBOARD} $<
 
-keyboard-128-charset.s keyboard-128-screen.bin: keyboard-128.toml keyboard-128-normal-bitmap.bin keyboard-128-pressed-bitmap.bin convert-keyboard
-	./convert-keyboard $<
+keyboard-128-charset.s keyboard-128-screen.bin: keyboard-128.toml keyboard-128-normal-bitmap.bin keyboard-128-pressed-bitmap.bin ${CONVERT_KEYBOARD_DEPENDENCIES}
+	${CONVERT_KEYBOARD} $<
 	
-keyboard-mega65-c64-charset.s keyboard-mega65-c64-screen.bin: keyboard-mega65-c64.toml keyboard-mega65-c64-normal-bitmap.bin keyboard-mega65-c64-pressed-bitmap.bin convert-keyboard
-	./convert-keyboard $<
+keyboard-mega65-c64-charset.s keyboard-mega65-c64-screen.bin: keyboard-mega65-c64.toml keyboard-mega65-c64-normal-bitmap.bin keyboard-mega65-c64-pressed-bitmap.bin ${CONVERT_KEYBOARD_DEPENDENCIES}
+	${CONVERT_KEYBOARD} $<
 
-keyboard-plus4-charset.s keyboard-plus4-screen.bin: keyboard-plus4.toml keyboard-plus4-normal-bitmap.bin keyboard-plus4-pressed-bitmap.bin convert-keyboard
-	./convert-keyboard $<
+keyboard-plus4-charset.s keyboard-plus4-screen.bin: keyboard-plus4.toml keyboard-plus4-normal-bitmap.bin keyboard-plus4-pressed-bitmap.bin ${CONVERT_KEYBOARD_DEPENDENCIES}
+	${CONVERT_KEYBOARD} $<
 
-keyboard-vic20-charset.s keyboard-vic20-screen.bin: keyboard-vic20.toml keyboard-vic20-normal-bitmap.bin keyboard-vic20-pressed-bitmap.bin dpad-vic20.png buttons-vic20.png convert-keyboard
-	./convert-keyboard $<
+keyboard-vic20-charset.s keyboard-vic20-screen.bin: keyboard-vic20.toml keyboard-vic20-normal-bitmap.bin keyboard-vic20-pressed-bitmap.bin dpad-vic20.bin buttons-vic20.bin ${CONVERT_KEYBOARD_DEPENDENCIES}
+	${CONVERT_KEYBOARD} $<
 
 keyboard-64-pressed-bitmap.bin: keyboard-64-pressed.png
 	gfx-convert -b 1 bitmap keyboard-64-pressed.png  keyboard-64-pressed
@@ -403,18 +406,23 @@ keyboard-vic20-pressed-bitmap.bin: keyboard-vic20-pressed.png
 	gfx-convert -b 1 bitmap $< keyboard-vic20-pressed
 
 
+buttons-vic20.bin: buttons-vic20.png
+	gfx-convert -b 1 charset $< $@
+
 charset.bin: charset.png
 	gfx-convert -b 255 charset $< $@
 
 charset-vic20.bin: charset-vic20.png
 	gfx-convert -b 255 charset $< $@
 
+dpad-vic20.bin: dpad-vic20.png
+	gfx-convert -b 1 charset $< $@
+
 sprites.bin: sprites.png
 	gfx-convert sprites sprites.png sprites.bin
 
 dpad.bin: dpad.png charset.bin
 	gfx-convert screen dpad.png charset.bin dpad.bin
-
 
 keyboard-pet-business-40.bin: keyboard-pet-business-40.scr screen.pl
 	perl screen.pl -w 40 -c keyboard-pet-business-40.scr > keyboard-pet-business-40.bin || (rm keyboard-pet-business-40.bin; exit 1)

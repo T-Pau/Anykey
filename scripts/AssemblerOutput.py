@@ -11,9 +11,9 @@ class AssemblerOutput:
     def byte(self, value):
         print(f"    {self.assembler.byte} {value}", file=self.file)
 
-    def bytes(self, bytes):
+    def bytes(self, bytes_array):
         i = 0
-        for byte in bytes:
+        for byte in bytes_array:
             if i == 0:
                 self.file.write(f"    {self.assembler.byte} ")
             else:
@@ -48,6 +48,16 @@ class AssemblerOutput:
     def local_symbol(self, name):
         self.empty_line()
         print(f"{name}:", file=self.file)
+
+    def parts(self, name, parts):
+        self.global_symbol(f"num_{name}")
+        self.byte(len(parts))
+        self.global_symbol(name)
+        for i in range(len(parts)):
+            self.word(f"{name}_{i}")
+        for i in range(len(parts)):
+            self.local_symbol(f"{name}_{i}")
+            self.bytes(parts[i])
 
     def word(self, value):
         print(f"    {self.assembler.word} {value}", file=self.file)

@@ -32,6 +32,9 @@
 import sys
 import toml
 
+import AssemblerFormat
+import AssemblerOutput
+import RunlengthEncoder
 
 class Charset:
     def __init__(self, size, empty):
@@ -52,7 +55,7 @@ class Charset:
 
     def add_with_index(self, value, index):
         if index in self.by_index:
-            raise RuntimeError("character already set")
+            raise RuntimeError(f"character {index} already set")
         else:
             self.by_index[index] = value
             self.by_value[value] = index
@@ -166,11 +169,45 @@ with open(config["charset"], mode='w') as file_charset:
                     screen += char.to_bytes(1, byteorder="big")
                 for x in range(0, int((config["screen_width"]-config["width"]+1)/2)):
                     screen += 0xa0.to_bytes(1, byteorder="big")
-            save_charset(charset, file_charset, config["symbol_prefix"] + ("_charset_bottom" if "top_lines" in config else "_charset"))
-            save(screen, config["screen"])
 
-#    if "additional" in config:
-#        for name in config["additional"]:
-#            additional = config["additional"][name]
-#            with open(additional["input"]) as bitmap_file:
-#                # TODO
+    if "additional" in config:
+        complete_charset = Charset(256, 0)
+        for index, value in charset.by_index.items():
+            complete_charset.add_with_index(value[0], index)
+            complete_charset.add_with_index(value[1], index + 128)
+        encoder = RunlengthEncoder.RunlengthEncoder()
+        output = AssemblerOutput.AssemblerOutput(AssemblerFormat.AssemblerFormat("cc65"), file_charset)
+
+        output.data_section()
+
+        for name in config["additional"]:
+            additional = config["additional"][name]
+            parts = []
+
+            with open(additional["input"], "rb") as bitmap_file:
+                for part in range(0, additional["num_parts"]):
+                    for y in range(0, additional["height"]):
+                        for x in range(0, additional["width"]):
+                            char = int.from_bytes(bitmap_file.read(8), byteorder="big")
+                            encoder.add(complete_charset.add(char))
+                        if y != additional["height"] - 1:
+                            encoder.skip(config["screen_width"] - additional["width"])
+                    parts.append(encoder.end())
+
+            output.parts(name, parts)
+
+        if "segment" in config:
+            segment = config["segment"]
+            print(f".segment \"{segment}\"", file=file_charset)
+
+        full = config["full_charset"] if "full_charset" in config else False
+        data = b""
+        for i in range(0, 256 if full else max(complete_charset.by_index.keys()) + 1):
+            data += complete_charset.get_values(i).to_bytes(8, byteorder="big")
+        name = config["symbol_prefix"] + ("_charset_bottom" if "top_lines" in config else "_charset")
+        output.global_symbol(name)
+        output.bytes(data)
+
+    else:
+        save_charset(charset, file_charset, config["symbol_prefix"] + ("_charset_bottom" if "top_lines" in config else "_charset"))
+        save(screen, config["screen"])
