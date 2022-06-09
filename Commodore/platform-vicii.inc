@@ -26,3 +26,6 @@ MAX_NUM_KEYS = 91
 KEY_INDEX_RESET = 6 ; F5
 KEY_INDEX_HELP = 3 ; F7
 HOLD_FRAMES = 50
+
+; this needs to be below $4000 to work in C128, so place it in unused screen space
+nmi_vector = $07e8

@@ -264,15 +264,7 @@ end_read:
 .if .defined(__C64__)
 not_mega65:
 .endif
-	ldx restore_countdown
-	beq :+
-	dex
-	stx restore_countdown
-	txa
-	ldx num_keys
-	dex
-	sta new_key_state,x
-:
+    jsr read_restore
 	lda #$ff
 	sta CIA1_PRA
 	sta CIA1_PRB

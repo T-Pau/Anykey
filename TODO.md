@@ -1,5 +1,17 @@
 # Before Next Release
 
+## VIC-20
+
+- Fix `Restore` key display.
+- Skip keys when joystick is moved.
+- Draw and implement joystick.
+- Implement help screen.
+- Write help text.
+- Add to documentation.
+- Add to BASIC loader.
+
+## Other
+
 - **C64/C128**: Fix for NTSC, SuperCPU.
 - **C64/C128**: Ignore phantom keys when joystick 2 and certain keys are pressed at once.
 - **C64/C128**: Test and improve phantom key suppression due to joysticks.

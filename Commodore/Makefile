@@ -81,6 +81,7 @@ SOURCES_VICII = \
 	joysticks-vicii.s \
 	keyboard-vicii.s \
 	logo.s \
+	restore-nmi.s \
 	sprite.s \
 	sprites.s \
 	switch-vicii.s \
@@ -171,13 +172,16 @@ SOURCES_VIC20 = \
 	button.s \
 	copyrect.s \
 	display-joystick.s \
+	display-key-vic20.s \
 	dpad.s \
 	irq.s \
 	irq-table-vic20.s \
 	help-commands.s \
 	help-screens-vic20.s \
 	keyboard-vic20-charset.s \
+	keys-vic20.s \
 	platform-vic20.s \
+	restore-nmi.s \
 	state.s \
 	vic20-main-screen.s
 
@@ -350,6 +354,9 @@ keys-pet-graphics-40.s: keys-pet-graphics-40.key key-table
 keys-plus4.s: keys-plus4.key key-table
 	./key-table keys-plus4
 
+keys-vic20.s: keys-vic20.key key-table
+	./key-table keys-vic20
+
 keyboard-64-charset.s keyboard-64-screen.bin: keyboard-64.toml keyboard-64-normal-bitmap.bin keyboard-64-pressed-bitmap.bin convert-keyboard
 	./convert-keyboard $<
 
@@ -398,6 +405,9 @@ keyboard-vic20-pressed-bitmap.bin: keyboard-vic20-pressed.png
 
 
 charset.bin: charset.png
+	gfx-convert -b 255 charset $< $@
+
+charset-vic20.bin: charset-vic20.png
 	gfx-convert -b 255 charset $< $@
 
 sprites.bin: sprites.png

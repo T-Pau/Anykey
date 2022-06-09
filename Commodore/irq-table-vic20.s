@@ -35,11 +35,17 @@
 .data
 
 main_vic20_irq_table:
-	.byte SCREEN_TOP + 4
+	.byte SCREEN_TOP - 1
 	.word top_keyboard
 
-	.byte SCREEN_TOP + 13 * 4
+	.byte SCREEN_TOP + 13 * 4 - 1
 	.word bottom_keyboard
+
+    .byte SCREEN_TOP + 15 * 4 - 1
+    .word top_joystick
+
+    .byte SCREEN_TOP + 19 * 4 - 1
+    .word bottom_joystick
 
 main_vic20_irq_table_length:
 	.byte * - main_vic20_irq_table

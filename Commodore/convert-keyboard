@@ -93,7 +93,7 @@ def setup_charset(charset, config, top):
             char_right = mirror(char_left)
             charset.add_with_index((char_left, char_left), 0x49)
             charset.add_with_index((char_right, char_right), 0x4a)
-    else:
+    if not top or "top_lines" not in config:
         if "rounded_bottom" in config:
             char_left = config["rounded_bottom"]
             char_right = mirror(char_left)

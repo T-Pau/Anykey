@@ -29,25 +29,19 @@
 .autoimport +
 
 .export init_keyboard_vicii, read_keyboard_128, process_skip
-.export skip_key, port1, port2, restore_countdown
+.export skip_key, port1, port2
 
 .include "defines.inc"
 
 .macpack utility
 .macpack c128
 
-; this needs to be below $4000 to work in C128, so place it in unused screen space
-nmi_vector = $07e8
-
-RESTORE_FRAMES = 10
 
 .bss
 
 skip_key:
 	.res MAX_NUM_KEYS
 
-restore_countdown:
-	.res 1
 
 
 port1:
@@ -65,19 +59,8 @@ init_keyboard_vicii:
 :	sta skip_key,x
 	dex
 	bpl :-
-	sta restore_countdown
-	
-	lda $0318
-	sta nmi_vector
-	lda $0319
-	sta nmi_vector + 1
-	ldx #<handle_nmi
-	ldy #>handle_nmi
-	stx $0318
-	sty $0319
-	
-	rts
-
+	jsr init_restore
+    rts
 	
 process_skip:
 	ldx num_keys
@@ -216,13 +199,3 @@ end_read:
 .endif
 	rts
 .endscope
-
-
-handle_nmi:
-	pha
-	lda #RESTORE_FRAMES
-	sta restore_countdown
-	pla
-	jmp (nmi_vector)
-	
-.rodata

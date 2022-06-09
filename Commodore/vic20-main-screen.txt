@@ -7,15 +7,18 @@ lines 23
 map $40-$5a $00
 map $61-$7a $01
 map $20-$3f $20
+map $41-$45 $49 ; frame
+map $46 $a0 ; inverse space
 ---
  keyboard
 .include "keyboard-vic20-screen.bin"
 
- joystick
-A                   B
+      joystick
+FFFFFA         BFFFFFF
+FFFFF           FFFFFF
+FFFFF           FFFFFF
+FFFFFCEEEEEEEEEDFFFFFF
 
-CDDDDDDDDDDDDDDDDDDDE
-
- f5: reset keyboard
-      f7: help
-(hold for 2 seconds)
+  f5: reset keyboard
+       f7: help
+ (hold for 2 seconds)
