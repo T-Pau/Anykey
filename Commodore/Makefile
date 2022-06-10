@@ -16,12 +16,13 @@ CONVERT_KEYBOARD_DEPENDENCIES = \
 	../scripts/AssemblerOutput.py \
 	../scripts/RunlengthEncoder.py
 
-CFLAGS_64 = -t c64
-CFLAGS_128 = -t c128
-CFLAGS_MEGA65 = -t mega65
-CFLAGS_PET = -t pet
-CFLAGS_PLUS4 = -t plus4
-CFLAGS_VIC20 = -t vic20
+CFLAGS = -g
+CFLAGS_64 = ${CFLAGS} -t c64
+CFLAGS_128 = ${CFLAGS} -t c128
+CFLAGS_MEGA65 = ${CFLAGS} -t mega65
+CFLAGS_PET = ${CFLAGS} -t pet
+CFLAGS_PLUS4 = ${CFLAGS} -t plus4
+CFLAGS_VIC20 = ${CFLAGS} -t vic20
 
 LDFLAGS_64 = -t c64 -u __EXEHDR__ -C c64-asm.cfg
 LDFLAGS_128 = -t c128 -u __EXEHDR__ -C c128-asm.cfg

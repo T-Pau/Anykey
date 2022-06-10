@@ -1,4 +1,4 @@
-0 c=40
+0 c=40:r$="B":d$="C"
 10 if peek(43)<>1 goto 150
 20 if peek(44)=8 and peek(56)=160 goto 1064
 30 if peek(44)=4 and peek(56)=30 goto 2000:rem vic-20 3k
@@ -31,10 +31,10 @@
 630 d=174
 640 return
 
-700 poke 36879, 110:rem todo
-710 print"{yellow}";
+700 poke 36879, 127
+710 print"{blue}";
 720 d=186
-730 c=22
+730 c=22:r$="H":d$="F"
 740 return
 
 1000 print"{clear}computer not recognized.":end
@@ -60,11 +60,11 @@
 3080 loadf$,d
 
 3100 printspc(p+4)"UCCCCI"
-3110 printspc(p+4)"B{CBM-D}{CBM-I}{CBM-I}{CBM-F}B"
-3120 printspc(p+4)"B {rvon}{CBM-K}{rvof}{CBM-K} B"
-3130 printspc(p+4)"B {rvon}{CBM-K}{rvof}{CBM-K} B"
-3140 printspc(p+4)"B {CBM-C}{CBM-V} B"
-3150 printspc(p+4)"JCCCCK"
+3110 printspc(p+4)"B{CBM-D}{CBM-I}{CBM-I}{CBM-F}"r$
+3120 printspc(p+4)"B {rvon}{CBM-K}{rvof}{CBM-K} "r$
+3130 printspc(p+4)"B {rvon}{CBM-K}{rvof}{CBM-K} "r$
+3140 printspc(p+4)"B {CBM-C}{CBM-V} "r$
+3150 printspc(p+4)"J"d$d$d$d$"K"
 3160 return
 
 3200 printspc(p+2)"UCCCCCCCCI"

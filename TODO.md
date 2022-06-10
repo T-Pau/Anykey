@@ -1,11 +1,9 @@
 # Before Next Release
-
-- Fix logo in BASIC loader.
  
 ## VIC-20
 
 - Fix `Restore` key display.
-- Test/fix joystick buttons 2 and 3.
+- Fix joystick buttons 2 and 3.
 - Skip keys when joystick is moved.
 
 ## Other
