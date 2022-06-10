@@ -50,6 +50,9 @@ start:
 
 	jsr init_state
 
+    store_word main_color, ptr1
+    store_word main_color_save, ptr2
+    jsr rl_expand
 
 	jsr display_main_screen
 	lda #FRAME_COLOR | $8 | (BACKGROUND_COLOR << 3)

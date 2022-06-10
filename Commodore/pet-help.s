@@ -27,7 +27,7 @@
 
 .autoimport +
 
-.export display_help_screen, help_next, help_previous, display_main_screen, handle_help, current_page
+.export display_help_screen, help_next, help_previous, display_main_screen, current_page
 
 .include "defines.inc"
 
@@ -99,37 +99,6 @@ display_main_screen:
     ldx #$ff
     stx current_page
 	rts
-
-handle_help:
-.scope
-    ldx help_keys
-    stx ptr1
-    ldx help_keys + 1
-    stx ptr1 + 1
-    ldy #0
-loop:
-    lda (ptr1),y
-    cmp #$ff
-    bne :+
-   	lda #0
-   	sta last_command
-    rts
-:   tax
-    iny
-    lda new_key_state,x
-    beq :+
-    lda (ptr1),y
-    bne got_key
-:   iny
-    bne loop
-got_key:
-	cmp last_command
-	beq end
-	sta last_command
-	sta command
-end:
-    rts
-.endscope
 
 .bss
 

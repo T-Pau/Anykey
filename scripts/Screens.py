@@ -85,6 +85,7 @@ class Screens:
         self.prefix = b""
         self.postfix = b""
         self.assembler = "z88dk"
+        self.word_wrap = False
 
         self.encoder = RunlengthEncoder.RunlengthEncoder()
         self.in_preamble = True
@@ -234,6 +235,8 @@ class Screens:
                 self.title_xor = int(words[1])
             elif words[0] == "single_screen":
                 self.single_screen = int(words[1])
+            elif words[0] == "word_wrap":
+                self.word_wrap = int(words[1])
             else:
                 raise RuntimeError(f"unknown command '" + words[0] + "' in line {self.line_number}")
 
@@ -247,7 +250,7 @@ class Screens:
             line = re.sub(r"\${[A-Z_]*}", lambda m: self.replace_variable(m), line)
             if self.title_length > 0 and self.current_title == b"":
                 if len(line) > self.title_length:
-                    raise RuntimeError(f"title too long: '" + line + "' in line {self.line_number}")
+                    self.error(f"title too long: '{line}'")
                 self.add_string(line, self.title_length, self.title_xor)
                 self.current_title = self.encoder.end()
                 self.ignore_empty_line = True
@@ -257,13 +260,32 @@ class Screens:
                 return
             self.ignore_empty_line = False
             if len(line) > self.line_length:
-                self.error(f"line too long: '{line}'")
-            self.current_line += 1
-            if self.current_line == self.lines + 1:
-                self.error(f"too many lines in screen")
-            self.encoder.add_bytes(self.prefix)
-            self.add_string(line, self.line_length)
-            self.encoder.add_bytes(self.postfix)
+                if self.word_wrap:
+                    short_line = ""
+                    for word in line.split():
+                        if len(short_line) + len(word) + 1 > self.line_length:
+                            if len(short_line) > 0:
+                                self.add_line(short_line)
+                            else:
+                                self.error(f"word too long: '{word}'")
+                            short_line = word
+                        else:
+                            if len(short_line) > 0:
+                                short_line += " "
+                            short_line += word
+                    self.add_line(short_line)
+                    return
+                else:
+                    self.error(f"line too long: '{line}'")
+            self.add_line(line)
+
+    def add_line(self, line):
+        self.current_line += 1
+        if self.current_line == self.lines + 1:
+            self.error(f"too many lines in screen")
+        self.encoder.add_bytes(self.prefix)
+        self.add_string(line, self.line_length)
+        self.encoder.add_bytes(self.postfix)
 
     def end_screen(self):
         if self.current_title != b"" or self.current_line > 0:

@@ -40,8 +40,8 @@ UNCHECKED_COLOR = COLOR_WHITE
 
 SCREEN_TOP = 38
 
-KEY_INDEX_RESET = 6 ; F5
-KEY_INDEX_HELP = 3 ; F7
+KEY_INDEX_RESET = 62 ; F5
+KEY_INDEX_HELP = 63 ; F7
 HOLD_FRAMES = 50
 
 ; TODO
@@ -52,3 +52,8 @@ ptr3 = $c1
 
 screen = $1000
 color_ram = $9400
+
+help_screen_title = screen + 1
+help_screen_text = screen + 2 * 22
+
+SCREEN_SIZE = 506

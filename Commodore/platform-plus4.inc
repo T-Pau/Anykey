@@ -28,6 +28,9 @@ charset_keyboard_bottom = charset_keyboard_top + $800
 screen = $0c00
 color_ram = $0800
 
+help_screen_title = screen + 1
+help_screen_text = screen + 2 * 40
+
 VIDEO_CURRENT_LINE = TED_VLINELO
 VIDEO_BORDER_COLOR = TED_BORDERCOLOR
 VIDEO_BACKGROUND_COLOR = TED_BGCOLOR
@@ -40,3 +43,5 @@ MAX_NUM_KEYS = 64
 KEY_INDEX_RESET = 6 ; F3
 KEY_INDEX_HELP = 3 ; Help
 HOLD_FRAMES = 50
+
+SCREEN_SIZE = 1000

@@ -1,10 +1,8 @@
 .autoimport +
 .macpack utility
-.include "platform.inc"
+;.include "platform.inc"
+.include "defines.inc"
 
-.export charset
-
-.export display_help_screen, display_main_screen, reset_keyboard
 
 POSITION_LEFT = 12
 POSITION_RIGHT = 13
@@ -12,44 +10,30 @@ POSITION_RIGHT = 13
 DPAD_OFFSET = 15 * 22 + 7
 BUTTONS_OFFSET = DPAD_OFFSET + 22 + 3
 
+KEYBOARD_OFFSET = 22 * 2
+KEYBOARD_SIZE = 22 * 10
+
 .segment "CODE_LOW"
 
-display_help_screen:
-    rts
-
+.export display_main_screen
 display_main_screen:
     ldx #12
     stx $9000
     store_word main_screen, ptr1
     store_word screen, ptr2
     jsr rl_expand
-    store_word main_color, ptr1
-    store_word color_ram, ptr2
-    jsr rl_expand
+    ldx #0
+:   lda main_color_save,x
+    sta color_ram,x
+    lda main_color_save + 250,x
+    sta color_ram + 250,x
+    dex
+    bne :-
     ldx #<main_vic20_irq_table
     ldy #>main_vic20_irq_table
     lda main_vic20_irq_table_length
     jsr set_irq_table
     jsr init_restore
-    rts
-
-; waits for 20 cycles
-wait_20:
-    nop
-    nop
-    nop
-    nop
-    rts
-
-; waits for border of raster line a
-wait_line:
-:   cmp VIC_HLINE
-    bne :-
-    jsr wait_20
-    jsr wait_20
-    jsr wait_20
-    jsr wait_20
-    jsr wait_20
     rts
 
 .export top_keyboard
@@ -105,6 +89,25 @@ top_joystick:
 
 .code
 
+; waits for 20 cycles
+wait_20:
+    nop
+    nop
+    nop
+    nop
+    rts
+
+; waits for border of raster line a
+wait_line:
+:   cmp VIC_HLINE
+    bne :-
+    jsr wait_20
+    jsr wait_20
+    jsr wait_20
+    jsr wait_20
+    jsr wait_20
+    rts
+
 .export bottom_joystick
 bottom_joystick:
     ldx #(LABEL_COLOR << 4) | FRAME_COLOR
@@ -132,10 +135,27 @@ bottom_joystick:
 :
     rts
 
+.export reset_keyboard
 reset_keyboard:
+.scope
+    ; y runs from KEYBOARD_SIZE to 1, so offset address by -1
+    ldy #KEYBOARD_SIZE + 1
+loop:
+    lda color_ram + KEYBOARD_OFFSET -1,y
+    and #$0f
+    cmp #CHECKED_COLOR
+    bne :+
+    lda #UNCHECKED_COLOR
+    sta color_ram + KEYBOARD_OFFSET - 1,y
+:   dey
+    bne loop
     rts
+.endscope
 
 read_joystick:
+    lda #$ff
+    sta VIA2_DDRA
+    sta VIA2_PA1
     lda #0
     sta VIA2_DDRB
     sta VIA1_DDRA
@@ -185,6 +205,52 @@ display_joystick:
     jmp rl_expand
 
 
+.export display_help_screen
+display_help_screen:
+    ; x runs from KEYBOARD_SIZE to 1, so offset address by -1
+    ldx #KEYBOARD_SIZE + 1
+:   lda color_ram + KEYBOARD_OFFSET - 1,x
+    and #$0f
+    sta main_color_save + KEYBOARD_OFFSET - 1,x
+    dex
+    bne :-
+    store_word help_screen, ptr1
+    store_word screen, ptr2
+    jsr rl_expand
+    lda #FRAME_COLOR
+    ldy #0
+:   sta color_ram,y
+    sta color_ram + $100,y
+    dey
+    bne :-
+    sty current_help_page
+    jsr display_help_page
+    ldx #<help_vic20_irq_table
+    ldy #>help_vic20_irq_table
+    lda help_vic20_irq_table_length
+    jsr set_irq_table
+    rts
+
+.export help_top
+help_top:
+    lda #SCREEN_TOP + 4 - 1
+    jsr wait_line
+    ldx #(BACKGROUND_COLOR << 4) | $8 | FRAME_COLOR
+    stx VIC_COLOR
+    rts
+
+.export help_bottom
+help_bottom:
+    lda #SCREEN_TOP + 4 * 19 - 1
+    jsr wait_line
+    ldx #(LABEL_COLOR << 4) | FRAME_COLOR
+    stx VIC_COLOR
+
+    jsr read_keyboard
+    jsr handle_help_keys
+    rts
+
+
 .segment "CHARSET"
 
 charset:
@@ -192,6 +258,7 @@ charset:
 
 .rodata
 
+.export main_color
 main_color:
     .byte $ff, 22 * 2, FRAME_COLOR
     .byte $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
@@ -205,6 +272,18 @@ main_color:
     .byte $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
     .byte $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
     .byte $ff, 22 * 11, FRAME_COLOR
+    .byte $ff, 0
+
+.export help_keys
+help_keys:
+    .word help_keys_table
+
+help_keys_table:
+    .byte 4, COMMAND_HELP_NEXT ; space
+    .byte 32, COMMAND_HELP_NEXT ; +
+    .byte 47, COMMAND_HELP_PREVIOUS; -
+    .byte 1, COMMAND_HELP_EXIT ; left arrow
+    .byte $ff
 
 .bss
 

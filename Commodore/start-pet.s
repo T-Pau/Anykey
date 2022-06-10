@@ -72,7 +72,7 @@ process_keyboard:
 	bne help_mode
 	jmp display_keyboard
 help_mode:
-    jmp handle_help
+    jmp handle_help_keys
 .endscope
 
 

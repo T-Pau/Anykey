@@ -1,0 +1,34 @@
+name help_screen
+single_screen 1
+assembler cc65
+
+line_length 22
+lines 23
+map $61-$7a $01
+map $20-$3f $20
+map $41-$4f $40 ; frame and key symbols
+map $5f $1f ; _ as left arrow
+---
+
+A                    B
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CEEEEEEEEEEEEEEEEEEEED
+
+  space/+: next page
+   -: previous page
+ _: return to program

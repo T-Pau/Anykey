@@ -24,6 +24,10 @@ The programs are provided as disk images in `D64` and `D81` format, which also c
 ![](Anykey%20Plus-4.png)
 - Commodore Plus/4
 
+### Anykey VIC-20
+![](Anykey%20VIC-20.png)
+- Commodore VIC-20 (at least 8k RAM expansion)
+
 ## Loading the Program
 
 The disc image contains a BASIC loader that detects which machine it runs on and automatically loads the correct program. For this to work on systems other than the C64, you need to load it with `LOAD"*",8` and start it with `RUN`. Loading it with `LOAD"*",8,1` will not work. On C128 and MEGA65, the disk will autoboot: simply insert the disk and turn on the computer.
@@ -59,6 +63,21 @@ In C128 mode, Anykey will always display on the 40 columns (VIC) display, even i
 ### MEGA65
 
 When run in C64 mode on a MEGA65, Anykey will display and test the full MEGA65 keyboard.
+
+
+### VIC-20
+
+Most keys are labeled with the symbol they produce when pressed without shift. Special keys are labeled with a short description or graphics symbol:
+
+- Clear/Home: `C`
+- Cursor Left/Right: `<>`
+- Cursor Up/Down: `^v`
+- Insert/Delete: `I`
+- Restore: `RE`
+- Return: `RET`
+- Run/Stop: `R`
+- Shift: `⇧`
+- Shift Lock: `⇪`
 
 
 ## Special Keys

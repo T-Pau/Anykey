@@ -56,7 +56,7 @@ joystick_positions:
 	.res 4
 
 main_color_save:
-	.res 1000
+	.res SCREEN_SIZE
 
 keyboard_height:
 	.res 1

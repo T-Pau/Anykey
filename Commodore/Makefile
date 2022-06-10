@@ -129,6 +129,7 @@ SOURCES_PET_COMMON = \
 	start-pet.s \
 	display-key-pet-40c.s \
 	expand.s \
+	help-keys.s \
 	help-screen-pet-40.s \
 	pet-help-footer-40.s \
 	keyboard-pet-40.s \
@@ -178,12 +179,14 @@ SOURCES_VIC20 = \
 	irq.s \
 	irq-table-vic20.s \
 	help-commands.s \
+	help-keys.s \
 	help-screens-vic20.s \
 	keyboard-vic20-charset.s \
 	keys-vic20.s \
 	platform-vic20.s \
 	restore-nmi.s \
 	state.s \
+	vic20-help-screen.s \
 	vic20-main-screen.s
 
 
@@ -325,8 +328,8 @@ help-screens-mega65.s: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
 help-screens-plus4.s: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
 	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__PLUS4__ -DUSE_TED $< $@
 
-help-screens-vic20.s: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
-	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__VIC20__ -DUSE_TED $< $@
+help-screens-vic20.s: help-screens-vic20.txt ${CONVERT_SCREENS_DEPENDENCIES}
+	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__VIC20__ $< $@
 
 keys-64.s: keys-64.key key-table
 	./key-table keys-64
@@ -459,6 +462,9 @@ pet-help-footer-80.s: pet-help-footer-80.txt ${CONVERT_SCREENS_DEPENDENCIES}
 	${CONVERT_SCREENS} $< $@
 
 vic20-main-screen.s: vic20-main-screen.txt keyboard-vic20-screen.bin ${CONVERT_SCREENS_DEPENDENCIES}
+	${CONVERT_SCREENS} $< $@
+
+vic20-help-screen.s: vic20-help-screen.txt keyboard-vic20-screen.bin ${CONVERT_SCREENS_DEPENDENCIES}
 	${CONVERT_SCREENS} $< $@
 
 detect-pet.prg: ${OBJECTS_DETECT_PET}

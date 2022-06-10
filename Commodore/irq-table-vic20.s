@@ -29,10 +29,11 @@
 .autoimport +
 
 .export main_vic20_irq_table, main_vic20_irq_table_length
+.export help_vic20_irq_table, help_vic20_irq_table_length
 
 .include "platform.inc"
 
-.data
+.rodata
 
 main_vic20_irq_table:
 	.byte SCREEN_TOP - 1
@@ -49,3 +50,13 @@ main_vic20_irq_table:
 
 main_vic20_irq_table_length:
 	.byte * - main_vic20_irq_table
+
+help_vic20_irq_table:
+    .byte SCREEN_TOP + 4 - 1
+    .word help_top
+
+    .byte SCREEN_TOP + 4 * 19 - 1
+    .word help_bottom
+
+help_vic20_irq_table_length:
+    .byte * - help_vic20_irq_table

@@ -31,20 +31,20 @@
 
 .include "defines.inc"
 
-help_screen_title = screen + 1
-help_screen_text = screen + 2 * 40
 
 .code
 
 display_help_page:
 	lda current_help_page
 	bmi negative
-	cmp #<num_help_screens
+	cmp num_help_screens
 	bne ok
 	lda #0
 	beq ok
 negative:
-	lda #<(num_help_screens - 1)
+	lda num_help_screens
+	sec
+    sbc #1
 ok:
 	sta current_help_page
 	asl

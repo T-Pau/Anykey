@@ -29,3 +29,8 @@ HOLD_FRAMES = 50
 
 ; this needs to be below $4000 to work in C128, so place it in unused screen space
 nmi_vector = $07e8
+
+help_screen_title = screen + 1
+help_screen_text = screen + 2 * 40
+
+SCREEN_SIZE = 1000
