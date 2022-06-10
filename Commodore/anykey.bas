@@ -1,21 +1,21 @@
 0 c=40
 10 if peek(43)<>1 goto 150
 20 if peek(44)=8 and peek(56)=160 goto 1064
-30 if peek(44)=4 and peek(56)=30 goto 1020:rem 3k
+30 if peek(44)=4 and peek(56)=30 goto 2000:rem vic-20 3k
 40 if peek(44)=16 goto 200
 50 if peek(44)<>18 goto 150
 60 if peek(56)=64 goto 1020:rem 8k
 70 if peek(56)=96 goto 1020:rem 16k
 80 if peek(56)=128 goto 1020:rem 24k
 
-150 if peek(46)=28 and peek(45)=1 goto 1128
-160 if peek(223)=1 and peek(224)=8 goto 1216
-170 if peek(194)=1 and peek(195)=32 goto 1065
+150 if peek(46)=28 and peek(45)=1 goto 1128:rem c128
+160 if peek(223)=1 and peek(224)=8 goto 1216:rem x16
+170 if peek(194)=1 and peek(195)=32 goto 1065:rem mega65
 180 goto 1000
 
-200 if peek(56)=30 goto 1020
-210 if peek(56)=63 goto 1016
-220 if peek(56)=253 goto 1004
+200 if peek(56)=30 goto 2000:rem vic-20 0k
+210 if peek(56)=63 goto 1016:rem c16
+220 if peek(56)=253 goto 1004:rem plus/4
 230 goto 1000
 
 400 if peek(215)>127 then c=80
@@ -31,17 +31,23 @@
 630 d=174
 640 return
 
+700 poke 36879, 110:rem todo
+710 print"{yellow}";
+720 d=186
+730 c=22
+740 return
+
 1000 print"{clear}computer not recognized.":end
 1004 f$="anykey plus/4":gosub 600:goto 3000
 1016 print"{clear}the c16 version of anykey requires a"
 1017 print"64k ram expansion.":end
-1020 print"{clear}sorry, there is no"
-1021 print"version of anykey for"
-1022 print"the vic-20 yet.":end
+1020 f$="anykey vic-20":gosub 700:goto 3000
 1064 f$="anykey 64":gosub 500:goto 3000
 1065 f$="anykey mega65":c=80:gosub 500:goto 3000
 1128 f$="anykey 128":gosub 400:goto 3000
 1216 c$="commander x16":goto 4000
+2000 print"{clear}sorry, at least 8k"
+2001 print"ram expansion required.":end
 
 3000 print"{clear}{down}{down}{down}{down}"
 3010 p=c/2-7
