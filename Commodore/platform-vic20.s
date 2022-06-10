@@ -118,16 +118,46 @@ bottom_joystick:
     sty $9005
     dec $9000
 
+    jsr read_restore
+
     ; TODO: move to keyboard skip code
   	lda #$ff
   	sta VIA2_DDRA
-;  	sta VIA2_DDRB
    	lda #$00
   	sta VIA2_DDRB
-;  	sta VIA2_DDRA
 
-    jsr read_restore
+    lda #$ff
+    sta VIA2_PA1
+  	lda VIA2_PB
+  	sta port_b
+
     jsr read_keyboard
+
+    lda #$ff
+    sta VIA2_PA1
+    lda VIA2_PB
+    and port_b
+    and #$80
+    bne no_skip
+
+    lda key_state + $07
+    sta new_key_state + $07
+    lda key_state + $0f
+    sta new_key_state + $0f
+    lda key_state + $17
+    sta new_key_state + $17
+    lda key_state + $1f
+    sta new_key_state + $1f
+    lda key_state + $27
+    sta new_key_state + $27
+    lda key_state + $2f
+    sta new_key_state + $2f
+    lda key_state + $37
+    sta new_key_state + $37
+    lda key_state + $3f
+    sta new_key_state + $3f
+
+no_skip:
     jsr process_restore
 	lda command
 	bne :+
@@ -170,10 +200,10 @@ read_joystick:
     inx
 :   txa
     ldx $9008
-    bpl :+
+    bmi :+
     ora #$20
 :   ldx $9009
-    bpl :+
+    bmi :+
     ora #$40
 :   sta joystick_value
     rts
@@ -296,9 +326,8 @@ help_keys_table:
 
 .bss
 
-.export nmi_vector
-nmi_vector:
-    .res 2
+port_b:
+    .res 1
 
 joystick_value:
     .res 1

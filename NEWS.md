@@ -1,3 +1,7 @@
+# Version 1.6 (2002-06-xx)
+
+* Add support for VIC-20 (8k RAM expansion required).
+
 # Version 1.5 (2022-06-05)
 
 - Add support for ZX Spectrum (48k RAM required).

@@ -2,8 +2,6 @@
  
 ## VIC-20
 
-- Fix joystick buttons 2 and 3.
-- Skip keys when joystick is moved.
 
 ## Other
 
@@ -11,9 +9,11 @@
 - **C64/C128**: Ignore phantom keys when joystick 2 and certain keys are pressed at once.
 - **C64/C128**: Test and improve phantom key suppression due to joysticks.
 
-# Soonish
+# Cleanup
 
 - **Commodore**: Reduce usage of `.if .defined __TARGET__` in code.
+- **Commodore**: Reduce code duplication.
+- **Commodore**: Make sure no unused code gets pulled in.
 
 # Later
 
