@@ -264,7 +264,7 @@ end_read:
 .if .defined(__C64__)
 not_mega65:
 .endif
-    jsr read_restore
+    jsr process_restore
 	lda #$ff
 	sta CIA1_PRA
 	sta CIA1_PRB

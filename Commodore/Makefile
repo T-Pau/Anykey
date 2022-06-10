@@ -87,6 +87,7 @@ SOURCES_VICII = \
 	joysticks-vicii.s \
 	keyboard-vicii.s \
 	logo.s \
+	restore.s \
 	restore-nmi.s \
 	sprite.s \
 	sprites.s \
@@ -185,7 +186,7 @@ SOURCES_VIC20 = \
 	keyboard-vic20-charset.s \
 	keys-vic20.s \
 	platform-vic20.s \
-	restore-nmi.s \
+	restore.s \
 	state.s \
 	vic20-help-screen.s \
 	vic20-main-screen.s

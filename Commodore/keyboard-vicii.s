@@ -59,7 +59,7 @@ init_keyboard_vicii:
 :	sta skip_key,x
 	dex
 	bpl :-
-	jsr init_restore
+	jsr init_restore_nmi
     rts
 	
 process_skip:

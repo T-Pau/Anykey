@@ -49,6 +49,7 @@ start:
 	sta key_index_reset
 
 	jsr init_state
+	jsr init_restore
 
     store_word main_color, ptr1
     store_word main_color_save, ptr2

@@ -33,7 +33,6 @@ display_main_screen:
     ldy #>main_vic20_irq_table
     lda main_vic20_irq_table_length
     jsr set_irq_table
-    jsr init_restore
     rts
 
 .export top_keyboard
@@ -84,6 +83,7 @@ top_joystick:
     jsr wait_line
     stx VIC_COLOR
     sty $9005
+    jsr read_restore
     jsr read_joystick
     rts
 
@@ -126,8 +126,9 @@ bottom_joystick:
   	sta VIA2_DDRB
 ;  	sta VIA2_DDRA
 
-    jsr read_keyboard
     jsr read_restore
+    jsr read_keyboard
+    jsr process_restore
 	lda command
 	bne :+
 	jsr display_keyboard
@@ -249,6 +250,14 @@ help_bottom:
     jsr read_keyboard
     jsr handle_help_keys
     rts
+
+
+read_restore:
+    lda VIA1_IFR
+    and #$02
+    beq :+
+    jsr trigger_restore
+:   rts
 
 
 .segment "CHARSET"

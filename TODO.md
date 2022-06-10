@@ -2,7 +2,6 @@
  
 ## VIC-20
 
-- Fix `Restore` key display.
 - Fix joystick buttons 2 and 3.
 - Skip keys when joystick is moved.
 

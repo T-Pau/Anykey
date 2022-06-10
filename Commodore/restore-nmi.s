@@ -3,15 +3,10 @@
 
 .include "platform.inc"
 
-RESTORE_FRAMES = 10
-
 .code
 
-.export init_restore
-init_restore:
-    lda #0
-	sta restore_countdown
-
+.export init_restore_nmi
+init_restore_nmi:
 	lda NMIVec
 	sta nmi_vector
 	lda NMIVec + 1
@@ -21,32 +16,11 @@ init_restore:
 	stx NMIVec
 	sty NMIVec + 1
 
-	rts
-
-.export read_restore
-read_restore:
-	ldx restore_countdown
-	beq :+
-	dex
-	stx restore_countdown
-	txa
-	ldx num_keys
-	dex
-	sta new_key_state,x
-:
-    rts
-
+    jmp init_restore
 
 
 handle_nmi:
 	pha
-	lda #RESTORE_FRAMES
-	sta restore_countdown
+	jsr trigger_restore
 	pla
 	jmp (nmi_vector)
-
-
-.bss
-
-restore_countdown:
-	.res 1
