@@ -289,7 +289,7 @@ help_keys:
 
 help_keys_table:
     .byte 4, COMMAND_HELP_NEXT ; space
-    .byte 32, COMMAND_HELP_NEXT ; +
+    .byte 40, COMMAND_HELP_NEXT ; +
     .byte 47, COMMAND_HELP_PREVIOUS; -
     .byte 1, COMMAND_HELP_EXIT ; left arrow
     .byte $ff
