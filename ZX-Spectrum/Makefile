@@ -6,13 +6,11 @@ CONVERT_SCREENS = ../scripts/convert-screens
 
 COMPRESS_SCREEN_DEPENDENCIES = \
 	../scripts/compress-screen \
-	../scripts/AssemblerFormat.py \
 	../scripts/AssemblerOutput.py \
 	../scripts/RunlengthEncoder.py
 
 CONVERT_SCREENS_DEPENDENCIES = \
 	../scripts/convert-screens \
-	../scripts/AssemblerFormat.py \
 	../scripts/AssemblerOutput.py \
 	../scripts/RunlengthEncoder.py \
 	../scripts/Screens.py

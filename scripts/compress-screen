@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
 
 import argparse
-import sys
 import json
 
-import AssemblerFormat
 import AssemblerOutput
 import RunlengthEncoder
 
 
 def write_parts(output_file_name, parts, name, assembler_format):
     with open(output_file_name, "w") as output_file:
-        output = AssemblerOutput.AssemblerOutput(AssemblerFormat.AssemblerFormat(assembler_format), output_file)
+        output = AssemblerOutput.AssemblerOutput(assembler_format, output_file)
         output.header(input_file_name)
         output.data_section()
         output.parts(name, parts)

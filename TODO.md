@@ -9,6 +9,7 @@
 - Write help text.
 - Add to documentation.
 - Add to BASIC loader.
+- Implement reset keyboard.
 
 ## Other
 

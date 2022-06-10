@@ -32,9 +32,9 @@
 import sys
 import toml
 
-import AssemblerFormat
 import AssemblerOutput
 import RunlengthEncoder
+
 
 class Charset:
     def __init__(self, size, empty):
@@ -157,7 +157,7 @@ with open(config["charset"], mode='w') as file_charset:
                     save_charset(charset, file_charset, config["symbol_prefix"] + "_charset_top")
                     charset = Charset(128, (0, 0))
                     setup_charset(charset, config, False)
-                for x in range(0, int((config["screen_width"]-config["width"])/2)):
+                for x in range(0, int((config["screen_width"] - config["width"]) / 2)):
                     screen += 0xa0.to_bytes(1, byteorder="big")
                 for x in range(0, config["width"]):
                     char_normal = int.from_bytes(file_normal.read(8), byteorder='big')
@@ -167,7 +167,7 @@ with open(config["charset"], mode='w') as file_charset:
                     char = charset.add((char_normal, char_pressed))
                     # print("(%02d, %02d): (%016x, %016x) -> %d" % (x, y, char_normal, char_pressed, char))
                     screen += char.to_bytes(1, byteorder="big")
-                for x in range(0, int((config["screen_width"]-config["width"]+1)/2)):
+                for x in range(0, int((config["screen_width"] - config["width"] + 1) / 2)):
                     screen += 0xa0.to_bytes(1, byteorder="big")
 
     if "additional" in config:
@@ -176,7 +176,7 @@ with open(config["charset"], mode='w') as file_charset:
             complete_charset.add_with_index(value[0], index)
             complete_charset.add_with_index(value[1], index + 128)
         encoder = RunlengthEncoder.RunlengthEncoder()
-        output = AssemblerOutput.AssemblerOutput(AssemblerFormat.AssemblerFormat("cc65"), file_charset)
+        output = AssemblerOutput.AssemblerOutput("cc65", file_charset)
 
         output.data_section()
 
@@ -209,5 +209,6 @@ with open(config["charset"], mode='w') as file_charset:
         output.bytes(data)
 
     else:
-        save_charset(charset, file_charset, config["symbol_prefix"] + ("_charset_bottom" if "top_lines" in config else "_charset"))
+        save_charset(charset, file_charset,
+                     config["symbol_prefix"] + ("_charset_bottom" if "top_lines" in config else "_charset"))
         save(screen, config["screen"])

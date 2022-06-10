@@ -1,7 +1,6 @@
 import re
 import sys
 
-import AssemblerFormat
 import AssemblerOutput
 import RunlengthEncoder
 
@@ -85,7 +84,7 @@ class Screens:
         self.single_screen = False
         self.prefix = b""
         self.postfix = b""
-        self.assembler = AssemblerFormat.AssemblerFormat("z88dk")
+        self.assembler = "z88dk"
 
         self.encoder = RunlengthEncoder.RunlengthEncoder()
         self.in_preamble = True
@@ -228,7 +227,7 @@ class Screens:
             elif words[0] == "map":
                 self.add_map(words[1], words[2])
             elif words[0] == "assembler":
-                self.assembler = AssemblerFormat.AssemblerFormat(words[1])
+                self.assembler = words[1]
             elif words[0] == "name":
                 self.name = words[1]
             elif words[0] == "title_xor":
@@ -322,7 +321,7 @@ class Screens:
     def set_options(self, options):
         for option, value in options:
             if option == "assembler":
-                self.assembler = AssemblerFormat.AssemblerFormat(value)
+                self.assembler = value
             elif option == "line_length":
                 self.line_length = value
             elif option == "lines":
