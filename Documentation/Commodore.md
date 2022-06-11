@@ -9,12 +9,12 @@ The programs are provided as disk images in `D64` and `D81` format, which also c
 ### Anykey C64
 ![](Anykey%20C64.png)
 - Commodore 64
-- Commodore 128 (in C64 mode)
+- Commodore 128 (in C64 mode, PAL only)
 - MEGA65 (in C64 mode)
 
 ### Anykey C128
 ![](Anykey%20C128.png)
-- Commodore 128 (in C128 40 columns mode)
+- Commodore 128 (in C128 40 columns mode, PAL only)
 
 ### Anykey MEGA65
 ![](Anykey%20MEGA65.png)
@@ -26,7 +26,7 @@ The programs are provided as disk images in `D64` and `D81` format, which also c
 
 ### Anykey VIC-20
 ![](Anykey%20VIC-20.png)
-- Commodore VIC-20 (at least 8k RAM expansion)
+- Commodore VIC-20 (at least 8k RAM expansion, PAL only)
 
 ## Loading the Program
 

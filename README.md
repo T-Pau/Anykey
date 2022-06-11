@@ -7,10 +7,10 @@ This program monitors the keyboard and joysticks. It is useful to test hardware 
 It supports the following computers:
 
 - Commodore 64
-- Commodore 128 (128 mode in 40 columns or 64 mode)
+- Commodore 128 (128 mode in 40 columns or 64 mode, PAL only)
 - Commodore PET (all models with at least 8k RAM)
 - Commodore Plus/4
-- Commodore VIC-20 (at least 8k RAM expansion)
+- Commodore VIC-20 (at least 8k RAM expansion, PAL only)
 - MEGA65 (native and 64 mode)
 - Sinclair ZX Spectrum 48k
 - Sinclair ZX Spectrum 48k+

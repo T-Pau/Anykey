@@ -5,7 +5,8 @@
 
 ## Other
 
-- **C64/C128/VIC-20**: Fix for NTSC, SuperCPU.
+- **C128/VIC-20**: Fix for NTSC.
+- **C64**: Fix for accelerators (SuperCPU, Turbo Chameleon, Ultimate64).
 - **C64/C128**: Ignore phantom keys when joystick 2 and certain keys are pressed at once.
 - **C64/C128**: Test and improve phantom key suppression due to joysticks.
 
@@ -17,8 +18,10 @@
 
 # Later
 
-- **Commodore**: display ignored keys (joystick &c) in PRESSED_COLOR
+- **Commodore**: Display ignored keys (joystick &c) in different color.
+- **Commodore**: Only accept key presses if they are pressed for two consecutive frames (should suppress phantom presses caused by rapid joystick movements).
 - **MEGA65**: High resolution native version.
+- **C128**: 80 columns version.
 - **Commodore**: Use proper tool for modifying directory listing.
 
 # Incomplete Ports
