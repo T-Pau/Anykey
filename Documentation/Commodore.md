@@ -14,7 +14,7 @@ The programs are provided as disk images in `D64` and `D81` format, which also c
 
 ### Anykey C128
 ![](Anykey%20C128.png)
-- Commodore 128 (in C128 40 columns mode, PAL only)
+- Commodore 128 (in C128 40 columns mode)
 
 ### Anykey MEGA65
 ![](Anykey%20MEGA65.png)
