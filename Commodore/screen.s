@@ -92,9 +92,16 @@ c128:
 .if .defined(__C64__)
 	bne set
 c64:
+    lda acellerated
+    bne fast_table
 	ldx #<main_64_irq_table
 	ldy #>main_64_irq_table
 	lda main_64_irq_table_length
+	bne set
+fast_table:
+    ldx #<main_64_acellerated_irq_table
+    ldy #>main_64_acellerated_irq_table
+    lda main_64_acellerated_irq_table_length
 set:
 .endif
 .else

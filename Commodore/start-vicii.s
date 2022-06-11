@@ -61,6 +61,22 @@ not_m65:
     lda #1
     bne end_detect
 not_128:
+    ldx VIC_HLINE
+    inx
+    inx
+    inx
+    ldy #$40
+:   dey
+    bpl :-
+    cpx VIC_HLINE
+    bcs acelleration_detected
+    lda #0
+    sta acellerated
+    beq end_detect
+acelleration_detected:
+    lda #1
+    sta acellerated
+;    sta main_screen_64
     lda #0
 end_detect:
 	sta machine_type

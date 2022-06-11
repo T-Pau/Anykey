@@ -6,7 +6,7 @@
 ## Other
 
 - **C128/VIC-20**: Fix for NTSC.
-- **C64**: Fix for accelerators (SuperCPU, Turbo Chameleon, Ultimate64).
+- **C64**: Test fix for accelerators on SuperCPU and Ultimate64.
 - **C64/C128**: Ignore phantom keys when joystick 2 and certain keys are pressed at once.
 - **C64/C128**: Test and improve phantom key suppression due to joysticks.
 

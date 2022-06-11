@@ -66,6 +66,34 @@ switch_keyboard_top:
 :
 	rts
 
+.ifdef __C64__
+.export switch_keyboard_top_acellerated
+switch_keyboard_top_acellerated:
+	jsr content_background
+	lda #FRAME_COLOR
+	ldx #SCREEN_TOP + 8 + 1
+:	cpx VIC_HLINE
+	bne :-
+	set_vic_text screen, charset_keyboard_top
+	ldx #0
+	jsr read_pots
+	rts
+
+.export switch_keyboard_bottom_acellerated
+switch_keyboard_bottom_acellerated:
+	lda #(((screen & $3c00) >> 6) | ((charset_keyboard_bottom & $3800) >> 10))
+	ldx bottom_charset_line
+	inx
+:	cpx VIDEO_CURRENT_LINE
+	bne :-
+	sta VIC_VIDEO_ADR
+	lda command
+	bne :+
+	jsr handle_joysticks
+:
+	jmp select_pots2
+.endif
+
 switch_keyboard_bottom:
 	lda #(((screen & $3c00) >> 6) | ((charset_keyboard_bottom & $3800) >> 10))
 	ldx bottom_charset_line

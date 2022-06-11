@@ -110,7 +110,9 @@ SOURCES_64 = \
 	keys-64.s \
 	keys-mega65.s \
 	irq-table-64.s \
+	irq-table-64-acellerated.s \
 	irq-table-mega65-c64.s \
+	platform-c64.s \
 	screen-64.s \
 	screen-mega65-c64.s
 
