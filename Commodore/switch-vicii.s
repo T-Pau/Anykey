@@ -155,8 +155,8 @@ switch_bottom:
 	ldx #0
 	ldy num_keys
 .if .defined(__C64__)
-    ldx machine_type
-    dex
+    lda machine_type
+    cmp #1
     bne display
 .endif
 .if .defined(__C64__) .or .defined(__C128__)
