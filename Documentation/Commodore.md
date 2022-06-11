@@ -48,7 +48,9 @@ Joysticks contain a stick or d-pad with switches for the four cardinal direction
 
 Pressed directions and buttons are displayed inverted.
 
-Buttons 2 and 3 bring an analog potentiometer to a low value by connecting its pin to +5V. This is not supported on Plus/4.
+Buttons 2 and 3 bring an analog potentiometer to a low value by connecting its pin to +5V. These potentiometers are also used by paddles and the 1351 mouse; if such a device is connected, the buttons may read as pressed.
+
+Plus/4 does not support more than one button.
 
 
 ## Model Specific Notes

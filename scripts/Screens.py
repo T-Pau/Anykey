@@ -10,10 +10,8 @@ class ExpressionParser:
         self.tokens = []
         self.defines = defines
 
-    def parse(self, expression: str):
-        expression.replace("(", " ( ")
-        expression.replace(")", " ) ")
-        self.tokens = expression.split()
+    def parse(self, tokens: [str]):
+        self.tokens = tokens
         self.tokens.reverse()
 
         if len(self.tokens) == 0:
@@ -93,7 +91,7 @@ class Screens:
         self.current_line = 0
         self.current_title = b""
         self.ignore_empty_line = False
-        self.skipping = [False]
+        self.showing = [True]
         self.files = []
         self.input_file = ""
         self.ok = True
@@ -119,7 +117,7 @@ class Screens:
         self.current_line = 0
         self.current_title = b""
         self.ignore_empty_line = False
-        self.skipping = [False]
+        self.showing = [True]
         self.ok = True
 
         self.process()
@@ -146,6 +144,8 @@ class Screens:
         while len(self.files) > 0:
             while line := self.files[-1].readline():
                 self.process_line(line)
+            if len(self.showing) != 1:
+                self.error(f"unclosed .if")
             self.files.pop()
         self.end()
 
@@ -155,7 +155,7 @@ class Screens:
             self.process_directive(line)
             return
 
-        if any(self.skipping):
+        if not all(self.showing):
             return
 
         if line == "---":
@@ -170,26 +170,35 @@ class Screens:
                 self.process_screen_line(line)
 
     def process_directive(self, line):
-        if line.startswith(".if "):
-            self.skipping.append(self.eval_if(line[4:]))
+        line2 = line
+        # TODO: strip ;.*
+        line2.replace("(", " ( ")
+        line2.replace(")", " ) ")
+        words = line2.split()
+        if words[0] == ".if":
+            self.showing.append(self.eval_if(words[1:]))
             return
-        elif line.startswith(".else if "):
-            self.skipping[-1] = self.eval_if(line[9:])
-            return
-        elif line.startswith(".else"):
-            if len(self.skipping) == 1:
+        elif words[0] == ".else":
+            if len(self.showing) == 1:
                 self.error(".else outside .if")
                 return
-            self.skipping[-1] = not self.skipping[-1]
+            if len(words) > 1 and words[1] == "if":
+                self.showing[-1] = self.eval_if(words[2:])
+            else:
+                if len(words) > 1:
+                    self.error("unexpected tokens after .else")
+                self.showing[-1] = not self.showing[-1]
             return
         elif line.startswith(".endif"):
-            if len(self.skipping) == 1:
+            if len(words) != 1:
+                self.error("unexpected tokens after .else")
+            if len(self.showing) == 1:
                 self.error(".endif outside .if")
                 return
-            self.skipping.pop(-1)
+            self.showing.pop(-1)
             return
 
-        if any(self.skipping):
+        if not all(self.showing):
             return
 
         if line.startswith(".include "):
@@ -300,8 +309,6 @@ class Screens:
             self.ignore_empty_line = False
 
     def end(self):
-        if len(self.skipping) != 1:
-            self.error(f"unclosed .if")
         self.end_screen()
 
     def add_map(self, source_string, target_string):

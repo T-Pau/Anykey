@@ -1,6 +1,8 @@
 # Version 1.6 (2002-06-xx)
 
 * Add support for VIC-20 (8k RAM expansion required).
+* Add support for NTSC C128.
+* Fix display glitches on acellerated C64.
 
 # Version 1.5 (2022-06-05)
 

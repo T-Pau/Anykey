@@ -38,6 +38,7 @@ postfix " "
 title_length 38
 title_xor 128
 assembler cc65
+word_wrap 1
 ---
 anykey
 
@@ -92,10 +93,11 @@ displayed inverted.
 
 buttons 2 and 3 bring an analog
 potentiometer to a low value by
-connecting its pin to +5v.
+connecting its pin to +5v.  These potentiometers are also used by paddles and the 1351 mouse; if such a device is connected, the buttons may read as pressed.
 .endif
+---
 .if __C64__ or __C128__
-
+joyride
 to test other controller types or
 joystick adapters, please use the
 companion program joyride which can be
