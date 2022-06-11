@@ -151,8 +151,25 @@ switch_bottom:
 	jsr display_logo
 	lda command
 	bne :+
+
 	ldx #0
 	ldy num_keys
+.if .defined(__C64__)
+    ldx machine_type
+    dex
+    bne display
+.endif
+.if .defined(__C64__) .or .defined(__C128__)
+    lda frame_number
+    and #1
+    eor #1
+    sta frame_number
+    bne :+
+    ldx #40
+    bne display
+:   ldy #40
+display:
+.endif
 	jsr display_keyboard
 	jsr process_command_keys
 :
@@ -177,4 +194,11 @@ switch_bottom_mega65:
    	lda #30
    	sta VIC_BOTTOM_BORDER_POSITION
    	jmp switch_bottom
+.endif
+
+.bss
+
+.if .defined(__C64__) .or .defined(__C128__)
+frame_number:
+    .res 1
 .endif

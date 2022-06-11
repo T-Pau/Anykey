@@ -6,7 +6,7 @@
 ## Other
 
 - **Commodore**: Document joystick button 2/3 interaction with mouse/paddles.
-- **C128/VIC-20**: Fix for NTSC.
+- **VIC-20**: Fix for NTSC.
 - **C64**: Test fix for accelerators on Ultimate64.
 - **C64/C128**: Ignore phantom keys when joystick 2 and certain keys are pressed at once.
 - **C64/C128**: Test and improve phantom key suppression due to joysticks.
