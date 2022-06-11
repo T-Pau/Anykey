@@ -161,7 +161,10 @@ no_skip:
     jsr process_restore
 	lda command
 	bne :+
+	ldx #0
+	ldy num_keys
 	jsr display_keyboard
+	jsr process_command_keys
 	jsr display_joystick
 :
     rts

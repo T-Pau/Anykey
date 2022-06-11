@@ -63,6 +63,16 @@ init_keyboard_vicii:
     rts
 	
 process_skip:
+.scope
+.if .defined(__C64__)
+    lda machine_type
+    bpl :+
+    rts
+:
+.endif
+.if .defined(__MEGA65__)
+    rts
+.endif
 	ldx num_keys
 	dex
 	lda #0
@@ -102,7 +112,7 @@ port1_clear:
 	sta skip_key + 64 ; don't skip restore
 :
 	rts
-
+.endscope
 
 read_keyboard_128:
 .scope

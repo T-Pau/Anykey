@@ -79,6 +79,8 @@ switch_joystick_bottom:
 :	cpx VIDEO_CURRENT_LINE
 	bne :-
 	jsr label_background
+	ldx #0
+	ldy num_keys
 	jsr display_keyboard
+	jsr process_command_keys
 	rts
-

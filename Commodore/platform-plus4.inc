@@ -5,6 +5,8 @@ USE_KEYBOARD_SELECT_BITMASK = 1
 
 .include "ted.inc"
 
+tmp1 = $03
+tmp2 = $04
 ptr1 = $d8
 ptr2 = $da
 ptr3 = $dc

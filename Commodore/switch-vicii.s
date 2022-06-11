@@ -151,7 +151,10 @@ switch_bottom:
 	jsr display_logo
 	lda command
 	bne :+
+	ldx #0
+	ldy num_keys
 	jsr display_keyboard
+	jsr process_command_keys
 :
 	rts
 

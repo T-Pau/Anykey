@@ -70,7 +70,10 @@ process_keyboard:
 	lda current_page
 	cmp #$ff
 	bne help_mode
-	jmp display_keyboard
+    ldx #0
+    ldy num_keys
+	jsr display_keyboard
+	jmp process_command_keys
 help_mode:
     jmp handle_help_keys
 .endscope

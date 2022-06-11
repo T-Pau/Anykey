@@ -80,23 +80,10 @@ init_keyboard:
 .endif
 	rts
 
-display_keyboard:
-.scope
-.ifdef USE_VICII
-.if .defined(__C64__)
-    lda machine_type
-    bmi mega65
-.endif
-.if .not .defined(__MEGA65__)
-	jsr process_skip
-.endif
-.if .defined(__C64__)
-mega65:
-.endif
-.endif
 
-	ldx num_keys
-	dex
+display_keyboard:
+    sty tmp1
+.scope
 loop:
 .ifdef USE_VICII
 	lda skip_key,x
@@ -107,9 +94,13 @@ loop:
 	beq :+
 	sta key_state,x
 	jsr display_key
-:	dex
-	bpl loop
+:	inx
+	cpx tmp1
+	bne loop
+	rts
 
+.export process_command_keys
+process_command_keys:
 	lda command
 	bne no_key
 	ldx key_index_help
