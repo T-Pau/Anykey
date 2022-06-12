@@ -1,6 +1,5 @@
 # Before Next Release
  
-- **VIC-20**: Fix for NTSC.
 - **C64**: Test fix for accelerators on Ultimate64.
 - **C64/C128**: Test phantom key suppression due to joysticks.
 

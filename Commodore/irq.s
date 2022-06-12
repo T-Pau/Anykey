@@ -60,6 +60,8 @@ USE_TED = 1
 
 .elseif .defined(__VIC20__)
 .include "vic20.inc"
+VIC_V_POS = VIC_CR1
+
 END_OF_IRQ = $eb18
 USE_VIC = 1
 
@@ -107,6 +109,13 @@ next_line:
 
 timer_length:
     .res 2
+
+.export is_ntsc
+is_ntsc:
+    .res 1
+
+lines_per_frame:
+    .res 1
 .endif
 
 .code
@@ -120,6 +129,17 @@ init_irq:
 .endif
 
 .if .defined(USE_VIC)
+    ; set up constants for PAL/NTSC
+    ldx #0
+    ldy #312/2
+    lda VIC_V_POS
+    cmp #$19
+    bne :+
+    inx
+    ldy #261/2
+:   stx is_ntsc
+    sty lines_per_frame
+
     lda #$7f
     sta VIA1_IER    ; disable all interrupts on VIA1
     sta VIA2_IER    ; disable all interrupts on VIA2
@@ -188,6 +208,7 @@ irq_jsr:
 
 
 setup_next_irq:
+.scope
 	ldy index
 
 .if .defined(USE_VIC)
@@ -198,32 +219,36 @@ setup_next_irq:
 	sec
 	sbc VIC_HLINE
 	bcs :+
-	adc #312/2
+    adc lines_per_frame
 :	sbc #2
 	sta timer_length
 	asl
-	rol timer_length + 1
+	rol timer_length + 1    ; 10
 	asl
-	rol timer_length + 1
+	rol timer_length + 1    ; 100
     asl
-	rol timer_length + 1
+	rol timer_length + 1    ; 1000
 	asl
-	rol timer_length + 1
+	rol timer_length + 1    ; 10000
+	ldx is_ntsc
+	bne :+
     adc timer_length
     bcc :+
     inc timer_length + 1
 :	asl
- 	rol timer_length + 1
+ 	rol timer_length + 1    ; 1000x0
+    ldx is_ntsc
+    bne :+
     adc timer_length
     bcc :+
     inc timer_length + 1
 :	asl
- 	rol timer_length + 1
+ 	rol timer_length + 1    ; 1x000xx
     adc timer_length
     bcc :+
     inc timer_length + 1
 :	asl
-  	rol timer_length + 1
+  	rol timer_length + 1    ; 1x000xx10
   	sta VIA2_T1CL
   	lda timer_length + 1
   	sta VIA2_T1CH
@@ -257,3 +282,4 @@ addr:
 	ldy #0
 :	sty index
 	rts
+.endscope

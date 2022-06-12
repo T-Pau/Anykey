@@ -28,35 +28,70 @@
 
 .autoimport +
 
-.export main_vic20_irq_table, main_vic20_irq_table_length
-.export help_vic20_irq_table, help_vic20_irq_table_length
-
 .include "platform.inc"
 
 .rodata
 
-main_vic20_irq_table:
-	.byte SCREEN_TOP - 1
+.export main_pal_irq_table
+main_pal_irq_table:
+	.byte SCREEN_TOP_PAL - 1
 	.word top_keyboard
 
-	.byte SCREEN_TOP + 13 * 4 - 1
+	.byte SCREEN_TOP_PAL + 13 * 4 - 1
 	.word bottom_keyboard
 
-    .byte SCREEN_TOP + 15 * 4 - 1
+    .byte SCREEN_TOP_PAL + 15 * 4 - 1
     .word top_joystick
 
-    .byte SCREEN_TOP + 19 * 4 - 1
+    .byte SCREEN_TOP_PAL + 19 * 4 - 1
     .word bottom_joystick
 
-main_vic20_irq_table_length:
-	.byte * - main_vic20_irq_table
+.export main_pal_irq_table_length
+main_pal_irq_table_length:
+	.byte * - main_pal_irq_table
 
-help_vic20_irq_table:
-    .byte SCREEN_TOP + 4 - 1
+
+.export main_ntsc_irq_table
+main_ntsc_irq_table:
+	.byte SCREEN_TOP_NTSC - 1
+	.word top_keyboard
+
+	.byte SCREEN_TOP_NTSC + 13 * 4 - 1
+	.word bottom_keyboard
+
+    .byte SCREEN_TOP_NTSC + 15 * 4 - 1
+    .word top_joystick
+
+    .byte SCREEN_TOP_NTSC + 19 * 4 - 1
+    .word bottom_joystick
+
+.export main_ntsc_irq_table_length
+main_ntsc_irq_table_length:
+	.byte * - main_ntsc_irq_table
+
+
+
+.export help_pal_irq_table
+help_pal_irq_table:
+    .byte SCREEN_TOP_PAL + 4 - 1
     .word help_top
 
-    .byte SCREEN_TOP + 4 * 19 - 1
+    .byte SCREEN_TOP_PAL + 4 * 19 - 1
     .word help_bottom
 
-help_vic20_irq_table_length:
-    .byte * - help_vic20_irq_table
+.export help_pal_irq_table_length
+help_pal_irq_table_length:
+    .byte * - help_pal_irq_table
+
+
+.export help_ntsc_irq_table
+help_ntsc_irq_table:
+    .byte SCREEN_TOP_NTSC + 4 - 1
+    .word help_top
+
+    .byte SCREEN_TOP_NTSC + 4 * 19 - 1
+    .word help_bottom
+
+.export help_ntsc_irq_table_length
+help_ntsc_irq_table_length:
+    .byte * - help_ntsc_irq_table

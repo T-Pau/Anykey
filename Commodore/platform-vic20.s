@@ -17,8 +17,22 @@ KEYBOARD_SIZE = 22 * 10
 
 .export display_main_screen
 display_main_screen:
-    ldx #12
-    stx $9000
+.scope
+    ldx is_ntsc
+    beq pal
+    ldx #<main_ntsc_irq_table
+    ldy #>main_ntsc_irq_table
+    lda main_ntsc_irq_table_length
+    bne both
+pal:
+    ldx #<main_pal_irq_table
+    ldy #>main_pal_irq_table
+    lda main_pal_irq_table_length
+both:
+    jsr set_irq_table
+    ldx is_ntsc
+    lda main_h_pos,x
+    sta VIC_H_POS
     store_word main_screen, ptr1
     store_word screen, ptr2
     jsr rl_expand
@@ -29,35 +43,34 @@ display_main_screen:
     sta color_ram + 250,x
     dex
     bne :-
-    ldx #<main_vic20_irq_table
-    ldy #>main_vic20_irq_table
-    lda main_vic20_irq_table_length
-    jsr set_irq_table
     rts
+.endscope
 
 .export top_keyboard
 top_keyboard:
 .scope
-    inc $9000
-    lda #SCREEN_TOP + 4 - 1
+    inc VIC_H_POS
+    lda #SCREEN_TOP_PAL + 4 - 1
     jsr wait_line
     jsr wait_20
+    nop
+    nop
     ldx #(BACKGROUND_COLOR << 4) | $8 | FRAME_COLOR
     ldy #$cd
     stx VIC_COLOR
-    sty $9005
-    lda #SCREEN_TOP + 4 * 4 -1
-    ldx $9000
+    sty VIC_VIDEO_ADR
+    lda #SCREEN_TOP_PAL + 4 * 4 -1
+    ldx VIC_H_POS
     ldy #2
 shift_loop:
     dex
     jsr wait_line
-    stx $9000
+    stx VIC_H_POS
     clc
     adc #8
     inx
     jsr wait_line
-    stx $9000
+    stx VIC_H_POS
     clc
     adc #8
     dey
@@ -69,54 +82,64 @@ shift_loop:
 bottom_keyboard:
     ldx #(LABEL_COLOR << 4) | FRAME_COLOR
     ldy #$cf
-    lda #SCREEN_TOP + 4 * 13 - 1
+    lda #SCREEN_TOP_PAL + 4 * 13 - 1
     jsr wait_line
     stx VIC_COLOR
-    sty $9005
+    sty VIC_VIDEO_ADR
     rts
+
+.code
 
 .export top_joystick
 top_joystick:
     ldx #(BACKGROUND_COLOR << 4) | $8 | FRAME_COLOR
     ldy #$cd
-    lda #SCREEN_TOP + 15 * 4 - 1
+    lda #SCREEN_TOP_PAL + 15 * 4 - 1
     jsr wait_line
     stx VIC_COLOR
-    sty $9005
+    sty VIC_VIDEO_ADR
     jsr read_restore
     jsr read_joystick
     rts
 
-.code
 
 ; waits for 20 cycles
 wait_20:
     nop
+wait_18:
     nop
     nop
     nop
+wait_12:
     rts
 
 ; waits for border of raster line a
 wait_line:
+    pha
+    sec
+    sbc hline_offset
 :   cmp VIC_HLINE
     bne :-
     jsr wait_20
     jsr wait_20
     jsr wait_20
-    jsr wait_20
-    jsr wait_20
+    jsr wait_18
+    jsr wait_12
+    lda is_ntsc
+    beq :+
+    jsr wait_18
+:   pla
     rts
 
 .export bottom_joystick
 bottom_joystick:
     ldx #(LABEL_COLOR << 4) | FRAME_COLOR
     ldy #$cf
-    lda #SCREEN_TOP + 19 * 4 - 1
+    lda #SCREEN_TOP_PAL + 19 * 4 - 1
     jsr wait_line
     stx VIC_COLOR
-    sty $9005
-    dec $9000
+    sty VIC_VIDEO_ADR
+    dec VIC_H_POS
 
     jsr read_restore
 
@@ -202,10 +225,10 @@ read_joystick:
     bmi :+
     inx
 :   txa
-    ldx $9008
+    ldx VIC_POT_X
     bmi :+
     ora #$20
-:   ldx $9009
+:   ldx VIC_POT_Y
     bmi :+
     ora #$40
 :   sta joystick_value
@@ -248,6 +271,20 @@ display_help_screen:
     sta main_color_save + KEYBOARD_OFFSET - 1,x
     dex
     bne :-
+
+    ldx is_ntsc
+    beq pal
+    ldx #<help_ntsc_irq_table
+    ldy #>help_ntsc_irq_table
+    lda help_ntsc_irq_table_length
+    bne both
+pal:
+    ldx #<help_pal_irq_table
+    ldy #>help_pal_irq_table
+    lda help_pal_irq_table_length
+both:
+    jsr set_irq_table
+
     store_word help_screen, ptr1
     store_word screen, ptr2
     jsr rl_expand
@@ -259,30 +296,30 @@ display_help_screen:
     bne :-
     sty current_help_page
     jsr display_help_page
-    ldx #<help_vic20_irq_table
-    ldy #>help_vic20_irq_table
-    lda help_vic20_irq_table_length
-    jsr set_irq_table
     rts
 
 .export help_top
 help_top:
-    lda #SCREEN_TOP + 4 - 1
-    jsr wait_line
     ldx #(BACKGROUND_COLOR << 4) | $8 | FRAME_COLOR
+    lda #SCREEN_TOP_PAL + 4 - 1
+    jsr wait_line
     stx VIC_COLOR
+    ldy #$cf
+    sty VIC_VIDEO_ADR
     rts
 
 .export help_bottom
 help_bottom:
-    lda #SCREEN_TOP + 4 * 19 - 1
-    jsr wait_line
     ldx #(LABEL_COLOR << 4) | FRAME_COLOR
+    lda #SCREEN_TOP_PAL + 4 * 19 - 1
+    jsr wait_line
     stx VIC_COLOR
 
     jsr read_keyboard
+    lda command
+    bne :+
     jsr handle_help_keys
-    rts
+:   rts
 
 
 read_restore:
@@ -326,6 +363,10 @@ help_keys_table:
     .byte 47, COMMAND_HELP_PREVIOUS; -
     .byte 1, COMMAND_HELP_EXIT ; left arrow
     .byte $ff
+
+
+main_h_pos:
+    .byte 12, 4
 
 .bss
 

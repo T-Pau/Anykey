@@ -26,7 +26,7 @@ The programs are provided as disk images in `D64` and `D81` format, which also c
 
 ### Anykey VIC-20
 ![](Anykey%20VIC-20.png)
-- Commodore VIC-20 (at least 8k RAM expansion, PAL only)
+- Commodore VIC-20 (at least 8k RAM expansion)
 
 ## Loading the Program
 

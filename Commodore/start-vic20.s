@@ -55,10 +55,31 @@ start:
     store_word main_color_save, ptr2
     jsr rl_expand
 
+    ldx #1
+    stx command
+
+	jsr init_irq
+
+	ldx is_ntsc
+	lda hline_offset_table,x
+	sta hline_offset
+
 	jsr display_main_screen
 	lda #FRAME_COLOR | $8 | (BACKGROUND_COLOR << 3)
 	sta VIC_COLOR
 
-	jsr init_irq
-	
+	ldx #0
+	stx command
+
 	jmp main_loop
+
+.rodata
+
+hline_offset_table:
+    .byte 0, SCREEN_TOP_PAL - SCREEN_TOP_NTSC
+
+.bss
+
+.export hline_offset
+hline_offset:
+    .res 1
