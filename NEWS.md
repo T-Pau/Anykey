@@ -3,13 +3,13 @@
 * Add support for VIC-20 (8k RAM expansion required).
 * Add support for NTSC C128.
 * Fix display glitches on acellerated C64.
-* Reject single-frame key presses. This should reduce phantom key presses caused by quick joystick movements.
+* Commodore: Reject single-frame key presses. This should reduce phantom key presses caused by quick joystick movements.
 
 # Version 1.5 (2022-06-05)
 
 - Add support for ZX Spectrum (48k RAM required).
 - Improve documentation.
-- MEGA65: Fix `Restore` detection, don't ignore keys due joystick movement.
+- MEGA65: Fix `Restore` detection, don't ignore keys due to joystick movement.
 - Include version number in help text.
 
 # Version 1.4 (2022-05-21)

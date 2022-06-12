@@ -87,7 +87,11 @@ display_keyboard:
 loop:
 .ifdef USE_VICII
 	lda skip_key,x
-	bne :+
+	beq :+
+	lda #0
+	sta new_key_state,x
+	beq next
+:
 .endif
 	lda new_key_state,x
 	and #$06
@@ -95,10 +99,11 @@ loop:
 	lda #$02
 	sta new_key_state,x
 :	cmp key_state,x
-	beq :+
+	beq next
 	sta key_state,x
 	jsr display_key
-:	inx
+next:
+	inx
 	cpx tmp1
 	bne loop
 	rts
