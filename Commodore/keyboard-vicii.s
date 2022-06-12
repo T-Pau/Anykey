@@ -81,26 +81,25 @@ process_skip:
 	bpl :-
 
 	lda port1
-	beq port1_clear	
+	beq port1_clear
+	lda #1
 	ldx #0
 port1_loop:
-	lda port1
-	beq port1_clear
-	lsr
-	sta port1
+    ror port1
 	bcc port1_loop_end
-	stx temp
-	ldy temp
-	ldx #10
+	ldy #10
 	lda #1
-:	sta skip_key,y
-	tya
-	clc
-	adc #8
-	tay
-	dex
-	bpl :-
-	ldx temp
+	sta skip_key,x
+    sta skip_key + 8,x
+    sta skip_key + 16,x
+    sta skip_key + 24,x
+    sta skip_key + 32,x
+    sta skip_key + 40,x
+    sta skip_key + 48,x
+    sta skip_key + 56,x
+    sta skip_key + 64,x
+    sta skip_key + 72,x
+    sta skip_key + 80,x
 port1_loop_end:
 	inx
 	cpx #5

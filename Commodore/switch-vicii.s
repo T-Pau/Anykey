@@ -59,12 +59,11 @@ switch_keyboard_top:
 	set_vic_text screen, charset_keyboard_top
 	ldx #0
 	jsr read_pots
-	ldy machine_type
-	dey
+	ldx machine_type
+	dex
 	bne :+
-	jsr read_keyboard_128
-:
-	rts
+	jsr read_keyboard
+:	rts
 
 .ifdef __C64__
 .export switch_keyboard_top_acellerated
@@ -130,8 +129,16 @@ switch_joystick:
 	jsr content_background
 	ldx #1
 	jsr read_pots
-	jsr read_keyboard
+	ldy machine_type
+	dey
+	bne not_128
+	jsr read_keyboard_128
+	jmp both
+not_128:
+    jsr read_keyboard
+both:
 	jsr select_pots1
+	jsr process_skip
 	rts
 
 switch_joystick_bottom: ; 128 only
@@ -145,7 +152,7 @@ switch_joystick_bottom: ; 128 only
 :	cpx VIDEO_CURRENT_LINE
 	bne :-
 	sta VIDEO_BACKGROUND_COLOR
-	rts	
+	rts
 
 switch_bottom:
 	jsr display_logo

@@ -144,10 +144,8 @@ end:
 	rts
 .endscope
 
-
-read_keyboard:
-.scope read_keyboard
-.ifdef USE_VICII
+.if .defined(USE_VICII)
+check_joysticks:
 	lda #$ff
 	sta CIA1_PRA
 	sta CIA1_PRB
@@ -160,7 +158,18 @@ read_keyboard:
 	sta port1
 	lda CIA1_PRA
 	eor #$ff
+	ora port2
 	sta port2
+    rts
+.endif
+
+read_keyboard:
+.scope read_keyboard
+.ifdef USE_VICII
+    lda #0
+    sta port1
+    sta port2
+    jsr check_joysticks
 	lda #$ff
 	sta CIA1_DDRA
 	lda #$00
@@ -306,16 +315,8 @@ end_read:
 not_mega65:
 .endif
     jsr process_restore
-	lda #$ff
-	sta CIA1_PRA
-	sta CIA1_PRB
-	lda #$00
-	sta CIA1_DDRB
-	sta CIA1_DDRA
-	lda CIA1_PRB
-	eor #$ff
-	ora port1
-	sta port1
+    jsr check_joysticks
+;    jsr process_skip
 	; TODO: if port 2 bit is set and key in that row is pressed, ignore that key's column (except for key itself)
 .endif
 	rts
