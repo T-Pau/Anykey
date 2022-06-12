@@ -3,6 +3,7 @@
 * Add support for VIC-20 (8k RAM expansion required).
 * Add support for NTSC C128.
 * Fix display glitches on acellerated C64.
+* Reject single-frame key presses. This should reduce phantom key presses caused by quick joystick movements.
 
 # Version 1.5 (2022-06-05)
 

@@ -90,7 +90,11 @@ loop:
 	bne :+
 .endif
 	lda new_key_state,x
-	cmp key_state,x
+	and #$06
+	beq :+
+	lda #$02
+	sta new_key_state,x
+:	cmp key_state,x
 	beq :+
 	sta key_state,x
 	jsr display_key
@@ -183,35 +187,75 @@ value:
 	eor #$ff
 	tay
 	and bitmask,x
+	beq one_not_pressed
+    inc new_key_state,x
+	bne two
+one_not_pressed:
 	sta new_key_state,x
+two:
 	inx
 	tya
 	and bitmask,x
+	beq two_not_pressed
+	inc new_key_state,x
+	bne three
+two_not_pressed:
 	sta new_key_state,x
+three:
 	inx
 	tya
 	and bitmask,x
+	beq three_not_pressed
+	inc new_key_state,x
+	bne four
+three_not_pressed:
 	sta new_key_state,x
+four:
 	inx
 	tya
 	and bitmask,x
+	beq four_not_pressed
+	inc new_key_state,x
+	bne five
+four_not_pressed:
 	sta new_key_state,x
+five:
 	inx
 	tya
 	and bitmask,x
+	beq five_not_pressed
+	inc new_key_state,x
+	bne six
+five_not_pressed:
 	sta new_key_state,x
+six:
 	inx
 	tya
 	and bitmask,x
+	beq six_not_pressed
+	inc new_key_state,x
+    bne seven
+six_not_pressed:
 	sta new_key_state,x
+seven:
 	inx
 	tya
 	and bitmask,x
+	beq seven_not_pressed
+    inc new_key_state,x
+    bne eight
+seven_not_pressed:
 	sta new_key_state,x
+eight:
 	inx
 	tya
 	and bitmask,x
+	beq eight_not_pressed
+    inc new_key_state,x
+    bne nine
+eight_not_pressed:
 	sta new_key_state,x
+nine:
 	inx
 max_key_read:
 	cpx #MAX_KEY_READ
@@ -234,7 +278,8 @@ next_end:
 	lda bitmask,y
 	eor #$ff
 .endif
-	bne byteloop
+	beq end_read
+	jmp byteloop
 
 end_read:
 .ifdef USE_VICII

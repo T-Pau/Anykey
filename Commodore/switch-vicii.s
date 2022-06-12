@@ -165,9 +165,9 @@ switch_bottom:
     eor #1
     sta frame_number
     bne :+
-    ldx #40
+    ldx #50
     bne display
-:   ldy #40
+:   ldy #50
 display:
 .endif
 	jsr display_keyboard

@@ -12,7 +12,6 @@
 # Improvements
 
 - **Commodore**: Display ignored keys (joystick &c) in different color.
-- **Commodore**: Only accept key presses if they are pressed for two consecutive frames (should suppress phantom presses caused by rapid joystick movements).
 - **C64/C128**: Ignore phantom keys when joystick 2 and certain keys are pressed at once.
 - **MEGA65**: High resolution native version.
 - **C128**: 80 columns version.
