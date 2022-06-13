@@ -40,17 +40,14 @@ COLOR_RAM_OFFSET = color_ram - screen
 .macro set_color
 .scope
 	clc
-	lda ptr1
-	adc #<COLOR_RAM_OFFSET
-	sta ptr1
+;	lda ptr1
+;   adc #<COLOR_RAM_OFFSET
+;	sta ptr1
 	lda ptr1 + 1
 	adc #>COLOR_RAM_OFFSET
 	sta ptr1 + 1
 
-	lda #CHECKED_COLOR
-	ldy current_key_state
-	beq released
-	lda #PRESSED_COLOR
+	lda current_key_color
 	ldy #0
 released:
 .endscope
@@ -342,67 +339,72 @@ display_key_2_3:
 
 
 display_key_17:
+    clc
+    lda ptr1
+    adc #40
+    sta ptr2
+    lda ptr1 + 1
+    adc #0
+    sta ptr2 + 1
+
 	ldy #16
 :	lda (ptr1),y
 	and #$7f
 	ora current_key_state
 	sta (ptr1),y
+	lda (ptr2),y
+	and #$7f
+	ora current_key_state
+	sta (ptr2),y
 	dey
 	bpl :-
 
-	ldy #40
-:	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #40 + 17
-	bne :-
-
+    clc
+    lda ptr2 + 1
+    adc #>COLOR_RAM_OFFSET
+    sta ptr2 + 1
 	set_color
+
 	ldy #16
 :	sta (ptr1),y
+    sta (ptr2),y
 	dey
 	bpl :-
 
-	ldy #40
-:	sta (ptr1),y
-	iny
-	cpy #40 + 17
-	bne :-
-	
 	rts
-
 display_key_18:
+    clc
+    lda ptr1
+    adc #40
+    sta ptr2
+    lda ptr1 + 1
+    adc #0
+    sta ptr2 + 1
+
 	ldy #17
 :	lda (ptr1),y
 	and #$7f
 	ora current_key_state
 	sta (ptr1),y
+	lda (ptr2),y
+	and #$7f
+	ora current_key_state
+	sta (ptr2),y
 	dey
 	bpl :-
 
-	ldy #40
-:	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #40 + 18
-	bne :-
-
+    clc
+    lda ptr2 + 1
+    adc #>COLOR_RAM_OFFSET
+    sta ptr2 + 1
 	set_color
+
 	ldy #17
 :	sta (ptr1),y
+    sta (ptr2),y
 	dey
 	bpl :-
 
-	ldy #40
-:	sta (ptr1),y
-	iny
-	cpy #40 + 18
-	bne :-
-	
 	rts
 
 .ifdef __PLUS4__

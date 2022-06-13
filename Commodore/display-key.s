@@ -28,17 +28,23 @@
 
 .autoimport +
 
-.export display_key, set_keys_table, num_keys, current_key_state
+.export display_key, set_keys_table
 
-.include "defines.inc"
+.include "platform.inc"
 
 .bss
 
+.export num_keys
 num_keys:
 	.res 1
 
+.export current_key_state
 current_key_state:
 	.res 1
+
+.export current_key_color
+current_key_color:
+    .res 1
 
 .code
 
@@ -77,10 +83,19 @@ set_keys_table:
 ; x is not disturbed
 
 display_key:
+.if .not .defined(USE_PET)
+    ldy #CHECKED_COLOR
+.endif
 	cmp #0
 	beq :+
+.if .not .defined(USE_PET)
+	ldy #PRESSED_COLOR
+.endif
 	lda #$80
 :	sta current_key_state
+.if .not .defined(USE_PET)
+    sty current_key_color
+.endif
 
 address_low:
 	lda $1000,x
