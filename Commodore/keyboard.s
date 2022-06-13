@@ -58,7 +58,10 @@ key_index_help:
     .res 1
 key_index_reset:
     .res 1
-   
+
+next_key:
+    .res 1
+
 reset_count:
 	.res 1
 help_count:
@@ -67,10 +70,14 @@ help_count:
 .code
 
 init_keyboard:
-	ldx #MAX_NUM_KEYS
+	ldx #MAX_NUM_KEYS - 1
 	lda #0
+	sta next_key
 :	sta key_state,x
 	sta new_key_state,x
+.if .defined(USE_SKIP)
+    sta skip_key,x
+.endif
 	dex
 	bpl :-
 	sta reset_count
@@ -82,16 +89,13 @@ init_keyboard:
 
 
 display_keyboard:
-    sty tmp1
 .scope
+;    inc VIDEO_BORDER_COLOR
+    ldx next_key
 loop:
-.ifdef USE_VICII
+.if .defined(USE_SKIP)
 	lda skip_key,x
-	beq :+
-	lda #0
-	sta new_key_state,x
-	beq next
-:
+	bne next
 .endif
 	lda new_key_state,x
 	and #$06
@@ -101,15 +105,39 @@ loop:
 :	cmp key_state,x
 	beq next
 	sta key_state,x
+.if .not .defined(USE_PET)
+    cmp #0
+	beq unpressed
+	ldy #PRESSED_COLOR
+	bne display
+unpressed:
+	ldy #CHECKED_COLOR
+display:
+	sty current_key_color
+.endif
 	jsr display_key
 next:
 	inx
-	cpx tmp1
+.if .defined(USE_VICII)
+    lda VIC_CTRL1
+    bmi :+
+	lda VIC_HLINE
+	cmp #SCREEN_TOP - 12
+	bcs stop
+:
+.endif
+	cpx num_keys
 	bne loop
+	ldx #0
+stop:
+	stx next_key
+;    dec VIDEO_BORDER_COLOR
 	rts
+.endscope
 
 .export process_command_keys
 process_command_keys:
+.scope
 	lda command
 	bne no_key
 	ldx key_index_help
@@ -296,24 +324,7 @@ next_end:
 	jmp byteloop
 
 end_read:
-.ifdef USE_VICII
-.if .defined(__C64__)
-    lda machine_type
-    bpl not_mega65
-.endif
-.if .defined(__C64__) .or .defined(__MEGA65__)
-    lda $d60f
-    and #$03
-    beq :+
-    ldy #0
-    sty new_key_state + 2
-    sty new_key_state + 7
-    sty new_key_state + 6 * 8 + 4
-:
-.endif
-.if .defined(__C64__)
-not_mega65:
-.endif
+.if .defined(USE_VICII)
     jsr process_restore
     jsr check_joysticks
 ;    jsr process_skip
@@ -337,16 +348,24 @@ read_keyboard_mega65:
     ; Caps
     lda $d611
     and #%01000000
-    sta new_key_state + 9 * 8
+    sta new_key_state + 72
+
+    ; bit 1: up
+    ; bit 0: left
     lda $d60f
-    tax
-    ; Cursor Left
+    sta tmp1
     and #$01
-    sta new_key_state + 9 * 8 + 1
-    txa
-    ; Cursor up
-    and #02
-    sta new_key_state + 9 * 8 + 2
+    asl
+    sta new_key_state + 73 ; cursor left
+    lda tmp1
+    and #$02
+    sta new_key_state + 74 ; cursor up
+    lsr
+    ora tmp1
+    and #$01
+    sta skip_key + 2 ; cursor right
+    sta skip_key + 6 * 8 + 4 ; right shift
+    sta skip_key + 7 ; cursor down
     rts
 .endscope
 .endif
@@ -358,3 +377,11 @@ bitmask:
 	.byte $01, $02, $04, $08, $10, $20, $40, $80
 ;	.byte $80, $40, $20, $10, $08, $04, $02, $01
 	.endrep
+
+.bss
+
+.if .defined(USE_SKIP)
+.export skip_key
+skip_key:
+	.res MAX_NUM_KEYS
+.endif

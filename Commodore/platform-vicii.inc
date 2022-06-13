@@ -1,4 +1,5 @@
 USE_VICII = 1
+USE_SKIP = 1
 
 .include "vic-ii.inc"
 

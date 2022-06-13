@@ -159,24 +159,6 @@ switch_bottom:
 	lda command
 	bne :+
 
-	ldx #0
-	ldy num_keys
-.if .defined(__C64__)
-    lda machine_type
-    cmp #1
-    bne display
-.endif
-.if .defined(__C64__) .or .defined(__C128__)
-    lda frame_number
-    and #1
-    eor #1
-    sta frame_number
-    bne :+
-    ldx #50
-    bne display
-:   ldy #50
-display:
-.endif
 	jsr display_keyboard
 	jsr process_command_keys
 :
@@ -201,11 +183,4 @@ switch_bottom_mega65:
    	lda #30
    	sta VIC_BOTTOM_BORDER_POSITION
    	jmp switch_bottom
-.endif
-
-.bss
-
-.if .defined(__C64__) .or .defined(__C128__)
-frame_number:
-    .res 1
 .endif

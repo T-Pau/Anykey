@@ -161,26 +161,18 @@ bottom_joystick:
     lda VIA2_PB
     and port_b
     and #$80
-    bne no_skip
+    eor #$80
+    asl
+    rol
+    sta skip_key + $07
+    sta skip_key + $0f
+    sta skip_key + $17
+    sta skip_key + $1f
+    sta skip_key + $27
+    sta skip_key + $2f
+    sta skip_key + $37
+    sta skip_key + $3f
 
-    lda key_state + $07
-    sta new_key_state + $07
-    lda key_state + $0f
-    sta new_key_state + $0f
-    lda key_state + $17
-    sta new_key_state + $17
-    lda key_state + $1f
-    sta new_key_state + $1f
-    lda key_state + $27
-    sta new_key_state + $27
-    lda key_state + $2f
-    sta new_key_state + $2f
-    lda key_state + $37
-    sta new_key_state + $37
-    lda key_state + $3f
-    sta new_key_state + $3f
-
-no_skip:
     jsr process_restore
 	lda command
 	bne :+

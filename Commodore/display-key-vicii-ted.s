@@ -38,19 +38,13 @@
 COLOR_RAM_OFFSET = color_ram - screen
 
 .macro set_color
-.scope
 	clc
-;	lda ptr1
-;   adc #<COLOR_RAM_OFFSET
-;	sta ptr1
 	lda ptr1 + 1
 	adc #>COLOR_RAM_OFFSET
 	sta ptr1 + 1
 
 	lda current_key_color
 	ldy #0
-released:
-.endscope
 .endmacro
 
 display_key_2:
@@ -372,6 +366,8 @@ display_key_17:
 	bpl :-
 
 	rts
+
+
 display_key_18:
     clc
     lda ptr1

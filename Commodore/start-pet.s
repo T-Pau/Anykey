@@ -70,8 +70,6 @@ process_keyboard:
 	lda current_page
 	cmp #$ff
 	bne help_mode
-    ldx #0
-    ldy num_keys
 	jsr display_keyboard
 	jmp process_command_keys
 help_mode:

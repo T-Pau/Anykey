@@ -83,19 +83,10 @@ set_keys_table:
 ; x is not disturbed
 
 display_key:
-.if .not .defined(USE_PET)
-    ldy #CHECKED_COLOR
-.endif
 	cmp #0
 	beq :+
-.if .not .defined(USE_PET)
-	ldy #PRESSED_COLOR
-.endif
 	lda #$80
 :	sta current_key_state
-.if .not .defined(USE_PET)
-    sty current_key_color
-.endif
 
 address_low:
 	lda $1000,x

@@ -29,7 +29,7 @@
 .autoimport +
 
 .export init_keyboard_vicii, read_keyboard_128, process_skip
-.export skip_key, port1, port2
+.export port1, port2
 
 .include "defines.inc"
 
@@ -38,11 +38,6 @@
 
 
 .bss
-
-skip_key:
-	.res MAX_NUM_KEYS
-
-
 
 port1:
 	.res 1
@@ -54,16 +49,13 @@ temp:
 .code
 
 init_keyboard_vicii:
-	ldx #91
-	lda #0
-:	sta skip_key,x
-	dex
-	bpl :-
 	jsr init_restore_nmi
     rts
 	
+.export process_skip
 process_skip:
 .scope
+;    inc VIDEO_BORDER_COLOR
 .if .defined(__C64__)
     lda machine_type
     bpl :+
@@ -87,7 +79,6 @@ process_skip:
 port1_loop:
     ror port1
 	bcc port1_loop_end
-	ldy #10
 	lda #1
 	sta skip_key,x
     sta skip_key + 8,x
@@ -104,12 +95,15 @@ port1_loop_end:
 	inx
 	cpx #5
 	bne port1_loop
-	
+
 port1_clear:
+.if .defined(__C64__)
 	lda machine_type
 	bne :+
-	sta skip_key + 64 ; don't skip restore
+	sta skip_key + 64 ; don't skip restore on C64
 :
+.endif
+;    dec VIDEO_BORDER_COLOR
 	rts
 .endscope
 
