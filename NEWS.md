@@ -2,8 +2,8 @@
 
 * Add support for VIC-20 (8k RAM expansion required).
 * Add support for NTSC C128.
-* Fix display glitches on acellerated C64.
 * Commodore: Improve handling of joystick interference with keyboard reading.
+* Fix display glitches on acellerated C64.
 
 # Version 1.5 (2022-06-05)
 

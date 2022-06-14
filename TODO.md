@@ -1,7 +1,6 @@
 # Before Next Release
- 
-- **C64**: Test fix for accelerators on Ultimate64.
-- **C64/C128**: Test phantom key suppression due to joysticks.
+
+- Test cursor key skip on MEGA65.
 
 # Cleanup
 
@@ -11,7 +10,6 @@
 
 # Improvements
 
-- **Commodore**: Display ignored keys (joystick &c) in different color.
 - **C64/C128**: Ignore phantom keys when joystick 2 and certain keys are pressed at once.
 - **MEGA65**: High resolution native version.
 - **C128**: 80 columns version.
