@@ -355,17 +355,17 @@ read_keyboard_mega65:
     lda $d60f
     sta tmp1
     and #$01
+    sta skip_key + 2 ; cursor right
     asl
     sta new_key_state + 73 ; cursor left
     lda tmp1
     and #$02
     sta new_key_state + 74 ; cursor up
     lsr
+    sta skip_key + 7 ; cursor down
     ora tmp1
     and #$01
-    sta skip_key + 2 ; cursor right
     sta skip_key + 6 * 8 + 4 ; right shift
-    sta skip_key + 7 ; cursor down
     rts
 .endscope
 .endif
