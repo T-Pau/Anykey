@@ -62,7 +62,7 @@ Anykey doesn't know which are in use, so it always displays all three.
 
 ## Special Keys
 
-All keys except for digits, letters, `Space`, `Enter`, `Caps Shift` and `Symbol Shift` are read by the computer as two key presses.
+On 48k+, 128k, +2, and +3 models all keys except for digits, letters, `Space`, `Enter`, `Caps Shift` and `Symbol Shift` are read by the computer as two key presses.
 
 The computer can't tell if such a key or the two corresponding keys are pressed, so Anykey displays all three as pressed.
 

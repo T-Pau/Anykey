@@ -53,21 +53,21 @@ keys_48k:
     word screen + 2069, color + 277, display_key_2
     word screen + 2067, color + 275, display_key_2
     word screen + 2065, color + 273, display_key_2
+    word screen + 2139, color + 347, display_key_2
+    word screen + 2135, color + 343, display_key_2
+    word screen + 2137, color + 345, display_key_2
+    word screen + 2073, color + 281, display_key_2
+    word screen + 2071, color + 279, display_key_2
+    word screen + 2120, color + 328, display_key_2
+    word screen + 156, color + 156, display_key_2
+    word screen + 2118, color + 326, display_key_2
+    word screen + 2055, color + 263, display_key_2
+    word screen + 194, color + 194, display_key_4
+    word screen + 198, color + 198, display_key_3
     word screen + 130, color + 130, display_key_3
     word screen + 133, color + 133, display_key_3
     word screen + 67, color + 67, display_key_2
-    word screen + 91, color + 91, display_key_3
-    word screen + 198, color + 198, display_key_3
-    word screen + 2055, color + 263, display_key_2
     word screen + 69, color + 69, display_key_2
-    word screen + 194, color + 194, display_key_4
-    word screen + 2071, color + 279, display_key_2
-    word screen + 2118, color + 326, display_key_2
-    word screen + 156, color + 156, display_key_2
-    word screen + 2135, color + 343, display_key_2
-    word screen + 2139, color + 347, display_key_2
-    word screen + 2073, color + 281, display_key_2
-    word screen + 2137, color + 345, display_key_2
-    word screen + 2120, color + 328, display_key_2
+    word screen + 91, color + 91, display_key_3
     word screen + 2075, color + 283, display_key_3
     word screen + 2141, color + 349, display_key_2

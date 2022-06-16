@@ -31,11 +31,15 @@ include "platform.inc"
 include "keyboard.inc"
 
 global help, combine_keys, display_joystick_1, display_joystick_2, display_joystick_3
+global read_extended_keys
 
 section code_user
 
 main_loop:
     call read_keyboard
+IF USE_EXTENDED_KEYS
+    call read_extended_keys
+ENDIF
     call combine_keys
     call display_keyboard
 IF JOYSTICK_1_DPAD_OFFSET

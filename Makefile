@@ -22,10 +22,8 @@ FILES = \
 	ZX-Spectrum/anykey-spectrum-48k+-128k.tzx \
 	ZX-Spectrum/anykey-spectrum-+2-+3.tap \
 	ZX-Spectrum/anykey-spectrum-+2-+3.tzx \
-	ZX-Spectrum/anykey-spectrum-next.tap \
-	ZX-Spectrum/anykey-spectrum-next.tzx \
-	ZX-Spectrum/anykey-spectrum-n-go.tap \
-	ZX-Spectrum/anykey-spectrum-n-go.tzx \
+	ZX-Spectrum/anykey-spectrum-next.nex \
+	ZX-Spectrum/anykey-spectrum-n-go.nex \
 	Documentation
 
 DISTFILE = Anykey-${VERSION}.zip

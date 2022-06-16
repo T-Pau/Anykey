@@ -1,11 +1,16 @@
 public combine_keys
 
 include "keyboard.inc"
+include "platform.inc"
 
 section code_user
 
 combine_keys:
+IF USE_EXTENDED_KEYS
+    ld ix,new_key_state + 56
+ELSE
     ld ix,new_key_state + 40
+ENDIF
     ld hl,combine_list
 loop:
     call get_address
@@ -35,22 +40,25 @@ get_address:
 section data_user
 
 combine_list:
+IFNDEF USE_EXTENDED_KEYS
+    byte  0, 22 ; caps + 8: cursor right
+    byte  0, 19 ; caps + 5: cursor left
+    byte  0, 24 ; caps + 6: cursor down
+    byte  0, 23 ; caps + 7: cursor up
+    byte 36, 37 ; symbol + m: .
+    byte 36, 38 ; symbol + n: ,
+    byte 36, 25 ; symbol + p: "
+    byte 36, 26 ; symbol + o: ;
+
+    byte  0, 36 ; caps + symbol: extend mode
+    byte  0, 16 ; caps + 2: caps lock
+    byte  0, 21 ; caps + 9: graph
     byte  0, 17 ; caps + 3: true video
     byte  0, 18 ; caps + 4: inv video
     byte  0, 35 ; caps + space: break
-    byte  0, 20 ; caps + 0: delete
-    byte  0, 21 ; caps + 9: graph
-    byte  0, 36 ; caps + symbol: extend mode
     byte  0, 15 ; caps + 1: edit
-    byte  0, 16 ; caps + 2: caps lock
-    byte 36, 37 ; symbol + m: .
-    byte 36, 26 ; symbol + o: ;
-    byte 36, 25 ; symbol + p: "
-    byte  0, 19 ; caps + 5: cursor left
-    byte  0, 22 ; caps + 8: cursor right
-    byte  0, 23 ; caps + 7: cursor up
-    byte  0, 24 ; caps + 6: cursor down
-    byte 36, 38 ; symbol + n: ,
+    byte  0, 20 ; caps + 0: delete
+ENDIF
 
     byte  0,  0 ; right caps
     byte 36, 36 ; right symbol

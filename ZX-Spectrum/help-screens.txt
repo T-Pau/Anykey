@@ -37,114 +37,66 @@ prefix " "
 postfix " "
 title_length 30
 assembler z88dk
+word_wrap 1
 ---
-anykey
+Anykey
 
-this program monitors the
-keyboard.
+This program monitors the keyboard.
 
 .if PLATFORM_48K or PLATFORM_PLUS
-it shows the current state of
-the keyboard.
+It shows the current state of the keyboard.
 .else
-the upper window shows the
-state of the keyboard.
+The upper window shows the state of the keyboard.
 
-the lower window shows the
-state of joysticks connected
-to the controller ports.
+The lower window shows the state of joysticks connected to the controller ports.
 .endif
 
-this is anykey ${VERSION}.
-the newest version and further
+This is Anykey ${VERSION}.
+The newest version and further
 information can be found at
    github.com/T-Pau/Anykey
 ---
-keyboard
+Kkeyboard
 
-the keys are displayed in the
-same layout as the physical
-keyboard.
+The keys are displayed in the same layout as the physical keyboard.
 
-keys that are currently
-pressed are displayed
-inverted.
+Keys that are currently pressed are displayed inverted.
 
-keys that were previously
-pressed are displayed in
-yellow. this helps detect dead
-keys. to reset the state of
-all keys to unpressed, hold 9
-for two seconds.
+Keys that were previously pressed are displayed in yellow. This helps detect dead keys. To reset the state of all keys to unpressed, hold 9 for two seconds.
 ---
 .if PLATFORM_PLUS2 or PLATFORM_NEXT or PLATFORM_N_GO
-joysticks
+Joysticks
 
-joysticks contain a stick or
-d-pad with switches for the
-four cardinal directions and a
-fire button.
+Joysticks contain a stick or d-pad with switches for the four cardinal directions and a fire button.
 
-pressed directions and buttons
-are displayed inverted.
+Pressed directions and buttons are displayed inverted.
 
 .if PLATFORM_PLUS2
-The +2 and +3 have two
-joystick ports, Sinclair 1 and
-2. Jostick movement is seen by
-the computer as key presses.
-Sinclair 1 uses the keys 6-0,
-Sinclair 2 the keys 1-5.
+The +2 and +3 have two joystick ports, Sinclair 1 and 2. Jostick movement is seen by the computer as key presses. Sinclair 1 uses the keys 6-0, Sinclair 2 the keys 1-5.
 .else
-On Next and N-Go, the three
-joysticks displayed are
-Sinclair 1, Sinclair 2, and
-Kempston.
+On Next and N-Go, the three joysticks displayed are Sinclair 1, Sinclair 2, and Kempston.
 ---
 Joysticks (continued)
 
-For Sinclair 1 and 2 movement
-is seen by the computer as key
-presses. Sinclair 1 uses the
-keys 6-0, Sinclair 2 the keys
+For Sinclair 1 and 2 movement is seen by the computer as key presses. Sinclair 1 uses the keys 6-0, Sinclair 2 the keys
 1-5.
 
-There are two joystick
-physical ports. The user can
-configure each of these as any
-of the three joysticks.
+There are two joystick physical ports. The user can configure each of these as any of the three joysticks.
 
-Anykey doesn't know which are
-in use, so it always displays
-all three.
+Anykey doesn't know which are in use, so it always displays all three.
 .endif
 ---
 .endif
-.if not PLATFORM_48K
-special keys
+.if not (PLATFORM_48K or PLATFORM_NEXT or PLATFORM_N_GO)
+Special Keys
 
-all keys except for digits,
-letters, space, enter, caps
-shift and symbol shift are
-read by the computer as two
-key presses.
+All keys except for digits, letters, space, enter, caps shift and symbol shift are read by the computer as two key presses.
 
-the computer can't tell if
-such a key or the two
-corresponding keys are
-pressed, so anykey displays
-all three as pressed.
+The computer can't tell if such a key or the two corresponding keys are pressed, so anykey displays all three as pressed.
 
-for best results, test the
-normal keys first.
+For best results, test the normal keys first.
 ---
 .endif
-technical limitations
+Technical Limitations
 
-if you press certain
-combinations of three keys, a
-fourth key will also appear
-pressed. this is because the
-three keys together create the
-same electrical connection the
-fourth key would.
+If you press certain combinations of three keys, a fourth key will also appear pressed. this is because the three keys together create the same electrical connection the fourth key would.
