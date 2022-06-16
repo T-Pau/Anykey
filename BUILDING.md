@@ -21,6 +21,6 @@ You also need the `petcat` and `c1541` utilities from [Vice](http://vice-emu.sou
 
 ### ZX Spectrum
 
-The version for the ZX Spectrum is written in [Z88DK](https://z88dk.org/site/). 
+The version for the ZX Spectrum is written in [Z88DK](https://z88dk.org/site/), a build from 2022 is required. 
 
 You also need [tzxtools](https://shredzone.org/docs/tzxtools/).

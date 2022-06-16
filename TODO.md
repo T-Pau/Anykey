@@ -1,7 +1,5 @@
 # Before Next Release
 
-- **Next/N-GO**: Use ZX Spectrum colors for logo. 
-
 # Cleanup
 
 - **Commodore**: Reduce usage of `.if .defined __TARGET__` in code.
@@ -14,7 +12,7 @@
 - **MEGA65**: High resolution native version.
 - **C128**: 80 columns version.
 - **Next/N-GO**: High resolution graphics.
-- **Next/N-GO**: read joystick configuration and display corret ones.
+- **Next/N-GO**: Read joystick configuration and display correct ones.
 - **Commodore**: Use proper tool for modifying directory listing.
 
 # Incomplete Ports
