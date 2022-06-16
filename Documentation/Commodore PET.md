@@ -8,7 +8,7 @@ The programs are provided as disk images in `D64` and `D81` format, which also c
 
 ![](Anykey%20PET%20Graphics%2040.png)
 
-This version requires at least 8k RAM and supports only 40 columns mode and calculator or graphcis style keyboards. 
+This version requires at least 8k RAM and supports only 40 columns mode and calculator or graphics style keyboards. 
 
 - PET 2001 with at least 8k RAM
 - CBM 3008
@@ -56,7 +56,7 @@ This keyboard was used in the earliest pet models and in the Tynemouth Mini PET 
 
 ### Graphics Keyboard
 
-Khis keyboard was used in some models with 40 column displays. It features the graphics character on the front of the key caps and a 4x5 number block.
+This keyboard was used in some models with 40 column displays. It features the graphics character on the front of the key caps and a 4x5 number block.
 
 
 ### Business Keyboard

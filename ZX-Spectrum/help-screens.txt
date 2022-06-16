@@ -60,7 +60,7 @@ The newest version and further
 information can be found at
    github.com/T-Pau/Anykey
 ---
-Kkeyboard
+Keyboard
 
 The keys are displayed in the same layout as the physical keyboard.
 
@@ -76,7 +76,7 @@ Joysticks contain a stick or d-pad with switches for the four cardinal direction
 Pressed directions and buttons are displayed inverted.
 
 .if PLATFORM_PLUS2
-The +2 and +3 have two joystick ports, Sinclair 1 and 2. Jostick movement is seen by the computer as key presses. Sinclair 1 uses the keys 6-0, Sinclair 2 the keys 1-5.
+The +2 and +3 have two joystick ports, Sinclair 1 and 2. Joystick movement is seen by the computer as key presses. Sinclair 1 uses the keys 6-0, Sinclair 2 the keys 1-5.
 .else
 On Next and N-Go, the three joysticks displayed are Sinclair 1, Sinclair 2, and Kempston.
 ---
