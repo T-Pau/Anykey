@@ -1,4 +1,4 @@
-; extended-keys.asm -- read extended keys directly on Next and N-GO
+; extended-keys.asm -- read extended keys directly on Next and N-Go
 
 include "platform.inc"
 include "keyboard.inc"

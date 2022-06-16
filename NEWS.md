@@ -3,7 +3,7 @@
 * Add support for VIC-20 (8k RAM expansion required).
 * Add support for NTSC C128.
 * Improve handling of joystick interference with keyboard reading on C64 and C128.
-* Allow all keys to be tested separately on ZX Spectrum Next and N-GO.
+* Allow all keys to be tested separately on ZX Spectrum Next and N-Go.
 * Fix display glitches on acellerated C64.
 
 # Version 1.5 (2022-06-05)
