@@ -1,6 +1,6 @@
 # Before Next Release
 
-- Test cursor key skip on MEGA65.
+- **Next/N-GO**: Use ZX Spectrum colors for logo. 
 
 # Cleanup
 
@@ -13,6 +13,8 @@
 - **C64/C128**: Ignore phantom keys when joystick 2 and certain keys are pressed at once.
 - **MEGA65**: High resolution native version.
 - **C128**: 80 columns version.
+- **Next/N-GO**: High resolution graphics.
+- **Next/N-GO**: read joystick configuration and display corret ones.
 - **Commodore**: Use proper tool for modifying directory listing.
 
 # Incomplete Ports

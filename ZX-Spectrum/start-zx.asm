@@ -46,7 +46,7 @@ _main:
     call copy_colors
 IF USE_EXTENDED_KEYS
     call init_extended_keys
-    ;call init_logo_sprites
+    call init_logo_sprites
 ENDIF
     jp main_loop
 

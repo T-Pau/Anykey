@@ -63,5 +63,5 @@ screen_help:
 
 colors_help:
     byte 32, 7<<3
-    byte 255, 7, 255, 7, 2, 7 ; 16 lines
-    byte 32*7, 7<<3
+    byte 255, 7, 255, 7, 66, 7 ; 16 lines
+    byte 32*5, 7<<3

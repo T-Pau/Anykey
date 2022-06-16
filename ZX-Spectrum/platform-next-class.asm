@@ -1,32 +1,61 @@
 section code_user
 
+PORT_SPRITE_ATTRIBUTE = $57
+PORT_SPRITE_PATTERN = $5b
+PORT_SPRITE_SLOT = $303b
+
+NEXTREG_SPRITE_LAYER = $15
+NEXTREG_PALETTE_INDEX = $40
+NEXTREG_PALETTE_VALUE = $41
+NEXTREG_PALETTE_CONTROL = $43
+NEXTREG_SPRITE_TRANSPARENCY = $4b
+
+
 global init_logo_sprites
 init_logo_sprites:
-    ld bc, $303b
-    out (c), 0
-    ld hl, sprite_data
-    ld de, 8 * 16 * 4
-data_loop:
-    ld a,(hl)
-    nextreg $56, a
-    dec de
-    ld a, d
-    or a, e
-    jr nz, data_loop
+    nextreg NEXTREG_SPRITE_LAYER, $03
 
-    out (c), 0
+    ld a, 0
+    ld bc, PORT_SPRITE_SLOT
+    out (c), a
+    ld bc, PORT_SPRITE_ATTRIBUTE
     ld hl, sprite_attributes
-    ld de, 4 * 5
-attribute_loop:
-    ld a,(hl)
-    nextreg $57, a
-    dec de
+    ld d, 5 * 4
+loop_attributes:
+    ld a, (hl)
+    inc hl
+    out (c), a
+    dec d
     ld a, d
-    or a, e
-    jr nz, attribute_loop
+    cp a, 0
+    jr nz, loop_attributes
 
-    nextreg $15, $03 ; enable sprites, make visible in border
-    nextreg $4b, $0f ; select transparent palette index
+    ld bc, PORT_SPRITE_SLOT
+    ld a,0
+    out (c), a
+    ld bc, PORT_SPRITE_PATTERN
+    ld hl, sprite_data
+    ld de, 128 * 4
+loop_data:
+    ld a, (hl)
+    inc hl
+    out(c), a
+    dec de
+    ld a, e
+    or a, d
+    jr nz, loop_data
+
+    nextreg NEXTREG_SPRITE_TRANSPARENCY, $0f
+    nextreg NEXTREG_PALETTE_CONTROL, $20
+    nextreg NEXTREG_PALETTE_INDEX,0
+
+    ld b, 5
+    ld hl, sprite_palette
+SpritePaletteLoop:
+    ld a, (hl)
+    inc hl
+    nextreg NEXTREG_PALETTE_VALUE, a
+    djnz SpritePaletteLoop
 
     ret
 
@@ -102,7 +131,15 @@ sprite_data:
     byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
 
 sprite_attributes:
-    byte 40, 40, 0, $c0, $80
-    byte 16, 0, 0, $c1, $40
-    byte 32, 0, 0, $c2, $40
-    byte 64, 0, 0, $c3, $40
+    byte 233, 229, 0, $c0, $80
+    byte 16, 0, 0, $c0, $60
+    byte 32, 0, 0, $c1, $40
+    byte 48, 0, 0, $c1, $60
+
+sprite_palette:
+	byte %00000000 ; black
+	byte %11000000 ; red
+	byte %11001000 ; orange
+	byte %11011000 ; yellow
+	byte %00010000 ; green
+	byte %00000011 ; bule

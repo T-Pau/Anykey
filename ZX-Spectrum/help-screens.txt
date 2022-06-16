@@ -32,7 +32,11 @@ map $61-$7a $01
 map $20-$3f $20
 
 line_length 30
+.if PLATFORM_NEXT or PLATFORM_N_GO
+lines 16
+.else
 lines 14
+.endif
 prefix " "
 postfix " "
 title_length 30
