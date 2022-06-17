@@ -293,11 +293,20 @@ both:
 .export help_top
 help_top:
     ldx #(BACKGROUND_COLOR << 4) | $8 | FRAME_COLOR
-    lda #SCREEN_TOP_PAL + 4 - 1
-    jsr wait_line
-    stx VIC_COLOR
     ldy #$cf
+    lda #SCREEN_TOP_PAL + 4 - 2
+    jsr wait_line
+    jsr wait_20
+    jsr wait_20
+    jsr wait_20
+    jsr wait_20
+    jsr wait_20
+    jsr wait_20
+    nop
+    nop
+    nop
     sty VIC_VIDEO_ADR
+    stx VIC_COLOR
     rts
 
 .export help_bottom

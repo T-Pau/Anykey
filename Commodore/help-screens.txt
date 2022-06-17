@@ -39,35 +39,34 @@ title_length 38
 title_xor 128
 assembler cc65
 word_wrap 1
+
+.if __C64__ or __C128__
+.define USE_VICII
+.endif
+.if __PLUS4__
+.define USE_TED
+.endif
 ---
-anykey
+Anykey
 
-this program monitors the keyboard and
-joysticks.
+This program monitors the keyboard and joysticks.
 
-the upper window shows the state of
-the keyboard.
+The upper window shows the state of the keyboard.
 
-the lower window shows the state of
-two joysticks connected to the
-controller ports.
+The lower window shows the state of two joysticks connected to the controller ports.
 
-this is anykey ${VERSION}. the newest
-version and further information can be
-found at
+This is anykey ${VERSION}. The newest version and further information can be found at
    https://github.com/T-Pau/Anykey
 ---
-keyboard
+Keyboard
 
-the keys are displayed in the same
-layout as the physical keyboard.
+The keys are displayed in the same layout as the physical keyboard.
 
-keys that are currently pressed are
-displayed inverted.
+Keys that are currently pressed are displayed inverted.
 
-keys that were previously pressed are
-displayed in a lighter gray. this
-helps detect dead keys. to reset the
+Keys that were previously pressed are
+displayed in a lighter gray. This
+helps detect dead keys. To reset the
 state of all keys to unpressed, hold
 .if __PLUS4__
 f3 for two seconds.
@@ -77,9 +76,9 @@ f13 for two seconds.
 f5 for two seconds.
 .endif
 ---
-joysticks
+Joysticks
 
-joysticks contain a stick or d-pad
+Joysticks contain a stick or d-pad
 with switches for the four cardinal
 .if __PLUS4__
 directions and one button.
@@ -91,81 +90,48 @@ pressed directions and buttons are
 displayed inverted.
 .if not __PLUS4__
 
-buttons 2 and 3 bring an analog
-potentiometer to a low value by
-connecting its pin to +5v.  These potentiometers are also used by paddles and the 1351 mouse; if such a device is connected, the buttons may read as pressed.
+Buttons 2 and 3 bring an analog potentiometer to a low value by connecting its pin to +5v.
+
+These potentiometers are also used by paddles and the 1351 mouse; if such a device is connected, the buttons may read as pressed.
 .endif
 ---
 .if __C64__ or __C128__
-joyride
-to test other controller types or
-joystick adapters, please use the
-companion program joyride which can be
-found at:
+Joyride
+
+To test other controller types or joystick adapters, please use the companion program joyride which can be found at
   https://github.com/t-pau/joyride
 .endif
 ---
-special keys
+Special Keys
 
 .if USE_VICII
-shift lock and the left shift key
-appear as the same key to the computer
-and cannot be reliably distinguished
-on all computers.
+Shift Lock and the left Shift key appear as the same key to the computer and cannot be reliably distinguished on all computers.
 
-the restore key cannot be read
-directly. anykey can detect when the
-key is pressed, but it can't detect
-for how long.
+The Restore key cannot be read directly. Anykey can detect when the key is pressed, but it can't detect for how long.
 .else
-shift lock, left shift and right shift
-appear as the same key to the computer
-and cannot be reliably distinguished
-on all computers.  the same is true
-for the two control keys.
+Shift Lock, left Shift and right Shift appear as the same key to the computer and cannot be reliably distinguished on all computers.  The same is true
+for the two Control keys.
 .endif
 .if __C64__ or __MEGA65__
 
-on mega65, when pressing cursor up or
-left, right shift and the opposite
-cursor keys also appear pressed. to
-avoid prematurely marking keys as
-pressed, these keys are disabled in
-that case.
+On MEGA65, when pressing cursor up or left, right Shift and the opposite cursor keys also appear pressed. To avoid prematurely marking keys as
+pressed, these keys are ignored in that case.
 .endif
 
 .if __C64__
 ---
-commodore 128
+Commodore 128
 
-when run in c64 mode on a c128, anykey
-will display and test the full c128
-keyboard.
+When run in C64 mode on a C128, Anykey will display and test the full C128 keyboard.
 
-the 40/80 display key cannot be read
-in c64 mode, therefore it is displayed
-grayed out. to test it, use the native
-version, anykey 128.
+The 40/80 Display key cannot be read in C64 mode, therefore it is displayed grayed out. To test it, use the native version, Anykey 128.
 .endif
 ---
-technical limitations
+Technical Limitations
 
 .if USE_VICII
-joysticks interfere with reading the
-keyboard. when a joystick is pressed,
-certain keys can't be read. these keys
-will be ignored while the joystick is
-pressed. if such a key was pressed
-before the joystick, it will remain
-pressed until the joystick is
-released. auto fire might defeat this
-detection and result in phantom key
-presses.
+Joysticks interfere with reading the keyboard. When a joystick is pressed, certain keys can't be read. These keys will be ignored while the joystick is
+pressed. If such a key was pressed before the joystick, it will remain pressed until the joystick is released.
 
 .endif
-if you press certain combinations of
-three keys, a fourth key will also
-appear pressed. this is because the
-three keys together create the same
-electrical connection the fourth key
-would.
+If you press certain combinations of three keys, a fourth key will also appear pressed. This is because the three keys together create the same electrical connection the fourth key would.

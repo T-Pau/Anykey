@@ -321,16 +321,16 @@ autoboot-mega65.prg: autoboot-mega65.bas
 	petcat -w65 -l 0801 -o autoboot-mega65.prg autoboot-mega65.bas
 
 help-screens-64.s: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
-	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__C64__ -DUSE_VICII $< $@
+	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__C64__ $< $@
 
 help-screens-128.s: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
-	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__C64__ -DUSE_VICII $< $@
+	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__C128__ $< $@
 
 help-screens-mega65.s: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
 	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__MEGA65__ $< $@
 
 help-screens-plus4.s: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
-	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__PLUS4__ -DUSE_TED $< $@
+	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__PLUS4__ $< $@
 
 help-screens-vic20.s: help-screens-vic20.txt ${CONVERT_SCREENS_DEPENDENCIES}
 	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__VIC20__ $< $@

@@ -73,7 +73,7 @@ main_ntsc_irq_table_length:
 
 .export help_pal_irq_table
 help_pal_irq_table:
-    .byte SCREEN_TOP_PAL + 4 - 1
+    .byte SCREEN_TOP_PAL + 4 - 2
     .word help_top
 
     .byte SCREEN_TOP_PAL + 4 * 19 - 1
@@ -86,7 +86,7 @@ help_pal_irq_table_length:
 
 .export help_ntsc_irq_table
 help_ntsc_irq_table:
-    .byte SCREEN_TOP_NTSC + 4 - 1
+    .byte SCREEN_TOP_NTSC + 4 - 2
     .word help_top
 
     .byte SCREEN_TOP_NTSC + 4 * 19 - 1

@@ -1,4 +1,4 @@
-# Version 1.6 (2002-06-xx)
+# Version 1.6 (2002-06-18)
 
 * Add support for VIC-20 (8k RAM expansion required).
 * Add support for NTSC C128.

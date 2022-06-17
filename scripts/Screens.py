@@ -103,11 +103,15 @@ class Screens:
 
         if defines is not None:
             for define in defines:
-                parts = define.split("=")
-                if len(parts) == 1:
-                    self.defines[define] = True
-                else:
-                    self.defines[parts[0]] = parts[1]
+                self.add_define(define)
+
+    def add_define(self, define):
+        parts = define.split("=")
+        if len(parts) == 1:
+            self.defines[define] = True
+        else:
+            self.defines[parts[0]] = parts[1]
+
 
     def convert(self, input_file, output_file):
         self.input_file = input_file
@@ -117,6 +121,7 @@ class Screens:
         self.current_line = 0
         self.current_title = b""
         self.ignore_empty_line = False
+        self.showing_else = [False]
         self.showing = [True]
         self.ok = True
 
@@ -177,6 +182,7 @@ class Screens:
         words = line2.split()
         if words[0] == ".if":
             self.showing.append(self.eval_if(words[1:]))
+            self.showing_else.append(not self.showing[-1])
             return
         elif words[0] == ".else":
             if len(self.showing) == 1:
@@ -184,10 +190,11 @@ class Screens:
                 return
             if len(words) > 1 and words[1] == "if":
                 self.showing[-1] = self.eval_if(words[2:])
+                self.showing_else[-1] = self.showing_else[-1] and not self.showing[-1]
             else:
                 if len(words) > 1:
                     self.error("unexpected tokens after .else")
-                self.showing[-1] = not self.showing[-1]
+                self.showing[-1] = self.showing_else[-1]
             return
         elif line.startswith(".endif"):
             if len(words) != 1:
@@ -196,6 +203,7 @@ class Screens:
                 self.error(".endif outside .if")
                 return
             self.showing.pop(-1)
+            self.showing_else.pop(-1)
             return
 
         if not all(self.showing):
@@ -209,6 +217,12 @@ class Screens:
                 self.include_binary_file(filename)
             else:
                 self.files.append(Source(filename))
+        elif line.startswith(".define "):
+            self.add_define(line[8:])
+        elif line.startswith(".skip "):
+            self.encoder.skip(int(line.split(" ")[1]))
+        else:
+            self.error(f"invalid dot directive '{line}'")
 
     def include_binary_file(self, filename: str):
         with open(filename, "rb") as file:
@@ -253,9 +267,6 @@ class Screens:
         if line == "---":
             self.end_screen()
         else:
-            if line.startswith(".skip "):
-                self.encoder.skip(int(line.split(" ")[1]))
-                return
             line = re.sub(r"\${[A-Z_]*}", lambda m: self.replace_variable(m), line)
             if self.title_length > 0 and self.current_title == b"":
                 if len(line) > self.title_length:
