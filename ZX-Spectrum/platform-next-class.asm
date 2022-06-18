@@ -138,8 +138,8 @@ sprite_attributes:
 
 sprite_palette:
 	byte %00000000 ; black
-	byte %11000000 ; red
-	byte %11001000 ; orange
-	byte %11011000 ; yellow
-	byte %00010000 ; green
-	byte %00000011 ; bule
+	byte %10100000 ; red
+	byte %10101000 ; orange
+	byte %10110100 ; yellow
+	byte %00010100 ; green
+	byte %00000010 ; bule
