@@ -4,7 +4,7 @@
 * Add support for NTSC C128.
 * Improve handling of joystick interference with keyboard reading on C64 and C128.
 * Allow all keys to be tested separately on ZX Spectrum Next and N-Go.
-* Fix display glitches on acellerated C64.
+* Fix display glitches on accelerated C64.
 * Improve handling of cursor keys on MEGA65.
 
 # Version 1.5 (2022-06-05)

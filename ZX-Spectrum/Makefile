@@ -219,19 +219,19 @@ keys-plus2.asm: keys-plus2.key key-table
 keys-n-go.asm: keys-n-go.key key-table
 	./key-table keys-n-go
 
-help-screens-48k.asm: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
+help-screens-48k.asm: help-screens.txt ../version.txt ${CONVERT_SCREENS_DEPENDENCIES}
 	./${CONVERT_SCREENS} -DVERSION=${VERSION} -DPLATFORM_48K help-screens.txt $@
 
-help-screens-plus.asm: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
+help-screens-plus.asm: help-screens.txt ../version.txt ${CONVERT_SCREENS_DEPENDENCIES}
 	./${CONVERT_SCREENS} -DVERSION=${VERSION} -DPLATFORM_PLUS help-screens.txt $@
 
-help-screens-plus2.asm: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
+help-screens-plus2.asm: help-screens.txt ../version.txt ${CONVERT_SCREENS_DEPENDENCIES}
 	./${CONVERT_SCREENS} -DVERSION=${VERSION} -DPLATFORM_PLUS2 help-screens.txt $@
 
-help-screens-next.asm: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
+help-screens-next.asm: help-screens.txt ../version.txt ${CONVERT_SCREENS_DEPENDENCIES}
 	./${CONVERT_SCREENS} -DVERSION=${VERSION} -DPLATFORM_NEXT help-screens.txt $@
 
-help-screens-n-go.asm: help-screens.txt ${CONVERT_SCREENS_DEPENDENCIES}
+help-screens-n-go.asm: help-screens.txt ../version.txt ${CONVERT_SCREENS_DEPENDENCIES}
 	./${CONVERT_SCREENS} -DVERSION=${VERSION} -DPLATFORM_N_GO help-screens.txt $@
 
 # TODO: auto track dependencies

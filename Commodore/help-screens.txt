@@ -104,7 +104,7 @@ To test other controller types or joystick adapters, please use the companion pr
 ---
 Special Keys
 
-.if USE_VICII
+.if USE_VICII or __MEGA65__ or __VIC20__
 Shift Lock and the left Shift key appear as the same key to the computer and cannot be reliably distinguished on all computers.
 
 The Restore key cannot be read directly. Anykey can detect when the key is pressed, but it can't detect for how long.

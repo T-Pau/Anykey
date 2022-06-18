@@ -348,7 +348,9 @@ read_keyboard_mega65:
     ; Caps
     lda $d611
     and #%01000000
-    sta new_key_state + 72
+    beq :+
+    lda #02
+:   sta new_key_state + 72
 
     ; bit 1: up
     ; bit 0: left
