@@ -79,6 +79,7 @@ class Screens:
         self.title_xor = 0
         self.line_length = 40
         self.lines = 25
+        self.line_skip = 0
         self.single_screen = False
         self.prefix = b""
         self.postfix = b""
@@ -246,6 +247,8 @@ class Screens:
                 self.line_length = int(words[1])
             elif words[0] == "lines":
                 self.lines = int(words[1])
+            elif words[0] == "line_skip":
+                self.line_skip = int(words[1])
             elif words[0] == "title_length":
                 self.title_length = int(words[1])
             elif words[0] == "map":
@@ -303,6 +306,8 @@ class Screens:
         self.current_line += 1
         if self.current_line == self.lines + 1:
             self.error(f"too many lines in screen")
+        if self.current_line > 1 and self.line_skip > 0:
+            self.encoder.skip(self.line_skip)
         self.encoder.add_bytes(self.prefix)
         self.add_string(line, self.line_length)
         self.encoder.add_bytes(self.postfix)
@@ -310,10 +315,7 @@ class Screens:
     def end_screen(self):
         if self.current_title != b"" or self.current_line > 0:
             while self.current_line < self.lines:
-                self.encoder.add_bytes(self.prefix)
-                self.add_string("", self.line_length)
-                self.encoder.add_bytes(self.postfix)
-                self.current_line += 1
+                self.add_line("")
             self.compressed_screens.append(self.current_title + self.encoder.end())
             self.current_title = b""
             self.current_line = 0
