@@ -1,0 +1,10 @@
+# input filename
+normal_image = "keyboard-mega65-normal.png"
+pressed_image = "keyboard-mega65-pressed.png"
+
+# output files
+symbol_prefix = "keyboard_mega65"
+output = "keyboard-mega65.s"
+
+# keyboard layout
+screen_width = 40

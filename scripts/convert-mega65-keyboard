@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 
 import sys
+import toml
 
+import AssemblerOutput
 import Charset
 import NCM
-
+import RunlengthEncoder
 
 palette = {
     0xffffff: 1,
@@ -14,22 +16,51 @@ palette = {
     0x000000: 4
 }
 
-if len(sys.argv) != 5:
-    print("usage: ", sys.argv[0], " image-normal image-pressed charset screen\n")
+
+def output_charset(charset, output, part):
+    for index in range(0, charset.next_index):
+        char = charset.get_values(index)
+        output.bytes(char[part])
+
+
+if len(sys.argv) != 2:
+    print("usage: ", sys.argv[0], " config.toml\n")
     sys.exit(1)
 
-image_normal_file = sys.argv[1]
-image_pressed_file = sys.argv[2]
-charset_file = sys.argv[3]
-screen_file = sys.argv[4]
+config = toml.load(sys.argv[1])
 
-image_normal = NCM.NCM(image_normal_file, palette)
-image_pressed = NCM.NCM(image_pressed_file, palette)
+image_normal = NCM.NCM(config["normal_image"], palette)
+image_pressed = NCM.NCM(config["pressed_image"], palette)
+screen_width = config["screen_width"]
+symbol_prefix = config["symbol_prefix"]
+
 charset = Charset.Charset(256, 256)
+encoder = RunlengthEncoder.RunlengthEncoder()
+
+charset.add((b"\x11" * 64, b"\x11" * 64))
+left_indent = (screen_width - image_normal.width) // 2
+right_indent = screen_width - image_normal.width - left_indent
 
 for y in range(0, image_normal.height):
+    encoder.add_bytes(b"\x00" * left_indent)
     for x in range(0, image_normal.width):
         char = (image_normal.get(x, y), image_pressed.get(x, y))
-        charset.add(char)
+        encoder.add(charset.add(char))
+    encoder.add_bytes(b"\x00" * right_indent)
 
-print(charset.get_next_index())
+with open(config["output"], "w") as file:
+    output = AssemblerOutput.AssemblerOutput("cc65", file)
+    output.header(sys.argv[1])
+
+    output.global_symbol(f"{symbol_prefix}_charset_normal")
+    output_charset(charset, output, 0)
+    output.global_symbol(f"{symbol_prefix}_charset_normal_end")
+    output.empty_line()
+
+    output.global_symbol(f"{symbol_prefix}_charset_pressed")
+    output_charset(charset, output, 1)
+    output.global_symbol(f"{symbol_prefix}_charset_pressed_end")
+    output.empty_line()
+
+    output.global_symbol(f"{symbol_prefix}_screen")
+    output.bytes(encoder.end())

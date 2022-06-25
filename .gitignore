@@ -19,3 +19,6 @@
 /Commodore/pet-help-footer-80.s
 __pycache__
 *.nex
+/Commodore/keyboard-mega65.s
+/Commodore/charset-mega65-8x16.s
+/Commodore/charset-mega65-16x16.s
