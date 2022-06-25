@@ -420,6 +420,12 @@ charset.bin: charset.png
 charset-vic20.bin: charset-vic20.png
 	gfx-convert -b 255 charset $< $@
 
+charset-mega65-16x16.bin: charset-16x16-2bit.png
+	../scripts/convert-mega65-charset $< $@ 16 16
+
+charset-mega65-8x16.bin: charset-8x16-2bit.png
+	../scripts/convert-mega65-charset $< $@ 8 16
+
 dpad-vic20.bin: dpad-vic20.png
 	gfx-convert -b 1 charset $< $@
 

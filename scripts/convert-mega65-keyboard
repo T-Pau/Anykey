@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+
+import sys
+
+import Charset
+import NCM
+
+
+palette = {
+    0xffffff: 1,
+    0xA8A8A8: 2,
+    0xABABAB: 2,
+    0x545454: 3,
+    0x000000: 4
+}
+
+if len(sys.argv) != 5:
+    print("usage: ", sys.argv[0], " image-normal image-pressed charset screen\n")
+    sys.exit(1)
+
+image_normal_file = sys.argv[1]
+image_pressed_file = sys.argv[2]
+charset_file = sys.argv[3]
+screen_file = sys.argv[4]
+
+image_normal = NCM.NCM(image_normal_file, palette)
+image_pressed = NCM.NCM(image_pressed_file, palette)
+charset = Charset.Charset(256, 256)
+
+for y in range(0, image_normal.height):
+    for x in range(0, image_normal.width):
+        char = (image_normal.get(x, y), image_pressed.get(x, y))
+        charset.add(char)
+
+print(charset.get_next_index())
