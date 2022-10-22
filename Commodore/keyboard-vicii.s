@@ -134,35 +134,75 @@ byteloop:
 	eor #$ff
 	tay
 	and bitmask,x
+	beq one_not_pressed
+	inc new_key_state,x
+	bne two
+one_not_pressed:
 	sta new_key_state,x
+two:
 	inx
 	tya
 	and bitmask,x
+	beq two_not_pressed
+	inc new_key_state,x
+	bne three
+two_not_pressed:
 	sta new_key_state,x
+three:
 	inx
 	tya
 	and bitmask,x
+	beq three_not_pressed
+	inc new_key_state,x
+	bne four
+three_not_pressed:
 	sta new_key_state,x
+four:
 	inx
 	tya
 	and bitmask,x
+	beq four_not_pressed
+	inc new_key_state,x
+	bne five
+four_not_pressed:
 	sta new_key_state,x
+five:
 	inx
 	tya
 	and bitmask,x
+	beq five_not_pressed
+	inc new_key_state,x
+	bne six
+five_not_pressed:
 	sta new_key_state,x
+six:
 	inx
 	tya
 	and bitmask,x
+	beq six_not_pressed
+	inc new_key_state,x
+	bne seven
+six_not_pressed:
 	sta new_key_state,x
+seven:
 	inx
 	tya
 	and bitmask,x
+	beq seven_not_pressed
+	inc new_key_state,x
+	bne eight
+seven_not_pressed:
 	sta new_key_state,x
+eight:
 	inx
 	tya
 	and bitmask,x
+	beq eight_not_pressed
+	inc new_key_state,x
+	bne nine
+eight_not_pressed:
 	sta new_key_state,x
+nine:
 	inx
 	cpx #88
 	beq end_read
@@ -173,7 +213,8 @@ byteloop:
 	tay
 	lda bitmask,y
 	eor #$ff
-	bne byteloop
+	beq end_read
+	jmp byteloop
 
 end_read:
 	lda #$ff
@@ -191,14 +232,22 @@ end_read:
 	sta port1
 
 	lda $01
-	eor #$ff
 	and #$40
+    bne not_caps
+    inc new_key_state + 88
+    bne disp_40_80
+not_caps:
 	sta new_key_state + 88
+disp_40_80:
 .ifdef __C128__
 	lda MMU_MCR
-	eor #$ff
 	and #$80
+	bne not_disp_40_80
+	inc new_key_state + 89
+	bne end
+not_disp_40_80:
 	sta new_key_state + 89
+end:
 .endif
 	rts
 .endscope
