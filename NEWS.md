@@ -1,3 +1,7 @@
+# Version 1.6.1 (2023-09-20)
+
+* Fix extra keys on C128 broken in previous release. 
+
 # Version 1.6 (2022-06-18)
 
 * Add support for VIC-20 (8k RAM expansion required).
