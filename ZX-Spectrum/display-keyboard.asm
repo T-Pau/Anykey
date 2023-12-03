@@ -1,5 +1,5 @@
 ;  display-keyboard.asm -- Update keyboard to new state.
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,14 +25,9 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-public display_keyboard, key_state, new_key_state
+.section code
 
-include "platform.inc"
-include "keyboard.inc"
-
-section code_user
-
-display_keyboard:
+.global display_keyboard {
     ld ix,keys_48k
     ld iy,key_state
     ld a,num_keys
@@ -63,19 +58,17 @@ next_key:
     ret z
     ld (current_key),a
     jr display_loop
+}
 
-display_key:
+
+display_key {
     jp (hl)
     ret
+}
 
-section bss_user
+.section reserve
 
-key_state:
-    defs num_keys
+.global key_state .reserve num_keys
+.global new_key_state .reserve num_keys
 
-new_key_state:
-    defs num_keys
-
-
-current_key:
-    defs 1
+current_key .reserve 1

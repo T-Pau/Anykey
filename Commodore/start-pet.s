@@ -1,5 +1,5 @@
 ;  start-pet.s -- Entry point of program, PET version.
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,22 +25,13 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.autoimport +
-
-.export start, process_keyboard
-
-.macpack utility
-
 .ifdef ONLY_40_COLUMNS
 MAX_SAVED_SCREEN_SIZE = (40 * 22)
 .else
 MAX_SAVED_SCREEN_SIZE = (80 * 22)
 .endif
 
-.include "defines.inc"
-
-start:
-.scope
+.global start {
 	lda #142
 	jsr CHROUT
 ;	lda #12
@@ -57,10 +48,10 @@ start:
 	stx current_page
 	jsr init_keyboard
 	jmp main_loop
-.endscope
+}
 
-process_keyboard:
-.scope
+
+.global process_keyboard {
 :   lda $8d + 2 ; TOD in ROM 2 & 4
     ora $0202   ; TOD in ROM 1
     cmp last_tick
@@ -74,11 +65,10 @@ process_keyboard:
 	jmp process_command_keys
 help_mode:
     jmp handle_help_keys
-.endscope
+}
 
 
-compare_matrix:
-.scope
+compare_matrix {
     stx ptr1
     sty ptr1 + 1
     ldy #$f
@@ -91,10 +81,10 @@ loop:
     bpl loop
     cpy #$ff
     rts
-.endscope
+}
 
-not_supported:
-.scope
+
+not_supported {
     lda line_width
     bne msg_80
     store_word not_supported_message_40, ptr1
@@ -110,20 +100,21 @@ loop:
 :   jsr CHROUT
     iny
     bne loop
-.endscope
+}
 
 
-.rodata
+.section data
 
-not_supported_message_40:
-    .byte "this model is not supported by this", $0d
-    .byte "version of anykey.", $0d, $0
-
-not_supported_message_80:
-    .byte "this model is not supported by this version of anykey.", $0d, $0
+not_supported_message_40 {
+    .data "this model is not supported by this", $0d
+    .data "version of anykey.", $0d, $0
+}
 
 
-.bss
+not_supported_message_80 {
+    .data "this model is not supported by this version of anykey.", $0d, $0
+}
 
-last_tick:
-    .res 1
+.section reserve
+
+last_tick .reserve 1

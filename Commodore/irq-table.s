@@ -1,5 +1,5 @@
 ;  irq-table.s -- Table of raster IRQ handlers.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,19 +25,15 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.section data
 
-.autoimport +
+.global help_irq_table {
+	.data (SCREEN_TOP - 1):2, top_label
+	.data (SCREEN_TOP + 8 - 1):2, content_background
+	.data (SCREEN_TOP + 21 * 8):2, label_background
+	.data (SCREEN_TOP + 24 * 8 + 7):2, handle_help
+}
 
-.export help_irq_table, help_irq_table_length
-
-.include "defines.inc"
-
-.data
-
-help_irq_table:
-	.word SCREEN_TOP - 1, top_label
-	.word SCREEN_TOP + 8 - 1, content_background
-	.word SCREEN_TOP + 21 * 8, label_background
-	.word SCREEN_TOP + 24 * 8 + 7, handle_help
-help_irq_table_length:
+.global help_irq_table_length {
 	.byte * - help_irq_table
+}

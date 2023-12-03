@@ -1,5 +1,5 @@
 ;  read-keyboard.asm -- Update new state from keyboard.
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,12 +25,9 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-include "platform.inc"
-include "keyboard.inc"
+.section code
 
-section code_user
-
-read_keyboard:
+read_keyboard {
     ld e,%11111110 ; first row
     ld hl,new_key_state
 
@@ -54,5 +51,4 @@ column_loop:
     cp e
     ret z
     jr row_loop
-
-section data_user
+}

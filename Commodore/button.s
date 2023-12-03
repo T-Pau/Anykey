@@ -1,5 +1,5 @@
 ;  button.s -- Set state of button.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,22 +25,15 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export button
+.seciton reserve
 
-.autoimport +
+state .reserve 1
 
-.include "defines.inc"
-
-.bss
-
-state:
-	.res 1
-
-.code
+.section code
 
 ; set state of button at ptr2 to A
 
-button:
+.global button {
 	cmp #0
 	beq :+
 	lda #$80
@@ -102,3 +95,4 @@ button:
 	inc ptr2 + 1
 :
 	rts
+}

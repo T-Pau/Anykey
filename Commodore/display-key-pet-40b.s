@@ -1,5 +1,5 @@
 ;  display-key-pet-40b.s -- Display current_key_state of key, PET version
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,23 +25,14 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.autoimport +
-
-.export display_key_40_left_3
-.export display_key_40b_ret, display_key_40b_shl
-
-.macpack utility
-
-.include "defines.inc"
-
 ; display keys of various sizes
 ; ptr1 points to char_top left character in screen
 ; x is 0 for unpressed, 1 for pressed
 ; current_key_state is $00 for unpressed, $80 for pressed
 
-.code
+.section code
 
-display_key_40_left_3:
+.global display_key_40_left_3 {
 	lda char_left,x
 	sta (ptr1),y
 	iny
@@ -67,9 +58,10 @@ display_key_40_left_3:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+}
 
 
-display_key_40b_ret:
+.global display_key_40b_ret {
     ldy #3
 	lda char_top_right,x
 	sta (ptr1),y
@@ -94,9 +86,10 @@ display_key_40b_ret:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+}
 
 
-display_key_40b_shl:
+.global display_key_40b_shl {
 	lda (ptr1),y
 	and #$7f
 	ora current_key_state
@@ -132,3 +125,4 @@ display_key_40b_shl:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+}

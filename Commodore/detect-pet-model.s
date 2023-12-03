@@ -1,5 +1,5 @@
 ;  detect-pet.s -- Detect and display PET model and keyboard type.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,15 +25,7 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.autoimport +
-
-.include "defines.inc"
-.include "pet-detect.inc"
-
-.macpack utility
-
-start:
-.scope
+.global start {
     jsr detect
     store_word rom_version_header, ptr1
     jsr output_string
@@ -71,15 +63,16 @@ end:
     jsr CHROUT
     lda #$0d
     jmp CHROUT
-.endscope
+}
 
 
-print_unknown:
+print_unknown {
     store_word unknown, ptr1
     jmp output_string
+}
 
-print_name:
-.scope
+
+print_name {
     tay
     cpx #0
     beq done
@@ -91,10 +84,10 @@ loop:
     bne loop
 done:
     jmp output_string
-.endscope
+}
 
-output_string:
-.scope
+
+output_string {
     ldy #0
 loop:
     lda (ptr1),y
@@ -103,34 +96,41 @@ loop:
 :   jsr CHROUT
     iny
     bne loop
-.endscope
+}
 
 
-.rodata
+.section data
 
-rom_version_name:
-    .byte "1", 0, 0, 0
-    .byte "2", 0, 0, 0
-    .byte "4.0", 0
-    .byte "4.1", 0
+rom_version_name {
+    .data "1", 0, 0, 0
+    .data "2", 0, 0, 0
+    .data "4.0", 0
+    .data "4.1", 0
+}
 
-line_width_name:
-    .byte "40", 0, 0
-    .byte "80", 0, 0
+line_width_name {
+    .data "40", 0, 0
+    .data "80", 0, 0
+}
 
-keyboard_type_name:
-    .byte "business", 0, 0, 0, 0, 0, 0, 0, 0
-    .byte "calculator", 0, 0, 0, 0, 0, 0
-    .byte "graphics", 0, 0, 0, 0, 0, 0, 0, 0
+keyboard_type_name {
+    .data "business", 0, 0, 0, 0, 0, 0, 0, 0
+    .data "calculator", 0, 0, 0, 0, 0, 0
+    .data "graphics", 0, 0, 0, 0, 0, 0, 0, 0
+}
 
-unknown:
-    .byte "unknown", 0
+unknown {
+    .data "unknown", 0
+}
 
-rom_version_header:
-    .byte      "rom version: ", 0
+rom_version_header {
+    .data      "rom version: ", 0
+}
 
-line_width_header:
-    .byte $0d, "line width:  ", 0
+line_width_header {
+    .data $0d, "line width:  ", 0
+}
 
-keyboard_type_header:
-    .byte $0d, "keyboard:    ", 0
+keyboard_type_header {
+    .data $0d, "keyboard:    ", 0
+}

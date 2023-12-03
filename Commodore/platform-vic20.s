@@ -1,8 +1,3 @@
-.autoimport +
-.macpack utility
-;.include "platform.inc"
-.include "defines.inc"
-
 
 POSITION_LEFT = 12
 POSITION_RIGHT = 13
@@ -13,11 +8,9 @@ BUTTONS_OFFSET = DPAD_OFFSET + 22 + 3
 KEYBOARD_OFFSET = 22 * 2
 KEYBOARD_SIZE = 22 * 10
 
-.segment "CODE_LOW"
+.section code
 
-.export display_main_screen
-display_main_screen:
-.scope
+.global display_main_screen {
     ldx is_ntsc
     beq pal
     ldx #<main_ntsc_irq_table
@@ -44,11 +37,9 @@ both:
     dex
     bne :-
     rts
-.endscope
+}
 
-.export top_keyboard
-top_keyboard:
-.scope
+.global top_keyboard {
     inc VIC_H_POS
     lda #SCREEN_TOP_PAL + 4 - 1
     jsr wait_line
@@ -76,10 +67,10 @@ shift_loop:
     dey
     bne shift_loop
     rts
-.endscope
+}
 
-.export bottom_keyboard
-bottom_keyboard:
+
+.global bottom_keyboard {
     ldx #(LABEL_COLOR << 4) | FRAME_COLOR
     ldy #$cf
     lda #SCREEN_TOP_PAL + 4 * 13 - 1
@@ -87,11 +78,10 @@ bottom_keyboard:
     stx VIC_COLOR
     sty VIC_VIDEO_ADR
     rts
+}
 
-.code
 
-.export top_joystick
-top_joystick:
+.global top_joystick {
     ldx #(BACKGROUND_COLOR << 4) | $8 | FRAME_COLOR
     ldy #$cd
     lda #SCREEN_TOP_PAL + 15 * 4 - 1
@@ -101,20 +91,23 @@ top_joystick:
     jsr read_restore
     jsr read_joystick
     rts
+}
 
 
 ; waits for 20 cycles
-wait_20:
+wait_20 {
     nop
-wait_18:
+.local wait_18:
     nop
     nop
     nop
-wait_12:
+.local wait_12
     rts
+}
+
 
 ; waits for border of raster line a
-wait_line:
+wait_line {
     pha
     sec
     sbc hline_offset
@@ -130,9 +123,10 @@ wait_line:
     jsr wait_18
 :   pla
     rts
+}
 
-.export bottom_joystick
-bottom_joystick:
+
+.global bottom_joystick {
     ldx #(LABEL_COLOR << 4) | FRAME_COLOR
     ldy #$cf
     lda #SCREEN_TOP_PAL + 19 * 4 - 1
@@ -183,10 +177,10 @@ bottom_joystick:
 	jsr display_joystick
 :
     rts
+}
 
-.export reset_keyboard
-reset_keyboard:
-.scope
+
+.global reset_keyboard {
     ; y runs from KEYBOARD_SIZE to 1, so offset address by -1
     ldy #KEYBOARD_SIZE + 1
 loop:
@@ -199,9 +193,10 @@ loop:
 :   dey
     bne loop
     rts
-.endscope
+}
 
-read_joystick:
+
+read_joystick {
     lda #$ff
     sta VIA2_DDRA
     sta VIA2_PA1
@@ -225,8 +220,10 @@ read_joystick:
     ora #$40
 :   sta joystick_value
     rts
+}
 
-display_joystick:
+
+display_joystick {
     lda joystick_value
     and #$0f
     asl
@@ -252,10 +249,10 @@ display_joystick:
     sta ptr1 + 1
     store_word screen + BUTTONS_OFFSET, ptr2
     jmp rl_expand
+}
 
 
-.export display_help_screen
-display_help_screen:
+.global display_help_screen {
     ; x runs from KEYBOARD_SIZE to 1, so offset address by -1
     ldx #KEYBOARD_SIZE + 1
 :   lda color_ram + KEYBOARD_OFFSET - 1,x
@@ -289,9 +286,10 @@ both:
     sty current_help_page
     jsr display_help_page
     rts
+}
 
-.export help_top
-help_top:
+
+.global help_top {
     ldx #(BACKGROUND_COLOR << 4) | $8 | FRAME_COLOR
     ldy #$cf
     lda #SCREEN_TOP_PAL + 4 - 2
@@ -308,9 +306,10 @@ help_top:
     sty VIC_VIDEO_ADR
     stx VIC_COLOR
     rts
+}
 
-.export help_bottom
-help_bottom:
+
+.global help_bottom {
     ldx #(LABEL_COLOR << 4) | FRAME_COLOR
     lda #SCREEN_TOP_PAL + 4 * 19 - 1
     jsr wait_line
@@ -321,58 +320,62 @@ help_bottom:
     bne :+
     jsr handle_help_keys
 :   rts
+}
 
 
-read_restore:
+read_restore {
     lda VIA1_IFR
     and #$02
     beq :+
     jsr trigger_restore
 :   rts
+}
 
 
-.segment "CHARSET"
+.section charset
 
-charset:
+charset {
 	.incbin "charset-vic20.bin"
+}
 
-.rodata
+.section data
 
-.export main_color
-main_color:
-    .byte $ff, 22 * 2, FRAME_COLOR
-    .byte $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
-    .byte $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
-    .byte FRAME_COLOR, $ff, 20, UNCHECKED_COLOR, FRAME_COLOR
-    .byte FRAME_COLOR, $ff, 20, UNCHECKED_COLOR, FRAME_COLOR
-    .byte $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
-    .byte $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
-    .byte FRAME_COLOR, $ff, 20, UNCHECKED_COLOR, FRAME_COLOR
-    .byte FRAME_COLOR, $ff, 20, UNCHECKED_COLOR, FRAME_COLOR
-    .byte $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
-    .byte $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
-    .byte $ff, 22 * 11, FRAME_COLOR
-    .byte $ff, 0
-
-.export help_keys
-help_keys:
-    .word help_keys_table
-
-help_keys_table:
-    .byte 4, COMMAND_HELP_NEXT ; space
-    .byte 40, COMMAND_HELP_NEXT ; +
-    .byte 47, COMMAND_HELP_PREVIOUS; -
-    .byte 1, COMMAND_HELP_EXIT ; left arrow
-    .byte $ff
+.global main_color {
+    .data $ff, 22 * 2, FRAME_COLOR
+    .data $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
+    .data $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
+    .data FRAME_COLOR, $ff, 20, UNCHECKED_COLOR, FRAME_COLOR
+    .data FRAME_COLOR, $ff, 20, UNCHECKED_COLOR, FRAME_COLOR
+    .data $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
+    .data $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
+    .data FRAME_COLOR, $ff, 20, UNCHECKED_COLOR, FRAME_COLOR
+    .data FRAME_COLOR, $ff, 20, UNCHECKED_COLOR, FRAME_COLOR
+    .data $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
+    .data $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
+    .data $ff, 22 * 11, FRAME_COLOR
+    .data $ff, 0
+}
 
 
-main_h_pos:
-    .byte 12, 4
+.global help_keys {
+    .data help_keys_table
+}
 
-.bss
 
-port_b:
-    .res 1
+help_keys_table {
+    .data 4, COMMAND_HELP_NEXT ; space
+    .data 40, COMMAND_HELP_NEXT ; +
+    .data 47, COMMAND_HELP_PREVIOUS; -
+    .data 1, COMMAND_HELP_EXIT ; left arrow
+    .data $ff
+}
 
-joystick_value:
-    .res 1
+
+main_h_pos {
+    .data 12, 4
+}
+
+.section reserve
+
+port_b .reserve 1
+joystick_value .reserve 1

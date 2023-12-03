@@ -1,5 +1,5 @@
 ;  switch-vicii.s -- IRQ handler routines for VIC-II.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,21 +25,9 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.autoimport +
+.section code
 
-.export switch_keyboard_bottom, switch_keyboard_top, switch_joystick_label, switch_joystick, switch_bottom, switch_joystick_bottom
-.if .defined(__C64__) .or .defined(__MEGA65__)
-.export switch_keyboard_top_mega65, switch_bottom_mega65
-.endif
-
-.include "defines.inc"
-
-.macpack cbm_ext
-.macpack utility
-
-.code
-
-switch_keyboard_top:
+.global switch_keyboard_top {
 	jsr content_background
 	lda #FRAME_COLOR
 	ldy machine_type
@@ -64,10 +52,10 @@ switch_keyboard_top:
 	bne :+
 	jsr read_keyboard
 :	rts
+}
 
 .ifdef __C64__
-.export switch_keyboard_top_acellerated
-switch_keyboard_top_acellerated:
+.global switch_keyboard_top_acellerated {
 	jsr content_background
 	lda #FRAME_COLOR
 	ldx #SCREEN_TOP + 8 + 1
@@ -77,9 +65,10 @@ switch_keyboard_top_acellerated:
 	ldx #0
 	jsr read_pots
 	rts
+}
 
-.export switch_keyboard_bottom_acellerated
-switch_keyboard_bottom_acellerated:
+
+.global switch_keyboard_bottom_acellerated {
 	lda #(((screen & $3c00) >> 6) | ((charset_keyboard_bottom & $3800) >> 10))
 	ldx bottom_charset_line
 	inx
@@ -91,9 +80,11 @@ switch_keyboard_bottom_acellerated:
 	jsr handle_joysticks
 :
 	jmp select_pots2
+}
 .endif
 
-switch_keyboard_bottom:
+
+.global switch_keyboard_bottom {
 	lda #(((screen & $3c00) >> 6) | ((charset_keyboard_bottom & $3800) >> 10))
 	ldx bottom_charset_line
 :	cpx VIDEO_CURRENT_LINE
@@ -113,9 +104,11 @@ switch_keyboard_bottom:
 	jsr handle_joysticks
 :
 	jmp select_pots2
+}
 
 
-switch_joystick_label:
+
+.global switch_joystick_label {
 	set_vic_text screen, charset
 	lda #FRAME_COLOR
 	ldx joystick_label_line
@@ -124,8 +117,10 @@ switch_joystick_label:
 	sta VIDEO_BORDER_COLOR
 	jsr label_background
 	rts
+}
 
-switch_joystick:
+
+.global switch_joystick {
 	jsr content_background
 	ldx #1
 	jsr read_pots
@@ -140,8 +135,10 @@ both:
 	jsr select_pots1
 	jsr process_skip
 	rts
+}
 
-switch_joystick_bottom: ; 128 only
+
+.global switch_joystick_bottom { ; 128 only
 	lda #FRAME_COLOR
 	ldx #SCREEN_TOP + 22 * 8 - 0
 :	cpx VIDEO_CURRENT_LINE
@@ -153,8 +150,10 @@ switch_joystick_bottom: ; 128 only
 	bne :-
 	sta VIDEO_BACKGROUND_COLOR
 	rts
+}
 
-switch_bottom:
+
+.global switch_bottom {
 	jsr display_logo
 	lda command
 	bne :+
@@ -163,9 +162,11 @@ switch_bottom:
 	jsr process_command_keys
 :
 	rts
+}
+
 
 .if .defined(__C64__) .or .defined(__MEGA65__)
-switch_keyboard_top_mega65:
+.global switch_keyboard_top_mega65 {
 	jsr content_background
 	lda #FRAME_COLOR
 	ldx #SCREEN_TOP + 8 + 5
@@ -176,11 +177,14 @@ switch_keyboard_top_mega65:
 	jsr read_pots
 	jsr read_keyboard_mega65
 	rts
+}
 
-switch_bottom_mega65:
+
+.global switch_bottom_mega65 {
     lda #2
    	sta VIC_BOTTOM_BORDER_POSITION + 1
    	lda #30
    	sta VIC_BOTTOM_BORDER_POSITION
    	jmp switch_bottom
+}
 .endif

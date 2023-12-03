@@ -1,5 +1,5 @@
 ;  charset-mega65-c64.s -- Binary data of MEGA65 keyboard character sets (C64 mode).
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,11 +25,9 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.section data
 
-.export charset_data_mega65_c64
-
-.rodata
-
-charset_data_mega65_c64:
+.global charset_data_mega65_c64 {
 	.incbin "keyboard-mega65-c64-charset-top.bin"
 	.incbin "keyboard-mega65-c64-charset-bottom.bin"
+}

@@ -1,5 +1,5 @@
 ;  display-keys-48k.asm -- Key update routines.
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,16 +25,12 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-public display_key_2, display_key_3
-
-include "keyboard.inc"
-
-section code_user
+.section code
 
 ; ix: key description
 ; c: color
 
-display_key_2:
+.global display_key_2 {
     ld l,(ix + key_screen_offset)
     ld a,(ix + key_screen_offset + 1)
     add 3
@@ -76,8 +72,10 @@ loop2_color:
     djnz loop2_color
 
     ret
+}
 
-display_key_3:
+
+.global display_key_3 {
     ld l,(ix + key_screen_offset)
     ld a,(ix + key_screen_offset + 1)
     add 3
@@ -126,3 +124,4 @@ loop3_color:
     djnz loop3_color
 
     ret
+}

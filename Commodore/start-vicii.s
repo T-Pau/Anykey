@@ -1,5 +1,5 @@
 ;  start.s -- Entry point of program.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,21 +25,9 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.section code
 
-.autoimport +
-
-.export start
-
-.include "defines.inc"
-
-.macpack cbm_ext
-.macpack utility
-.macpack c128
-
-.code
-
-start:
-.scope
+.global start {
 .if .defined(__C64__)
     ; detect machine type
     lda #1
@@ -175,4 +163,4 @@ end_detect:
 	jsr init_irq
 	
 	jmp main_loop
-.endscope
+}

@@ -1,5 +1,5 @@
 ;  screen-64.s -- Main screen for C128 keyboard.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,42 +25,35 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export main_screen_mega65_c64, main_color_mega65_c64
+.section data
 
-.autoimport +
-
-.macpack cbm
-.macpack cbm_ext
-
-.include "defines.inc"
-
-.rodata
-
-main_screen_mega65_c64:
-	invcode "    keyboard                            "
+.global main_screen_mega65_c64 {
+	.data "    keyboard                            ":screen_inverted
 	.incbin "keyboard-mega65-c64-screen.bin"
-	invcode "                                        "
-	invcode "     joysticks                          "
-	invcode "    "
-	scrcode     "I                              J"
-    invcode                                     "    "
-    invcode "    "
-	scrcode     "      AHBAHBAHB       AHBAHBAHB "
-    invcode                                     "    "
-    invcode "    "
-	scrcode     "      E1FE2FE3F       E1FE2FE3F "
-    invcode                                     "    "
-    invcode "    "
-	scrcode     "      CGDCGDCGD       CGDCGDCGD "
-    invcode                                     "    "
-	invcode "    "
-	scrcode     "K                              L"
-    invcode                                     "    "
-	invcode "                                        "
-	invcode "    f13: reset keyboard   help: help    "
-	invcode "          (hold for 2 seconds)          "
+	.data "                                        ":screen_inverted
+	.data "     joysticks                          ":screen_inverted
+	.data "    ":screen_inverted
+	.data     "I                              J":screen
+    .data                                     "    ":screen_inverted
+    .data "    ":screen_inverted
+	.data     "      AHBAHBAHB       AHBAHBAHB ":screen
+    .data                                     "    ":screen_inverted
+    .data "    ":screen_inverted
+	.data     "      E1FE2FE3F       E1FE2FE3F ":screen
+    .data                                     "    ":screen_inverted
+    .data "    ":screen_inverted
+	.data     "      CGDCGDCGD       CGDCGDCGD ":screen
+    .data                                     "    ":screen_inverted
+	.data "    ":screen_inverted
+	.data     "K                              L":screen
+    .data                                     "    ":screen_inverted
+	.data "                                        ":screen_inverted
+	.data "    f13: reset keyboard   help: help    ":screen_inverted
+	.data "          (hold for 2 seconds)          ":screen_inverted
+}
 
-main_color_mega65_c64:
+
+.global main_color_mega65_c64 {
 	.res 40 * 2, FRAME_COLOR
 .repeat 12, i
 	.res 3, FRAME_COLOR
@@ -74,3 +67,4 @@ main_color_mega65_c64:
 	.res 5, FRAME_COLOR
 .endrep
 	.res 40 * 3, FRAME_COLOR
+}

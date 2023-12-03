@@ -1,5 +1,5 @@
 ;  irq-table-64.s -- Table of raster IRQ handlers for C64 keyboard.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,22 +25,19 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.section data
 
-.autoimport +
+.global main_64_irq_table {
+	.data (SCREEN_TOP - 1):2, top_label
+	.data (SCREEN_TOP + 8 - 2):2, switch_keyboard_top
+	.data (SCREEN_TOP + 4 * 8 - 2):2, switch_keyboard_bottom
+	.data (SCREEN_TOP + 13 * 8 - 1):2, switch_joystick_label
+	.data (SCREEN_TOP + 15 * 8 - 1):2, switch_joystick
+	.data (SCREEN_TOP + 22 * 8):2, label_background
+	.data (SCREEN_TOP + 24 * 8 + 7):2, switch_bottom
+}
 
-.export main_64_irq_table, main_64_irq_table_length
 
-.include "defines.inc"
-
-.data
-
-main_64_irq_table:
-	.word SCREEN_TOP - 1, top_label
-	.word SCREEN_TOP + 8 - 2, switch_keyboard_top
-	.word SCREEN_TOP + 4 * 8 - 2, switch_keyboard_bottom
-	.word SCREEN_TOP + 13 * 8 - 1, switch_joystick_label
-	.word SCREEN_TOP + 15 * 8 - 1, switch_joystick
-	.word SCREEN_TOP + 22 * 8, label_background
-	.word SCREEN_TOP + 24 * 8 + 7, switch_bottom
-main_64_irq_table_length:
+.global main_64_irq_table_length {
 	.byte * - main_64_irq_table
+}

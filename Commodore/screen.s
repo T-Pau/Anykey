@@ -1,5 +1,5 @@
 ;  screen.s -- Screen contents.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,48 +25,40 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export display_main_screen, display_help_screen
+.section data
 
-.autoimport +
-
-.include "defines.inc"
-
-.macpack cbm
-.macpack cbm_ext
-.macpack utility
-.macpack c128
-
-.rodata
-help_screen:
-	invcode "                                        "
-	scrcode "I                                      J"
+help_screen {
+	.data "                                        ":screen_inverted
+	.data "I                                      J":screen
 	.repeat 18, i
-	scrcode "                                        "
+	.data "                                        ":screen
 	.endrep
-	scrcode "KMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMML"
-	invcode "                                        "
+	.data "KMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMML":screen
+	.data "                                        ":screen_inverted
 .if .defined(USE_VICII)
-	invcode "  space/+: next page  -: previous page  "
-	invcode "         "
+	.data "  space/+: next page  -: previous page  ":screen_inverted
+	.data "         ":screen_inverted
 	.byte $9f
-	invcode           ": return to program           "
-	invcode "                                        "
+	.data           ": return to program           ":screen_inverted
+	.data "                                        ":screen_inverted
 .elseif .defined(USE_TED)
-	invcode "  space/+: next  -: previous            "
-	invcode "    esc: return to program       "
+	.data "  space/+: next  -: previous            ":screen_inverted
+	.data "    esc: return to program       ":screen_inverted
 	.byte $79, $7a, $7b, $7c, $7d, $7e, $7f
-	invcode "                                 "
+	.data "                                 ":screen_inverted
 	.byte $f9, $fa, $fb, $fc, $fd, $fe, $ff
 .endif
+}
 
-help_color:
+help_color {
 	.res 2 * 40, FRAME_COLOR
 	.res 18 * 40, CONTENT_COLOR
 	.res 5 * 40, FRAME_COLOR
+}
 
-.code
+.section code
 
-display_main_screen:
+.global display_main_screen {
 .ifdef USE_VICII
 	memcpy_128 screen, main_screen_64, main_screen_128, main_screen_mega65_c64, 1000
 	memcpy color_ram, main_color_save, 1000
@@ -113,8 +105,10 @@ set:
 .endif
 	jsr set_irq_table
 	rts
+}
 
-display_help_screen:
+
+.global display_help_screen {
 	ldx #<help_irq_table
 	ldy #>help_irq_table
 	lda help_irq_table_length
@@ -138,3 +132,4 @@ display_help_screen:
 	stx current_help_page
 	jsr display_help_page
 	rts
+}

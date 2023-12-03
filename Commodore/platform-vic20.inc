@@ -62,11 +62,12 @@ KEY_INDEX_RESET = 62 ; F5
 KEY_INDEX_HELP = 63 ; F7
 HOLD_FRAMES = 50
 
-; TODO
-tmp1 = $02
-ptr1 = $fb
-ptr2 = $fd
-ptr3 = $c1
+.section zero_page
+
+.global tmp1 .reserve 1
+.global ptr1 .reserve 2
+.global ptr2 .reserve 2
+.global ptr3 .reserve 2
 
 screen = $1000
 color_ram = $9400

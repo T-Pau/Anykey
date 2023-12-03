@@ -1,5 +1,5 @@
 ;  help-screen.s -- Text for help screens.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,16 +25,9 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.section code
 
-.autoimport +
-.export display_help_page, current_help_page, help_next, help_previous
-
-.include "defines.inc"
-
-
-.code
-
-display_help_page:
+.global display_help_page {
 	lda current_help_page
 	bmi negative
 	cmp num_help_screens
@@ -66,16 +59,21 @@ ok:
 	lda #>help_screen_text
 	sta ptr2 + 1
 	jmp rl_expand
+}
 
-help_next:
+
+.global help_next {
 	inc current_help_page
 	jmp display_help_page
+}
 
-help_previous:
+
+.global help_previous {
 	dec current_help_page
 	jmp display_help_page
+}
 
-.bss
 
-current_help_page:
-	.res 1
+.section reserve
+
+.global current_help_page .reserve 1

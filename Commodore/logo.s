@@ -1,8 +1,5 @@
-.autoimport +
-.export display_logo, setup_logo
-
 ;  logo.s -- Display T'Pau logo.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -28,21 +25,18 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
-.macpack cbm_ext
-.include "defines.inc"
-
 LOGO_X = 32 + 40 * 8 - (15 + 36) - 8 - 1
 LOGO_Y = 50 + 25 * 8
 
-.rodata
+.section data
 
-stripe_colors:
-	.byte COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_BLUE
+stripe_colors {
+	.data COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_BLUE
+}
 
-.code
+.section code
 
-display_logo:
+.global display_logo {
 .if .defined(__C64__)
     lda machine_type
     bmi :+
@@ -81,8 +75,10 @@ loop:
 .endif
 
 	rts
+}
 
-setup_logo:
+
+.global setup_logo {
 	lda #00
 	sta $bfff
 	lda #<LOGO_X
@@ -118,3 +114,4 @@ setup_logo:
 	ora #$f0
 	sta VIC_SPR_ENA
 	rts
+}

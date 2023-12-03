@@ -1,5 +1,5 @@
 ;  display-key-pet-40g.s -- Display current_key_state of key, PET version
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,24 +25,14 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.autoimport +
-
-.export display_key_40_left_2, display_key_40_mid_2
-.export display_key_40_space_18
-.export display_key_40g_shl, display_key_40g_gt
-
-.macpack utility
-
-.include "defines.inc"
-
 ; display keys of various sizes
 ; ptr1 points to char_top left character in screen
 ; x is 0 for unpressed, 1 for pressed
 ; current_key_state is $00 for unpressed, $80 for pressed
 
-.code
+.section code
 
-display_key_40_left_2:
+.global display_key_40_left_2 {
 	lda char_left,x
 	sta (ptr1),y
 	iny
@@ -68,9 +58,10 @@ display_key_40_left_2:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+}
 
 
-display_key_40_mid_2:
+.global display_key_40_mid_2 {
 :	lda (ptr1),y
 	and #$7f
 	ora current_key_state
@@ -90,9 +81,10 @@ display_key_40_mid_2:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+}
 
 
-display_key_40_space_18:
+.global display_key_40_space_18 {
 	lda char_left,x
 	sta (ptr1),y
 	iny
@@ -117,8 +109,10 @@ display_key_40_space_18:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+}
 
-display_key_40g_shl:
+
+.global display_key_40g_shl {
 	lda char_left,x
 	sta (ptr1),y
 	iny
@@ -170,9 +164,10 @@ display_key_40g_shl:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+}
 
 
-display_key_40g_gt:
+.global display_key_40g_gt {
     iny
 	lda char_top_right,x
 	sta (ptr1),y
@@ -193,3 +188,4 @@ display_key_40g_gt:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+}

@@ -1,5 +1,5 @@
 ;  switch-ted.s -- IRQ handler routines for TED.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,24 +25,17 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.autoimport +
-
-.export switch_joystick, switch_joystick_bottom, switch_joystick_label, switch_keyboard_bottom, switch_keyboard_top
-
-.include "defines.inc"
-
-.macpack cbm_ext
-
-switch_keyboard_top:
+.global switch_keyboard_top {
 	jsr content_background
 	ldx #SCREEN_TOP + 8
 :	cpx VIDEO_CURRENT_LINE
 	bne :-
 	set_ted_charset charset_keyboard_top
 	rts
+}
 
 
-switch_keyboard_bottom:
+.global switch_keyboard_bottom {
 	lda #((charset_keyboard_bottom & $fc00) >> 8)
 	ldx #SCREEN_TOP + 5 * 8
 :	cpx VIDEO_CURRENT_LINE
@@ -52,24 +45,27 @@ switch_keyboard_bottom:
 	bne :+
 	jsr handle_joysticks
 :	rts
+}
 
 
-switch_joystick_label:
+.global switch_joystick_label {
 	set_ted_charset charset
 	ldx #SCREEN_TOP + 15 * 8
 :	cpx VIDEO_CURRENT_LINE
 	bne :-
 	jsr label_background
 	rts
+}
 
 
-switch_joystick:
+.global switch_joystick {
 	jsr content_background
 	jsr read_keyboard
 	rts
+}
 
 
-switch_joystick_bottom:
+.global switch_joystick_bottom {
 	lda #FRAME_COLOR
 	ldx #SCREEN_TOP + 22 * 8 - 1
 :	cpx VIDEO_CURRENT_LINE
@@ -82,3 +78,4 @@ switch_joystick_bottom:
 	jsr display_keyboard
 	jsr process_command_keys
 	rts
+}

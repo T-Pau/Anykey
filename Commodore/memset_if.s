@@ -1,5 +1,5 @@
 ;  memset_if.s -- Change all bytes of one value in region to another.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -28,21 +28,14 @@
 
 ; change ptr3 bytes at ptr2 to X if they are A
 
-.export memset_if
+.section reserve
 
-.include "defines.inc"
-
-.bss
-
-if_value:
-	.res 1
-new_value:
-	.res 1
+if_value .reserve 1
+new_value .reserve 1
 	
-.code
+.section code
 
-memset_if:
-.scope
+.global memset_if {
 	stx new_value
 	sta if_value
 	ldy #0
@@ -74,4 +67,4 @@ partial_loop:
 	bne partial_loop
 end:
 	rts
-.endscope
+}

@@ -1,5 +1,5 @@
 ;  pet-detect.s -- Detect PET model and keyboard type.
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -36,16 +36,16 @@
 
 .macpack utility
 
-.code
+.section code
 
-detect:
+.global detect {
     jsr detect_rom_version
     jsr detect_line_width
     jmp detect_keyboard
+}
 
 
-detect_rom_version:
-.scope
+detect_rom_version {
     ldx #0
 version_loop:
     lda rom_offset,x
@@ -78,11 +78,11 @@ version_found:
 end:
     sta rom_version
     rts
-.endscope
+}
 
 
 ; requires rom_version to be set
-detect_line_width:
+detect_line_width {
 .scope
     ldx #0
     lda rom_version
@@ -98,12 +98,11 @@ detect_line_width:
 end:
     stx line_width
     rts
-.endscope
+}
 
 
 ; requires rom_version and line_width to be set
-detect_keyboard:
-.scope
+.detect_keyboard {
     lda rom_version
     bpl rom_ok
 not_recognized:
@@ -177,67 +176,72 @@ next_type:
 .endif
     add_word ptr2, $10
     bne loop_type
-.endscope
+}
 
-.bss
+.section reserve
 
-rom_version:
-    .res 1
+.global rom_version .reserve 1
+.global line_width .reserve 1
+.global keyboard_type .reserve 1
 
-line_width:
-    .res 1
+.section data
 
-keyboard_type:
-    .res 1
+rom_offset {
+    .data $e180
+    .data $e1c4
+    .data $dec2
+    .data $dea4
+    .data 0
+}
 
-.rodata
+rom_message {
+    .data rom_1
+    .data rom_2
+    .data rom_41
+    .data rom_4
+}
 
-rom_offset:
-    .word $e180
-    .word $e1c4
-    .word $dec2
-    .word $dea4
-    .word 0
+rom_version_number {
+    .data ROM_1, ROM_2, ROM_4_1, ROM_4
+}
 
-rom_message:
-    .word rom_1
-    .word rom_2
-    .word rom_41
-    .word rom_4
+rom_1 {
+    .data $2A, $2A, $2A, $20, $43, $4F, $4D, $4D, $4F, $44, $4F, $52, $45, $20, $42, $41
+    .data $53, $49, $43, $20, $2A, $2A, $2A, 0
+}
 
-rom_version_number:
-    .byte ROM_1, ROM_2, ROM_4_1, ROM_4
+rom_2 {
+    .data $23, $23, $23, $20, $43, $4F, $4D, $4D, $4F, $44, $4F, $52, $45, $20, $42, $41
+    .data $53, $49, $43, $20, $23, $23, $23, 0
+}
 
-rom_1:
-    .byte $2A, $2A, $2A, $20, $43, $4F, $4D, $4D, $4F, $44, $4F, $52, $45, $20, $42, $41
-    .byte $53, $49, $43, $20, $2A, $2A, $2A, 0
+rom_4 {
+    .data $2A, $2A, $2A, $20, $43, $4F, $4D, $4D, $4F, $44, $4F, $52, $45, $20, $42, $41
+    .data $53, $49, $43, $20, $34, $2E, $30, $20, $2A, $2A, $2A, 0
+}
 
-rom_2:
-    .byte $23, $23, $23, $20, $43, $4F, $4D, $4D, $4F, $44, $4F, $52, $45, $20, $42, $41
-    .byte $53, $49, $43, $20, $23, $23, $23, 0
-
-rom_4:
-    .byte $2A, $2A, $2A, $20, $43, $4F, $4D, $4D, $4F, $44, $4F, $52, $45, $20, $42, $41
-    .byte $53, $49, $43, $20, $34, $2E, $30, $20, $2A, $2A, $2A, 0
-
-rom_41:
-    .byte $2a, $2a, $2a, $20, $4d, $49, $4e, $49, $20, $50, $45, $54, $20, $42, $41, $53
-    .byte $49, $43, $20, $34, $2e, $31, $20, $2a, $2a, $2a, 0
+rom_41 {
+    .data $2a, $2a, $2a, $20, $4d, $49, $4e, $49, $20, $50, $45, $54, $20, $42, $41, $53
+    .data $49, $43, $20, $34, $2e, $31, $20, $2a, $2a, $2a, 0
+}
 
 ; ROM 2
 
-screen_mode:
-    .byte $8d, $4c, $e8
+screen_mode {
+    .data $8d, $4c, $e8
+}
 
 ; ROM 4
-keyboard_offset:
-    .word $e73f ; 40 columns
-    .word $e6d1 ; 80 columns
+keyboard_offset {
+    .data $e73f ; 40 columns
+    .data $e6d1 ; 80 columns
+}
 
-keyboard_matrix:
+keyboard_matrix {
     ; business
-    .byte $16, $04, $3a, $03, $39, $36, $33, $df
-    .byte $b1, $2f, $15, $13, $4d, $20, $58, $12
+    .data $16, $04, $3a, $03, $39, $36, $33, $df
+    .data $b1, $2f, $15, $13, $4d, $20, $58, $12
     ; graphics
-    .byte $3d, $2e, $10, $03, $3c, $20, $5b, $12
-    .byte $2d, $30, $00, $3e, $ff, $5d, $40, $00
+    .data $3d, $2e, $10, $03, $3c, $20, $5b, $12
+    .data $2d, $30, $00, $3e, $ff, $5d, $40, $00
+}

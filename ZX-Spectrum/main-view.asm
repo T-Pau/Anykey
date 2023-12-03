@@ -1,5 +1,5 @@
 ;  main-view.asm -- main loop and helper functions for main view.
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,17 +25,9 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-public main_loop
+.section code
 
-include "platform.inc"
-include "keyboard.inc"
-
-global help, combine_keys, display_joystick_1, display_joystick_2, display_joystick_3
-global read_extended_keys
-
-section code_user
-
-main_loop:
+.global main_loop {
     call read_keyboard
 IF USE_EXTENDED_KEYS
     call read_extended_keys
@@ -57,8 +49,10 @@ ENDIF
     halt
     di
     jr main_loop
+}
 
-handle_keys_main:
+
+handle_keys_main {
     ld ix,key_state
     ld a,(ix + KEY_INDEX_RESET)
     cp a,0
@@ -85,11 +79,10 @@ check_help:
 not_help:
     ld (help_pressed),a
     ret
+}
 
-section bss_user
 
-reset_pressed:
-    defs 1
+.section reserve
 
-help_pressed:
-    defs 1
+reset_pressed .reserve 1
+help_pressed .reserve 1

@@ -1,5 +1,5 @@
 ;  platform-48k.asm -- 48k specific code
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,43 +25,47 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-include "platform.inc"
+.section code
 
-global combine_keys
-
-section code_user
-
-combine_keys:
+combine_keys {
     ret
+}
 
-section data_user
+.section data
 
-charset:
+charset {
     incbin "charset-48k.bin"
+}
 
-screen_main:
+screen_main {
     incbin "keyboard-48k-rl.bin"
+}
 
-colors_main:
-    byte 32 * 3 + 4, 7<<3
-    byte 24, 7, 8, 7<<3
-    byte 24, UNCHECKED_COLOR, 8, 7<<3
-    byte 24, UNCHECKED_COLOR, 8, 7<<3
-    byte 24, UNCHECKED_COLOR, 8, 7<<3
-    byte 24, UNCHECKED_COLOR, 8, 7<<3
-    byte 24, UNCHECKED_COLOR, 8, 7<<3
-    byte 24, UNCHECKED_COLOR, 8, 7<<3
-    byte 24, UNCHECKED_COLOR, 8, 7<<3
-    byte 24, UNCHECKED_COLOR, 8, 7<<3
-    byte 24, 7
-    byte 255, 7<<3
-    byte (11*32+4) - 255, 7<<3
-    byte 0
+colors_main {
+    .data 32 * 3 + 4, 7<<3
+    .data 24, 7, 8, 7<<3
+    .data 24, UNCHECKED_COLOR, 8, 7<<3
+    .data 24, UNCHECKED_COLOR, 8, 7<<3
+    .data 24, UNCHECKED_COLOR, 8, 7<<3
+    .data 24, UNCHECKED_COLOR, 8, 7<<3
+    .data 24, UNCHECKED_COLOR, 8, 7<<3
+    .data 24, UNCHECKED_COLOR, 8, 7<<3
+    .data 24, UNCHECKED_COLOR, 8, 7<<3
+    .data 24, UNCHECKED_COLOR, 8, 7<<3
+    .data 24, 7
+    .data 255, 7<<3
+    .data (11*32+4) - 255, 7<<3
+    .data 0
+}
 
-screen_help:
+
+screen_help {
     incbin "help-48k-rl.bin"
+}
 
-colors_help:
-    byte 32, 7<<3
-    byte 255, 7, 255, 7, 2, 7 ; 16 lines
-    byte 32*7, 7<<3
+
+colors_help {
+    .data 32, 7<<3
+    .data 255, 7, 255, 7, 2, 7 ; 16 lines
+    .data 32*7, 7<<3
+}

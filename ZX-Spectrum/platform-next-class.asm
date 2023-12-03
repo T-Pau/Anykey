@@ -1,4 +1,3 @@
-section code_user
 
 PORT_SPRITE_ATTRIBUTE = $57
 PORT_SPRITE_PATTERN = $5b
@@ -10,9 +9,9 @@ NEXTREG_PALETTE_VALUE = $41
 NEXTREG_PALETTE_CONTROL = $43
 NEXTREG_SPRITE_TRANSPARENCY = $4b
 
+.section code
 
-global init_logo_sprites
-init_logo_sprites:
+.global init_logo_sprites {
     nextreg NEXTREG_SPRITE_LAYER, $03
 
     ld a, 0
@@ -58,88 +57,95 @@ SpritePaletteLoop:
     djnz SpritePaletteLoop
 
     ret
+}
 
-section data_user
 
-sprite_data:
-    byte $ff, $ff, $00, $00, $0f, $ff, $ff, $ff
-    byte $ff, $00, $00, $00, $00, $0f, $ff, $ff
-    byte $f0, $00, $01, $11, $11, $11, $ff, $ff
-    byte $f0, $00, $00, $00, $00, $00, $ff, $ff
-    byte $00, $02, $22, $22, $22, $22, $2f, $ff
-    byte $00, $00, $00, $00, $00, $00, $0f, $ff
-    byte $00, $33, $33, $33, $33, $33, $3f, $ff
-    byte $00, $00, $00, $00, $00, $00, $0f, $ff
-    byte $00, $04, $44, $44, $44, $44, $4f, $ff
-    byte $f0, $00, $00, $00, $00, $00, $ff, $ff
-    byte $f0, $00, $05, $55, $55, $55, $ff, $ff
-    byte $ff, $00, $00, $00, $00, $0f, $ff, $ff
-    byte $ff, $ff, $00, $00, $0f, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+.section data
 
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $00, $00, $00, $ff, $ff, $00, $ff, $ff
-    byte $ff, $00, $ff, $ff, $ff, $00, $ff, $ff
-    byte $ff, $00, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $00, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $00, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+sprite_data {
+    .data $ff, $ff, $00, $00, $0f, $ff, $ff, $ff
+    .data $ff, $00, $00, $00, $00, $0f, $ff, $ff
+    .data $f0, $00, $01, $11, $11, $11, $ff, $ff
+    .data $f0, $00, $00, $00, $00, $00, $ff, $ff
+    .data $00, $02, $22, $22, $22, $22, $2f, $ff
+    .data $00, $00, $00, $00, $00, $00, $0f, $ff
+    .data $00, $33, $33, $33, $33, $33, $3f, $ff
+    .data $00, $00, $00, $00, $00, $00, $0f, $ff
+    .data $00, $04, $44, $44, $44, $44, $4f, $ff
+    .data $f0, $00, $00, $00, $00, $00, $ff, $ff
+    .data $f0, $00, $05, $55, $55, $55, $ff, $ff
+    .data $ff, $00, $00, $00, $00, $0f, $ff, $ff
+    .data $ff, $ff, $00, $00, $0f, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
 
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $00, $00, $0f, $ff, $f0, $00, $0f, $ff
-    byte $00, $ff, $00, $ff, $00, $ff, $00, $ff
-    byte $00, $00, $0f, $ff, $00, $00, $00, $ff
-    byte $00, $ff, $ff, $ff, $00, $ff, $00, $ff
-    byte $00, $ff, $ff, $ff, $00, $ff, $00, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $00, $00, $00, $ff, $ff, $00, $ff, $ff
+    .data $ff, $00, $ff, $ff, $ff, $00, $ff, $ff
+    .data $ff, $00, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $00, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $00, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
 
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $00, $ff, $00, $ff, $ff, $ff, $ff, $ff
-    byte $00, $ff, $00, $ff, $ff, $ff, $ff, $ff
-    byte $00, $ff, $00, $ff, $ff, $ff, $ff, $ff
-    byte $00, $ff, $00, $ff, $ff, $ff, $ff, $ff
-    byte $f0, $00, $0f, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $00, $00, $0f, $ff, $f0, $00, $0f, $ff
+    .data $00, $ff, $00, $ff, $00, $ff, $00, $ff
+    .data $00, $00, $0f, $ff, $00, $00, $00, $ff
+    .data $00, $ff, $ff, $ff, $00, $ff, $00, $ff
+    .data $00, $ff, $ff, $ff, $00, $ff, $00, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
 
-sprite_attributes:
-    byte 233, 229, 0, $c0, $80
-    byte 16, 0, 0, $c0, $60
-    byte 32, 0, 0, $c1, $40
-    byte 48, 0, 0, $c1, $60
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $00, $ff, $00, $ff, $ff, $ff, $ff, $ff
+    .data $00, $ff, $00, $ff, $ff, $ff, $ff, $ff
+    .data $00, $ff, $00, $ff, $ff, $ff, $ff, $ff
+    .data $00, $ff, $00, $ff, $ff, $ff, $ff, $ff
+    .data $f0, $00, $0f, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+}
 
-sprite_palette:
-	byte %00000000 ; black
-	byte %10100000 ; red
-	byte %10101000 ; orange
-	byte %10110100 ; yellow
-	byte %00010100 ; green
-	byte %00000010 ; bule
+
+sprite_attributes {
+    .data 233, 229, 0, $c0, $80
+    .data 16, 0, 0, $c0, $60
+    .data 32, 0, 0, $c1, $40
+    .data 48, 0, 0, $c1, $60
+}
+
+
+sprite_palette {
+	.data %00000000 ; black
+	.data %10100000 ; red
+	.data %10101000 ; orange
+	.data %10110100 ; yellow
+	.data %00010100 ; green
+	.data %00000010 ; bule
+}

@@ -1,5 +1,5 @@
 ;  dpad.s -- Display state of dpad.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -28,25 +28,21 @@
 
 ; copy dpad for value in A to ptr2
 
-.autoimport +
+.section data
 
-.export dpad
-
-.include "defines.inc"
-
-.rodata
-
-dpad_rects:
+dpad_rects {
 	.repeat 16, i
 	.word dpad_rect_data + i * 25
 	.endrep
+}
 
-dpad_rect_data:
+dpad_rect_data {
 	.incbin "dpad.bin"
+}
 
-.code
+.section code
 
-dpad:
+.global dpad {
 	asl
 	tax
 	lda dpad_rects,x
@@ -56,3 +52,4 @@ dpad:
 	ldx #5
 	ldy #5
 	jmp copyrect
+}

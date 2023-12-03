@@ -1,5 +1,5 @@
 ;  expand.s -- expand run length encoded data.
-;  Copyright (C) 2021 Dieter Baron
+;  Copyright (C)  Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,18 +25,9 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export rl_expand
-
-.autoimport +
-
-.macpack utility
-
-.include "defines.inc"
-
 ; ptr1: runlength encoded string
 ; ptr2: destination to expand to
-rl_expand:
-.scope
+.gloabl rl_expand {
 	ldy #0
 loop:
 	lda (ptr1),y
@@ -75,4 +66,4 @@ runlength_loop:
     bcc :+
     inc ptr2 + 1
 :   jmp rl_expand
-.endscope
+}

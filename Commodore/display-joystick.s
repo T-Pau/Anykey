@@ -1,5 +1,5 @@
 ;  display-joystick.s -- Display state of joystick.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,25 +25,17 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.autoimport +
+.section reserve
 
-.export display_joystick, port_digital
+.global port_digital .reserve 1
 
-.include "defines.inc"
+tmp .reserve 2
 
-.bss
-
-port_digital:
-	.res 1
-
-tmp:
-	.res 2
-
-.code
+.section code
 
 ; display joystick number X
 
-display_joystick:
+.global display_joystick {
 	txa
 	asl
 	sta tmp
@@ -84,3 +76,4 @@ display_joystick:
 .endif
 
 	rts
+}

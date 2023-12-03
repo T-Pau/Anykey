@@ -1,5 +1,5 @@
 ;  sprite.s -- Set coordinates for sprite.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -27,26 +27,22 @@
 
 
 ; set sprite A coordinates
-.export sprite_x, sprite_y, set_sprite
 
-.include "c64.inc"
+.section data
 
-.rodata
+highbit {
+	.data $01, $fe,  $02, $fd,  $04, $fb,  $08, $f7
+	.data $10, $ef,  $20, $df,  $40, $bf,  $80, $7f
+}
 
-highbit:
-	.byte $01, $fe,  $02, $fd,  $04, $fb,  $08, $f7
-	.byte $10, $ef,  $20, $df,  $40, $bf,  $80, $7f
+.section reserve
 
-.bss
-
-sprite_x:
-	.res 2
-sprite_y:
-	.res 1
+.global sprite_x .reserve 2
+.global sprite_y .reserve 1
 
 .code
 
-set_sprite:
+.global set_sprite {
 	asl
 	tax
 
@@ -64,3 +60,4 @@ set_high:
 	sta VIC_SPR0_Y,x
 
 	rts
+}

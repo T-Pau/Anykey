@@ -1,5 +1,5 @@
 ;  pet-model-8k.s -- Set up model specific data for 8k machines.
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.

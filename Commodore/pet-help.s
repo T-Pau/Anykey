@@ -1,5 +1,5 @@
 ;  pet-help.s -- Display help page on PET.
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,17 +25,9 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.autoimport +
+.section code
 
-.export display_help_screen, help_next, help_previous, display_main_screen, current_page
-
-.include "defines.inc"
-
-.macpack utility
-
-.code
-
-display_help_screen:
+.global display_help_screen {
     store_word saved_screen, ptr2
     store_word screen, ptr1
     lda saved_screen_size
@@ -51,24 +43,28 @@ display_help_screen:
     jsr rl_expand
     ldx #0
     beq update_help_page
+}
 
-help_next:
+
+.global help_next {
     ldx current_page
     inx
     cpx help_count
     bne update_help_page
     ldx #0
-    beq update_help_page
+    jmp update_help_page
+}
 
-help_previous:
+.global help_previous {
     ldx current_page
     dex
     bpl update_help_page
     ldx help_count
     dex
-    bne update_help_page
+    jmp update_help_page
+}
 
-update_help_page:
+.global update_help_page {
     stx current_page
     store_word help_pages, ptr2
     ldy #0
@@ -87,8 +83,10 @@ update_help_page:
     sta ptr1 + 1
 	store_word screen, ptr2
 	jmp rl_expand
+}
 
-display_main_screen:
+
+.global display_main_screen {
     store_word screen, ptr2
     store_word saved_screen, ptr1
     lda saved_screen_size
@@ -99,8 +97,8 @@ display_main_screen:
     ldx #$ff
     stx current_page
 	rts
+}
 
-.bss
+.section reserve
 
-current_page:  ; $ff when not in help mode
-    .res 1
+.global current_page .reserve 1  ; $ff when not in help mode

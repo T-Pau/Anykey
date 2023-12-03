@@ -1,5 +1,5 @@
 ;  display-key-pet.s -- Display current_key_state of key, PET version
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,24 +25,14 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.autoimport +
-
-.export display_key_3, display_key_4, display_key_6, display_key_space_26, display_key_space_27, display_key_h, display_key_n, display_key_w
-
-.export display_key_80b_shl
-
-.macpack utility
-
-.include "defines.inc"
-
 ; display keys of various sizes
 ; ptr1 points to char_top left character in screen
 ; x is 0 for unpressed, 1 for pressed
 ; current_key_state is $00 for unpressed, $80 for pressed
 
-.code
+.section code
 
-display_key_w:
+.global display_key_w {
 	lda char_top_left,x
 	sta (ptr1),y
 	iny
@@ -80,8 +70,10 @@ display_key_w:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+}
 
-display_key_n:
+
+.global display_key_n {
 	lda char_top_left,x
 	sta (ptr1),y
 	iny
@@ -119,9 +111,10 @@ display_key_n:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+}
 
-display_key_h:
-.scope
+
+.global display_key_h {
 	lda char_top_left,x
 	sta (ptr1),y
 	iny
@@ -167,10 +160,10 @@ row:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
-.endscope
+}
 
 
-display_key_3:
+.global display_key_3 {
 	lda char_top_left,x
 	sta (ptr1),y
 	iny
@@ -202,9 +195,10 @@ display_key_3:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+}
 
 
-display_key_4:
+.global display_key_4 {
 	lda char_top_left,x
 	sta (ptr1),y
 	iny
@@ -242,9 +236,10 @@ display_key_4:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+}
 
 
-display_key_6:
+.global display_key_6 {
 	lda char_top_left,x
 	sta (ptr1),y
 	iny
@@ -282,8 +277,10 @@ display_key_6:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+}
 
-display_key_space_27:
+
+.global display_key_space_27 {
 	lda char_top_left,x
 	sta (ptr1),y
 	iny
@@ -320,8 +317,10 @@ display_key_space_27:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+}
 
-display_key_space_26:
+
+.global display_key_space_26 {
 	lda char_top_left,x
 	sta (ptr1),y
 	iny
@@ -358,10 +357,12 @@ display_key_space_26:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+}
 
 
-display_key_80b_shl:
+.global display_key_80b_shl {
     jsr display_key_3
     add_word ptr1, 240
     ldy #0
     jmp display_key_4
+}

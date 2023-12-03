@@ -1,5 +1,5 @@
 ;  display-keys-48k.asm -- Key update routines.
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,16 +25,12 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-public display_key_2, display_key_3, display_key_4, display_key_5, display_key_9
-
-include "keyboard.inc"
-
-section code_user
+.section code
 
 ; ix: key description
 ; c: color
 
-display_key_2:
+.global display_key_2 {
     ld l,(ix + key_screen_offset)
     ld a,(ix + key_screen_offset + 1)
     add 2
@@ -76,8 +72,10 @@ loop2_color:
     djnz loop2_color
 
     ret
+}
 
-display_key_3:
+
+.global display_key_3 {
     ld l,(ix + key_screen_offset)
     ld a,(ix + key_screen_offset + 1)
     add 2
@@ -126,28 +124,34 @@ loop3_color:
     djnz loop3_color
 
     ret
+}
 
 
-display_key_4:
+.global display_key_4 {
     ld d,4
     jp display_key_n
+}
 
-display_key_5:
+
+.global display_key_5 {
     ld d,5
     jp display_key_n
+}
 
-display_key_9:
+
+.global display_key_9 {
     ld d,9
     jr display_key_n
+}
 
-IF PLATFORM_N_GO
-public display_key_13
-display_key_13:
+
+.global display_key_13 {
     ld d,13
     jr display_key_n
-ENDIF
+}
 
-display_key_n:
+
+display_key_n {
     ld l,(ix + key_screen_offset)
     ld a,(ix + key_screen_offset + 1)
     add 2
@@ -210,10 +214,10 @@ loop_n_color_x:
     jr nz,loop_n_color_y
 
     ret
+}
 
 IF PLATFORM_PLUS2
-public display_key_enter
-display_key_enter:
+.global display_key_enter {
     ld l,(ix + key_screen_offset)
     inc l
     inc l
@@ -290,7 +294,6 @@ next_line_enter_bottom:
 next_row_enter_bottom:
     djnz loop_enter_bottom_char
 
-
     ld l,(ix+key_color_offset)
     ld h,(ix+key_color_offset+1)
     inc hl
@@ -324,4 +327,5 @@ enter_color_bottom:
     djnz enter_color_bottom
 
     ret
+}
 ENDIF

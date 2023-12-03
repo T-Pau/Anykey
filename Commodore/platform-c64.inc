@@ -16,7 +16,9 @@ color_ram = $d800
 
 sprite_logo = (sprites & $3fff) / 64
 
-tmp1 = $02
-ptr1 = $fb
-ptr2 = $fd
-ptr3 = $c1
+.section zero_page
+
+.global tmp1 .reserve 1
+.global ptr1 .reserve 2
+.global ptr2 .reserve 2
+.global ptr3 .reserve 2

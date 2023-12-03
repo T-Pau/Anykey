@@ -1,5 +1,5 @@
 ;  colors.s -- Set background color.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,22 +25,18 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.section code
 
-.export label_background, content_background, top_label
-
-.include "defines.inc"
-
-.code
-
-top_label:
+.global top_label {
 	lda #LABEL_COLOR
 :	ldx VIDEO_CURRENT_LINE
 	cpx #SCREEN_TOP + 1
 	bne :-
 	sta VIDEO_BACKGROUND_COLOR
 	rts
+}
 
-label_background:
+.global label_background {
 	nop
 	nop
 	nop
@@ -48,18 +44,19 @@ label_background:
 	lda #LABEL_COLOR
 	sta VIDEO_BACKGROUND_COLOR
 	rts
+}
 
-content_background:
+.global content_background {
 	lda #BACKGROUND_COLOR
 	sta VIDEO_BACKGROUND_COLOR
 	rts
+}
 
 .ifdef USE_VICII
-.export logo_background
-
-logo_background:
+.global logo_background {
 	lda #LOGO_COLOR
 	sta VIDEO_BACKGROUND_COLOR
 	rts
+}
 .endif
 

@@ -1,5 +1,5 @@
 ;  platform.inc -- general defines
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -24,8 +24,6 @@
 ;  IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-global charset, screen_main, colors_main, screen_help, colors_help, keys_48k
 
 IF PLATFORM_48K
 include "platform-48k.inc"

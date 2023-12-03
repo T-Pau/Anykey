@@ -25,42 +25,35 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export main_screen_128, main_color_128
+.section data
 
-.autoimport +
-
-.macpack cbm
-.macpack cbm_ext
-
-.include "defines.inc"
-
-.rodata
-
-main_screen_128:
-	invcode "keyboard                                "
+.global main_screen_128 {
+	.data "keyboard                                ":screen_inverted
 	.incbin "keyboard-128-screen.bin"
-	invcode "                                        "
-	invcode "     joysticks                          "
-	invcode "    "
-	scrcode     "I                              J"
-    invcode                                     "    "
-    invcode "    "
-	scrcode     "      AHBAHBAHB       AHBAHBAHB "
-    invcode                                     "    "
-    invcode "    "
-	scrcode     "      E1FE2FE3F       E1FE2FE3F "
-    invcode                                     "    "
-    invcode "    "
-	scrcode     "      CGDCGDCGD       CGDCGDCGD "
-    invcode                                     "    "
-	invcode "    "
-	scrcode     "K                              L"
-    invcode                                     "    "
-	invcode "                                        "
-	invcode "      f5: reset keyboard  f7: help      "
-	invcode "          (hold for 2 seconds)          "
+	.data "                                        ":screen_inverted
+	.data "     joysticks                          ":screen_inverted
+	.data "    ":screen_inverted
+	.data     "I                              J":screen
+    .data                                     "    ":screen_inverted
+    .data "    ":screen_inverted
+	.data     "      AHBAHBAHB       AHBAHBAHB ":screen
+    .data                                     "    ":screen_inverted
+    .data "    ":screen_inverted
+	.data     "      E1FE2FE3F       E1FE2FE3F ":screen
+    .data                                     "    ":screen_inverted
+    .data "    ":screen_inverted
+	.data     "      CGDCGDCGD       CGDCGDCGD ":screen
+    .data                                     "    ":screen_inverted
+	.data "    ":screen_inverted
+	.data     "K                              L":screen
+    .data                                     "    ":screen_inverted
+	.data "                                        ":screen_inverted
+	.data "      f5: reset keyboard  f7: help      ":screen_inverted
+	.data "          (hold for 2 seconds)          ":screen_inverted
+}
 
-main_color_128:
+
+.global main_color_128 {
 	.res 40 * 2, FRAME_COLOR
 .ifdef __C64__
 	; mark 40/80 display uncheckable
@@ -81,4 +74,4 @@ main_color_128:
 	.res 5, FRAME_COLOR
 	.endrep
 	.res 40 * 3, FRAME_COLOR
-	
+}

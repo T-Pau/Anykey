@@ -1,5 +1,5 @@
 ;  irq.s -- Handle multiple raster IRQs.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,9 +25,6 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
-.export init_irq, set_irq_table
-
 ; IRQ_DEBUG = 1
 
 .if .defined(__C64__)
@@ -43,14 +40,15 @@ USE_VICII = 1
 .elseif .defined(__MEGA65__)
 .include "mega65.inc"
 ; TODO: find in ROM?
-.code
-END_OF_IRQ:
+.section code
+END_OF_IRQ {
     pla
     tay
     pla
     tax
     pla
     rti
+}
 USE_VICII = 1
 
 .elseif .defined(__PLUS4__)
@@ -95,32 +93,25 @@ IMR = $FF0A
 IRQ_RASTER = 2
 .endif
 
-.bss
+.section reserve
 
-index:
-	.res 1
+index .reserve 1
 
-table_length:
-	.res 1
+table_length .reserve 1
 
 .if .defined(USE_VIC)
-next_line:
-    .res 1
+next_line .reserve 1
 
-timer_length:
-    .res 2
+timer_length .reserve 2
 
-.export is_ntsc
-is_ntsc:
-    .res 1
+.global is_ntsc .reserve 1
 
-lines_per_frame:
-    .res 1
+lines_per_frame .reserve 1
 .endif
 
-.code
+.section code
 
-init_irq:
+.global init_irq {
 	sei
 .if .defined(USE_VICII)
 	; disable cia 1 interrupts
@@ -166,16 +157,20 @@ init_irq:
 	sta IRQVec + 1
 	cli
 	rts
+}
 
-set_irq_table:
+
+.global set_irq_table {
 	stx table
 	sty table + 1
 	sta table_length
 	lda #0
 	sta index
 	jmp setup_next_irq
+}
 
-irq_main:
+
+irq_main {
 .if .defined(USE_VIC)
     ;dec BORDERCOLOR
     ; synchronize with raster line
@@ -205,10 +200,10 @@ irq_jsr:
 	dec BORDERCOLOR
 .endif
     jmp END_OF_IRQ
+}
 
 
-setup_next_irq:
-.scope
+setup_next_irq {
 	ldy index
 
 .if .defined(USE_VIC)
@@ -282,4 +277,4 @@ addr:
 	ldy #0
 :	sty index
 	rts
-.endscope
+}

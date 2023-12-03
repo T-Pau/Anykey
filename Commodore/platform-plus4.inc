@@ -5,11 +5,12 @@ USE_KEYBOARD_SELECT_BITMASK = 1
 
 .include "ted.inc"
 
-tmp1 = $03
-tmp2 = $04
-ptr1 = $d8
-ptr2 = $da
-ptr3 = $dc
+.section zero_page
+
+.global tmp1 .reserve 1
+.global ptr1 .reserve 2
+.global ptr2 .reserve 2
+.global ptr3 .reserve 2
 
 PRESSED_COLOR = ($30 | COLOR_WHITE)
 CHECKED_COLOR = ($40 | COLOR_WHITE)

@@ -1,5 +1,5 @@
 ;  start.s -- Entry point of program.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,19 +25,9 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.section code
 
-.autoimport +
-
-.export start
-
-.include "defines.inc"
-
-.macpack utility
-
-.segment "CODE_LOW"
-;.code
-
-start:
+.global start {
 	ldx #<keys_vic20_address_low
 	ldy #>keys_vic20_address_low
 	lda keys_vic20_num_keys
@@ -72,14 +62,15 @@ start:
 	stx command
 
 	jmp main_loop
+}
 
-.rodata
 
-hline_offset_table:
-    .byte 0, SCREEN_TOP_PAL - SCREEN_TOP_NTSC
+.section data
 
-.bss
+hline_offset_table {
+    .data 0, SCREEN_TOP_PAL - SCREEN_TOP_NTSC
+}
 
-.export hline_offset
-hline_offset:
-    .res 1
+.section reserve
+
+.global hline_offset .reserve 1

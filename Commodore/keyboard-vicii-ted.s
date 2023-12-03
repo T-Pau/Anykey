@@ -1,5 +1,5 @@
 ;  keyboard.s -- Process and display keyboard state, VIC-II / TED specific
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,18 +25,9 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.autoimport +
+.section code
 
-.include "defines.inc"
-
-.macpack utility
-
-.export reset_keyboard
-
-.code
-
-reset_keyboard:
-.scope
+.global reset_keyboard {
 	lda keyboard_height
 	cmp #12
 	beq low
@@ -89,4 +80,4 @@ partial_loop:
 	bne partial_loop
 end:
 	rts
-.endscope
+}

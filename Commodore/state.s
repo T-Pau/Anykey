@@ -1,5 +1,5 @@
 ;  state.s -- Current program state.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -29,42 +29,20 @@
 .export joystick_positions
 .export bottom_charset_line, joystick_label_line, keyboard_height
 
-.autoimport +
+.section reserve
 
-.include "defines.inc"
+.global machine_type .reserve 1
+.global joy1 .reserve 1
+.global joy2 .reserve 1
+.global bottom_charset_line .reserve 1
+.global joystick_label_line .reserve 1
+.global joystick_positions .reserve 4
+.global main_color_save .reserve SCREEN_SIZE
+.global keyboard_height .reserve 1
 
-.macpack utility
-.macpack c128
+.section code
 
-.bss
-
-machine_type:
-	.res 1
-
-joy1:
-	.res 1
-joy2:
-	.res 1
-
-bottom_charset_line:
-	.res 1
-	
-joystick_label_line:
-	.res 1
-
-joystick_positions:
-	.res 4
-
-main_color_save:
-	.res SCREEN_SIZE
-
-keyboard_height:
-	.res 1
-
-.code
-
-init_state:
-.scope
+.global init_state {
 	lda #0
 	sta joy1
 	sta joy2
@@ -106,10 +84,10 @@ high_keyboard:
 .endif
 	store_word screen + 17 * 40 + 21, joystick_positions + 2
 	jmp init_keyboard
-.endscope
+}
 
 .ifdef __C64__
-init_c64:
+init_c64 {
     lda machine_type
     bpl :+
     jmp init_mega65
@@ -133,10 +111,11 @@ init_c64:
 	lda #12
 	sta keyboard_height
     jmp init_c64_c128
-.endif
+}
+
 
 .if .defined(__C64__) .or .defined(__C128__)
-init_c128:
+init_c128 {
 	ldx #<keys_128_address_low
 	ldy #>keys_128_address_low
 	lda keys_128_num_keys
@@ -145,17 +124,20 @@ init_c128:
 	sta bottom_charset_line
     jsr init_c64_c128
     jmp init_c128_mega65
+}
 
-init_c64_c128:
+
+init_c64_c128 {
 	lda #KEY_INDEX_HELP
 	sta key_index_help
 	lda #KEY_INDEX_RESET
 	sta key_index_reset
 	rts
+}
 .endif
 
 .if .defined(__C64__) .or .defined(__MEGA65__)
-init_mega65:
+init_mega65 {
 	lda #65 ; set CPU to fast
 	sta 0
 	lda #67 ; Help
@@ -174,14 +156,16 @@ init_mega65:
     jsr set_keyboard_registers
 	lda #SCREEN_TOP + 8 * 7 + 1
 	sta bottom_charset_line
-	; fall through to init_c128_mega65
+	jmp init_c128_mega65
+}
 .endif
 
 .if .defined(__C64__) .or .defined(__C128__) .or .defined(__MEGA65__)
-init_c128_mega65:
+init_c128_mega65 {
 	lda #SCREEN_TOP + 15 * 8
 	sta joystick_label_line
 	lda #14
 	sta keyboard_height
     rts
+}
 .endif

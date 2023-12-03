@@ -1,5 +1,5 @@
 ;  display_key-vicii-ted.s -- Display current_key_state of key, VIC-II / TED version
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,19 +25,14 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
-.autoimport +
-
 .export display_key_2, display_key_3, display_key_4
 .export display_key_2_2, display_key_2_3
 .export display_key_17
 .export display_key_18
 
-.include "defines.inc"
-
 COLOR_RAM_OFFSET = color_ram - screen
 
-.macro set_color
+.macro set_color {
 	clc
 	lda ptr1 + 1
 	adc #>COLOR_RAM_OFFSET
@@ -45,9 +40,10 @@ COLOR_RAM_OFFSET = color_ram - screen
 
 	lda current_key_color
 	ldy #0
-.endmacro
+}
 
-display_key_2:
+
+.global display_key_2 {
 	lda (ptr1),y
 	and #$7f
 	ora current_key_state
@@ -79,9 +75,10 @@ display_key_2:
 	sta (ptr1),y
 	
 	rts
+}
 
 
-display_key_3:
+.global display_key_3 {
 	lda (ptr1),y
 	and #$7f
 	ora current_key_state
@@ -127,9 +124,10 @@ display_key_3:
 	sta (ptr1),y
 
 	rts
+}
 
 
-display_key_4:
+.global display_key_4 {
 	lda (ptr1),y
 	and #$7f
 	ora current_key_state
@@ -189,9 +187,10 @@ display_key_4:
 	sta (ptr1),y
 
 	rts
+}
 
 
-display_key_2_2:
+.global display_key_2_2 {
 	lda (ptr1),y
 	and #$7f
 	ora current_key_state
@@ -253,8 +252,10 @@ display_key_2_2:
 	sta (ptr1),y
 
 	rts
+}
 
-display_key_2_3:
+
+.global display_key_2_3 {
 	lda (ptr1),y
 	and #$7f
 	ora current_key_state
@@ -330,9 +331,10 @@ display_key_2_3:
 	sta (ptr1),y
 
 	rts
+}
 
 
-display_key_17:
+.global display_key_17 {
     clc
     lda ptr1
     adc #40
@@ -366,9 +368,10 @@ display_key_17:
 	bpl :-
 
 	rts
+}
 
 
-display_key_18:
+.global display_key_18 {
     clc
     lda ptr1
     adc #40
@@ -402,12 +405,10 @@ display_key_18:
 	bpl :-
 
 	rts
+}
 
-.ifdef __PLUS4__
-.export display_key_down, display_key_up
-.export display_key_plus4_control, display_key_plus4_shift
 
-display_key_down:
+.global display_key_down {
 	iny
 	lda (ptr1),y
 	and #$7f
@@ -431,9 +432,10 @@ display_key_down:
 	sta (ptr1),y
 
 	rts
+}
 
 
-display_key_up:
+.global display_key_up {
 	iny
 	lda (ptr1),y
 	and #$7f
@@ -456,9 +458,10 @@ display_key_up:
 	sta (ptr1),y
 
 	rts
+}
 
 
-display_key_plus4_control:
+.global display_key_plus4_control {
 	lda (ptr1),y
 	and #$7f
 	ora current_key_state
@@ -548,9 +551,9 @@ display_key_plus4_control:
 	sta (ptr1),y
 
 	rts
+}
 
-
-display_key_plus4_shift:
+.global display_key_plus4_shift {
 	lda (ptr1),y
 	and #$7f
 	ora current_key_state
@@ -669,5 +672,4 @@ display_key_plus4_shift:
 	iny
 	sta (ptr1),y
 	rts
-
-.endif
+}

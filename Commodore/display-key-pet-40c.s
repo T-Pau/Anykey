@@ -1,5 +1,5 @@
 ;  display-key-pet.s -- Display current_key_state of key, PET version
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,49 +25,53 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.autoimport +
-
-.export display_key_s
-.export display_key_40_full, display_key_40_top, display_key_40_left, display_key_40_mid
-.export display_key_40_mid_3, display_key_40c_ret
-
-.export char_top_left, char_top, char_top_right, char_left, char_right, char_bottom_left, char_bottom, char_bottom_right
-
-.macpack utility
-
-.include "defines.inc"
-
 ; display keys of various sizes
 ; ptr1 points to char_top left character in screen
 ; x is 0 for unpressed, 1 for pressed
 ; current_key_state is $00 for unpressed, $80 for pressed
 
-.rodata
+.section data
 
-char_top_left:
-	.byte SQUARE_TOP_LEFT, PRESSED_TOP_LEFT
-char_top:
-	.byte SQUARE_HORIZONTAL, PRESSED_TOP
-char_top_right:
-	.byte SQUARE_TOP_RIGHT, PRESSED_TOP_RIGHT
-char_left:
-	.byte SQUARE_VERTICAL, PRESSED_LEFT
-char_right:
-	.byte SQUARE_VERTICAL, PRESSED_RIGHT
-char_bottom_left:
-	.byte SQUARE_BOTTOM_LEFT, PRESSED_BOTTOM_LEFT
-char_bottom:
-	.byte SQUARE_HORIZONTAL, PRESSED_BOTTOM
-char_bottom_right:
-	.byte SQUARE_BOTTOM_RIGHT, PRESSED_BOTTOM_RIGHT
+.global char_top_left {
+	.data SQUARE_TOP_LEFT, PRESSED_TOP_LEFT
+}
 
+.global char_top {
+	.data SQUARE_HORIZONTAL, PRESSED_TOP
+}
 
-.code
+.global char_top_right {
+	.data SQUARE_TOP_RIGHT, PRESSED_TOP_RIGHT
+}
 
-display_key_s:
+.global char_left {
+	.data SQUARE_VERTICAL, PRESSED_LEFT
+}
+
+.global char_right {
+	.data SQUARE_VERTICAL, PRESSED_RIGHT
+}
+
+.global char_bottom_left {
+	.data SQUARE_BOTTOM_LEFT, PRESSED_BOTTOM_LEFT
+}
+
+.global char_bottom {
+	.data SQUARE_HORIZONTAL, PRESSED_BOTTOM
+}
+
+.global char_bottom_right {
+	.data SQUARE_BOTTOM_RIGHT, PRESSED_BOTTOM_RIGHT
+}
+
+.section code
+
+.global display_key_s {
 	rts
+}
 
-display_key_40_full:
+
+.global display_key_40_full {
 	lda char_top_left,x
 	sta (ptr1),y
 	iny
@@ -81,7 +85,7 @@ display_key_40_full:
 	lda #40
 	adc_16 ptr1
 	ldy #0
-display_key_40_left:
+.global display_key_40_left:
 	lda char_left,x
 	sta (ptr1),y
 	iny
@@ -103,9 +107,9 @@ display_key_40_left:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+}
 
-
-display_key_40_top:
+.global display_key_40_top {
 	lda char_top,x
 	sta (ptr1),y
 	iny
@@ -116,7 +120,7 @@ display_key_40_top:
 	lda #40
 	adc_16 ptr1
 	dey
-display_key_40_mid:
+.global display_key_40_mid:
 	lda (ptr1),y
 	and #$7f
 	ora current_key_state
@@ -132,8 +136,9 @@ display_key_40_mid:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+}
 
-display_key_40_mid_3:
+.global display_key_40_mid_3 {
 :	lda (ptr1),y
 	and #$7f
 	ora current_key_state
@@ -153,8 +158,9 @@ display_key_40_mid_3:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+}
 
-display_key_40c_ret:
+.global display_key_40c_ret {
 	lda (ptr1),y
 	and #$7f
 	ora current_key_state
@@ -188,3 +194,4 @@ display_key_40c_ret:
 	lda char_bottom_right,x
 	sta (ptr1),y
 	rts
+}

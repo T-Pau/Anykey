@@ -1,5 +1,5 @@
 ;  memcpy.s -- Copy region of memory.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C)  Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -28,13 +28,9 @@
 
 ; copy ptr3 bytes from ptr1 to ptr2
 
-.export memcpy
+.section code
 
-.include "defines.inc"
-
-.code
-
-memcpy:
+.global memcpy {
 	ldy #0
 	ldx ptr3 + 1
 	beq partial
@@ -59,4 +55,4 @@ partial_loop:
 end:
 	bne partial_loop
 	rts
-
+}

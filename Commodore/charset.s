@@ -1,5 +1,5 @@
 ;  charset.s -- Binary data of character set.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -26,9 +26,8 @@
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-.export charset_data
+.section data
 
-.rodata
-
-charset_data:
+.global charset_data {
 	.incbin "charset.bin"
+}

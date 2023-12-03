@@ -25,16 +25,12 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-public display_key_2, display_key_3, display_key_4, display_key_5, display_key_9, display_key_enter
-
-include "keyboard.inc"
-
-section code_user
+.section code
 
 ; ix: key description
 ; c: color
 
-display_key_2:
+.global display_key_2 {
     ld e,(ix + key_screen_offset)
     ld a,(ix + key_screen_offset + 1)
     add 3
@@ -80,24 +76,34 @@ loop2_color:
     djnz loop2_color
 
     ret
+}
 
-display_key_3:
+
+.global display_key_3 {
     ld d,3
     jp display_key_n
+}
 
-display_key_4:
+
+.global display_key_4 {
     ld d,4
     jp display_key_n
+}
 
-display_key_5:
+
+.global display_key_5 {
     ld d,5
     jp display_key_n
+}
 
-display_key_9:
+
+.global display_key_9 {
     ld d,9
     jr display_key_n
+}
 
-display_key_n:
+
+display_key_n {
     ld a,d
     ld (key_width),a
     ld a,c
@@ -176,9 +182,9 @@ loop_n_color_x:
     jr nz,loop_n_color_y
 
     ret
+}
 
-
-display_key_enter:
+.global display_key_enter {
     ld hl,circle_mask_enter
     ld e,(ix + key_screen_offset)
     inc e
@@ -272,7 +278,6 @@ ENDIF
 next_row_enter_bottom:
     djnz loop_enter_bottom_char
 
-
     ld l,(ix+key_color_offset)
     ld h,(ix+key_color_offset+1)
     inc hl
@@ -309,54 +314,56 @@ enter_color_bottom:
     djnz enter_color_bottom
 
     ret
+}
 
-section data_user
 
-circle_mask:
-    byte %00011111, %11111000
-    byte %00011111, %11111000
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00011111, %11111000
-    byte %00011111, %11111000
-    byte %00001111, %11110000
-    byte %00000011, %11000000
+.section data
 
-circle_mask_enter:
-    byte %00011111, %11111000
-    byte %00011111, %11111000
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
+circle_mask {
+    .data %00011111, %11111000
+    .data %00011111, %11111000
+    .data %00111111, %11111100
+    .data %00111111, %11111100
+    .data %00111111, %11111100
+    .data %00011111, %11111000
+    .data %00011111, %11111000
+    .data %00001111, %11110000
+    .data %00000011, %11000000
+}
 
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
+circle_mask_enter {
+    .data %00011111, %11111000
+    .data %00011111, %11111000
+    .data %00111111, %11111100
+    .data %00111111, %11111100
+    .data %00111111, %11111100
 
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00011111, %11111100
-    byte %00011111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
-    byte %00111111, %11111100
+    .data %00111111, %11111100
+    .data %00111111, %11111100
+    .data %00111111, %11111100
+    .data %00111111, %11111100
+    .data %00111111, %11111100
+    .data %00111111, %11111100
+    .data %00111111, %11111100
+    .data %00111111, %11111100
 
-    byte %00011111, %11111000
-    byte %00011111, %11111000
-    byte %00001111, %11110000
-    byte %00000011, %11000000
+    .data %00111111, %11111100
+    .data %00111111, %11111100
+    .data %00111111, %11111100
+    .data %00011111, %11111100
+    .data %00011111, %11111100
+    .data %00111111, %11111100
+    .data %00111111, %11111100
+    .data %00111111, %11111100
 
-section bss_user
+    .data %00011111, %11111000
+    .data %00011111, %11111000
+    .data %00001111, %11110000
+    .data %00000011, %11000000
+}
 
-key_color:
-    defs 1
 
-key_width:
-    defs 1
+.section reserve
+
+key_color .reserve 1
+key_width .reserve 1

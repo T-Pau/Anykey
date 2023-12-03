@@ -1,5 +1,5 @@
 ;  expand.s -- expand run length encoded data.
-;  Copyright (C) 2021 Dieter Baron
+;  Copyright (C)  Dieter Baron
 ;
 ;  This file is part of Zak Supervisor, a Music Monitor for the Commodore 64.
 ;  The authors can be contacted at <zak-supervisor@tpau.group>.
@@ -25,16 +25,7 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export expand
-
-.autoimport +
-
-.macpack utility
-
-.include "defines.inc"
-
-expand:
-.scope
+.global expand {
 	ldy #0
 loop:
 	lda (ptr1),y
@@ -71,4 +62,4 @@ runlength_loop:
 	inc_16 ptr1
 	ldy #0
 	beq loop
-.endscope
+}

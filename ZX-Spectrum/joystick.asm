@@ -1,23 +1,20 @@
-public display_joystick_1, display_joystick_2, display_joystick_3
-
-global set_charset, copy_chars, dpad, button
-
-include "platform.inc"
 
 JOYSTICK_OFFSET_DPAD = 0
 JOYSTICK_OFFSET_BUTTON = 2
 JOYSTICK_SIZE = 4
 
-section code_user
+.section code
 
-display_joystick_1:
+.global display_joystick_1 {
     ld a,$ef
     in a,($fe)
     xor a,$ff
     ld c,0
     jp display_joystick
+}
 
-display_joystick_2:
+
+.global display_joystick_2 {
     ld a,$f7
     in a,($fe)
     xor a,$ff
@@ -30,8 +27,10 @@ mirror_loop:
     ld a,d
     ld c,1
     jp display_joystick
+}
 
-display_joystick_3:
+
+.global display_joystick_3 {
     in a,(31)
     ld c,a
     ld a,0
@@ -49,10 +48,12 @@ mirror_loop_kempston:
 
     ld c,2
     jp display_joystick
+}
+
 
 ; a: current value
 ; c: joystick number
-display_joystick:
+display_joystick {
     ld (value),a
     ld ix,joystick
     ld a,c
@@ -104,25 +105,29 @@ port_0:
     ld l,(ix + JOYSTICK_OFFSET_BUTTON)
     call copy_chars
     ret
+}
 
-section data_user
 
-charset_joystick:
+.section data
+
+charset_joystick {
     incbin "charset-joystick.bin"
+}
 
-joystick:
-    word screen + JOYSTICK_1_DPAD_OFFSET
-    word screen + JOYSTICK_1_BUTTON_OFFSET
+joystick {
+    .data screen + JOYSTICK_1_DPAD_OFFSET
+    .data screen + JOYSTICK_1_BUTTON_OFFSET
 
-    word screen + JOYSTICK_2_DPAD_OFFSET
-    word screen + JOYSTICK_2_BUTTON_OFFSET
+    .data screen + JOYSTICK_2_DPAD_OFFSET
+    .data screen + JOYSTICK_2_BUTTON_OFFSET
 
 IF JOYSTICK_3_DPAD_OFFSET
-    word screen + JOYSTICK_3_DPAD_OFFSET
-    word screen + JOYSTICK_3_BUTTON_OFFSET
+    .data screen + JOYSTICK_3_DPAD_OFFSET
+    .data screen + JOYSTICK_3_BUTTON_OFFSET
 ENDIF
+}
 
-section bss_user
 
-value:
-    defs 1
+.section reserve
+
+value .reserve 1

@@ -1,5 +1,5 @@
 ;  start-zx.asm -- Entry point.
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,16 +25,9 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-public _main
+.section code
 
-include "platform.inc"
-
-global copy_screen, copy_colors, main_loop, set_charset
-global init_extended_keys, init_logo_sprites
-
-section code_user
-
-_main:
+.global _main {
     ld h,charset>>8
     ld l,charset & $ff
     call set_charset
@@ -49,8 +42,8 @@ IF USE_EXTENDED_KEYS
     call init_logo_sprites
 ENDIF
     jp main_loop
+}
 
-section bss_user
+.section reserve
 
-frame:
-    defs 1
+frame .reserve 1

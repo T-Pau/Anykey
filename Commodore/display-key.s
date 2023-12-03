@@ -1,5 +1,5 @@
 ;  display_key.s -- Display current_key_state of key
-;  Copyright (C) 2020-2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -32,24 +32,16 @@
 
 .include "platform.inc"
 
-.bss
+.section reserve
 
-.export num_keys
-num_keys:
-	.res 1
+.global num_keys .reserve 1
+.global current_key_state .reserve 1
+.global current_key_color .reserve 1
 
-.export current_key_state
-current_key_state:
-	.res 1
-
-.export current_key_color
-current_key_color:
-    .res 1
-
-.code
+.section code
 
 ; set keys table to X/Y, number of keys A
-set_keys_table:
+.global set_keys_table {
 	sta num_keys
 	stx address_low + 1
 	sty address_low + 2
@@ -77,27 +69,33 @@ set_keys_table:
 	sta display_high + 2
 
 	rts
-
+}
 
 ; display key x pressed a
 ; x is not disturbed
 
-display_key:
+.global display_key {
+    .local address_low = address_low_instruction + 1
+    .local address_high = address_high_instruction + 1
+    .local display_low = display_low_instruction + 1
+    .local display_high = display_high_instruction + 1
+    .local jump = jump_instruction + 1
+
 	cmp #0
 	beq :+
 	lda #$80
 :	sta current_key_state
 
-address_low:
+address_low_instruction:
 	lda $1000,x
 	sta ptr1
-address_high:
+address_high_instruction:
 	lda $1000,x
 	sta ptr1 + 1
-display_low:
+display_low_instruction:
 	lda $1000,x
 	sta jump + 1
-display_high:
+display_high_instruction:
 	lda $1000,x
 	sta jump + 2
 	ldy #0
@@ -106,12 +104,13 @@ display_high:
 	ldx current_key_state
 	beq jump
 	ldx #1
-jump:
+jump_instruction:
 	jsr $1000
 restore:
 	ldx #$00
 	rts
 .else
-jump:
+jump_instruction:
 	jmp $1000
 .endif
+}

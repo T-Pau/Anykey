@@ -1,5 +1,5 @@
 ;  screen-plus4.s -- Main screen for Plus/4 keyboard.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,44 +25,37 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export main_screen_plus4, main_color_plus4
+.section data
 
-.autoimport +
-
-.macpack cbm
-.macpack cbm_ext
-
-.include "defines.inc"
-
-.rodata
-
-main_screen_plus4:
-	invcode "   keyboard                             "
+.global main_screen_plus4 {
+	.data "   keyboard                             ":screen_inverted
 	.incbin "keyboard-plus4-screen.bin"
-	invcode "                                        "
-	invcode "           joysticks                    "
-	invcode "          "
-	scrcode           "I                  J"
-    invcode                               "          "
-	invcode "          "
-	scrcode           "      AHB       AHB "
-    invcode                               "          "
-	invcode "          "
-	scrcode           "      EfF       EfF "
-    invcode                               "          "
-	invcode "          "
-	scrcode           "      CGD       CGD "
-    invcode                               "          "
-	invcode "          "
-	scrcode           "K                  L"
-    invcode                               "          "
-	invcode "                                        "
-	invcode "     f3: reset   help: help      "
+	.data "                                        ":screen_inverted
+	.data "           joysticks                    ":screen_inverted
+	.data "          ":screen_inverted
+	.data           "I                  J":screen
+    .data                               "          ":screen_inverted
+	.data "          ":screen_inverted
+	.data           "      AHB       AHB ":screen
+    .data                               "          ":screen_inverted
+	.data "          ":screen_inverted
+	.data           "      EfF       EfF ":screen
+    .data                               "          ":screen_inverted
+	.data "          ":screen_inverted
+	.data           "      CGD       CGD ":screen
+    .data                               "          ":screen_inverted
+	.data "          ":screen_inverted
+	.data           "K                  L":screen
+    .data                               "          ":screen_inverted
+	.data "                                        ":screen_inverted
+	.data "     f3: reset   help: help      ":screen_inverted
 	.byte $79, $7a, $7b, $7c, $7d, $7e, $7f
-	invcode "      (hold for 2 seconds)       "
+	.data "      (hold for 2 seconds)       ":screen_inverted
 	.byte $f9, $fa, $fb, $fc, $fd, $fe, $ff
+}
 
-main_color_plus4:
+
+.global main_color_plus4 {
 	.res 40 * 2, FRAME_COLOR
 	.repeat 12, i
 	.res 2, FRAME_COLOR
@@ -76,3 +69,4 @@ main_color_plus4:
 	.res 11, FRAME_COLOR
 	.endrep
 	.res 40 * 3, FRAME_COLOR
+}

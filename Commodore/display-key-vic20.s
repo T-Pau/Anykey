@@ -1,5 +1,5 @@
 ;  display_key-vicii-ted.s -- Display current_key_state of key, VIC-II / TED version
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,33 +25,21 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
-.autoimport +
-
-.include "defines.inc"
-
 COLOR_RAM_OFFSET = color_ram - screen
 
-.macro set_color
-.scope
+.macro set_color {
 	clc
-;	lda ptr1
-;	adc #<COLOR_RAM_OFFSET
-;	sta ptr1
 	lda ptr1 + 1
 	adc #>COLOR_RAM_OFFSET
 	sta ptr1 + 1
 
 	lda current_key_color
 	ldy #0
-released:
-.endscope
-.endmacro
+}
 
-.segment "CODE_LOW"
+.seciton code
 
-.export display_key_1
-display_key_1:
+.global display_key_1 {
 	lda (ptr1),y
 	and #$7f
 	ora current_key_state
@@ -69,9 +57,10 @@ display_key_1:
 	sta (ptr1),y
 
 	rts
+}
 
-.export display_key_2
-display_key_2:
+
+.global display_key_2 {
 	lda (ptr1),y
 	and #$7f
 	ora current_key_state
@@ -103,10 +92,10 @@ display_key_2:
 	sta (ptr1),y
 	
 	rts
+}
 
 
-.export display_key_10
-display_key_10:
+.global display_key_10 {
 	ldy #9
 :	lda (ptr1),y
 	and #$7f
@@ -137,9 +126,10 @@ display_key_10:
 	bne :-
 	
 	rts
+}
 
-.export display_key_left_shift
-display_key_left_shift:
+
+.global display_key_left_shift {
 	lda (ptr1),y
 	and #$7f
 	ora current_key_state
@@ -173,3 +163,4 @@ display_key_left_shift:
 	sta (ptr1),y
 
 	rts
+}

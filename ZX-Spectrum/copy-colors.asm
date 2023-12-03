@@ -1,5 +1,5 @@
 ;  copy-colors.asm -- Copy colors to color RAM.
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,14 +25,10 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-include "platform.inc"
-
-public copy_colors
-
-section code_user
+.section code
 
 ; de: colors to copy
-copy_colors:
+.global copy_colors {
     ld hl, color
 run_loop:
     ld a,(de)
@@ -47,3 +43,4 @@ byte_loop:
     djnz byte_loop
     inc de
     jr run_loop
+}

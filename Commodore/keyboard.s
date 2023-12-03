@@ -1,5 +1,5 @@
 ;  keyboard.s -- Process and display keyboard state
-;  Copyright (C) 2020-2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,51 +25,30 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
-.autoimport +
-
-.export init_keyboard, display_keyboard, read_keyboard
-.export key_index_help, key_index_reset
-.export key_state, new_key_state, bitmask
-
-.if .defined(__C64__) .or .defined(__MEGA65__)
-.export set_keyboard_registers, read_keyboard_mega65
-.endif
-
-.include "defines.inc"
-
-.macpack utility
-
 .ifdef USE_PET
 MAX_KEY_READ = 80
 .else
 MAX_KEY_READ = 64
 .endif
 
-.bss
+.section data
 
-key_state:
-	.res MAX_NUM_KEYS
+.global key_state .reserve MAX_NUM_KEYS
+.global new_key_state .reserve MAX_NUM_KEYS + 1
+.if .defined(USE_SKIP)
+.global skip_key .reserve MAX_NUM_KEYS
+.endif
 
-new_key_state:
-	.res MAX_NUM_KEYS + 1
+.global key_index_help .reserve 1
+.global key_index_reset .reserve 1
 
-key_index_help:
-    .res 1
-key_index_reset:
-    .res 1
+next_key .reserve 1
+reset_count .reserve 1
+help_count .reserve 1
 
-next_key:
-    .res 1
+.section code
 
-reset_count:
-	.res 1
-help_count:
-	.res 1
-
-.code
-
-init_keyboard:
+.global init_keyboard {
 	ldx #MAX_NUM_KEYS - 1
 	lda #0
 	sta next_key
@@ -86,10 +65,9 @@ init_keyboard:
 	jsr init_keyboard_vicii
 .endif
 	rts
+}
 
-
-display_keyboard:
-.scope
+.global display_keyboard {
 ;    inc VIDEO_BORDER_COLOR
     ldx next_key
 loop:
@@ -133,11 +111,9 @@ stop:
 	stx next_key
 ;    dec VIDEO_BORDER_COLOR
 	rts
-.endscope
+}
 
-.export process_command_keys
-process_command_keys:
-.scope
+.global process_command_keys {
 	lda command
 	bne no_key
 	ldx key_index_help
@@ -170,10 +146,10 @@ no_key:
 	sta help_count
 end:
 	rts
-.endscope
+}
 
 .if .defined(USE_VICII)
-check_joysticks:
+check_joysticks {
 	lda #$ff
 	sta CIA1_PRA
 	sta CIA1_PRB
@@ -189,10 +165,10 @@ check_joysticks:
 	ora port2
 	sta port2
     rts
-.endif
+}
 
-read_keyboard:
-.scope read_keyboard
+.global read_keyboard {
+; .scope read_keyboard
 .ifdef USE_VICII
     lda #0
     sta port1
@@ -331,10 +307,10 @@ end_read:
 	; TODO: if port 2 bit is set and key in that row is pressed, ignore that key's column (except for key itself)
 .endif
 	rts
-.endscope
+}
 
 .if .defined(__C64__) .or .defined(__MEGA65__)
-set_keyboard_registers:
+.global set_keyboard_registers {
     stx read_keyboard::select + 1
     sta read_keyboard::select + 2
     sty read_keyboard::value + 1
@@ -342,9 +318,9 @@ set_keyboard_registers:
     lda tmp1
     sta read_keyboard::max_key_read + 1
     rts
+}
 
-read_keyboard_mega65:
-.scope
+.global read_keyboard_mega65 {
     ; Caps
     lda $d611
     and #%01000000
@@ -369,21 +345,14 @@ read_keyboard_mega65:
     and #$01
     sta skip_key + 6 * 8 + 4 ; right shift
     rts
-.endscope
+}
 .endif
 
-.rodata
+.section data
 
-bitmask:
+.global bitmask:
 	.repeat 11, i
 	.byte $01, $02, $04, $08, $10, $20, $40, $80
 ;	.byte $80, $40, $20, $10, $08, $04, $02, $01
 	.endrep
 
-.bss
-
-.if .defined(USE_SKIP)
-.export skip_key
-skip_key:
-	.res MAX_NUM_KEYS
-.endif

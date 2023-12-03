@@ -1,5 +1,5 @@
 ;  copy-screen.asm -- Copy characters to screen RAM.
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,28 +25,25 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-public copy_screen, copy_chars, set_charset
-
-include "platform.inc"
-
-section code_user
+.section code
 
 ; hl - address of charset
-set_charset:
+.global set_charset {
     ld a,l
     ld (current_charset),a
     ld a,h
     ld (current_charset + 1),a
     ret
+}
 
 ; iy - chars to copy from
-copy_screen:
+.global copy_screen {
     ld hl, screen
     ; fallthrough
 
 ; iy - chars to copy from
 ; hl - screen position to copy to
-copy_chars:
+.global copy_chars:
     ld a,(iy)
     inc iy
     cp a,$fe
@@ -112,8 +109,9 @@ runlength_next:
     sbc 0
     ld d,a
     jr runlength_loop
+}
 
-section bss_user
 
-current_charset:
-    defs 2
+.section reserve
+
+current_charset .reserve 2

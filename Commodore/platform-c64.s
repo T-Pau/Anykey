@@ -1,5 +1,3 @@
-.bss
+.section reserve
 
-.export acellerated
-acellerated:
-    .res 1
+.global acellerated .reserve 1

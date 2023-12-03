@@ -1,5 +1,5 @@
 ;  keyboard.s -- Read and display keyboard state
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,36 +25,21 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.section reserve
 
-.autoimport +
+.global port1 .reserve 1
+.global port2 .reserve 1
 
-.export init_keyboard_vicii, read_keyboard_128, process_skip
-.export port1, port2
+temp .reserve 1
 
-.include "defines.inc"
+.section code
 
-.macpack utility
-.macpack c128
-
-
-.bss
-
-port1:
-	.res 1
-port2:
-	.res 1
-temp:
-	.res 1
-
-.code
-
-init_keyboard_vicii:
+.global init_keyboard_vicii {
 	jsr init_restore_nmi
     rts
+}
 	
-.export process_skip
-process_skip:
-.scope
+.global process_skip {
 ;    inc VIDEO_BORDER_COLOR
 .if .defined(__C64__)
     lda machine_type
@@ -105,10 +90,10 @@ port1_clear:
 .endif
 ;    dec VIDEO_BORDER_COLOR
 	rts
-.endscope
+}
 
-read_keyboard_128:
-.scope
+
+.global read_keyboard_128 {
 	lda #$ff
 	sta CIA1_PRA
 	sta CIA1_PRB
@@ -250,4 +235,4 @@ not_disp_40_80:
 end:
 .endif
 	rts
-.endscope
+}

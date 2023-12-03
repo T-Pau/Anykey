@@ -1,5 +1,5 @@
 ;  charset-128.s -- Binary data of C128 keyboard character sets.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -26,10 +26,9 @@
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-.export charset_data_128
+.section data
 
-.rodata
-
-charset_data_128:
+.global charset_data_128 {
 	.incbin "keyboard-128-charset-top.bin"
 	.incbin "keyboard-128-charset-bottom.bin"
+}

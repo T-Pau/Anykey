@@ -1,5 +1,5 @@
 ;  keyboard-pet-40.s -- Support for PET 40 column mode keyboard.
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,30 +25,23 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.autoimport +
+.secction data
 
-.export reset_keyboard_40, reset_row
-.export keyboard_pet_business_40_screen, keyboard_pet_calculator_40_screen, keyboard_pet_graphics_40_screen
-
-.macpack utility
-
-.include "defines.inc"
-
-.rodata
-
-keyboard_pet_business_40_screen:
+.global keyboard_pet_business_40_screen {
     .incbin "keyboard-pet-business-40.bin"
+}
 
-keyboard_pet_calculator_40_screen:
+.global keyboard_pet_calculator_40_screen {
     .incbin "keyboard-pet-calculator-40.bin"
+}
 
-keyboard_pet_graphics_40_screen:
+.gloabl keyboard_pet_graphics_40_screen {
     .incbin "keyboard-pet-graphics-40.bin"
+}
 
-.code
+.section csode
 
-reset_keyboard_40:
-.scope
+.global reset_keyboard_40 {
 	store_word screen + 40 * 2, ptr1
 	lda left_list
 	sta ptr2
@@ -127,9 +120,8 @@ column_end:
 :   stx reset_row
     add_word ptr1, 40
     jmp row_loop
-.endscope
+}
 
-.bss
+.section reserve
 
-reset_row:
-    .res 1
+.global reset_row .reserve 1

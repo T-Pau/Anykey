@@ -1,5 +1,5 @@
 ;  main-loop.s -- Main loop.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C)  Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,23 +25,19 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export main_loop, command, last_command
+.section data
 
-.autoimport +
+.global command {
+	.data 0
+}
 
-.include "defines.inc"
+.global last_command {
+	.data 0
+}
 
-.data
+.section code
 
-command:
-	.byte 0
-
-last_command:
-	.byte 0
-
-.code
-
-main_loop:
+.global main_loop {
 .ifdef USE_PET
 	jsr process_keyboard
 .endif
@@ -58,3 +54,4 @@ jump:
 	lda #0
 	sta command
 	beq main_loop
+}

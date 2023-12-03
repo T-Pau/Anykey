@@ -1,5 +1,5 @@
 ;  joysticks-ted.s -- Read and display joysticks, TED version.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,16 +25,9 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.section code
 
-.autoimport +
-
-.export handle_joysticks
-
-.include "defines.inc"
-
-.code
-
-handle_joysticks:
+.global handle_joysticks {
 	lda #$ff
 	sta $FD30
 	lda #$04 ^ $ff
@@ -52,3 +45,4 @@ handle_joysticks:
     sta port_digital
     ldx #1
 	jmp display_joystick
+}

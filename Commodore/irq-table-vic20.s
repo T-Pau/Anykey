@@ -1,5 +1,5 @@
 ;  irq-table-vic20.s -- Table of raster IRQ handlers for VIC20 keyboard.
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,73 +25,67 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.section data
 
-.autoimport +
+.global main_pal_irq_table {
+	.data SCREEN_TOP_PAL - 1
+	.data top_keyboard
 
-.include "platform.inc"
+	.data SCREEN_TOP_PAL + 13 * 4 - 1
+	.data bottom_keyboard
 
-.rodata
+    .data SCREEN_TOP_PAL + 15 * 4 - 1
+    .data top_joystick
 
-.export main_pal_irq_table
-main_pal_irq_table:
-	.byte SCREEN_TOP_PAL - 1
-	.word top_keyboard
-
-	.byte SCREEN_TOP_PAL + 13 * 4 - 1
-	.word bottom_keyboard
-
-    .byte SCREEN_TOP_PAL + 15 * 4 - 1
-    .word top_joystick
-
-    .byte SCREEN_TOP_PAL + 19 * 4 - 1
-    .word bottom_joystick
+    .data SCREEN_TOP_PAL + 19 * 4 - 1
+    .data bottom_joystick
+}
 
 .export main_pal_irq_table_length
 main_pal_irq_table_length:
-	.byte * - main_pal_irq_table
+	.data * - main_pal_irq_table
 
 
 .export main_ntsc_irq_table
 main_ntsc_irq_table:
-	.byte SCREEN_TOP_NTSC - 1
-	.word top_keyboard
+	.data SCREEN_TOP_NTSC - 1
+	.data top_keyboard
 
-	.byte SCREEN_TOP_NTSC + 13 * 4 - 1
-	.word bottom_keyboard
+	.data SCREEN_TOP_NTSC + 13 * 4 - 1
+	.data bottom_keyboard
 
-    .byte SCREEN_TOP_NTSC + 15 * 4 - 1
-    .word top_joystick
+    .data SCREEN_TOP_NTSC + 15 * 4 - 1
+    .data top_joystick
 
-    .byte SCREEN_TOP_NTSC + 19 * 4 - 1
-    .word bottom_joystick
+    .data SCREEN_TOP_NTSC + 19 * 4 - 1
+    .data bottom_joystick
 
-.export main_ntsc_irq_table_length
-main_ntsc_irq_table_length:
-	.byte * - main_ntsc_irq_table
-
-
-
-.export help_pal_irq_table
-help_pal_irq_table:
-    .byte SCREEN_TOP_PAL + 4 - 2
-    .word help_top
-
-    .byte SCREEN_TOP_PAL + 4 * 19 - 1
-    .word help_bottom
-
-.export help_pal_irq_table_length
-help_pal_irq_table_length:
-    .byte * - help_pal_irq_table
+.global main_ntsc_irq_table_length {
+	.data * - main_ntsc_irq_table
+}
 
 
-.export help_ntsc_irq_table
-help_ntsc_irq_table:
-    .byte SCREEN_TOP_NTSC + 4 - 2
-    .word help_top
+.global help_pal_irq_table {
+    .data SCREEN_TOP_PAL + 4 - 2
+    .data help_top
 
-    .byte SCREEN_TOP_NTSC + 4 * 19 - 1
-    .word help_bottom
+    .data SCREEN_TOP_PAL + 4 * 19 - 1
+    .data help_bottom
+}
 
-.export help_ntsc_irq_table_length
-help_ntsc_irq_table_length:
-    .byte * - help_ntsc_irq_table
+.global help_pal_irq_table_length {
+    .data * - help_pal_irq_table
+}
+
+
+.global help_ntsc_irq_table {
+    .data SCREEN_TOP_NTSC + 4 - 2
+    .data help_top
+
+    .data SCREEN_TOP_NTSC + 4 * 19 - 1
+    .data help_bottom
+}
+
+.global help_ntsc_irq_table_length {
+    .data * - help_ntsc_irq_table
+}

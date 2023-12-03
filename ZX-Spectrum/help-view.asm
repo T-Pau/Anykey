@@ -1,5 +1,5 @@
 ;  main-view.asm -- main loop and helper functions for main view.
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,20 +25,13 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-public help
-
-include "platform.inc"
-include "keyboard.inc"
-
-global copy_screen, copy_chars, set_charset, copy_colors, main_loop, help_screens, num_help_screens
-
 NEXT = 1
 PREVIOUS = 2
 EXIT = 3
 
-section code_user
+.section code
 
-help:
+help {
     call reset_keyboard_state
     ld b,PRESSED_COLOR
     ld c,CHECKED_COLOR
@@ -68,8 +61,10 @@ help_loop:
     halt
     di
     jr help_loop
+}
 
-display_page:
+
+display_page {
     rlc a
     ld c,a
     ld b,0
@@ -87,8 +82,10 @@ display_page:
     call copy_chars
     ld iy,0 ; clear iy so interrupt routine doesn't clobber next help page
     ret
+}
 
-handle_keys:
+
+handle_keys {
     call read_keys
     cp a,0
     jr nz, got_key
@@ -140,8 +137,10 @@ not_previous:
     ldir
 
     jp main_loop
+}
 
-read_keys:
+
+read_keys {
     ld a,$7f
     in a,($fe)
     bit 0,a
@@ -165,9 +164,10 @@ no_p:
 no_1:
     ld a,0
     ret
+}
 
 
-reset_keyboard_state:
+reset_keyboard_state {
     ld b,num_keys
     ld a,0
     ld hl,key_state
@@ -176,18 +176,12 @@ reset_state_loop:
     inc hl
     djnz reset_state_loop
     ret
+}
 
 
-section bss_user
+.section reserve
 
-current_page:
-    defs 1
-
-current_key:
-    defs 1
-
-tmp_addr:
-    defs 2
-
-saved_color:
-    defs screen_size
+current_page .reserve 1
+current_key .reserve 1
+tmp_addr .reserve 2
+saved_color .reserve screen_size

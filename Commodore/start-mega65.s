@@ -1,10 +1,7 @@
-.include "cbm_kernal.inc"
 
-.include "mega65.inc"
+.section code
 
-.code
-
-start:
+.global start {
     ; enable VIC IV
     lda #$47
 	sta VIC_KEY
@@ -34,11 +31,15 @@ loop:
     bne loop
 end:
     rts
+}
 
-.rodata
 
-message:
+.section data
+
+message {
     .byte "t'pau was here to save another world!", 0
+}
 
-charset:
+charset {
     .incbin "charset.bin"
+}

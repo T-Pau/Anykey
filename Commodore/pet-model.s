@@ -1,5 +1,5 @@
 ;  pet-model.s -- Set up model specific data.
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,17 +25,10 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.include "defines.inc"
-.include "pet-detect.inc"
-
-.autoimport +
-
-.export setup_model, reset_keyboard, saved_screen, saved_screen_size, help_keys, help_count, help_pages, help_footer, left_list
-
-.macpack utility
+.export   saved_screen, saved_screen_size, help_keys, help_count, help_pages, help_footer, left_list
 
 .ifdef FIT_IN_8K
-saved_screen_size = saved_screen_size_table
+.global saved_screen_size = saved_screen_size_table
 keyboard_pet_business_40_screen = 0
 keys_pet_business_40_address_low = 0
 left_business_40 = 0
@@ -50,10 +43,9 @@ MAX_SAVED_SCREEN_SIZE = SAVED_SCREEN_SIZE_40
 MAX_SAVED_SCREEN_SIZE = SAVED_SCREEN_SIZE_80
 .endif
 
-.code
+.section code
 
-setup_model:
-.scope
+.global setup_model {
     jsr detect
     lda line_width
 .ifdef FIT_IN_8K
@@ -157,70 +149,90 @@ line_width_supported:
     jsr set_keys_table
     lda #0
     rts
-.endscope
+}
 
-reset_keyboard:
+
+.global reset_keyboard {
 .ifdef FIT_IN_8K
     jmp reset_keyboard_40
 .else
     jmp (reset_keyboard_routine)
 .endif
+}
 
-.rodata
+.section data
 
 ; indexed by line_width
 .ifndef FIT_IN_8K
-reset_keyboard_routine_table:
+reset_keyboard_routine_table {
     .word reset_keyboard_40
     .word reset_keyboard_80
+}
 .endif
 
-saved_screen_size_table:
+
+saved_screen_size_table {
     .word SAVED_SCREEN_SIZE_40
 .ifndef FIT_IN_8K
     .word SAVED_SCREEN_SIZE_80
 .endif
+}
+
 
 ; indexed by line_width
-help_table:
+help_table {
     .word help_40
 .ifndef FIT_IN_8K
     .word help_80
 .endif
+}
 
-help_40:
+
+help_40 {
     .word num_help_40_screens
     .word help_40_screens
     .word help_40_footer
+}
+
 
 .ifndef FIT_IN_8K
-help_80:
+help_80 {
     .word num_help_80_screens
     .word help_80_screens
     .word help_80_footer
+}
 .endif
 
+
 ; indexed by keyboard type != business
-key_index_help_table:
+key_index_help_table {
     .byte $27, $0f
+}
+
 
 ; indexed by keyboard type != business
-key_index_reset_table:
+key_index_reset_table {
     .byte $44, $06
+}
+
 
 ; indexed by keyboard type != business
-help_keys_table:
+help_keys_table {
     .word help_keys_business
     .word help_keys_graphics
+}
+
 
 ; indexed by keyboard type
-left_list_table:
+left_list_table {
     .word left_business_40
     .word left_calculator_40
     .word left_graphics_40
+}
+
 
 ; indexed by keyboard type (* 2 + line_width)
-keyboard_screen_table:
+keyboard_screen_table {
     .word keyboard_pet_business_40_screen
 .ifndef FIT_IN_8K
     .word keyboard_pet_business_80_screen
@@ -230,9 +242,11 @@ keyboard_screen_table:
     .word keyboard_pet_calculator_80_screen
 .endif
     .word keyboard_pet_graphics_40_screen
+}
+
 
 ; indexed by keyboard type (* 2 + line_width)
-keyboard_table:
+keyboard_table {
     .word keys_pet_business_40_address_low
 .ifndef FIT_IN_8K
     .word keys_pet_business_80_address_low
@@ -242,53 +256,42 @@ keyboard_table:
     .word keys_pet_calculator_80_address_low
 .endif
     .word keys_pet_graphics_40_address_low
+}
 
 
-help_keys_graphics:
+help_keys_graphics {
     .byte $4a, COMMAND_HELP_NEXT ; space
     .byte $3f, COMMAND_HELP_NEXT ; +
     .byte $47, COMMAND_HELP_PREVIOUS; -
     .byte $06, COMMAND_HELP_EXIT ; clr/home
     .byte $ff
+}
+
 
 .ifndef FIT_IN_4K
-help_keys_business:
+help_keys_business {
     .byte $42, COMMAND_HELP_NEXT ; space
     .byte $16, COMMAND_HELP_NEXT ; + (actually ;)
     .byte $03, COMMAND_HELP_PREVIOUS ; -
     .byte $44, COMMAND_HELP_EXIT ; clr/home
     .byte $10, COMMAND_HELP_EXIT ; escape
     .byte $ff
+}
 .endif
 
 
-.bss
+.section reserve
 
-help_count:
-    .res 1
-
-help_pages:
-    .res 2
-
-help_footer:
-    .res 2
-
-help_keys:
-    .res 2
+.global help_count .reserve 1
+.global help_pages .reserve 2
+.gloabl help_footer .reserve 2
+.global help_keys .reserve 2
 
 .ifndef FIT_IN_8K
-reset_keyboard_routine:
-    .res 2
-
-saved_screen_size:
-    .res 2
+reset_keyboard_routine .reserve 2
+.global saved_screen_size .reserve 2
 .endif
 
-left_list:
-    .res 2
-
-saved_screen:
-    .res MAX_SAVED_SCREEN_SIZE
-
-keyboard_type_index:
-    .res 1
+.global left_list .reserve 2
+.global saved_screen .reserve MAX_SAVED_SCREEN_SIZE
+keyboard_type_index .reserve 1

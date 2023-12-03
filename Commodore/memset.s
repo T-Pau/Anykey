@@ -1,5 +1,5 @@
 ;  memset.s -- Fill region of memory with value.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -28,13 +28,9 @@
 
 ; fill ptr3 bytes at ptr2 with A
 
-.export memset
+.section code
 
-.include "defines.inc"
-
-.code
-
-memset:
+.global memset:
 	ldy #0
 	ldx ptr3 + 1
 	beq partial
@@ -57,4 +53,4 @@ partial_loop:
 	bne partial_loop
 end:
 	rts
-
+}

@@ -1,5 +1,5 @@
 ;  screen-64.s -- Main screen for C64 keyboard.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,49 +25,42 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export main_screen_64, main_color_64
+.section data
 
-.autoimport +
-
-.macpack cbm
-.macpack cbm_ext
-
-.include "defines.inc"
-
-.rodata
-
-main_screen_64:
-	invcode " keyboard                               "
+.global main_screen_64 {
+	.data " keyboard                               ":screen_inverted
 	.incbin "keyboard-64-screen.bin"
-	invcode "                                        "
-	invcode "     joysticks                          "
-	invcode "    "
-	scrcode     "I                              J"
-    invcode                                     "    "
-	invcode "    "
-	scrcode     "                                "
-    invcode                                     "    "
-    invcode "    "
-	scrcode     "      AHBAHBAHB       AHBAHBAHB "
-    invcode                                     "    "
-    invcode "    "
-	scrcode     "      E1FE2FE3F       E1FE2FE3F "
-    invcode                                     "    "
-    invcode "    "
-	scrcode     "      CGDCGDCGD       CGDCGDCGD "
-    invcode                                     "    "
-	invcode "    "
-	scrcode     "                                "
-    invcode                                     "    "
-	invcode "    "
-	scrcode     "KMMMMMMMMMMMMMMMMMMMMMMMMMMMMMML"
-    invcode                                     "    "
-	invcode "                                        "
-	invcode "      f5: reset keyboard  f7: help      "
-	invcode "          (hold for 2 seconds)          "
-	invcode "                                        "
+	.data "                                        ":screen_inverted
+	.data "     joysticks                          ":screen_inverted
+	.data "    ":screen_inverted
+	.data     "I                              J":screen
+    .data                                     "    ":screen_inverted
+	.data "    ":screen_inverted
+	.data     "                                ":screen
+    .data                                     "    ":screen_inverted
+    .data "    ":screen_inverted
+	.data     "      AHBAHBAHB       AHBAHBAHB ":screen
+    .data                                     "    ":screen_inverted
+    .data "    ":screen_inverted
+	.data     "      E1FE2FE3F       E1FE2FE3F ":screen
+    .data                                     "    ":screen_inverted
+    .data "    ":screen_inverted
+	.data     "      CGDCGDCGD       CGDCGDCGD ":screen
+    .data                                     "    ":screen_inverted
+	.data "    ":screen_inverted
+	.data     "                                ":screen
+    .data                                     "    ":screen_inverted
+	.data "    ":screen_inverted
+	.data     "KMMMMMMMMMMMMMMMMMMMMMMMMMMMMMML":screen
+    .data                                     "    ":screen_inverted
+	.data "                                        ":screen_inverted
+	.data "      f5: reset keyboard  f7: help      ":screen_inverted
+	.data "          (hold for 2 seconds)          ":screen_inverted
+	.data "                                        ":screen_inverted
+}
 
-main_color_64:
+
+.global main_color_64 {
 	.res 40 * 2, FRAME_COLOR
 	.res 40 * 10, UNCHECKED_COLOR
 	.res 40 * 4, FRAME_COLOR
@@ -77,3 +70,4 @@ main_color_64:
 	.res 4, FRAME_COLOR
 	.endrep
 	.res 40 * 4, FRAME_COLOR
+}

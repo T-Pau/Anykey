@@ -1,5 +1,5 @@
 ;  reset-keyboard.asm -- reset pressed state of all keys.
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,20 +25,16 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-public reset_keyboard, change_keyboard_colors
+.section code
 
-include "platform.inc"
-
-section code_user
-
-reset_keyboard:
+.global reset_keyboard {
     ld b,CHECKED_COLOR
     ld c,UNCHECKED_COLOR
     ; fallthrough
 
 ; b: color to reset
 ; c: color to replace with
-change_keyboard_colors:
+.global change_keyboard_colors:
     ld hl,color + KEYBOARD_OFFSET
     ld de, KEYBOARD_SIZE
 reset_loop:
@@ -53,3 +49,4 @@ not_checked:
     or a,e
     jr nz,reset_loop
     ret
+}
