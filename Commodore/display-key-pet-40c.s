@@ -32,166 +32,166 @@
 
 .section data
 
-.global char_top_left {
-	.data SQUARE_TOP_LEFT, PRESSED_TOP_LEFT
+.public char_top_left {
+    .data SQUARE_TOP_LEFT, PRESSED_TOP_LEFT
 }
 
-.global char_top {
-	.data SQUARE_HORIZONTAL, PRESSED_TOP
+.public char_top {
+    .data SQUARE_HORIZONTAL, PRESSED_TOP
 }
 
-.global char_top_right {
-	.data SQUARE_TOP_RIGHT, PRESSED_TOP_RIGHT
+.public char_top_right {
+    .data SQUARE_TOP_RIGHT, PRESSED_TOP_RIGHT
 }
 
-.global char_left {
-	.data SQUARE_VERTICAL, PRESSED_LEFT
+.public char_left {
+    .data SQUARE_VERTICAL, PRESSED_LEFT
 }
 
-.global char_right {
-	.data SQUARE_VERTICAL, PRESSED_RIGHT
+.public char_right {
+    .data SQUARE_VERTICAL, PRESSED_RIGHT
 }
 
-.global char_bottom_left {
-	.data SQUARE_BOTTOM_LEFT, PRESSED_BOTTOM_LEFT
+.public char_bottom_left {
+    .data SQUARE_BOTTOM_LEFT, PRESSED_BOTTOM_LEFT
 }
 
-.global char_bottom {
-	.data SQUARE_HORIZONTAL, PRESSED_BOTTOM
+.public char_bottom {
+    .data SQUARE_HORIZONTAL, PRESSED_BOTTOM
 }
 
-.global char_bottom_right {
-	.data SQUARE_BOTTOM_RIGHT, PRESSED_BOTTOM_RIGHT
+.public char_bottom_right {
+    .data SQUARE_BOTTOM_RIGHT, PRESSED_BOTTOM_RIGHT
 }
 
 .section code
 
-.global display_key_s {
-	rts
+.public display_key_s {
+    rts
 }
 
 
-.global display_key_40_full {
-	lda char_top_left,x
-	sta (ptr1),y
-	iny
-	lda char_top,x
-	sta (ptr1),y
-	iny
-	lda char_top_right,x
-	sta (ptr1),y
+.public display_key_40_full {
+    lda char_top_left,x
+    sta (ptr1),y
+    iny
+    lda char_top,x
+    sta (ptr1),y
+    iny
+    lda char_top_right,x
+    sta (ptr1),y
 
-	clc
-	lda #40
-	adc_16 ptr1
-	ldy #0
-.global display_key_40_left:
-	lda char_left,x
-	sta (ptr1),y
-	iny
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	lda char_right,x
-	sta (ptr1),y
-
-	ldy #40
-	lda char_bottom_left,x
-	sta (ptr1),y
-	iny
-	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
-}
-
-.global display_key_40_top {
-	lda char_top,x
-	sta (ptr1),y
-	iny
-	lda char_top_right,x
-	sta (ptr1),y
-
-	clc
-	lda #40
-	adc_16 ptr1
-	dey
-.global display_key_40_mid:
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	lda char_right,x
-	sta (ptr1),y
-
-	ldy #40
-	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
-}
-
-.global display_key_40_mid_3 {
-:	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #3
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
-
-	ldy #40
-:	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	cpy #43
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
-}
-
-.global display_key_40c_ret {
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	lda char_right,x
-	sta (ptr1),y
+    clc
+    lda #40
+    adc_16 ptr1
+    ldy #0
+.public display_key_40_left:
+    lda char_left,x
+    sta (ptr1),y
+    iny
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    lda char_right,x
+    sta (ptr1),y
 
     ldy #40
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	lda char_right,x
-	sta (ptr1),y
+    lda char_bottom_left,x
+    sta (ptr1),y
+    iny
+    lda char_bottom,x
+    sta (ptr1),y
+    iny
+    lda char_bottom_right,x
+    sta (ptr1),y
+    rts
+}
+
+.public display_key_40_top {
+    lda char_top,x
+    sta (ptr1),y
+    iny
+    lda char_top_right,x
+    sta (ptr1),y
+
+    clc
+    lda #40
+    adc_16 ptr1
+    dey
+.public display_key_40_mid:
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    lda char_right,x
+    sta (ptr1),y
+
+    ldy #40
+    lda char_bottom,x
+    sta (ptr1),y
+    iny
+    lda char_bottom_right,x
+    sta (ptr1),y
+    rts
+}
+
+.public display_key_40_mid_3 {
+:	lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    cpy #3
+    bne :-
+    lda char_right,x
+    sta (ptr1),y
+
+    ldy #40
+:	lda char_bottom,x
+    sta (ptr1),y
+    iny
+    cpy #43
+    bne :-
+    lda char_bottom_right,x
+    sta (ptr1),y
+    rts
+}
+
+.public display_key_40c_ret {
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    lda char_right,x
+    sta (ptr1),y
+
+    ldy #40
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    lda char_right,x
+    sta (ptr1),y
 
     ldy #80
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	lda char_right,x
-	sta (ptr1),y
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    lda char_right,x
+    sta (ptr1),y
 
-	ldy #120
-	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
+    ldy #120
+    lda char_bottom,x
+    sta (ptr1),y
+    iny
+    lda char_bottom_right,x
+    sta (ptr1),y
+    rts
 }

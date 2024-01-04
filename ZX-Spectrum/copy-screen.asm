@@ -28,7 +28,7 @@
 .section code
 
 ; hl - address of charset
-.global set_charset {
+.public set_charset {
     ld a,l
     ld (current_charset),a
     ld a,h
@@ -37,13 +37,13 @@
 }
 
 ; iy - chars to copy from
-.global copy_screen {
+.public copy_screen {
     ld hl, screen
     ; fallthrough
 
 ; iy - chars to copy from
 ; hl - screen position to copy to
-.global copy_chars:
+.public copy_chars:
     ld a,(iy)
     inc iy
     cp a,$fe

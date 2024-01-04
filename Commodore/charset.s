@@ -28,6 +28,6 @@
 
 .section data
 
-.global charset_data {
-	.incbin "charset.bin"
+.public charset_data {
+    .binary_file "charset.bin"
 }

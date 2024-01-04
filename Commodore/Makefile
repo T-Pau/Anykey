@@ -321,19 +321,19 @@ autoboot-mega65.prg: autoboot-mega65.bas
 	petcat -w65 -l 0801 -o autoboot-mega65.prg autoboot-mega65.bas
 
 help-screens-64.s: help-screens.txt ../version.txt ${CONVERT_SCREENS_DEPENDENCIES}
-	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__C64__ $< $@
+	${CONVERT_SCREENS} -DVERSION=${VERSION} -DC64 $< $@
 
 help-screens-128.s: help-screens.txt ../version.txt ${CONVERT_SCREENS_DEPENDENCIES}
-	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__C128__ $< $@
+	${CONVERT_SCREENS} -DVERSION=${VERSION} -DC128 $< $@
 
 help-screens-mega65.s: help-screens.txt ../version.txt ${CONVERT_SCREENS_DEPENDENCIES}
-	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__MEGA65__ $< $@
+	${CONVERT_SCREENS} -DVERSION=${VERSION} -DMEGA65 $< $@
 
 help-screens-plus4.s: help-screens.txt ../version.txt ${CONVERT_SCREENS_DEPENDENCIES}
-	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__PLUS4__ $< $@
+	${CONVERT_SCREENS} -DVERSION=${VERSION} -DPLUS4 $< $@
 
 help-screens-vic20.s: help-screens-vic20.txt ../version.txt ${CONVERT_SCREENS_DEPENDENCIES}
-	${CONVERT_SCREENS} -DVERSION=${VERSION} -D__VIC20__ $< $@
+	${CONVERT_SCREENS} -DVERSION=${VERSION} -DVIC20 $< $@
 
 keys-64.s: keys-64.key key-table
 	./key-table keys-64

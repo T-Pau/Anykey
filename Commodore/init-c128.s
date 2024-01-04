@@ -1,4 +1,4 @@
-;  joysticks-ted.s -- Read and display joysticks, TED version.
+;  init-c128.s -- C128 specific initialization
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -27,22 +27,12 @@
 
 .section code
 
-.public handle_joysticks {
-    lda #$ff
-    sta $FD30
-    lda #$04 ^ $ff
-    sta TED_KBD
-    lda TED_KBD
-    eor #$ff
-    sta port_digital
-    ldx #0
-    jsr display_joystick
-
-    lda #$02 ^ $ff
-    sta TED_KBD
-    lda TED_KBD
-    eor #$ff
-    sta port_digital
-    ldx #1
-    jmp display_joystick
+.public init {
+    lda MMU_CR
+    ora #$0e
+    sta MMU_CR
+    lda #MACHINE_TYPE_C128
+    sta machine_type
+    ; TODO: detect acceleration
+    rts
 }

@@ -46,7 +46,7 @@ for char_y in range(0, char_rows):
 with open(charset_file, "w") as file:
     output = AssemblerOutput.AssemblerOutput("cc65", file)
     output.header(sys.argv[1])
-    output.global_symbol(f"{symbol_prefix}_data")
+    output.public_symbol(f"{symbol_prefix}_data")
     output.bytes(data)
 
     trim = []
@@ -55,5 +55,5 @@ with open(charset_file, "w") as file:
             trim.append(16 - widths[index])
         else:
             trim.append(16 - char_width)
-    output.global_symbol(f"{symbol_prefix}_trim")
+    output.public_symbol(f"{symbol_prefix}_trim")
     output.bytes(trim)

@@ -27,17 +27,17 @@
 
 .section data
 
-.global main_128_irq_table {
-	.data (SCREEN_TOP - 1):2, top_label
-	.data (SCREEN_TOP + 8 - 2):2, switch_keyboard_top
-	.data (SCREEN_TOP + 7 * 8 - 2):2, switch_keyboard_bottom
-	.data (SCREEN_TOP + 15 * 8 - 2):2, switch_joystick_label
-	.data (SCREEN_TOP + 17 * 8 - 1):2, switch_joystick
-	.data (SCREEN_TOP + 22 * 8 - 2):2, switch_joystick_bottom
-	.data (SCREEN_TOP + 24 * 8 + 7):2, switch_bottom
+.public main_128_irq_table {
+    .data (SCREEN_TOP - 1):2, top_label
+    .data (SCREEN_TOP + 8 - 2):2, switch_keyboard_top
+    .data (SCREEN_TOP + 7 * 8 - 2):2, switch_keyboard_bottom
+    .data (SCREEN_TOP + 15 * 8 - 2):2, switch_joystick_label
+    .data (SCREEN_TOP + 17 * 8 - 1):2, switch_joystick
+    .data (SCREEN_TOP + 22 * 8 - 2):2, switch_joystick_bottom
+    .data (SCREEN_TOP + 24 * 8 + 7):2, switch_bottom
 }
 
 
-.global main_128_irq_table_length {
-	.byte * - main_128_irq_table
+.public main_128_irq_table_length {
+    .data .sizeof(main_128_irq_table)
 }

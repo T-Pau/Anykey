@@ -1,0 +1,11 @@
+VERSION = 1.6.1
+
+rule link
+  command = xlr8 -I $build_directory --target $target --depfile $depfile --symbol-map $out.sym --output $out $in $libs
+  depfile = $out.d
+
+rule library
+  command = xlr8 -I $build_directory --create-library --target $target --depfile $depfile --output $out $in $libs
+  depfile = $out.d
+
+subninja Commodore/build.fninja

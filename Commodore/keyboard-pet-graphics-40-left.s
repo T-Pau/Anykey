@@ -3,7 +3,7 @@
 
 .export left_graphics_40
 
-.rodata
+.section data
 
 left_graphics_40:
     .byte 40, 31, 49, 31, 50, 30, 50, 30, 56, 24, 0

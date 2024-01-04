@@ -27,12 +27,12 @@
 
 .section data
 
-.global main_pal_irq_table {
-	.data SCREEN_TOP_PAL - 1
-	.data top_keyboard
+.public main_pal_irq_table {
+    .data SCREEN_TOP_PAL - 1
+    .data top_keyboard
 
-	.data SCREEN_TOP_PAL + 13 * 4 - 1
-	.data bottom_keyboard
+    .data SCREEN_TOP_PAL + 13 * 4 - 1
+    .data bottom_keyboard
 
     .data SCREEN_TOP_PAL + 15 * 4 - 1
     .data top_joystick
@@ -43,16 +43,16 @@
 
 .export main_pal_irq_table_length
 main_pal_irq_table_length:
-	.data * - main_pal_irq_table
+    .data .sizeof(main_pal_irq_table)
 
 
 .export main_ntsc_irq_table
 main_ntsc_irq_table:
-	.data SCREEN_TOP_NTSC - 1
-	.data top_keyboard
+    .data SCREEN_TOP_NTSC - 1
+    .data top_keyboard
 
-	.data SCREEN_TOP_NTSC + 13 * 4 - 1
-	.data bottom_keyboard
+    .data SCREEN_TOP_NTSC + 13 * 4 - 1
+    .data bottom_keyboard
 
     .data SCREEN_TOP_NTSC + 15 * 4 - 1
     .data top_joystick
@@ -60,12 +60,12 @@ main_ntsc_irq_table:
     .data SCREEN_TOP_NTSC + 19 * 4 - 1
     .data bottom_joystick
 
-.global main_ntsc_irq_table_length {
-	.data * - main_ntsc_irq_table
+.public main_ntsc_irq_table_length {
+    .data .sizeof(main_ntsc_irq_table)
 }
 
 
-.global help_pal_irq_table {
+.public help_pal_irq_table {
     .data SCREEN_TOP_PAL + 4 - 2
     .data help_top
 
@@ -73,12 +73,12 @@ main_ntsc_irq_table:
     .data help_bottom
 }
 
-.global help_pal_irq_table_length {
-    .data * - help_pal_irq_table
+.public help_pal_irq_table_length {
+    .data .sizeof(help_pal_irq_table)
 }
 
 
-.global help_ntsc_irq_table {
+.public help_ntsc_irq_table {
     .data SCREEN_TOP_NTSC + 4 - 2
     .data help_top
 
@@ -86,6 +86,6 @@ main_ntsc_irq_table:
     .data help_bottom
 }
 
-.global help_ntsc_irq_table_length {
-    .data * - help_ntsc_irq_table
+.public help_ntsc_irq_table_length {
+    .data .sizeof(help_ntsc_irq_table)
 }

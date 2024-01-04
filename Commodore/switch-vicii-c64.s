@@ -1,4 +1,4 @@
-;  defines.inc -- Global definitions for Anykey.
+;  switch-vicii-c64.s -- C64 specific IRQ handler routines for VIC-II.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,13 +25,31 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.include "platform.inc"
+.section code
 
-COMMAND_NONE = 0
-COMMAND_HELP = 1
-COMMAND_HELP_NEXT = 2
-COMMAND_HELP_PREVIOUS = 3
-COMMAND_HELP_EXIT = 4
-COMMAND_RESET_KEYBOARD = 5
+.public switch_keyboard_top_acellerated {
+    jsr content_background
+    lda #FRAME_COLOR
+    ldx #SCREEN_TOP + 8 + 1
+:	cpx VIC_RASTER
+    bne :-
+    set_vic_text screen, charset_keyboard_top
+    ldx #0
+    jsr read_pots
+    rts
+}
 
-.include "cbm_kernal.inc"
+
+.public switch_keyboard_bottom_acellerated {
+    lda #VIC_ADDRESS(screen, charset_keyboard_bottom)
+    ldx bottom_charset_line
+    inx
+:	cpx VIDEO_CURRENT_LINE
+    bne :-
+    sta VIC_VIDEO_ADDRESS
+    lda command
+    bne :+
+    jsr handle_joysticks
+:
+    jmp select_pots2
+}

@@ -27,44 +27,40 @@
 
 .section data
 
-.global main_screen_mega65_c64 {
-	.data "    keyboard                            ":screen_inverted
-	.incbin "keyboard-mega65-c64-screen.bin"
-	.data "                                        ":screen_inverted
-	.data "     joysticks                          ":screen_inverted
-	.data "    ":screen_inverted
-	.data     "I                              J":screen
+.public main_screen_mega65_c64 {
+    .data "    keyboard                            ":screen_inverted
+    .binary_file "keyboard-mega65-c64-screen.bin"
+    .data "                                        ":screen_inverted
+    .data "     joysticks                          ":screen_inverted
+    .data "    ":screen_inverted
+    .data     "I                              J":screen
     .data                                     "    ":screen_inverted
     .data "    ":screen_inverted
-	.data     "      AHBAHBAHB       AHBAHBAHB ":screen
+    .data     "      AHBAHBAHB       AHBAHBAHB ":screen
     .data                                     "    ":screen_inverted
     .data "    ":screen_inverted
-	.data     "      E1FE2FE3F       E1FE2FE3F ":screen
+    .data     "      E1FE2FE3F       E1FE2FE3F ":screen
     .data                                     "    ":screen_inverted
     .data "    ":screen_inverted
-	.data     "      CGDCGDCGD       CGDCGDCGD ":screen
+    .data     "      CGDCGDCGD       CGDCGDCGD ":screen
     .data                                     "    ":screen_inverted
-	.data "    ":screen_inverted
-	.data     "K                              L":screen
+    .data "    ":screen_inverted
+    .data     "K                              L":screen
     .data                                     "    ":screen_inverted
-	.data "                                        ":screen_inverted
-	.data "    f13: reset keyboard   help: help    ":screen_inverted
-	.data "          (hold for 2 seconds)          ":screen_inverted
+    .data "                                        ":screen_inverted
+    .data "    f13: reset keyboard   help: help    ":screen_inverted
+    .data "          (hold for 2 seconds)          ":screen_inverted
 }
 
 
-.global main_color_mega65_c64 {
-	.res 40 * 2, FRAME_COLOR
-.repeat 12, i
-	.res 3, FRAME_COLOR
-	.res 34, UNCHECKED_COLOR
-	.res 3, FRAME_COLOR
-.endrep
-	.res 40 * 3, FRAME_COLOR
-.repeat 5, i
-	.res 5, FRAME_COLOR
-	.res 30, CONTENT_COLOR
-	.res 5, FRAME_COLOR
-.endrep
-	.res 40 * 3, FRAME_COLOR
+.public main_color_mega65_c64 {
+    .data .fill(40 * 2, FRAME_COLOR)
+    .repeat 12 {
+        .data .fill(3, FRAME_COLOR), .fill(34, UNCHECKED_COLOR), .fill(3, FRAME_COLOR)
+    }
+    .data .fill(40 * 3, FRAME_COLOR)
+    .repeat 5 {
+        .data .fill(5, FRAME_COLOR), .fill(30, CONTENT_COLOR), .fill(5, FRAME_COLOR)
+    }
+    .data .fill(40 * 3, FRAME_COLOR)
 }

@@ -26,28 +26,29 @@
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 .macro set_vic_bank base_address {
-.if .not .defined(__MEGA65__)
-    lda CIA2_PRA ; switch VIC bank
-    and #$fc
-    ora #((base_address >> 14) ^ 3)
-    sta CIA2_PRA
-.endif
+    .if  !.defined(MEGA65) {
+        lda CIA2_PRA ; switch VIC bank
+        and #$fc
+        ora #((base_address >> 14) ^ 3)
+        sta CIA2_PRA
+    }
 }
 
 .macro set_vic_text screen, charset {
-.if .defined(__MEGA65__)
-    lda #<screen
-    sta VIC_SCREEN_POINTER
-    lda #>screen
-    sta VIC_SCREEN_POINTER + 1
-    lda #<charset
-    sta VIC_CHARSET_POINTER
-    lda #>charset
-    sta VIC_CHARSET_POINTER + 1
-.else
-	lda #(((screen & $3c00) >> 6) | ((charset & $3800) >> 10))
-	sta VIC_VIDEO_ADR
-.endif
+    .if .defined(MEGA65) {
+        lda #<screen
+        sta VIC_SCREEN_POINTER
+        lda #>screen
+        sta VIC_SCREEN_POINTER + 1
+        lda #<charset
+        sta VIC_CHARSET_POINTER
+        lda #>charset
+        sta VIC_CHARSET_POINTER + 1
+    }
+    .else {
+        lda #VIC_ADDRESS(screen, charset)
+        sta VIC_VIDEO_ADDRESS
+    }
 }
 
 .macro set_ted_charset charset {
@@ -56,13 +57,13 @@
 }
 
 .macro set_vic_24_lines {
-	lda VIC_CTRL1
+	lda VIC_CONTROL_1
 	and #$08 ^ $ff
-	sta VIC_CTRL1
+	sta VIC_CONTROL_1
 }
 
 .macro set_vic_25_lines {
-	lda VIC_CTRL1
+	lda VIC_CONTROL_1
 	ora #$08
-	sta VIC_CTRL1
+	sta VIC_CONTROL_1
 }

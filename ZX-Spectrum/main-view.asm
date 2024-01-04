@@ -27,7 +27,7 @@
 
 .section code
 
-.global main_loop {
+.public main_loop {
     call read_keyboard
 IF USE_EXTENDED_KEYS
     call read_extended_keys

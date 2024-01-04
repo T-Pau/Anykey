@@ -22,3 +22,4 @@ __pycache__
 /Commodore/keyboard-mega65.s
 /Commodore/charset-mega65-8x16.s
 /Commodore/charset-mega65-16x16.s
+/build

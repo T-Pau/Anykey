@@ -27,7 +27,7 @@
 
 .section code
 
-.global display_help_screen {
+.public display_help_screen {
     store_word saved_screen, ptr2
     store_word screen, ptr1
     lda saved_screen_size
@@ -46,7 +46,7 @@
 }
 
 
-.global help_next {
+.public help_next {
     ldx current_page
     inx
     cpx help_count
@@ -55,7 +55,7 @@
     jmp update_help_page
 }
 
-.global help_previous {
+.public help_previous {
     ldx current_page
     dex
     bpl update_help_page
@@ -64,7 +64,7 @@
     jmp update_help_page
 }
 
-.global update_help_page {
+.public update_help_page {
     stx current_page
     store_word help_pages, ptr2
     ldy #0
@@ -81,12 +81,12 @@
     iny
     lda (ptr3),y
     sta ptr1 + 1
-	store_word screen, ptr2
-	jmp rl_expand
+    store_word screen, ptr2
+    jmp rl_expand
 }
 
 
-.global display_main_screen {
+.public display_main_screen {
     store_word screen, ptr2
     store_word saved_screen, ptr1
     lda saved_screen_size
@@ -96,9 +96,9 @@
     jsr memcpy
     ldx #$ff
     stx current_page
-	rts
+    rts
 }
 
 .section reserve
 
-.global current_page .reserve 1  ; $ff when not in help mode
+.public current_page .reserve 1  ; $ff when not in help mode

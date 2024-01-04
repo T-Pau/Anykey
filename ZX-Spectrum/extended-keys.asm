@@ -2,7 +2,7 @@
 
 .section code
 
-.global init_extended_keys {
+.public init_extended_keys {
     ; disable emulating legacy key combinations for extended keys
     readnextreg $68
     or a, $10
@@ -11,7 +11,7 @@
 }
 
 
-.global read_extended_keys {
+.public read_extended_keys {
     ld hl,new_key_state + 40
     readnextreg $b0
     call read_row

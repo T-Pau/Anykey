@@ -1,6 +1,6 @@
 USE_EXTENDED_KEYS = 1
 
-.global .macro readnextreg address {
+.public .macro readnextreg address {
     ld a, address
     ld bc, $243b
     out (c), a

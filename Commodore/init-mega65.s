@@ -1,4 +1,4 @@
-;  joysticks-ted.s -- Read and display joysticks, TED version.
+;  init-mega65.s -- MEGA65 specific initialization
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -27,22 +27,59 @@
 
 .section code
 
-.public handle_joysticks {
-    lda #$ff
-    sta $FD30
-    lda #$04 ^ $ff
-    sta TED_KBD
-    lda TED_KBD
-    eor #$ff
-    sta port_digital
-    ldx #0
-    jsr display_joystick
+.public init {
+    ; Set up C64 environment, taken from mega65-tools c65toc64wrapper.asm
+    sei
+    lda #$37
+    sta $01
+    lda #0
+    tax
+    tay
+    taz
+    map
+    eom
+    ;; Enable fast CPU for quick depack
+    lda #65
+    sta 0
+    ;; Enable IO for DMA
+    lda #$47
+    sta $d02f
+    lda #$53
+    sta $d02f
+    ;; Reset C64 mode KERNAL stuff
+    jsr $fda3 ; init I/O
+    jsr $fd15 ; set I/O vectors
+    lda #>$0400             ; Make sure screen memory set to sensible location
+    sta $0288               ; before we call screen init $FF5B
+    jsr $ff5b ; more init
+    jsr $f7a9 ; C65 DOS reinit
 
-    lda #$02 ^ $ff
-    sta TED_KBD
-    lda TED_KBD
-    eor #$ff
-    sta port_digital
-    ldx #1
-    jmp display_joystick
+    lda #VIC_KNOCK_IV_1
+    sta VIC_KEY
+    lda #VIC_KNOCK_IV_2
+    sta VIC_KEY
+    lda $d05d
+    and #$7f
+    sta $d05d
+    ; swtich to 40 column mode
+    lda #60
+    sta VIC_CHAR_X_SCALE
+    lda #40
+    sta VIC_CHAR_COUNT
+    sta VIC_LINE_STEP
+    store_word screen + $03f8, VIC_SPRITE_POINTER
+    lda #$00 ; $80
+    sta VIC_SPRITE_BANK
+    inc VIC_SDBDRWD
+    clc
+    lda VIC_TEXT_X_POSITION
+    adc #3
+    sta VIC_TEXT_X_POSITION
+    lda #MACHINE_TYPE_MEGA65
+    sta machine_type
+
+    ; The xmega65 emulator ignores the VIC-II bank, so copy it in both banks.
+   	memcpy $0800, sprite_data, (64 * 8)
+
+    rts
 }

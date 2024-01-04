@@ -25,22 +25,22 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.ifdef USE_PET
+.pre_if .defined(USE_PET)
 MAX_KEY_READ = 80
-.else
+.pre_else
 MAX_KEY_READ = 64
-.endif
+.pre_end
 
 .section data
 
-.global key_state .reserve MAX_NUM_KEYS
-.global new_key_state .reserve MAX_NUM_KEYS + 1
-.if .defined(USE_SKIP)
-.global skip_key .reserve MAX_NUM_KEYS
-.endif
+.public key_state .reserve MAX_NUM_KEYS
+.public new_key_state .reserve MAX_NUM_KEYS + 1
+.pre_if .defined(USE_SKIP)
+.public skip_key .reserve MAX_NUM_KEYS
+.pre_end
 
-.global key_index_help .reserve 1
-.global key_index_reset .reserve 1
+.public key_index_help .reserve 1
+.public key_index_reset .reserve 1
 
 next_key .reserve 1
 reset_count .reserve 1
@@ -48,279 +48,284 @@ help_count .reserve 1
 
 .section code
 
-.global init_keyboard {
-	ldx #MAX_NUM_KEYS - 1
-	lda #0
-	sta next_key
+.public init_keyboard {
+    ldx #MAX_NUM_KEYS - 1
+    lda #0
+    sta next_key
 :	sta key_state,x
-	sta new_key_state,x
-.if .defined(USE_SKIP)
-    sta skip_key,x
-.endif
-	dex
-	bpl :-
-	sta reset_count
-	sta help_count
-.ifdef USE_VICII
-	jsr init_keyboard_vicii
-.endif
-	rts
+    sta new_key_state,x
+    .if .defined(USE_SKIP) {
+        sta skip_key,x
+    }
+    dex
+    bpl :-
+    sta reset_count
+    sta help_count
+    .if .defined(USE_VICII) {
+        jsr init_keyboard_vicii
+    }
+    rts
 }
 
-.global display_keyboard {
+.public display_keyboard {
 ;    inc VIDEO_BORDER_COLOR
     ldx next_key
 loop:
-.if .defined(USE_SKIP)
-	lda skip_key,x
-	bne next
-.endif
-	lda new_key_state,x
-	and #$06
-	beq :+
-	lda #$02
-	sta new_key_state,x
+    .if .defined(USE_SKIP) {
+        lda skip_key,x
+        bne next
+    }
+    lda new_key_state,x
+    and #$06
+    beq :+
+    lda #$02
+    sta new_key_state,x
 :	cmp key_state,x
-	beq next
-	sta key_state,x
-.if .not .defined(USE_PET)
-    cmp #0
-	beq unpressed
-	ldy #PRESSED_COLOR
-	bne display
-unpressed:
-	ldy #CHECKED_COLOR
-display:
-	sty current_key_color
-.endif
-	jsr display_key
+    beq next
+    sta key_state,x
+    .if  !.defined(USE_PET) {
+        cmp #0
+        beq unpressed
+        ldy #PRESSED_COLOR
+        bne display
+    unpressed:
+        ldy #CHECKED_COLOR
+    display:
+        sty current_key_color
+    }
+    jsr display_key
 next:
-	inx
-.if .defined(USE_VICII)
-    lda VIC_CTRL1
-    bmi :+
-	lda VIC_HLINE
-	cmp #SCREEN_TOP - 12
-	bcs stop
-:
-.endif
-	cpx num_keys
-	bne loop
-	ldx #0
+    inx
+    .if .defined(USE_VICII) {
+        lda VIC_CONTROL_1
+        bmi :+
+        lda VIC_RASTER
+        cmp #SCREEN_TOP - 12
+        bcs stop
+    :
+    }
+    cpx num_keys
+    bne loop
+    ldx #0
 stop:
-	stx next_key
+    stx next_key
 ;    dec VIDEO_BORDER_COLOR
-	rts
-}
-
-.global process_command_keys {
-	lda command
-	bne no_key
-	ldx key_index_help
-	lda key_state,x
-	beq no_help
-	ldx help_count
-	inx
-	stx help_count
-	cpx #HOLD_FRAMES
-	bcc end
-	lda #COMMAND_HELP
-	sta command
-	bne no_key
-no_help:
-	lda #0
-	sta help_count
-	ldx key_index_reset
-	lda key_state,x
-	beq no_key
-	ldx reset_count
-	inx
-	stx reset_count
-	cpx #HOLD_FRAMES
-	bcc end
-	lda #COMMAND_RESET_KEYBOARD
-	sta command
-no_key:
-	lda #0
-	sta reset_count
-	sta help_count
-end:
-	rts
-}
-
-.if .defined(USE_VICII)
-check_joysticks {
-	lda #$ff
-	sta CIA1_PRA
-	sta CIA1_PRB
-	lda #$00
-	sta CIA1_DDRA
-	sta CIA1_DDRB
-	lda CIA1_PRB
-	eor #$ff
-	ora port1
-	sta port1
-	lda CIA1_PRA
-	eor #$ff
-	ora port2
-	sta port2
     rts
 }
 
-.global read_keyboard {
-; .scope read_keyboard
-.ifdef USE_VICII
+.public process_command_keys {
+    lda command
+    bne no_key
+    ldx key_index_help
+    lda key_state,x
+    beq no_help
+    ldx help_count
+    inx
+    stx help_count
+    cpx #HOLD_FRAMES
+    bcc end
+    lda #COMMAND_HELP
+    sta command
+    bne no_key
+no_help:
     lda #0
+    sta help_count
+    ldx key_index_reset
+    lda key_state,x
+    beq no_key
+    ldx reset_count
+    inx
+    stx reset_count
+    cpx #HOLD_FRAMES
+    bcc end
+    lda #COMMAND_RESET_KEYBOARD
+    sta command
+no_key:
+    lda #0
+    sta reset_count
+    sta help_count
+end:
+    rts
+}
+
+.pre_if .defined(USE_VICII)
+check_joysticks {
+    lda #$ff
+    sta CIA1_PRA
+    sta CIA1_PRB
+    lda #$00
+    sta CIA1_DDRA
+    sta CIA1_DDRB
+    lda CIA1_PRB
+    eor #$ff
+    ora port1
     sta port1
+    lda CIA1_PRA
+    eor #$ff
+    ora port2
     sta port2
-    jsr check_joysticks
-	lda #$ff
-	sta CIA1_DDRA
-	lda #$00
-	sta CIA1_DDRB
-.endif
-.if .defined(__C64__)
-    lda machine_type
-    bpl init_bits
-    lda #0
-    beq init_end
-init_bits:
-    lda #$fe
-init_end:
-.elseif .defined(USE_PET) .or .defined(__MEGA65__)
-	lda #0
-.else
-	lda #$fe
-.endif
-	ldx #0
+    rts
+}
+.pre_end
+
+.public read_keyboard {
+    .if .defined(USE_VICII) {
+        lda #0
+        sta port1
+        sta port2
+        jsr check_joysticks
+        lda #$ff
+        sta CIA1_DDRA
+        lda #$00
+        sta CIA1_DDRB
+    }
+    .if .defined(C64) {
+        lda machine_type
+        bpl init_bits
+        lda #0
+        beq init_end
+    init_bits:
+        lda #$fe
+    init_end:
+    }
+    .else_if .defined(USE_PET) || .defined(MEGA65) {
+        lda #0
+    }
+    .else {
+        lda #$fe
+    }
+    ldx #0
 byteloop:
-select:
-	sta KEYBOARD_SELECT
-.ifdef USE_TED
-	lda #$ff
-	sta KEYBOARD_VALUE
-.endif
+.private read_keyboard_select = byteloop + 1
+    sta KEYBOARD_SELECT
+    .if .defined(USE_TED) {
+        lda #$ff
+        sta KEYBOARD_VALUE
+    }
 value:
-	lda KEYBOARD_VALUE
-	eor #$ff
-	tay
-	and bitmask,x
-	beq one_not_pressed
+.private read_keyboard_value = value + 1
+    lda KEYBOARD_VALUE
+    eor #$ff
+    tay
+    and bitmask,x
+    beq one_not_pressed
     inc new_key_state,x
-	bne two
+    bne two
 one_not_pressed:
-	sta new_key_state,x
+    sta new_key_state,x
 two:
-	inx
-	tya
-	and bitmask,x
-	beq two_not_pressed
-	inc new_key_state,x
-	bne three
+    inx
+    tya
+    and bitmask,x
+    beq two_not_pressed
+    inc new_key_state,x
+    bne three
 two_not_pressed:
-	sta new_key_state,x
+    sta new_key_state,x
 three:
-	inx
-	tya
-	and bitmask,x
-	beq three_not_pressed
-	inc new_key_state,x
-	bne four
+    inx
+    tya
+    and bitmask,x
+    beq three_not_pressed
+    inc new_key_state,x
+    bne four
 three_not_pressed:
-	sta new_key_state,x
+    sta new_key_state,x
 four:
-	inx
-	tya
-	and bitmask,x
-	beq four_not_pressed
-	inc new_key_state,x
-	bne five
+    inx
+    tya
+    and bitmask,x
+    beq four_not_pressed
+    inc new_key_state,x
+    bne five
 four_not_pressed:
-	sta new_key_state,x
+    sta new_key_state,x
 five:
-	inx
-	tya
-	and bitmask,x
-	beq five_not_pressed
-	inc new_key_state,x
-	bne six
+    inx
+    tya
+    and bitmask,x
+    beq five_not_pressed
+    inc new_key_state,x
+    bne six
 five_not_pressed:
-	sta new_key_state,x
+    sta new_key_state,x
 six:
-	inx
-	tya
-	and bitmask,x
-	beq six_not_pressed
-	inc new_key_state,x
+    inx
+    tya
+    and bitmask,x
+    beq six_not_pressed
+    inc new_key_state,x
     bne seven
 six_not_pressed:
-	sta new_key_state,x
+    sta new_key_state,x
 seven:
-	inx
-	tya
-	and bitmask,x
-	beq seven_not_pressed
+    inx
+    tya
+    and bitmask,x
+    beq seven_not_pressed
     inc new_key_state,x
     bne eight
 seven_not_pressed:
-	sta new_key_state,x
+    sta new_key_state,x
 eight:
-	inx
-	tya
-	and bitmask,x
-	beq eight_not_pressed
+    inx
+    tya
+    and bitmask,x
+    beq eight_not_pressed
     inc new_key_state,x
     bne nine
 eight_not_pressed:
-	sta new_key_state,x
+    sta new_key_state,x
 nine:
-	inx
+    inx
 max_key_read:
-	cpx #MAX_KEY_READ
-	beq end_read
-	txa
-	lsr
-	lsr
-	lsr
-	tay
-.if .defined(__C64__)
-    lda machine_type
-    bpl next_bits
-    tya
-    bne next_end
-next_bits:
-    lda bitmask,y
-    eor #$ff
-next_end:
-.elseif .not(.defined(USE_PET) .or .defined(__MEGA65__))
-	lda bitmask,y
-	eor #$ff
-.endif
-	beq end_read
-	jmp byteloop
+.private read_keyboard_max_read_keys = max_read_keys + 1
+    cpx #MAX_KEY_READ
+    beq end_read
+    txa
+    lsr
+    lsr
+    lsr
+    tay
+    .if .defined(C64) {
+        lda machine_type
+        bpl next_bits
+        tya
+        bne next_end
+    next_bits:
+        lda bitmask,y
+        eor #$ff
+    next_end:
+    }
+    .else_if !(.defined(USE_PET) || .defined(MEGA65)) {
+        lda bitmask,y
+        eor #$ff
+    }
+    beq end_read
+    jmp byteloop
 
 end_read:
-.if .defined(USE_VICII)
-    jsr process_restore
-    jsr check_joysticks
-;    jsr process_skip
-	; TODO: if port 2 bit is set and key in that row is pressed, ignore that key's column (except for key itself)
-.endif
-	rts
-}
-
-.if .defined(__C64__) .or .defined(__MEGA65__)
-.global set_keyboard_registers {
-    stx read_keyboard::select + 1
-    sta read_keyboard::select + 2
-    sty read_keyboard::value + 1
-    sta read_keyboard::value + 2
-    lda tmp1
-    sta read_keyboard::max_key_read + 1
+    .if .defined(USE_VICII) {
+        jsr process_restore
+        jsr check_joysticks
+    ;    jsr process_skip
+        ; TODO: if port 2 bit is set and key in that row is pressed, ignore that key's column (except for key itself)
+    }
     rts
 }
 
-.global read_keyboard_mega65 {
+.pre_if .defined(C64) || .defined(MEGA65)
+.public set_keyboard_registers {
+    stx read_keyboard_select
+    sta read_keyboard_select + 1
+    sty read_keyboard_value
+    sta read_keyboard_value + 1
+    lda tmp1
+    sta read_keyboard_max_key_read
+    rts
+}
+
+.public read_keyboard_mega65 {
     ; Caps
     lda $d611
     and #%01000000
@@ -346,13 +351,13 @@ end_read:
     sta skip_key + 6 * 8 + 4 ; right shift
     rts
 }
-.endif
+.pre_end
 
 .section data
 
-.global bitmask:
-	.repeat 11, i
-	.byte $01, $02, $04, $08, $10, $20, $40, $80
-;	.byte $80, $40, $20, $10, $08, $04, $02, $01
-	.endrep
-
+.public bitmask {
+    .repeat 11 {
+        .data $01, $02, $04, $08, $10, $20, $40, $80
+;   	.data $80, $40, $20, $10, $08, $04, $02, $01
+    }
+}

@@ -32,39 +32,39 @@
 
 if_value .reserve 1
 new_value .reserve 1
-	
+    
 .section code
 
-.global memset_if {
-	stx new_value
-	sta if_value
-	ldy #0
-	ldx ptr3 + 1
-	beq partial
+.public memset_if {
+    stx new_value
+    sta if_value
+    ldy #0
+    ldx ptr3 + 1
+    beq partial
 loop:
-	cmp (ptr2),y
-	bne :+
-	lda new_value
-	sta (ptr2),y
-	lda if_value
+    cmp (ptr2),y
+    bne :+
+    lda new_value
+    sta (ptr2),y
+    lda if_value
 :	iny
-	bne loop
-	inc ptr2 + 1
-	dex
-	bne loop
+    bne loop
+    inc ptr2 + 1
+    dex
+    bne loop
 
 partial:
-	ldx ptr3
-	beq end
+    ldx ptr3
+    beq end
 partial_loop:
-	cmp (ptr2),y
-	bne :+
-	lda new_value
-	sta (ptr2),y
-	lda if_value
+    cmp (ptr2),y
+    bne :+
+    lda new_value
+    sta (ptr2),y
+    lda if_value
 :	iny
-	dex
-	bne partial_loop
+    dex
+    bne partial_loop
 end:
-	rts
+    rts
 }

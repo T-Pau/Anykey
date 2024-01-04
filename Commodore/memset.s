@@ -30,27 +30,27 @@
 
 .section code
 
-.global memset:
-	ldy #0
-	ldx ptr3 + 1
-	beq partial
+.public memset:
+    ldy #0
+    ldx ptr3 + 1
+    beq partial
 loop:
-	sta (ptr2),y
-	iny
-	bne loop
-	inc ptr1 + 1
-	inc ptr2 + 1
-	dex
-	bne loop
+    sta (ptr2),y
+    iny
+    bne loop
+    inc ptr1 + 1
+    inc ptr2 + 1
+    dex
+    bne loop
 
 partial:
-	ldx ptr3
-	beq end
+    ldx ptr3
+    beq end
 partial_loop:
-	sta (ptr2),y
-	iny
-	dex
-	bne partial_loop
+    sta (ptr2),y
+    iny
+    dex
+    bne partial_loop
 end:
-	rts
+    rts
 }

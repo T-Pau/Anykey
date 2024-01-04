@@ -27,55 +27,55 @@
 
 .section code
 
-.global handle_help {
-	jsr display_logo
+.public handle_help {
+    jsr display_logo
 
-	lda #$00
-	sta CIA1_DDRA
-	sta CIA1_DDRB
+    lda #$00
+    sta CIA1_DDRA
+    sta CIA1_DDRB
 
-	lda CIA1_PRA
-	and CIA1_PRB
-	cmp #$ff
-	bne end
+    lda CIA1_PRA
+    and CIA1_PRB
+    cmp #$ff
+    bne end
 
-	lda #$ff
-	sta CIA1_DDRA
+    lda #$ff
+    sta CIA1_DDRA
 
-	lda #$80 ^ $ff
-	sta CIA1_PRA
-	lda CIA1_PRB
-	tax
-	and #$02
-	bne :+
-	lda #COMMAND_HELP_EXIT
-	bne got_key
+    lda #$80 ^ $ff
+    sta CIA1_PRA
+    lda CIA1_PRB
+    tax
+    and #$02
+    bne :+
+    lda #COMMAND_HELP_EXIT
+    bne got_key
 :	txa
-	and #$10
-	bne :+
-	lda #COMMAND_HELP_NEXT
-	bne got_key
+    and #$10
+    bne :+
+    lda #COMMAND_HELP_NEXT
+    bne got_key
 :	lda #$20 ^ $ff
-	sta CIA1_PRA
-	lda CIA1_PRB
-	and #$01
-	bne :+
-	lda #COMMAND_HELP_NEXT
-	bne got_key
+    sta CIA1_PRA
+    lda CIA1_PRB
+    and #$01
+    bne :+
+    lda #COMMAND_HELP_NEXT
+    bne got_key
 :	lda CIA1_PRB
-	and #$08
-	beq :+
-	lda #0
-	sta last_command
-	beq end
+    and #$08
+    beq :+
+    lda #0
+    sta last_command
+    beq end
 :	lda #COMMAND_HELP_PREVIOUS
 got_key:
-	cmp last_command
-	beq end
-	sta last_command
-	sta command
+    cmp last_command
+    beq end
+    sta last_command
+    sta command
 end:
-	lda #$ff
-	sta CIA1_DDRB
-	rts
+    lda #$ff
+    sta CIA1_DDRB
+    rts
 }

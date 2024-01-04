@@ -27,57 +27,57 @@
 
 .section code
 
-.global reset_keyboard {
-	lda keyboard_height
-	cmp #12
-	beq low
-	store_word 40 * 12, ptr3
-	bne both
+.public reset_keyboard {
+    lda keyboard_height
+    cmp #12
+    beq low
+    store_word 40 * 12, ptr3
+    bne both
 low:
-	store_word 40 * 10, ptr3
+    store_word 40 * 10, ptr3
 both:
     store_word screen + 40 * 2, ptr1
-	store_word color_ram + 40 * 2, ptr2
-	ldy #0
-	ldx ptr3 + 1
-	beq partial
+    store_word color_ram + 40 * 2, ptr2
+    ldy #0
+    ldx ptr3 + 1
+    beq partial
 loop:
     lda (ptr1),y
     cmp #$a0
     beq :+
-	lda (ptr2),y
-.ifdef USE_VICII
-	and #$0f
-.endif
-	cmp #CHECKED_COLOR
-	bne :+
-	lda #UNCHECKED_COLOR
-	sta (ptr2),y
+    lda (ptr2),y
+    .if .defined(USE_VICII) {
+        and #$0f
+    }
+    cmp #CHECKED_COLOR
+    bne :+
+    lda #UNCHECKED_COLOR
+    sta (ptr2),y
 :	iny
-	bne loop
-	inc ptr1 + 1
-	inc ptr2 + 1
-	dex
-	bne loop
+    bne loop
+    inc ptr1 + 1
+    inc ptr2 + 1
+    dex
+    bne loop
 
 partial:
-	ldx ptr3
-	beq end
+    ldx ptr3
+    beq end
 partial_loop:
     lda (ptr1),y
     cmp #$a0
     beq :+
-	lda (ptr2),y
-.ifdef USE_VICII
-	and #$0f
-.endif
-	cmp #CHECKED_COLOR
-	bne :+
-	lda #UNCHECKED_COLOR
-	sta (ptr2),y
+    lda (ptr2),y
+    .if .defined(USE_VICII) {
+        and #$0f
+    }
+    cmp #CHECKED_COLOR
+    bne :+
+    lda #UNCHECKED_COLOR
+    sta (ptr2),y
 :	iny
-	dex
-	bne partial_loop
+    dex
+    bne partial_loop
 end:
-	rts
+    rts
 }

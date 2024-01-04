@@ -30,7 +30,7 @@
 ; ix: key description
 ; c: color
 
-.global display_key_2 {
+.public display_key_2 {
     ld l,(ix + key_screen_offset)
     ld a,(ix + key_screen_offset + 1)
     add 3
@@ -75,7 +75,7 @@ loop2_color:
 }
 
 
-.global display_key_3 {
+.public display_key_3 {
     ld l,(ix + key_screen_offset)
     ld a,(ix + key_screen_offset + 1)
     add 3

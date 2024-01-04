@@ -28,139 +28,139 @@
 COLOR_RAM_OFFSET = color_ram - screen
 
 .macro set_color {
-	clc
-	lda ptr1 + 1
-	adc #>COLOR_RAM_OFFSET
-	sta ptr1 + 1
+    clc
+    lda ptr1 + 1
+    adc #>COLOR_RAM_OFFSET
+    sta ptr1 + 1
 
-	lda current_key_color
-	ldy #0
+    lda current_key_color
+    ldy #0
 }
 
 .seciton code
 
-.global display_key_1 {
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
+.public display_key_1 {
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
 
-	ldy #22
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
+    ldy #22
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
 
-	set_color
-	sta (ptr1),y
-	ldy #22
-	sta (ptr1),y
+    set_color
+    sta (ptr1),y
+    ldy #22
+    sta (ptr1),y
 
-	rts
+    rts
 }
 
 
-.global display_key_2 {
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
+.public display_key_2 {
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
 
-	ldy #22
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
+    ldy #22
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
 
-	set_color
-	sta (ptr1),y
-	iny
-	sta (ptr1),y
-	ldy #22
-	sta (ptr1),y
-	iny
-	sta (ptr1),y
-	
-	rts
+    set_color
+    sta (ptr1),y
+    iny
+    sta (ptr1),y
+    ldy #22
+    sta (ptr1),y
+    iny
+    sta (ptr1),y
+    
+    rts
 }
 
 
-.global display_key_10 {
-	ldy #9
+.public display_key_10 {
+    ldy #9
 :	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	dey
-	bpl :-
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    dey
+    bpl :-
 
-	ldy #22
+    ldy #22
 :	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #22 + 10
-	bne :-
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    cpy #22 + 10
+    bne :-
 
-	set_color
-	ldy #9
+    set_color
+    ldy #9
 :	sta (ptr1),y
-	dey
-	bpl :-
+    dey
+    bpl :-
 
-	ldy #22
+    ldy #22
 :	sta (ptr1),y
-	iny
-	cpy #22 + 10
-	bne :-
-	
-	rts
+    iny
+    cpy #22 + 10
+    bne :-
+    
+    rts
 }
 
 
-.global display_key_left_shift {
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
+.public display_key_left_shift {
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
 
-	ldy #22
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
+    ldy #22
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
 
-	ldy #45
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
+    ldy #45
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
 
-	ldy #67
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
+    ldy #67
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
 
-	set_color
-	sta (ptr1),y
-	ldy #22
-	sta (ptr1),y
-	ldy #45
-	sta (ptr1),y
-	ldy #67
-	sta (ptr1),y
+    set_color
+    sta (ptr1),y
+    ldy #22
+    sta (ptr1),y
+    ldy #45
+    sta (ptr1),y
+    ldy #67
+    sta (ptr1),y
 
-	rts
+    rts
 }

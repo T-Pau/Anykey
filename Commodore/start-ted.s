@@ -27,27 +27,27 @@
 
 .section code
 
-.global start {
-	jsr init_state
+.public start {
+    jsr init_state
 
-	memcpy charset, charset_data, $800
-	memcpy charset_keyboard_top, keyboard_plus4_charset_top, $0400
-	memcpy charset_keyboard_top + $400, keyboard_plus4_charset_top_inv, $0400
-	memcpy charset_keyboard_bottom, keyboard_plus4_charset_bottom, $0400
-	memcpy charset_keyboard_bottom + $400, keyboard_plus4_charset_bottom_inv, $0400
+    memcpy charset, charset_data, $800
+    memcpy charset_keyboard_top, keyboard_plus4_charset_top, $0400
+    memcpy charset_keyboard_top + $400, keyboard_plus4_charset_top_inv, $0400
+    memcpy charset_keyboard_bottom, keyboard_plus4_charset_bottom, $0400
+    memcpy charset_keyboard_bottom + $400, keyboard_plus4_charset_bottom_inv, $0400
 
-	lda TED_MULTI1
-	ora #$80
-	sta TED_MULTI1
-	lda TED_BITMAP
-	and #$04 ^ $ff
-	sta TED_BITMAP
-	
-	jsr display_main_screen
-	lda #FRAME_COLOR
-	sta VIDEO_BORDER_COLOR
+    lda TED_MULTI1
+    ora #$80
+    sta TED_MULTI1
+    lda TED_BITMAP
+    and #$04 ^ $ff
+    sta TED_BITMAP
+    
+    jsr display_main_screen
+    lda #FRAME_COLOR
+    sta VIDEO_BORDER_COLOR
 
-	jsr init_irq
-	
-	jmp main_loop
+    jsr init_irq
+    
+    jmp main_loop
 }

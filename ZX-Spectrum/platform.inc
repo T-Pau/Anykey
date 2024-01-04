@@ -27,13 +27,13 @@
 
 IF PLATFORM_48K
 include "platform-48k.inc"
-ELIFDEF PLATFORM_PLUS
+E.if .defined(PLATFORM_PLUS)
 include "platform-plus.inc"
-ELIFDEF PLATFORM_PLUS2
+E.if .defined(PLATFORM_PLUS2)
 include "platform-plus2.inc"
-ELIFDEF PLATFORM_NEXT
+E.if .defined(PLATFORM_NEXT)
 include "platform-next.inc"
-ELIFDEF PLATFORM_N_GO
+E.if .defined(PLATFORM_N_GO)
 include "platform-n-go.inc"
 ELSE
 ERROR "platform not supported"

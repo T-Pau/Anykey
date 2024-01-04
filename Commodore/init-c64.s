@@ -1,4 +1,4 @@
-;  joysticks-ted.s -- Read and display joysticks, TED version.
+;  init-c64.s -- C64 specific initialization
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -27,22 +27,44 @@
 
 .section code
 
-.public handle_joysticks {
-    lda #$ff
-    sta $FD30
-    lda #$04 ^ $ff
-    sta TED_KBD
-    lda TED_KBD
-    eor #$ff
-    sta port_digital
-    ldx #0
-    jsr display_joystick
-
-    lda #$02 ^ $ff
-    sta TED_KBD
-    lda TED_KBD
-    eor #$ff
-    sta port_digital
-    ldx #1
-    jmp display_joystick
+.public init {
+    lda #1
+    sta VIC_SPRITE_0_X
+    lda #VIC_KNOCK_IV_1
+    sta VIC_KEY
+    lda #VIC_KNOCK_IV_2
+    sta VIC_KEY
+    lda #0
+    sta VIC_PALETTE_RED
+    lda VIC_SPRITE_0_X
+    beq not_m65
+    lda #MACHINE_TYPE_MEGA65
+    bne end_detect
+not_m65:
+    lda VIC_CLK_128
+    cmp #$ff
+    beq not_128
+    lda #MACHINE_TYPE_C128
+    bne end_detect
+not_128:
+    ldx VIC_RASTER
+    inx
+    inx
+    inx
+    ldy #$40
+:   dey
+    bpl :-
+    cpx VIC_RASTER
+    bcs acelleration_detected
+    lda #0
+    sta acellerated
+    beq end_detect
+acelleration_detected:
+    lda #1
+    sta acellerated
+;    sta main_screen_64
+    lda #MACHINE_TYPE_C64
+end_detect:
+    sta machine_type
+    rts
 }

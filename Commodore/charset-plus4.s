@@ -27,7 +27,7 @@
 
 .section data
 
-.global charset_data_plus4 {
-	.incbin "keyboard-plus4-charset-top.bin"
-	.incbin "keyboard-plus4-charset-bottom.bin"
+.public charset_data_plus4 {
+    .binary_file "keyboard-plus4-charset-top.bin"
+    .binary_file "keyboard-plus4-charset-bottom.bin"
 }

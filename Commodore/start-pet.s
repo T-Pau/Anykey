@@ -25,15 +25,15 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.ifdef ONLY_40_COLUMNS
+.pre_if .defined(ONLY_40_COLUMNS)
 MAX_SAVED_SCREEN_SIZE = (40 * 22)
-.else
+.pre_else
 MAX_SAVED_SCREEN_SIZE = (80 * 22)
-.endif
+.pre_end
 
-.global start {
-	lda #142
-	jsr CHROUT
+.public start {
+    lda #142
+    jsr CHROUT
 ;	lda #12
 ;	sta VIA_PCR
 
@@ -42,27 +42,27 @@ MAX_SAVED_SCREEN_SIZE = (80 * 22)
     jmp not_supported
 
 :	ldx #0
-	stx command
-	stx last_command
-	dex
-	stx current_page
-	jsr init_keyboard
-	jmp main_loop
+    stx command
+    stx last_command
+    dex
+    stx current_page
+    jsr init_keyboard
+    jmp main_loop
 }
 
 
-.global process_keyboard {
+.public process_keyboard {
 :   lda $8d + 2 ; TOD in ROM 2 & 4
     ora $0202   ; TOD in ROM 1
     cmp last_tick
     beq :-
     sta last_tick
-	jsr read_keyboard
-	lda current_page
-	cmp #$ff
-	bne help_mode
-	jsr display_keyboard
-	jmp process_command_keys
+    jsr read_keyboard
+    lda current_page
+    cmp #$ff
+    bne help_mode
+    jsr display_keyboard
+    jmp process_command_keys
 help_mode:
     jmp handle_help_keys
 }

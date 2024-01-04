@@ -27,14 +27,14 @@
 
 .section code
 
-.global reset_keyboard {
+.public reset_keyboard {
     ld b,CHECKED_COLOR
     ld c,UNCHECKED_COLOR
     ; fallthrough
 
 ; b: color to reset
 ; c: color to replace with
-.global change_keyboard_colors:
+.public change_keyboard_colors:
     ld hl,color + KEYBOARD_OFFSET
     ld de, KEYBOARD_SIZE
 reset_loop:

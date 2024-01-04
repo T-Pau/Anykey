@@ -31,25 +31,25 @@
 .section data
 
 dpad_rects {
-	.repeat 16, i
-	.word dpad_rect_data + i * 25
-	.endrep
+    .repeat i, 16 {
+        .data dpad_rect_data + i * 25:2
+    }
 }
 
 dpad_rect_data {
-	.incbin "dpad.bin"
+    .binary_file "dpad.bin"
 }
 
 .section code
 
-.global dpad {
-	asl
-	tax
-	lda dpad_rects,x
-	sta ptr1
-	lda dpad_rects + 1,x
-	sta ptr1 + 1
-	ldx #5
-	ldy #5
-	jmp copyrect
+.public dpad {
+    asl
+    tax
+    lda dpad_rects,x
+    sta ptr1
+    lda dpad_rects + 1,x
+    sta ptr1 + 1
+    ldx #5
+    ldy #5
+    jmp copyrect
 }

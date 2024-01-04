@@ -27,7 +27,7 @@
 
 .section code
 
-.global handle_help_keys {
+.public handle_help_keys {
     ldx help_keys
     stx ptr1
     ldx help_keys + 1
@@ -49,10 +49,10 @@ loop:
 :   iny
     bne loop
 got_key:
-	cmp last_command
-	beq end
-	sta last_command
-	sta command
+    cmp last_command
+    beq end
+    sta last_command
+    sta command
 end:
     rts
 }

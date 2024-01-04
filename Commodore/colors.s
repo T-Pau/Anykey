@@ -27,36 +27,36 @@
 
 .section code
 
-.global top_label {
-	lda #LABEL_COLOR
+.public top_label {
+    lda #LABEL_COLOR
 :	ldx VIDEO_CURRENT_LINE
-	cpx #SCREEN_TOP + 1
-	bne :-
-	sta VIDEO_BACKGROUND_COLOR
-	rts
+    cpx #SCREEN_TOP + 1
+    bne :-
+    sta VIDEO_BACKGROUND_COLOR
+    rts
 }
 
-.global label_background {
-	nop
-	nop
-	nop
-	nop
-	lda #LABEL_COLOR
-	sta VIDEO_BACKGROUND_COLOR
-	rts
+.public label_background {
+    nop
+    nop
+    nop
+    nop
+    lda #LABEL_COLOR
+    sta VIDEO_BACKGROUND_COLOR
+    rts
 }
 
-.global content_background {
-	lda #BACKGROUND_COLOR
-	sta VIDEO_BACKGROUND_COLOR
-	rts
+.public content_background {
+    lda #BACKGROUND_COLOR
+    sta VIDEO_BACKGROUND_COLOR
+    rts
 }
 
-.ifdef USE_VICII
-.global logo_background {
-	lda #LOGO_COLOR
-	sta VIDEO_BACKGROUND_COLOR
-	rts
+.pre_if .defined(USE_VICII)
+.public logo_background {
+    lda #LOGO_COLOR
+    sta VIDEO_BACKGROUND_COLOR
+    rts
 }
-.endif
+.pre_end
 

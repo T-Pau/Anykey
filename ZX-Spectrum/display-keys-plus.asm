@@ -30,7 +30,7 @@
 ; ix: key description
 ; c: color
 
-.global display_key_2 {
+.public display_key_2 {
     ld e,(ix + key_screen_offset)
     ld a,(ix + key_screen_offset + 1)
     add 3
@@ -79,25 +79,25 @@ loop2_color:
 }
 
 
-.global display_key_3 {
+.public display_key_3 {
     ld d,3
     jp display_key_n
 }
 
 
-.global display_key_4 {
+.public display_key_4 {
     ld d,4
     jp display_key_n
 }
 
 
-.global display_key_5 {
+.public display_key_5 {
     ld d,5
     jp display_key_n
 }
 
 
-.global display_key_9 {
+.public display_key_9 {
     ld d,9
     jr display_key_n
 }
@@ -184,7 +184,7 @@ loop_n_color_x:
     ret
 }
 
-.global display_key_enter {
+.public display_key_enter {
     ld hl,circle_mask_enter
     ld e,(ix + key_screen_offset)
     inc e

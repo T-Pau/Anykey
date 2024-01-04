@@ -27,26 +27,26 @@
 
 .secction data
 
-.global keyboard_pet_business_40_screen {
-    .incbin "keyboard-pet-business-40.bin"
+.public keyboard_pet_business_40_screen {
+    .binary_file "keyboard-pet-business-40.bin"
 }
 
-.global keyboard_pet_calculator_40_screen {
-    .incbin "keyboard-pet-calculator-40.bin"
+.public keyboard_pet_calculator_40_screen {
+    .binary_file "keyboard-pet-calculator-40.bin"
 }
 
 .gloabl keyboard_pet_graphics_40_screen {
-    .incbin "keyboard-pet-graphics-40.bin"
+    .binary_file "keyboard-pet-graphics-40.bin"
 }
 
 .section csode
 
-.global reset_keyboard_40 {
-	store_word screen + 40 * 2, ptr1
-	lda left_list
-	sta ptr2
-	lda left_list + 1
-	sta ptr2 + 1
+.public reset_keyboard_40 {
+    store_word screen + 40 * 2, ptr1
+    lda left_list
+    sta ptr2
+    lda left_list + 1
+    sta ptr2 + 1
     ldy #0
     ldx #0
 left_loop:
@@ -67,35 +67,35 @@ left_loop:
     bne left_loop
 left_done:
 
-	store_word screen + 40 * 2, ptr1
-	ldx #0
-	stx reset_row
+    store_word screen + 40 * 2, ptr1
+    ldx #0
+    stx reset_row
 row_loop:
-	ldy #80
+    ldy #80
 column_loop:
     dey
     bmi column_end
-	lda (ptr1),y
-	cmp #SQUARE_TOP_LEFT
-	bne :+
-	lda #ROUND_TOP_LEFT
-	sta (ptr1),y
-	bne column_loop
+    lda (ptr1),y
+    cmp #SQUARE_TOP_LEFT
+    bne :+
+    lda #ROUND_TOP_LEFT
+    sta (ptr1),y
+    bne column_loop
 :	cmp #SQUARE_TOP_RIGHT
-	bne :+
-	lda #ROUND_TOP_RIGHT
-	sta (ptr1),y
-	bne column_loop
+    bne :+
+    lda #ROUND_TOP_RIGHT
+    sta (ptr1),y
+    bne column_loop
 :	cmp #SQUARE_BOTTOM_LEFT
-	bne :+
-	lda #ROUND_BOTTOM_LEFT
-	sta (ptr1),y
-	bne column_loop
+    bne :+
+    lda #ROUND_BOTTOM_LEFT
+    sta (ptr1),y
+    bne column_loop
 :	cmp #SQUARE_BOTTOM_RIGHT
-	bne :+
-	lda #ROUND_BOTTOM_RIGHT
-	sta (ptr1),y
-	bne column_loop
+    bne :+
+    lda #ROUND_BOTTOM_RIGHT
+    sta (ptr1),y
+    bne column_loop
 :	cmp #SQUARE_HORIZONTAL
     bne not_horizontal
     lda #ROUND_BOTTOM
@@ -105,7 +105,7 @@ column_loop:
 :   sta (ptr1),y
     bne column_loop
 not_horizontal:
-	cmp #SQUARE_VERTICAL
+    cmp #SQUARE_VERTICAL
     bne column_loop
     lda #ROUND_RIGHT
     sta (ptr1),y
@@ -124,4 +124,4 @@ column_end:
 
 .section reserve
 
-.global reset_row .reserve 1
+.public reset_row .reserve 1

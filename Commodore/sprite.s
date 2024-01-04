@@ -31,33 +31,33 @@
 .section data
 
 highbit {
-	.data $01, $fe,  $02, $fd,  $04, $fb,  $08, $f7
-	.data $10, $ef,  $20, $df,  $40, $bf,  $80, $7f
+    .data $01, $fe,  $02, $fd,  $04, $fb,  $08, $f7
+    .data $10, $ef,  $20, $df,  $40, $bf,  $80, $7f
 }
 
-.section reserve
+.section reserved
 
-.global sprite_x .reserve 2
-.global sprite_y .reserve 1
+.public sprite_x .reserve 2
+.public sprite_y .reserve 1
 
-.code
+.section code
 
-.global set_sprite {
-	asl
-	tax
+.public set_sprite {
+    asl
+    tax
 
-	lda VIC_SPR_HI_X
-	and highbit + 1,x
-	ldy sprite_x + 1
-	beq set_high	
-	ora highbit,x
+    lda VIC_SPRITE_X_MSB
+    and highbit + 1,x
+    ldy sprite_x + 1
+    beq set_high	
+    ora highbit,x
 set_high:
-	sta VIC_SPR_HI_X
+    sta VIC_SPRITE_X_MSB
 
-	lda sprite_x
-	sta VIC_SPR0_X,x
-	lda sprite_y
-	sta VIC_SPR0_Y,x
+    lda sprite_x
+    sta VIC_SPRITE_0_X,x
+    lda sprite_y
+    sta VIC_SPRITE_0_Y,x
 
-	rts
+    rts
 }

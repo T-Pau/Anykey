@@ -32,97 +32,97 @@
 
 .section code
 
-.global display_key_40_left_3 {
-	lda char_left,x
-	sta (ptr1),y
-	iny
+.public display_key_40_left_3 {
+    lda char_left,x
+    sta (ptr1),y
+    iny
 :	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #4
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    cpy #4
+    bne :-
+    lda char_right,x
+    sta (ptr1),y
 
-	ldy #40
-	lda char_bottom_left,x
-	sta (ptr1),y
-	iny
+    ldy #40
+    lda char_bottom_left,x
+    sta (ptr1),y
+    iny
 :	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	cpy #44
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
+    sta (ptr1),y
+    iny
+    cpy #44
+    bne :-
+    lda char_bottom_right,x
+    sta (ptr1),y
+    rts
 }
 
 
-.global display_key_40b_ret {
+.public display_key_40b_ret {
     ldy #3
-	lda char_top_right,x
-	sta (ptr1),y
+    lda char_top_right,x
+    sta (ptr1),y
 
-	ldy #40
+    ldy #40
 :	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #43
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    cpy #43
+    bne :-
+    lda char_right,x
+    sta (ptr1),y
 
-	ldy #80
+    ldy #80
 :	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	cpy #83
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
+    sta (ptr1),y
+    iny
+    cpy #83
+    bne :-
+    lda char_bottom_right,x
+    sta (ptr1),y
+    rts
 }
 
 
-.global display_key_40b_shl {
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	lda char_right,x
-	sta (ptr1),y
+.public display_key_40b_shl {
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    lda char_right,x
+    sta (ptr1),y
 
-	ldy #40
-	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	lda char_bottom_right,x
-	sta (ptr1),y
+    ldy #40
+    lda char_bottom,x
+    sta (ptr1),y
+    iny
+    lda char_bottom_right,x
+    sta (ptr1),y
 
     ldy #80
 :	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #82
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    cpy #82
+    bne :-
+    lda char_right,x
+    sta (ptr1),y
 
-	ldy #120
+    ldy #120
 :	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	cpy #122
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
+    sta (ptr1),y
+    iny
+    cpy #122
+    bne :-
+    lda char_bottom_right,x
+    sta (ptr1),y
+    rts
 }

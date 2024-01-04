@@ -1,4 +1,4 @@
-.ifndef HAD_VIC_II_INC
+.pre_if !.defined(HAD_VIC_II_INC)
 .define HAD_VIC_II_INC
 
 COLOR_BLACK = 0
@@ -22,4 +22,4 @@ COLOR_LIGHT_BLUE = 14
 COLOR_LIGHT_GRAY = 15
 COLOR_LIGHT_GREY = COLOR_LIGHT_GRAY
 
-.endif ; HAD_VIC_II_INC
+.pre_end ; HAD_VIC_II_INC

@@ -25,8 +25,8 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.sectio ndata
+.section data
 
-.global sprite_data {
-	.incbin "sprites.bin"
+.public sprite_data {
+    .binary_file "sprites.bin"
 }

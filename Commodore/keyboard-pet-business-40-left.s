@@ -3,7 +3,7 @@
 
 .export left_business_40
 
-.rodata
+.section data
 
 left_business_40:
     .byte 40, 33, 47, 33, 47, 33, 47, 33, 53, 0

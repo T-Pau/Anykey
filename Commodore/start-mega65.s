@@ -1,26 +1,26 @@
 
 .section code
 
-.global start {
+.public start {
     ; enable VIC IV
     lda #$47
-	sta VIC_KEY
-	lda #$53
-	sta VIC_KEY
+    sta VIC_KEY
+    lda #$53
+    sta VIC_KEY
 
     lda #14
-    sta VIC_BORDERCOLOR
+    sta VIC_BORDER_COLOR
 
-	lda #<charset
-	sta VIC_CHARSET_PTR
-	lda #>charset
-	sta VIC_CHARSET_PTR + 1
-	lda #0
-	sta VIC_CHARSET_BANK
-	lda #1
-	sta VIC_CHAR_Y_SCALE
-	lda #50
-	sta VIC_DISPLAY_ROWS
+    lda #<charset
+    sta VIC_CHARSET_PTR
+    lda #>charset
+    sta VIC_CHARSET_PTR + 1
+    lda #0
+    sta VIC_CHARSET_BANK
+    lda #1
+    sta VIC_CHAR_Y_SCALE
+    lda #50
+    sta VIC_DISPLAY_ROWS
 
     ldx #0
 loop:
@@ -41,5 +41,5 @@ message {
 }
 
 charset {
-    .incbin "charset.bin"
+    .binary_file "charset.bin"
 }

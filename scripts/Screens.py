@@ -83,7 +83,7 @@ class Screens:
         self.single_screen = False
         self.prefix = b""
         self.postfix = b""
-        self.assembler = "z88dk"
+        self.assembler = "xlr8"
         self.word_wrap = False
 
         self.encoder = RunlengthEncoder.RunlengthEncoder()
@@ -197,11 +197,11 @@ class Screens:
                     self.error("unexpected tokens after .else")
                 self.showing[-1] = self.showing_else[-1]
             return
-        elif line.startswith(".endif"):
+        elif line.startswith(".end"):
             if len(words) != 1:
                 self.error("unexpected tokens after .else")
             if len(self.showing) == 1:
-                self.error(".endif outside .if")
+                self.error(".end outside .if")
                 return
             self.showing.pop(-1)
             self.showing_else.pop(-1)
@@ -387,7 +387,8 @@ class Screens:
             output.header(self.input_file)
             output.data_section()
             if self.single_screen:
-                output.global_symbol(self.name)
+                output.public_symbol(self.name)
                 output.bytes(self.compressed_screens[0])
+                output.symbol_end()
             else:
                 output.parts(self.name, self.compressed_screens)

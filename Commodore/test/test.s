@@ -28,14 +28,14 @@ VICIV_CHARPTRBN  = $D06A
 start:
     ; enable VIC IV
     lda #$47
-	sta VIC_KEY
-	lda #$53
-	sta VIC_KEY
+    sta VIC_KEY
+    lda #$53
+    sta VIC_KEY
 
-	; disable hot registers
-	lda $d05d
-	and #$7f
-	sta $d05d
+    ; disable hot registers
+    lda $d05d
+    and #$7f
+    sta $d05d
 
         lda #(VICIII_SM_H640|VICIII_SM_V400)
         trb VICIII_SCRNMODE                   ; clear H640 and V400 for 320x200
@@ -66,31 +66,31 @@ start:
         lda #>colmem
         sta VICIV_COLPTRHI      ; set colorram start address
 
-.if 0
-	; raster height = 1
-	lda $d073
-	and #$0f
-	ora #$10
-	sta $d073
+    .if 0 {
+        ; raster height = 1
+        lda $d073
+        and #$0f
+        ora #$10
+        sta $d073
 
-	ldx #1
-	stx VIC_CHAR_Y_SCALE
+        ldx #1
+        stx VIC_CHAR_Y_SCALE
 
-    ldx #<screen
-    stx VIC_SCREEN_POINTER
-    ldx #>screen
-    stx VIC_SCREEN_POINTER + 1
-    ldx #0
-    stx VIC_SCREEN_POINTER + 2
-    stx VIC_CHARSET_POINTER + 2
-    ldx 160
-    stx VIC_LINE_STEP
-    ldx #80
-    stx VIC_CHAR_COUNT
-    lda VIC + $54
-    ora #$07
-    sta VIC + $54
-.endif
+        ldx #<screen
+        stx VIC_SCREEN_POINTER
+        ldx #>screen
+        stx VIC_SCREEN_POINTER + 1
+        ldx #0
+        stx VIC_SCREEN_POINTER + 2
+        stx VIC_CHARSET_POINTER + 2
+        ldx 160
+        stx VIC_LINE_STEP
+        ldx #80
+        stx VIC_CHAR_COUNT
+        lda VIC + $54
+        ora #$07
+        sta VIC + $54
+    }
 
     ldx #<charset
     stx VIC_CHARSET_POINTER
@@ -127,7 +127,7 @@ start:
 loop:
     jmp loop
 
-.rodata
+.section data
 
 charset:
     .byte $00, $00, $00, $00, $00, $00, $00, $00
@@ -139,8 +139,8 @@ charset:
     .byte $00, $00, $00, $11, $00, $00, $00, $00
     .byte $00, $00, $00, $00, $00, $00, $00, $00
 
-    ;.incbin "../charset.bin"
-    ;.incbin "../charset-mega65.bin"
+    ;.binary_file "../charset.bin"
+    ;.binary_file "../charset-mega65.bin"
 
 text:
     .repeat 80, i

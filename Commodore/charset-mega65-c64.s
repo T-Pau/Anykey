@@ -27,7 +27,7 @@
 
 .section data
 
-.global charset_data_mega65_c64 {
-	.incbin "keyboard-mega65-c64-charset-top.bin"
-	.incbin "keyboard-mega65-c64-charset-bottom.bin"
+.public charset_data_mega65_c64 {
+    .binary_file "keyboard-mega65-c64-charset-top.bin"
+    .binary_file "keyboard-mega65-c64-charset-bottom.bin"
 }

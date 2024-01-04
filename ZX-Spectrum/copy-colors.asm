@@ -28,7 +28,7 @@
 .section code
 
 ; de: colors to copy
-.global copy_colors {
+.public copy_colors {
     ld hl, color
 run_loop:
     ld a,(de)

@@ -27,53 +27,53 @@
 
 .section code
 
-.global display_help_page {
-	lda current_help_page
-	bmi negative
-	cmp num_help_screens
-	bne ok
-	lda #0
-	beq ok
+.public display_help_page {
+    lda current_help_page
+    bmi negative
+    cmp num_help_screens
+    bne ok
+    lda #0
+    beq ok
 negative:
-	lda num_help_screens
-	sec
+    lda num_help_screens
+    sec
     sbc #1
 ok:
-	sta current_help_page
-	asl
-	tax
+    sta current_help_page
+    asl
+    tax
 
-	lda help_screens,x
-	sta ptr1
-	lda help_screens + 1,x
-	sta ptr1 + 1
+    lda help_screens,x
+    sta ptr1
+    lda help_screens + 1,x
+    sta ptr1 + 1
 
-	lda #<help_screen_title
-	sta ptr2
-	lda #>help_screen_title
-	sta ptr2 + 1
-	jsr rl_expand
+    lda #<help_screen_title
+    sta ptr2
+    lda #>help_screen_title
+    sta ptr2 + 1
+    jsr rl_expand
 
-	lda #<help_screen_text
-	sta ptr2
-	lda #>help_screen_text
-	sta ptr2 + 1
-	jmp rl_expand
+    lda #<help_screen_text
+    sta ptr2
+    lda #>help_screen_text
+    sta ptr2 + 1
+    jmp rl_expand
 }
 
 
-.global help_next {
-	inc current_help_page
-	jmp display_help_page
+.public help_next {
+    inc current_help_page
+    jmp display_help_page
 }
 
 
-.global help_previous {
-	dec current_help_page
-	jmp display_help_page
+.public help_previous {
+    dec current_help_page
+    jmp display_help_page
 }
 
 
-.section reserve
+.section reserved
 
-.global current_help_page .reserve 1
+.public current_help_page .reserve 1

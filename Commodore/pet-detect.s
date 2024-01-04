@@ -38,7 +38,7 @@
 
 .section code
 
-.global detect {
+.public detect {
     jsr detect_rom_version
     jsr detect_line_width
     jmp detect_keyboard
@@ -163,26 +163,27 @@ end:
 type_end:
     inx
     cpx #2
-.if 1
-    beq not_recognized
-.else
-    ; For 40 columns, detection only works for graphics keyboard, so for now assume business keyboard if not recognized.
-    bne next_type
-    lda line_width
-    bne not_recognized
-    ldx #KEYBOARD_BUSINESS
-    jmp end
-next_type:
-.endif
+    .if 1 {
+        beq not_recognized
+    }
+    .else {
+        ; For 40 columns, detection only works for graphics keyboard, so for now assume business keyboard if not recognized.
+        bne next_type
+        lda line_width
+        bne not_recognized
+        ldx #KEYBOARD_BUSINESS
+        jmp end
+    next_type:
+    }
     add_word ptr2, $10
     bne loop_type
 }
 
 .section reserve
 
-.global rom_version .reserve 1
-.global line_width .reserve 1
-.global keyboard_type .reserve 1
+.public rom_version .reserve 1
+.public line_width .reserve 1
+.public keyboard_type .reserve 1
 
 .section data
 

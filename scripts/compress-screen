@@ -40,7 +40,7 @@ elif input_file_name.endswith(".json"):
         screen_width = spec.get("screen_width", 0)
         width = spec.get("width", 0)
         height = spec.get("width", 0)
-        assembler_format = spec.get("assembler", "z88dk")
+        assembler_format = spec.get("assembler", "xlr8")
         skip = max(screen_width - width, 0)
 
         parts = []

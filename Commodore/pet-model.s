@@ -25,50 +25,49 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.export   saved_screen, saved_screen_size, help_keys, help_count, help_pages, help_footer, left_list
-
-.ifdef FIT_IN_8K
-.global saved_screen_size = saved_screen_size_table
+.pre_if .defined(FIT_IN_8K)
+.public saved_screen_size = saved_screen_size_table
 keyboard_pet_business_40_screen = 0
 keys_pet_business_40_address_low = 0
 left_business_40 = 0
-.endif
+.per_end
 
 SAVED_SCREEN_SIZE_40 = (40 * 22)
 SAVED_SCREEN_SIZE_80 = (80 * 22)
 
-.ifdef FIT_IN_8K
+.pre_if .defined(FIT_IN_8K)
 MAX_SAVED_SCREEN_SIZE = SAVED_SCREEN_SIZE_40
-.else
+.pre_else
 MAX_SAVED_SCREEN_SIZE = SAVED_SCREEN_SIZE_80
-.endif
+.pre_end
 
 .section code
 
-.global setup_model {
+.public setup_model {
     jsr detect
     lda line_width
-.ifdef FIT_IN_8K
-    beq line_width_supported
-.else
-    bpl line_width_supported
-.endif
+    .if .defined(FIT_IN_8K) {
+        beq line_width_supported
+    }
+    .else {
+        bpl line_width_supported
+    }
 not_supported:
     lda #$ff
     rts
 line_width_supported:
     asl
     tax
-.ifndef FIT_IN_8K
-    lda reset_keyboard_routine_table,x
-    sta reset_keyboard_routine
-    lda reset_keyboard_routine_table + 1,x
-    sta reset_keyboard_routine + 1
-    lda saved_screen_size_table,x
-    sta saved_screen_size
-    lda saved_screen_size_table + 1,x
-    sta saved_screen_size + 1
-.endif
+    .if !.defined(FIT_IN_8K) {
+        lda reset_keyboard_routine_table,x
+        sta reset_keyboard_routine
+        lda reset_keyboard_routine_table + 1,x
+        sta reset_keyboard_routine + 1
+        lda saved_screen_size_table,x
+        sta saved_screen_size
+        lda saved_screen_size_table + 1,x
+        sta saved_screen_size + 1
+    }
     lda help_table,x
     sta ptr1
     lda help_table + 1,x
@@ -96,9 +95,9 @@ line_width_supported:
     sta help_footer + 1
 
     ldx keyboard_type
-.ifdef FIT_IN_8K
-    beq not_supported
-.endif
+    .if .defined(FIT_IN_8K) {
+        beq not_supported
+    }
     bmi not_supported
     cpx #2
     bne :+
@@ -124,10 +123,10 @@ line_width_supported:
     sta left_list + 1
 
     lda keyboard_type
-.ifndef FIT_IN_8K
-    asl
-    ora line_width
-.endif
+    .if !.defined(FIT_IN_8K) {
+        asl
+        ora line_width
+    }
     asl
     sta keyboard_type_index
     tax
@@ -152,56 +151,57 @@ line_width_supported:
 }
 
 
-.global reset_keyboard {
-.ifdef FIT_IN_8K
-    jmp reset_keyboard_40
-.else
-    jmp (reset_keyboard_routine)
-.endif
+.public reset_keyboard {
+    .if .defined(FIT_IN_8K) {
+        jmp reset_keyboard_40
+    }
+    .else {
+        jmp (reset_keyboard_routine)
+    }
 }
 
 .section data
 
 ; indexed by line_width
-.ifndef FIT_IN_8K
+.pre_if !.defined(FIT_IN_8K)
 reset_keyboard_routine_table {
-    .word reset_keyboard_40
-    .word reset_keyboard_80
+    .data reset_keyboard_40
+    .data reset_keyboard_80
 }
-.endif
+.end
 
 
 saved_screen_size_table {
-    .word SAVED_SCREEN_SIZE_40
-.ifndef FIT_IN_8K
-    .word SAVED_SCREEN_SIZE_80
-.endif
+    .data SAVED_SCREEN_SIZE_40
+    .if !.defined(FIT_IN_8K) {
+        .data SAVED_SCREEN_SIZE_80
+    }
 }
 
 
 ; indexed by line_width
 help_table {
-    .word help_40
-.ifndef FIT_IN_8K
-    .word help_80
-.endif
+    .data help_40
+    .if !.defined(FIT_IN_8K) {
+        .data help_80
+    }
 }
 
 
 help_40 {
-    .word num_help_40_screens
-    .word help_40_screens
-    .word help_40_footer
+    .data num_help_40_screens
+    .data help_40_screens
+    .data help_40_footer
 }
 
 
-.ifndef FIT_IN_8K
+.pre_if !.defined(FIT_IN_8K)
 help_80 {
-    .word num_help_80_screens
-    .word help_80_screens
-    .word help_80_footer
+    .data num_help_80_screens
+    .data help_80_screens
+    .data help_80_footer
 }
-.endif
+.pre_end
 
 
 ; indexed by keyboard type != business
@@ -218,44 +218,44 @@ key_index_reset_table {
 
 ; indexed by keyboard type != business
 help_keys_table {
-    .word help_keys_business
-    .word help_keys_graphics
+    .data help_keys_business
+    .data help_keys_graphics
 }
 
 
 ; indexed by keyboard type
 left_list_table {
-    .word left_business_40
-    .word left_calculator_40
-    .word left_graphics_40
+    .data left_business_40
+    .data left_calculator_40
+    .data left_graphics_40
 }
 
 
 ; indexed by keyboard type (* 2 + line_width)
 keyboard_screen_table {
-    .word keyboard_pet_business_40_screen
-.ifndef FIT_IN_8K
-    .word keyboard_pet_business_80_screen
-.endif
-    .word keyboard_pet_calculator_40_screen
-.ifndef FIT_IN_8K
-    .word keyboard_pet_calculator_80_screen
-.endif
-    .word keyboard_pet_graphics_40_screen
+    .data keyboard_pet_business_40_screen
+    .if !.defined(FIT_IN_8K) {
+        .data keyboard_pet_business_80_screen
+    }
+    .data keyboard_pet_calculator_40_screen
+    .if !.defined(FIT_IN_8K) {
+        .data keyboard_pet_calculator_80_screen
+    }
+    .data keyboard_pet_graphics_40_screen
 }
 
 
 ; indexed by keyboard type (* 2 + line_width)
 keyboard_table {
-    .word keys_pet_business_40_address_low
-.ifndef FIT_IN_8K
-    .word keys_pet_business_80_address_low
-.endif
-    .word keys_pet_calculator_40_address_low
-.ifndef FIT_IN_8K
-    .word keys_pet_calculator_80_address_low
-.endif
-    .word keys_pet_graphics_40_address_low
+    .data keys_pet_business_40_address_low
+    .if !.defined(FIT_IN_8K) {
+        .data keys_pet_business_80_address_low
+    }
+    .data keys_pet_calculator_40_address_low
+    .if !.defined(FIT_IN_8K) {
+        .data keys_pet_calculator_80_address_low
+    }
+    .data keys_pet_graphics_40_address_low
 }
 
 
@@ -268,7 +268,7 @@ help_keys_graphics {
 }
 
 
-.ifndef FIT_IN_4K
+.pre_if !.defined(FIT_IN_4K)
 help_keys_business {
     .byte $42, COMMAND_HELP_NEXT ; space
     .byte $16, COMMAND_HELP_NEXT ; + (actually ;)
@@ -277,21 +277,21 @@ help_keys_business {
     .byte $10, COMMAND_HELP_EXIT ; escape
     .byte $ff
 }
-.endif
+.pre_end
 
 
 .section reserve
 
-.global help_count .reserve 1
-.global help_pages .reserve 2
+.public help_count .reserve 1
+.public help_pages .reserve 2
 .gloabl help_footer .reserve 2
-.global help_keys .reserve 2
+.public help_keys .reserve 2
 
-.ifndef FIT_IN_8K
+.pre_if !.defined(FIT_IN_8K)
 reset_keyboard_routine .reserve 2
-.global saved_screen_size .reserve 2
-.endif
+.public saved_screen_size .reserve 2
+.pre_end
 
-.global left_list .reserve 2
-.global saved_screen .reserve MAX_SAVED_SCREEN_SIZE
+.public left_list .reserve 2
+.public saved_screen .reserve MAX_SAVED_SCREEN_SIZE
 keyboard_type_index .reserve 1

@@ -27,33 +27,35 @@
 
 RESTORE_FRAMES = 10
 
-.global init_restore {
+.section code
+
+.public init_restore {
     lda #0
-	sta restore_countdown
+    sta restore_countdown
     rts
 }
 
 
-.global process_restore {
-	ldx restore_countdown
-	beq :+
-	dex
-	stx restore_countdown
-	txa
-	ldx num_keys
-	dex
-	sta new_key_state,x
+.public process_restore {
+    ldx restore_countdown
+    beq :+
+    dex
+    stx restore_countdown
+    txa
+    ldx num_keys
+    dex
+    sta new_key_state,x
 :
     rts
 }
 
 
-.global trigger_restore {
+.public trigger_restore {
     lda #RESTORE_FRAMES
     sta restore_countdown
     rts
 }
 
-.section reserve
+.section reserved
 
 restore_countdown .reserve 1

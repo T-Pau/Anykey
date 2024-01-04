@@ -27,67 +27,67 @@
 
 .section code
 
-.global select_pots1 {
-	lda #$c0
-	sta CIA1_DDRA
+.public select_pots1 {
+    lda #$c0
+    sta CIA1_DDRA
     lda #$40
     sta CIA1_PRA
     rts
 }
 
 
-.global select_pots2 {
-	lda #$c0
-	sta CIA1_DDRA
-	lda #$80
-	sta CIA1_PRA
-	rts
+.public select_pots2 {
+    lda #$c0
+    sta CIA1_DDRA
+    lda #$80
+    sta CIA1_PRA
+    rts
 }
 
 
-.global read_pots {
-.if .defined(__C64__)
-    lda machine_type
-    bpl not_mega65
-.endif
-.if .defined(__C64__) .or .defined(__MEGA65__)
-    lda joy1,x
-    and #$1f
-    sta joy1,x
-    txa
-    asl
-    tay
-    lda $d620,y
-    bmi :+
-    lda joy1,x
-    ora #$20
-    sta joy1,x
-:   lda $d621,y
-    bmi :+
-    lda joy1,x
-    ora #$40
-    sta joy1,x
-:   rts
-.endif
-.if .defined(__C64__)
-not_mega65:
-.endif
-.if .not .defined(__MEGA65__)
-	lda joy1,x
-	and #$1f
-	ldy SID_ADConv1
-	bmi :+
-	ora #$20
-:	ldy SID_ADConv2
-	bmi :+
-	ora #$40
-:	sta joy1,x
-	rts
-.endif
+.public read_pots {
+    .if .defined(C64) {
+        lda machine_type
+        bpl not_mega65
+    }
+    .if .defined(C64) || .defined(MEGA65) {
+        lda joy1,x
+        and #$1f
+        sta joy1,x
+        txa
+        asl
+        tay
+        lda $d620,y
+        bmi :+
+        lda joy1,x
+        ora #$20
+        sta joy1,x
+    :   lda $d621,y
+        bmi :+
+        lda joy1,x
+        ora #$40
+        sta joy1,x
+    :   rts
+    }
+    .if .defined(C64) {
+    not_mega65:
+    }
+    .if !.defined(MEGA65) {
+        lda joy1,x
+        and #$1f
+        ldy SID_POT_X
+        bmi :+
+        ora #$20
+    :	ldy SID_POT_Y
+        bmi :+
+        ora #$40
+    :	sta joy1,x
+        rts
+    }
 }
 
 
-.global handle_joysticks {
+.public handle_joysticks {
     lda #$00
     sta CIA1_DDRA
     sta CIA1_DDRB
@@ -99,7 +99,7 @@ not_mega65:
     ora joy1
     sta port_digital
     ldx #0
-	jsr display_joystick
+    jsr display_joystick
 
     lda #$ff
     sta CIA1_PRB
@@ -108,5 +108,5 @@ not_mega65:
     ora joy2
     sta port_digital
     ldx #1
-	jmp display_joystick
+    jmp display_joystick
 }

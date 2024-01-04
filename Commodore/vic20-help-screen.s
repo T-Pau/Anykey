@@ -1,7 +1,7 @@
 ;  This file is automatically created by ../scripts/convert-screens from vic20-help-screen.txt.
 ;  Do not edit.
 
-.rodata
+.section data
 
 .export help_screen
 help_screen:

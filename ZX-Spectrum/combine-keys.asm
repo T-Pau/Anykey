@@ -1,7 +1,7 @@
 
 .section code
 
-.global combine_keys {
+.public combine_keys {
 IF USE_EXTENDED_KEYS
     ld ix,new_key_state + 56
 ELSE

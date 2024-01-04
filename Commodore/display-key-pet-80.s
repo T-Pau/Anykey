@@ -32,335 +32,335 @@
 
 .section code
 
-.global display_key_w {
-	lda char_top_left,x
-	sta (ptr1),y
-	iny
-	lda char_top,x
+.public display_key_w {
+    lda char_top_left,x
+    sta (ptr1),y
+    iny
+    lda char_top,x
 :	sta (ptr1),y
-	iny
-	cpy #9
-	bne :-
-	lda char_top_right,x
-	sta (ptr1),y
-	
-	ldy #80
-	lda char_left,x
-	sta (ptr1),y
-	iny
+    iny
+    cpy #9
+    bne :-
+    lda char_top_right,x
+    sta (ptr1),y
+    
+    ldy #80
+    lda char_left,x
+    sta (ptr1),y
+    iny
 :	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #89
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    cpy #89
+    bne :-
+    lda char_right,x
+    sta (ptr1),y
 
-	ldy #160
-	lda char_bottom_left,x
-	sta (ptr1),y
-	iny
-	lda char_bottom,x
+    ldy #160
+    lda char_bottom_left,x
+    sta (ptr1),y
+    iny
+    lda char_bottom,x
 :	sta (ptr1),y
-	iny
-	cpy #169
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
+    iny
+    cpy #169
+    bne :-
+    lda char_bottom_right,x
+    sta (ptr1),y
+    rts
 }
 
 
-.global display_key_n {
-	lda char_top_left,x
-	sta (ptr1),y
-	iny
-	lda char_top,x
+.public display_key_n {
+    lda char_top_left,x
+    sta (ptr1),y
+    iny
+    lda char_top,x
 :	sta (ptr1),y
-	iny
-	cpy #4
-	bne :-
-	lda char_top_right,x
-	sta (ptr1),y
-	
-	ldy #80
-	lda char_left,x
-	sta (ptr1),y
-	iny
+    iny
+    cpy #4
+    bne :-
+    lda char_top_right,x
+    sta (ptr1),y
+    
+    ldy #80
+    lda char_left,x
+    sta (ptr1),y
+    iny
 :	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #84
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    cpy #84
+    bne :-
+    lda char_right,x
+    sta (ptr1),y
 
-	ldy #160
-	lda char_bottom_left,x
-	sta (ptr1),y
-	iny
-	lda char_bottom,x
+    ldy #160
+    lda char_bottom_left,x
+    sta (ptr1),y
+    iny
+    lda char_bottom,x
 :	sta (ptr1),y
-	iny
-	cpy #164
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
+    iny
+    cpy #164
+    bne :-
+    lda char_bottom_right,x
+    sta (ptr1),y
+    rts
 }
 
 
-.global display_key_h {
-	lda char_top_left,x
-	sta (ptr1),y
-	iny
-	lda char_top,x
+.public display_key_h {
+    lda char_top_left,x
+    sta (ptr1),y
+    iny
+    lda char_top,x
 :	sta (ptr1),y
-	iny
-	cpy #4
-	bne :-
-	lda char_top_right,x
-	sta (ptr1),y
-	
-	lda #5
-	sta tmp1
+    iny
+    cpy #4
+    bne :-
+    lda char_top_right,x
+    sta (ptr1),y
+    
+    lda #5
+    sta tmp1
 row:
-	ldy #0
-	clc
-	lda #80
-	adc_16 ptr1
-	lda char_left,x
-	sta (ptr1),y
-	iny
+    ldy #0
+    clc
+    lda #80
+    adc_16 ptr1
+    lda char_left,x
+    sta (ptr1),y
+    iny
 :	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #4
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
-	dec tmp1
-	bne row
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    cpy #4
+    bne :-
+    lda char_right,x
+    sta (ptr1),y
+    dec tmp1
+    bne row
 
-	ldy #0
-	lda char_bottom_left,x
-	sta (ptr1),y
-	iny
-	lda char_bottom,x
+    ldy #0
+    lda char_bottom_left,x
+    sta (ptr1),y
+    iny
+    lda char_bottom,x
 :	sta (ptr1),y
-	iny
-	cpy #4
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
+    iny
+    cpy #4
+    bne :-
+    lda char_bottom_right,x
+    sta (ptr1),y
+    rts
 }
 
 
-.global display_key_3 {
-	lda char_top_left,x
-	sta (ptr1),y
-	iny
-	lda char_top,x
-	sta (ptr1),y
-	iny
-	lda char_top_right,x
-	sta (ptr1),y
+.public display_key_3 {
+    lda char_top_left,x
+    sta (ptr1),y
+    iny
+    lda char_top,x
+    sta (ptr1),y
+    iny
+    lda char_top_right,x
+    sta (ptr1),y
 
-	ldy #80
-	lda char_left,x
-	sta (ptr1),y
-	iny
-	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	lda char_right,x
-	sta (ptr1),y
+    ldy #80
+    lda char_left,x
+    sta (ptr1),y
+    iny
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    lda char_right,x
+    sta (ptr1),y
 
-	ldy #160
-	lda char_bottom_left,x
-	sta (ptr1),y
-	iny
-	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
+    ldy #160
+    lda char_bottom_left,x
+    sta (ptr1),y
+    iny
+    lda char_bottom,x
+    sta (ptr1),y
+    iny
+    lda char_bottom_right,x
+    sta (ptr1),y
+    rts
 }
 
 
-.global display_key_4 {
-	lda char_top_left,x
-	sta (ptr1),y
-	iny
-	lda char_top,x
-	sta (ptr1),y
-	iny
-	sta (ptr1),y
-	iny
-	lda char_top_right,x
-	sta (ptr1),y
+.public display_key_4 {
+    lda char_top_left,x
+    sta (ptr1),y
+    iny
+    lda char_top,x
+    sta (ptr1),y
+    iny
+    sta (ptr1),y
+    iny
+    lda char_top_right,x
+    sta (ptr1),y
 
-	ldy #80
-	lda char_left,x
-	sta (ptr1),y
-	iny
+    ldy #80
+    lda char_left,x
+    sta (ptr1),y
+    iny
 :	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #83
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    cpy #83
+    bne :-
+    lda char_right,x
+    sta (ptr1),y
 
-	ldy #160
-	lda char_bottom_left,x
-	sta (ptr1),y
-	iny
-	lda char_bottom,x
-	sta (ptr1),y
-	iny
-	sta (ptr1),y
-	iny
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
+    ldy #160
+    lda char_bottom_left,x
+    sta (ptr1),y
+    iny
+    lda char_bottom,x
+    sta (ptr1),y
+    iny
+    sta (ptr1),y
+    iny
+    lda char_bottom_right,x
+    sta (ptr1),y
+    rts
 }
 
 
-.global display_key_6 {
-	lda char_top_left,x
-	sta (ptr1),y
-	iny
-	lda char_top,x
+.public display_key_6 {
+    lda char_top_left,x
+    sta (ptr1),y
+    iny
+    lda char_top,x
 :	sta (ptr1),y
-	iny
-	cpy #5
-	bne :-
-	lda char_top_right,x
-	sta (ptr1),y
+    iny
+    cpy #5
+    bne :-
+    lda char_top_right,x
+    sta (ptr1),y
 
-	ldy #80
-	lda char_left,x
-	sta (ptr1),y
-	iny
+    ldy #80
+    lda char_left,x
+    sta (ptr1),y
+    iny
 :	lda (ptr1),y
-	and #$7f
-	ora current_key_state
-	sta (ptr1),y
-	iny
-	cpy #85
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    cpy #85
+    bne :-
+    lda char_right,x
+    sta (ptr1),y
 
-	ldy #160
-	lda char_bottom_left,x
-	sta (ptr1),y
-	iny
-	lda char_bottom,x
+    ldy #160
+    lda char_bottom_left,x
+    sta (ptr1),y
+    iny
+    lda char_bottom,x
 :	sta (ptr1),y
-	iny
-	cpy #165
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
+    iny
+    cpy #165
+    bne :-
+    lda char_bottom_right,x
+    sta (ptr1),y
+    rts
 }
 
 
-.global display_key_space_27 {
-	lda char_top_left,x
-	sta (ptr1),y
-	iny
-	lda char_top,x
+.public display_key_space_27 {
+    lda char_top_left,x
+    sta (ptr1),y
+    iny
+    lda char_top,x
 :	sta (ptr1),y
-	iny
-	cpy #26
-	bne :-
-	lda char_top_right,x
-	sta (ptr1),y
+    iny
+    cpy #26
+    bne :-
+    lda char_top_right,x
+    sta (ptr1),y
 
-	ldy #80
-	lda char_left,x
-	sta (ptr1),y
-	iny
-	lda #$20
-	ora current_key_state
+    ldy #80
+    lda char_left,x
+    sta (ptr1),y
+    iny
+    lda #$20
+    ora current_key_state
 :	sta (ptr1),y
-	iny
-	cpy #106
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
+    iny
+    cpy #106
+    bne :-
+    lda char_right,x
+    sta (ptr1),y
 
-	ldy #160
-	lda char_bottom_left,x
-	sta (ptr1),y
-	iny
-	lda char_bottom,x
+    ldy #160
+    lda char_bottom_left,x
+    sta (ptr1),y
+    iny
+    lda char_bottom,x
 :	sta (ptr1),y
-	iny
-	cpy #186
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
+    iny
+    cpy #186
+    bne :-
+    lda char_bottom_right,x
+    sta (ptr1),y
+    rts
 }
 
 
-.global display_key_space_26 {
-	lda char_top_left,x
-	sta (ptr1),y
-	iny
-	lda char_top,x
+.public display_key_space_26 {
+    lda char_top_left,x
+    sta (ptr1),y
+    iny
+    lda char_top,x
 :	sta (ptr1),y
-	iny
-	cpy #25
-	bne :-
-	lda char_top_right,x
-	sta (ptr1),y
+    iny
+    cpy #25
+    bne :-
+    lda char_top_right,x
+    sta (ptr1),y
 
-	ldy #80
-	lda char_left,x
-	sta (ptr1),y
-	iny
-	lda #$20
-	ora current_key_state
+    ldy #80
+    lda char_left,x
+    sta (ptr1),y
+    iny
+    lda #$20
+    ora current_key_state
 :	sta (ptr1),y
-	iny
-	cpy #105
-	bne :-
-	lda char_right,x
-	sta (ptr1),y
+    iny
+    cpy #105
+    bne :-
+    lda char_right,x
+    sta (ptr1),y
 
-	ldy #160
-	lda char_bottom_left,x
-	sta (ptr1),y
-	iny
-	lda char_bottom,x
+    ldy #160
+    lda char_bottom_left,x
+    sta (ptr1),y
+    iny
+    lda char_bottom,x
 :	sta (ptr1),y
-	iny
-	cpy #185
-	bne :-
-	lda char_bottom_right,x
-	sta (ptr1),y
-	rts
+    iny
+    cpy #185
+    bne :-
+    lda char_bottom_right,x
+    sta (ptr1),y
+    rts
 }
 
 
-.global display_key_80b_shl {
+.public display_key_80b_shl {
     jsr display_key_3
     add_word ptr1, 240
     ldy #0

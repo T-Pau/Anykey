@@ -1,4 +1,4 @@
-.ifndef HAD_TED_INC
+.pre_if !.defined(HAD_TED_INC)
 .define HAD_TED_INC
 
 COLOR_BLACK = 0
@@ -24,4 +24,4 @@ COLOR_LIGHT_GREEN = 15
 TED_BITMAP = $ff12
 TED_SCREEN = $ff14
 
-.endif ; HAD_TED_INC
+.pre_end ; HAD_TED_INC

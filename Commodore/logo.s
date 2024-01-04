@@ -31,87 +31,75 @@ LOGO_Y = 50 + 25 * 8
 .section data
 
 stripe_colors {
-	.data COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_BLUE
+    .data COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_BLUE
 }
 
 .section code
 
-.global display_logo {
-.if .defined(__C64__)
+.public display_logo {
     lda machine_type
     bmi :+
-.endif
-.if .not .defined(__MEGA65__)
-	set_vic_24_lines
-.endif
-.if .defined(__C64__)
+    set_vic_24_lines
 :
-.endif
-	lda #COLOR_MID_GRAY
-	sta VIC_BG_COLOR0
-	
-	ldy #LOGO_Y + 2
-	ldx #0
+    lda #COLOR_MID_GRAY
+    sta VIC_BACKGROUND_COLOR
+    
+    ldy #LOGO_Y + 2
+    ldx #0
 loop:
-	lda stripe_colors,x	
-:	cpy VIC_HLINE
-	bne :-
-	sta VIC_SPR4_COLOR
-	iny
-	iny
-	inx
-	cpx #5
-	bne loop
-	
-.if .defined(__C64__)
+    lda stripe_colors,x	
+:	cpy VIC_RASTER
+    bne :-
+    sta VIC_SPRITE_4_COLOR
+    iny
+    iny
+    inx
+    cpx #5
+    bne loop
+    
     lda machine_type
     bmi :+
-.endif
-.if .not .defined(__MEGA65__)
-	set_vic_25_lines
-.endif
-.if .defined(__C64__)
+    set_vic_25_lines
 :
-.endif
 
-	rts
+    rts
 }
 
 
-.global setup_logo {
-	lda #00
-	sta $bfff
-	lda #<LOGO_X
-	sta VIC_SPR4_X
-	sta VIC_SPR5_X
-	clc
-	adc #17
-	sta VIC_SPR6_X
-	adc #24
-	sta VIC_SPR7_X
-	lda VIC_SPR_HI_X
-	ora #$f0
-	sta VIC_SPR_HI_X
-	lda #LOGO_Y
-	sta VIC_SPR4_Y
-	sta VIC_SPR5_Y
-	sta VIC_SPR6_Y
-	sta VIC_SPR7_Y
-	lda #COLOR_BLACK
-	sta VIC_SPR5_COLOR
-	lda #COLOR_DARK_GRAY
-	sta VIC_SPR6_COLOR
-	sta VIC_SPR7_COLOR
-	ldx #sprite_logo
-	stx screen + $3fc
-	inx
-	stx screen + $3fd
-	inx
-	stx screen + $3fe
-	inx
-	stx screen + $3ff
-	lda VIC_SPR_ENA
-	ora #$f0
-	sta VIC_SPR_ENA
-	rts
+.public setup_logo {
+    lda #00
+    sta $bfff
+    lda #<LOGO_X
+    sta VIC_SPRITE_4_X
+    sta VIC_SPRITE_5_X
+    clc
+    adc #17
+    sta VIC_SPRITE_6_X
+    adc #24
+    sta VIC_SPRITE_7_X
+    lda VIC_SPRITE_X_MSB
+    ora #$f0
+    sta VIC_SPRITE_X_MSB
+    lda #LOGO_Y
+    sta VIC_SPRITE_4_Y
+    sta VIC_SPRITE_5_Y
+    sta VIC_SPRITE_6_Y
+    sta VIC_SPRITE_7_Y
+    lda #COLOR_BLACK
+    sta VIC_SPRITE_5_COLOR
+    lda #COLOR_DARK_GRAY
+    sta VIC_SPRITE_6_COLOR
+    sta VIC_SPRITE_7_COLOR
+    ldx #sprite_logo
+    stx screen + $3fc
+    inx
+    stx screen + $3fd
+    inx
+    stx screen + $3fe
+    inx
+    stx screen + $3ff
+    lda VIC_SPRITE_ENABLE
+    ora #$f0
+    sta VIC_SPRITE_ENABLE
+    rts
 }

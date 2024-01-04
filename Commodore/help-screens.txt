@@ -37,15 +37,15 @@ prefix " "
 postfix " "
 title_length 38
 title_xor 128
-assembler cc65
+assembler xlr8
 word_wrap 1
 
-.if __C64__ or __C128__
+.if C64 or C128
 .define USE_VICII
-.endif
-.if __PLUS4__
+.end
+.if PLUS4
 .define USE_TED
-.endif
+.end
 ---
 Anykey
 
@@ -68,64 +68,64 @@ Keys that were previously pressed are
 displayed in a lighter gray. This
 helps detect dead keys. To reset the
 state of all keys to unpressed, hold
-.if __PLUS4__
+.if PLUS4
 f3 for two seconds.
-.else if __MEGA65__
+.else if MEGA65
 f13 for two seconds.
 .else
 f5 for two seconds.
-.endif
+.end
 ---
 Joysticks
 
 Joysticks contain a stick or d-pad
 with switches for the four cardinal
-.if __PLUS4__
+.if PLUS4
 directions and one button.
 .else
 directions and up to three buttons.
-.endif
+.end
 
 pressed directions and buttons are
 displayed inverted.
-.if not __PLUS4__
+.if not PLUS4
 
 Buttons 2 and 3 bring an analog potentiometer to a low value by connecting its pin to +5v.
 
 These potentiometers are also used by paddles and the 1351 mouse; if such a device is connected, the buttons may read as pressed.
-.endif
+.end
 ---
-.if __C64__ or __C128__
+.if C64 or C128
 Joyride
 
 To test other controller types or joystick adapters, please use the companion program joyride which can be found at
   https://github.com/t-pau/joyride
-.endif
+.end
 ---
 Special Keys
 
-.if USE_VICII or __MEGA65__ or __VIC20__
+.if USE_VICII or MEGA65 or VIC20
 Shift Lock and the left Shift key appear as the same key to the computer and cannot be reliably distinguished on all computers.
 
 The Restore key cannot be read directly. Anykey can detect when the key is pressed, but it can't detect for how long.
 .else
 Shift Lock, left Shift and right Shift appear as the same key to the computer and cannot be reliably distinguished on all computers.  The same is true
 for the two Control keys.
-.endif
-.if __C64__ or __MEGA65__
+.end
+.if C64 or MEGA65
 
 On MEGA65, when pressing cursor up or left, right Shift and the opposite cursor keys also appear pressed. To avoid prematurely marking keys as
 pressed, these keys are ignored in that case.
-.endif
+.end
 
-.if __C64__
+.if C64
 ---
 Commodore 128
 
 When run in C64 mode on a C128, Anykey will display and test the full C128 keyboard.
 
 The 40/80 Display key cannot be read in C64 mode, therefore it is displayed grayed out. To test it, use the native version, Anykey 128.
-.endif
+.end
 ---
 Technical Limitations
 
@@ -133,5 +133,5 @@ Technical Limitations
 Joysticks interfere with reading the keyboard. When a joystick is pressed, certain keys can't be read. These keys will be ignored while the joystick is
 pressed. If such a key was pressed before the joystick, it will remain pressed until the joystick is released.
 
-.endif
+.end
 If you press certain combinations of three keys, a fourth key will also appear pressed. This is because the three keys together create the same electrical connection the fourth key would.

@@ -37,7 +37,7 @@ print $fh <<EOF;
 
 .export $name
 
-.rodata
+.section data
 
 $name:
 EOF

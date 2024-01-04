@@ -25,7 +25,7 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.seciton reserve
+.section reserved
 
 state .reserve 1
 
@@ -33,66 +33,66 @@ state .reserve 1
 
 ; set state of button at ptr2 to A
 
-.global button {
-	cmp #0
-	beq :+
-	lda #$80
+.public button {
+    cmp #0
+    beq :+
+    lda #$80
 :	sta state
 
-	ldy #0
-	lda (ptr2),y
-	and #$7f
-	ora state
-	sta (ptr2),y
-	iny
-	lda (ptr2),y
-	and #$7f
-	ora state
-	sta (ptr2),y
-	iny
-	lda (ptr2),y
-	and #$7f
-	ora state
-	sta (ptr2),y
-	
-	ldy #40
-	lda (ptr2),y
-	and #$7f
-	ora state
-	sta (ptr2),y
-	iny
-	lda (ptr2),y
-	and #$7f
-	ora state
-	sta (ptr2),y
-	iny
-	lda (ptr2),y
-	and #$7f
-	ora state
-	sta (ptr2),y
-	
-	ldy #80
-	lda (ptr2),y
-	and #$7f
-	ora state
-	sta (ptr2),y
-	iny
-	lda (ptr2),y
-	and #$7f
-	ora state
-	sta (ptr2),y
-	iny
-	lda (ptr2),y
-	and #$7f
-	ora state
-	sta (ptr2),y
+    ldy #0
+    lda (ptr2),y
+    and #$7f
+    ora state
+    sta (ptr2),y
+    iny
+    lda (ptr2),y
+    and #$7f
+    ora state
+    sta (ptr2),y
+    iny
+    lda (ptr2),y
+    and #$7f
+    ora state
+    sta (ptr2),y
+    
+    ldy #40
+    lda (ptr2),y
+    and #$7f
+    ora state
+    sta (ptr2),y
+    iny
+    lda (ptr2),y
+    and #$7f
+    ora state
+    sta (ptr2),y
+    iny
+    lda (ptr2),y
+    and #$7f
+    ora state
+    sta (ptr2),y
+    
+    ldy #80
+    lda (ptr2),y
+    and #$7f
+    ora state
+    sta (ptr2),y
+    iny
+    lda (ptr2),y
+    and #$7f
+    ora state
+    sta (ptr2),y
+    iny
+    lda (ptr2),y
+    and #$7f
+    ora state
+    sta (ptr2),y
 
-	clc
-	lda ptr2
-	adc #3
-	sta ptr2
-	bcc :+
-	inc ptr2 + 1
+    clc
+    lda ptr2
+    adc #3
+    sta ptr2
+    bcc :+
+    inc ptr2 + 1
 :
-	rts
+    rts
 }

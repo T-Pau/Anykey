@@ -192,7 +192,7 @@ elsif ($mode eq "screens") {
 
 .export ${name_prefix}_pages, ${name_prefix}_count
 
-.rodata
+.section data
 EOF
 
     print "\n${name_prefix}_count:\n";

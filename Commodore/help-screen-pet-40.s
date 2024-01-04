@@ -1,7 +1,7 @@
 ;  This file is automatically created by ../scripts/convert-screens from help-screen-pet-40.txt.
 ;  Do not edit.
 
-.rodata
+.section data
 
 .export num_help_40_screens
 num_help_40_screens:

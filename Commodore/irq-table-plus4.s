@@ -27,15 +27,15 @@
 
 .section data
 
-.global main_plus4_irq_table {
-	.data (SCREEN_TOP - 1):2, top_label
-	.data (SCREEN_TOP + 8 - 2):2, switch_keyboard_top
-	.data (SCREEN_TOP + 5 * 8 - 3):2, switch_keyboard_bottom
-	.data (SCREEN_TOP + 15 * 8 - 2):2, switch_joystick_label
-	.data (SCREEN_TOP + 17 * 8 - 1):2, switch_joystick
-	.data (SCREEN_TOP + 22 * 8 - 2):2, switch_joystick_bottom
+.public main_plus4_irq_table {
+    .data (SCREEN_TOP - 1):2, top_label
+    .data (SCREEN_TOP + 8 - 2):2, switch_keyboard_top
+    .data (SCREEN_TOP + 5 * 8 - 3):2, switch_keyboard_bottom
+    .data (SCREEN_TOP + 15 * 8 - 2):2, switch_joystick_label
+    .data (SCREEN_TOP + 17 * 8 - 1):2, switch_joystick
+    .data (SCREEN_TOP + 22 * 8 - 2):2, switch_joystick_bottom
 }
 
-.global main_plus4_irq_table_length {
-	.data * - main_plus4_irq_table
+.public main_plus4_irq_table_length {
+    .data .sizeof(main_plus4_irq_table)
 }

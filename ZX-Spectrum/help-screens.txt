@@ -36,7 +36,7 @@ line_length 30
 lines 16
 .else
 lines 14
-.endif
+.end
 prefix " "
 postfix " "
 title_length 30
@@ -53,7 +53,7 @@ It shows the current state of the keyboard.
 The upper window shows the state of the keyboard.
 
 The lower window shows the state of joysticks connected to the controller ports.
-.endif
+.end
 
 This is Anykey ${VERSION}.
 The newest version and further
@@ -88,9 +88,9 @@ For Sinclair 1 and 2 movement is seen by the computer as key presses. Sinclair 1
 There are two joystick physical ports. The user can configure each of these as any of the three joysticks.
 
 Anykey doesn't know which are in use, so it always displays all three.
-.endif
+.end
 ---
-.endif
+.end
 .if not (PLATFORM_48K or PLATFORM_NEXT or PLATFORM_N_GO)
 Special Keys
 
@@ -100,7 +100,7 @@ The computer can't tell if such a key or the two corresponding keys are pressed,
 
 For best results, test the normal keys first.
 ---
-.endif
+.end
 Technical Limitations
 
 If you press certain combinations of three keys, a fourth key will also appear pressed. this is because the three keys together create the same electrical connection the fourth key would.

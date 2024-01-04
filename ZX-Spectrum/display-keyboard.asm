@@ -27,7 +27,7 @@
 
 .section code
 
-.global display_keyboard {
+.public display_keyboard {
     ld ix,keys_48k
     ld iy,key_state
     ld a,num_keys
@@ -68,7 +68,7 @@ display_key {
 
 .section reserve
 
-.global key_state .reserve num_keys
-.global new_key_state .reserve num_keys
+.public key_state .reserve num_keys
+.public new_key_state .reserve num_keys
 
 current_key .reserve 1

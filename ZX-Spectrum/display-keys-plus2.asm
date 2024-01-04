@@ -30,7 +30,7 @@
 ; ix: key description
 ; c: color
 
-.global display_key_2 {
+.public display_key_2 {
     ld l,(ix + key_screen_offset)
     ld a,(ix + key_screen_offset + 1)
     add 2
@@ -75,7 +75,7 @@ loop2_color:
 }
 
 
-.global display_key_3 {
+.public display_key_3 {
     ld l,(ix + key_screen_offset)
     ld a,(ix + key_screen_offset + 1)
     add 2
@@ -127,25 +127,25 @@ loop3_color:
 }
 
 
-.global display_key_4 {
+.public display_key_4 {
     ld d,4
     jp display_key_n
 }
 
 
-.global display_key_5 {
+.public display_key_5 {
     ld d,5
     jp display_key_n
 }
 
 
-.global display_key_9 {
+.public display_key_9 {
     ld d,9
     jr display_key_n
 }
 
 
-.global display_key_13 {
+.public display_key_13 {
     ld d,13
     jr display_key_n
 }
@@ -217,7 +217,7 @@ loop_n_color_x:
 }
 
 IF PLATFORM_PLUS2
-.global display_key_enter {
+.public display_key_enter {
     ld l,(ix + key_screen_offset)
     inc l
     inc l

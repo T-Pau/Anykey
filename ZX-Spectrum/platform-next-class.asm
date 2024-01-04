@@ -11,7 +11,7 @@ NEXTREG_SPRITE_TRANSPARENCY = $4b
 
 .section code
 
-.global init_logo_sprites {
+.public init_logo_sprites {
     nextreg NEXTREG_SPRITE_LAYER, $03
 
     ld a, 0

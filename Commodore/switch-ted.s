@@ -25,57 +25,57 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.global switch_keyboard_top {
-	jsr content_background
-	ldx #SCREEN_TOP + 8
+.public switch_keyboard_top {
+    jsr content_background
+    ldx #SCREEN_TOP + 8
 :	cpx VIDEO_CURRENT_LINE
-	bne :-
-	set_ted_charset charset_keyboard_top
-	rts
+    bne :-
+    set_ted_charset charset_keyboard_top
+    rts
 }
 
 
-.global switch_keyboard_bottom {
-	lda #((charset_keyboard_bottom & $fc00) >> 8)
-	ldx #SCREEN_TOP + 5 * 8
+.public switch_keyboard_bottom {
+    lda #((charset_keyboard_bottom & $fc00) >> 8)
+    ldx #SCREEN_TOP + 5 * 8
 :	cpx VIDEO_CURRENT_LINE
-	bne :-
-	sta TED_CLK
-	lda command
-	bne :+
-	jsr handle_joysticks
+    bne :-
+    sta TED_CLK
+    lda command
+    bne :+
+    jsr handle_joysticks
 :	rts
 }
 
 
-.global switch_joystick_label {
-	set_ted_charset charset
-	ldx #SCREEN_TOP + 15 * 8
+.public switch_joystick_label {
+    set_ted_charset charset
+    ldx #SCREEN_TOP + 15 * 8
 :	cpx VIDEO_CURRENT_LINE
-	bne :-
-	jsr label_background
-	rts
+    bne :-
+    jsr label_background
+    rts
 }
 
 
-.global switch_joystick {
-	jsr content_background
-	jsr read_keyboard
-	rts
+.public switch_joystick {
+    jsr content_background
+    jsr read_keyboard
+    rts
 }
 
 
-.global switch_joystick_bottom {
-	lda #FRAME_COLOR
-	ldx #SCREEN_TOP + 22 * 8 - 1
+.public switch_joystick_bottom {
+    lda #FRAME_COLOR
+    ldx #SCREEN_TOP + 22 * 8 - 1
 :	cpx VIDEO_CURRENT_LINE
-	bne :-
-	sta VIDEO_BACKGROUND_COLOR
-	inx
+    bne :-
+    sta VIDEO_BACKGROUND_COLOR
+    inx
 :	cpx VIDEO_CURRENT_LINE
-	bne :-
-	jsr label_background
-	jsr display_keyboard
-	jsr process_command_keys
-	rts
+    bne :-
+    jsr label_background
+    jsr display_keyboard
+    jsr process_command_keys
+    rts
 }

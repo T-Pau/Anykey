@@ -29,6 +29,7 @@
   IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
+import os
 import sys
 import toml
 
@@ -111,43 +112,45 @@ def save_charset_half(charset, file, index, full):
     count = 128 if full else max(charset.by_index.keys()) + 1
     for i in range(0, count):
         pair = charset.get_values(i)
-        print("\t.byte $", file=file, end="")  # ", $"
+        print("    .data $", file=file, end="")  # ", $"
         print(", $".join("{:02x}".format(x) for x in pair[index].to_bytes(8, byteorder="big")), file=file)
 
 
 def save_charset(charset, file, symbol_prefix):
     full = config["full_charset"] if "full_charset" in config else False
-    print(f".export {symbol_prefix}", file=file)
-    if not full:
-        print(f".export {symbol_prefix}_inv", file=file)
-    print(f"{symbol_prefix}:", file=file)
+    print(f".public {symbol_prefix} {{", file=file)
     save_charset_half(charset, file, 0, full)
+    print("}\n", file=file)
     if not full:
-        print(f"{symbol_prefix}_inv:", file=file)
+        print(f".public {symbol_prefix}_inv {{", file=file)
     save_charset_half(charset, file, 1, full)
+    if not full:
+        print("}\n", file=file)
 
 
 def save(data, name):
-    with open(name, mode="wb") as file:
+    with open(os.path.join(build_directory, name), mode="wb") as file:
         file.write(data)
 
-
-if len(sys.argv) != 2:
-    print("usage: ", sys.argv[0], " config.toml\n")
+if len(sys.argv) != 3:
+    print("usage: ", sys.argv[0], " config.toml build_directory\n")
     sys.exit(1)
+
+source_dir = os.path.dirname(sys.argv[1])
+build_directory = sys.argv[2]
 
 config = toml.load(sys.argv[1])
 
 screen = b""
 
-with open(config["charset"], mode='w') as file_charset:
-    with open(config["normal_bitmap"], mode='rb') as file_normal:
-        with open(config["pressed_bitmap"], mode='rb') as file_pressed:
+with open(os.path.join(build_directory, config["charset"]), mode='w') as file_charset:
+    with open(os.path.join(source_dir, config["normal_bitmap"]), mode='rb') as file_normal:
+        with open(os.path.join(source_dir, config["pressed_bitmap"]), mode='rb') as file_pressed:
             if "segment" in config:
                 segment = config["segment"]
-                print(f".segment \"{segment}\"", file=file_charset)
+                print(f".section {segment}", file=file_charset)
             else:
-                print(".rodata", file=file_charset)
+                print(".section data", file=file_charset)
             for y in range(0, config["height"]):
                 if y == 0:
                     charset = Charset(128, (0, 0))
@@ -176,7 +179,7 @@ with open(config["charset"], mode='w') as file_charset:
             complete_charset.add_with_index(value[0], index)
             complete_charset.add_with_index(value[1], index + 128)
         encoder = RunlengthEncoder.RunlengthEncoder()
-        output = AssemblerOutput.AssemblerOutput("cc65", file_charset)
+        output = AssemblerOutput.AssemblerOutput("xlr8", file_charset)
 
         output.data_section()
 
@@ -184,7 +187,7 @@ with open(config["charset"], mode='w') as file_charset:
             additional = config["additional"][name]
             parts = []
 
-            with open(additional["input"], "rb") as bitmap_file:
+            with open(os.path.join(source_dir, additional["input"]), "rb") as bitmap_file:
                 for part in range(0, additional["num_parts"]):
                     for y in range(0, additional["height"]):
                         for x in range(0, additional["width"]):
@@ -198,15 +201,16 @@ with open(config["charset"], mode='w') as file_charset:
 
         if "segment" in config:
             segment = config["segment"]
-            print(f".segment \"{segment}\"", file=file_charset)
+            print(f".section {segment}", file=file_charset)
 
         full = config["full_charset"] if "full_charset" in config else False
         data = b""
         for i in range(0, 256 if full else max(complete_charset.by_index.keys()) + 1):
             data += complete_charset.get_values(i).to_bytes(8, byteorder="big")
         name = config["symbol_prefix"] + ("_charset_bottom" if "top_lines" in config else "_charset")
-        output.global_symbol(name)
+        output.public_symbol(name)
         output.bytes(data)
+        output.symbol_end()
 
     else:
         save_charset(charset, file_charset,

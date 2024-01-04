@@ -1,7 +1,7 @@
 ;  This file is automatically created by ../scripts/convert-screens from vic20-main-screen.txt.
 ;  Do not edit.
 
-.rodata
+.section data
 
 .export main_screen
 main_screen:

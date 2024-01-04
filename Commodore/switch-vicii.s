@@ -27,164 +27,136 @@
 
 .section code
 
-.global switch_keyboard_top {
-	jsr content_background
-	lda #FRAME_COLOR
-	ldy machine_type
-	dey
-	bne :+
-	lda #BACKGROUND_COLOR
+.public switch_keyboard_top {
+    jsr content_background
+    lda #FRAME_COLOR
+    ldy machine_type
+    dey
+    bne :+
+    lda #BACKGROUND_COLOR
 :
-	ldx #SCREEN_TOP + 8
+    ldx #SCREEN_TOP + 8
 :	cpx VIDEO_CURRENT_LINE
-	bne :-
-	ldx #9
+    bne :-
+    ldx #9
 :	dex
-	bpl :-
-	nop
-	nop
-	sta VIDEO_BORDER_COLOR
-	set_vic_text screen, charset_keyboard_top
-	ldx #0
-	jsr read_pots
-	ldx machine_type
-	dex
-	bne :+
-	jsr read_keyboard
+    bpl :-
+    nop
+    nop
+    sta VIDEO_BORDER_COLOR
+    set_vic_text screen, charset_keyboard_top
+    ldx #0
+    jsr read_pots
+    ldx machine_type
+    dex
+    bne :+
+    jsr read_keyboard
 :	rts
 }
 
-.ifdef __C64__
-.global switch_keyboard_top_acellerated {
-	jsr content_background
-	lda #FRAME_COLOR
-	ldx #SCREEN_TOP + 8 + 1
-:	cpx VIC_HLINE
-	bne :-
-	set_vic_text screen, charset_keyboard_top
-	ldx #0
-	jsr read_pots
-	rts
-}
 
-
-.global switch_keyboard_bottom_acellerated {
-	lda #(((screen & $3c00) >> 6) | ((charset_keyboard_bottom & $3800) >> 10))
-	ldx bottom_charset_line
-	inx
+.public switch_keyboard_bottom {
+    lda #VIC_ADDRESS(screen, charset_keyboard_bottom)
+    ldx bottom_charset_line
 :	cpx VIDEO_CURRENT_LINE
-	bne :-
-	sta VIC_VIDEO_ADR
-	lda command
-	bne :+
-	jsr handle_joysticks
-:
-	jmp select_pots2
-}
-.endif
-
-
-.global switch_keyboard_bottom {
-	lda #(((screen & $3c00) >> 6) | ((charset_keyboard_bottom & $3800) >> 10))
-	ldx bottom_charset_line
-:	cpx VIDEO_CURRENT_LINE
-	bne :-
-	ldx #9
+    bne :-
+    ldx #9
 :	dex
-	bpl :-
-	nop
-	nop
-.if .defined(__MEGA65__)
-    store_word charset_keyboard_bottom, VIC_CHARSET_POINTER
-.else
-	sta VIC_VIDEO_ADR
-.endif
-	lda command
-	bne :+
-	jsr handle_joysticks
+    bpl :-
+    nop
+    nop
+    .if .defined(MEGA65) {
+        store_word charset_keyboard_bottom, VIC_CHARSET_POINTER
+    }
+    .else {
+        sta VIC_VIDEO_ADDRESS
+    }
+    lda command
+    bne :+
+    jsr handle_joysticks
 :
-	jmp select_pots2
+    jmp select_pots2
 }
 
 
 
-.global switch_joystick_label {
-	set_vic_text screen, charset
-	lda #FRAME_COLOR
-	ldx joystick_label_line
+.public switch_joystick_label {
+    set_vic_text screen, charset
+    lda #FRAME_COLOR
+    ldx joystick_label_line
 :	cpx VIDEO_CURRENT_LINE
-	bne :-
-	sta VIDEO_BORDER_COLOR
-	jsr label_background
-	rts
+    bne :-
+    sta VIDEO_BORDER_COLOR
+    jsr label_background
+    rts
 }
 
 
-.global switch_joystick {
-	jsr content_background
-	ldx #1
-	jsr read_pots
-	ldy machine_type
-	dey
-	bne not_128
-	jsr read_keyboard_128
-	jmp both
+.public switch_joystick {
+    jsr content_background
+    ldx #1
+    jsr read_pots
+    ldy machine_type
+    dey
+    bne not_128
+    jsr read_keyboard_128
+    jmp both
 not_128:
     jsr read_keyboard
 both:
-	jsr select_pots1
-	jsr process_skip
-	rts
+    jsr select_pots1
+    jsr process_skip
+    rts
 }
 
 
-.global switch_joystick_bottom { ; 128 only
-	lda #FRAME_COLOR
-	ldx #SCREEN_TOP + 22 * 8 - 0
+.public switch_joystick_bottom { ; 128 only
+    lda #FRAME_COLOR
+    ldx #SCREEN_TOP + 22 * 8 - 0
 :	cpx VIDEO_CURRENT_LINE
-	bne :-
-	sta VIDEO_BACKGROUND_COLOR
-	lda #LABEL_COLOR
-	inx
+    bne :-
+    sta VIDEO_BACKGROUND_COLOR
+    lda #LABEL_COLOR
+    inx
 :	cpx VIDEO_CURRENT_LINE
-	bne :-
-	sta VIDEO_BACKGROUND_COLOR
-	rts
+    bne :-
+    sta VIDEO_BACKGROUND_COLOR
+    rts
 }
 
 
-.global switch_bottom {
-	jsr display_logo
-	lda command
-	bne :+
+.public switch_bottom {
+    jsr display_logo
+    lda command
+    bne :+
 
-	jsr display_keyboard
-	jsr process_command_keys
+    jsr display_keyboard
+    jsr process_command_keys
 :
-	rts
+    rts
 }
 
 
-.if .defined(__C64__) .or .defined(__MEGA65__)
-.global switch_keyboard_top_mega65 {
-	jsr content_background
-	lda #FRAME_COLOR
-	ldx #SCREEN_TOP + 8 + 5
+.pre_if .defined(C64) || .defined(MEGA65)
+.public switch_keyboard_top_mega65 {
+    jsr content_background
+    lda #FRAME_COLOR
+    ldx #SCREEN_TOP + 8 + 5
 :	cpx VIDEO_CURRENT_LINE
-	bne :-
-	set_vic_text screen, charset_keyboard_top
-	ldx #0
-	jsr read_pots
-	jsr read_keyboard_mega65
-	rts
+    bne :-
+    set_vic_text screen, charset_keyboard_top
+    ldx #0
+    jsr read_pots
+    jsr read_keyboard_mega65
+    rts
 }
 
 
-.global switch_bottom_mega65 {
+.public switch_bottom_mega65 {
     lda #2
    	sta VIC_BOTTOM_BORDER_POSITION + 1
    	lda #30
    	sta VIC_BOTTOM_BORDER_POSITION
    	jmp switch_bottom
 }
-.endif
+.pre_end

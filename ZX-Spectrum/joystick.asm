@@ -5,7 +5,7 @@ JOYSTICK_SIZE = 4
 
 .section code
 
-.global display_joystick_1 {
+.public display_joystick_1 {
     ld a,$ef
     in a,($fe)
     xor a,$ff
@@ -14,7 +14,7 @@ JOYSTICK_SIZE = 4
 }
 
 
-.global display_joystick_2 {
+.public display_joystick_2 {
     ld a,$f7
     in a,($fe)
     xor a,$ff
@@ -30,7 +30,7 @@ mirror_loop:
 }
 
 
-.global display_joystick_3 {
+.public display_joystick_3 {
     in a,(31)
     ld c,a
     ld a,0

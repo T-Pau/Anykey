@@ -27,11 +27,11 @@
 
 .section data
 
-.global command_handlers {
-	.data 0
-	.data display_help_screen
-	.data help_next
-	.data help_previous
-	.data display_main_screen
-	.data reset_keyboard
+.public command_handlers {
+    .data 0
+    .data display_help_screen
+    .data help_next
+    .data help_previous
+    .data display_main_screen
+    .data reset_keyboard
 }

@@ -1,0 +1,241 @@
+petcat = petcat
+
+CONVERT_KEYBOARD_DEPENDENCIES :=
+    ../scripts/convert-keyboard
+    ../scripts/AssemblerOutput.py
+    ../scripts/RunlengthEncoder.py
+
+CONVERT_SCREENS_DEPENDENCIES :=
+    ../scripts/convert-screens
+    ../scripts/AssemblerOutput.py
+    ../scripts/RunlengthEncoder.py
+    ../scripts/Screens.py
+
+sources_common :=
+    commands.s
+    defines.s
+    display-key.s
+    keyboard.s
+    main-loop.s
+    memcpy.s
+    rl-expand.s
+    utility.s
+
+sources_vicii_ted :=
+    button.s
+    charset.s
+    colors.s
+    copyrect.s
+    display-joystick.s
+    display-key-vicii-ted.s
+    dpad.s
+    irq.s
+    irq-table.s
+    keyboard-vicii-ted.s
+    help-commands.s
+    screen.s
+    state.s
+
+sources_ted :=
+    start-ted.s
+    help-ted.s
+    joysticks-ted.s
+    switch-ted.s
+    ${sources_vicii_ted}
+
+sources_vicii :=
+    start-vicii.s
+    help-vicii.s
+    joysticks-vicii.s
+    keyboard-vicii.s
+    logo.s
+    machine-type.s
+    restore.s
+    restore-nmi.s
+    sprite.s
+    sprites.s
+    switch-vicii.s
+    ${sources_vicii_ted}
+
+sources_64_128 :=
+    ${sources_vicii}
+    ${sources_common}
+    keyboard-128-charset.s
+    irq-table-128.s
+    keys-128.s
+    screen-128.s
+
+sources_64 :=
+    ${sources_64_128}
+    init-c64.s
+    help-screens-64.s
+    keyboard-64-charset.s
+    keyboard-mega65-c64-charset.s
+    keys-64.s
+    keys-mega65.s
+    irq-table-64.s
+    irq-table-64-acellerated.s
+    irq-table-mega65-c64.s
+    platform-c64.s
+    screen-64.s
+    screen-mega65-c64.s
+
+sources_128 :=
+    ${sources_64_128}
+    init-c128.s
+    platform-c128.s
+    help-screens-128.s
+
+sources_mega65 :=
+    ${sources_vicii}
+    ${sources_common}
+    help-screens-mega65.s
+    init-mega65.s
+    irq-table-mega65-c64.s
+    keyboard-mega65-c64-charset.s
+    keys-mega65.s
+    platform-mega65.s
+    screen-mega65-c64.s
+
+sources_pet_common :=
+    start-pet.s
+    display-key-pet-40c.s
+    expand.s
+    help-keys.s
+    help-screen-pet-40.s
+    pet-help-footer-40.s
+    keyboard-pet-40.s
+    keyboard-pet-calculator-40-left.s
+    keys-pet-calculator-40.s
+    pet-detect.s
+    pet-help.s
+    ${sources_common}
+
+sources_pet_8k_plus :=
+    display-key-pet-40g.s
+    keyboard-pet-graphics-40-left.s
+    keys-pet-graphics-40.s
+
+sources_pet_full :=
+    ${sources_pet_common}
+    ${sources_pet_8k_plus}
+    display-key-pet-40b.s
+    display-key-pet-80.s
+    help-screen-pet-80.s
+    pet-help-footer-80.s
+    keyboard-pet-80.s
+    keys-pet-business-40.s
+    keyboard-pet-business-40-left.s
+    keys-pet-business-80.s
+    keys-pet-calculator-80.s
+    pet-model.s
+
+sources_pet_8k :=
+    ${sources_pet_common}
+    ${sources_pet_8k_plus}
+    pet-model-8k.s
+
+sources_plus4 :=
+    ${sources_ted}
+    ${sources_common}
+    help-screens-plus4.s
+    keyboard-plus4-charset.s
+    keys-plus4.s
+    irq-table-plus4.s
+    platform-plus4.s
+    screen-plus4.s
+
+sources_vic20 :=
+    start-vic20.s
+    ${sources_common}
+    display-key-vic20.s
+    irq.s
+    irq-table-vic20.s
+    help-commands.s
+    help-keys.s
+    help-screens-vic20.s
+    keyboard-vic20-charset.s
+    keys-vic20.s
+    platform-vic20.s
+    restore.s
+    state.s
+    vic20-help-screen.s
+    vic20-main-screen.s
+
+rule basic
+    command = $petcat -w$dialect -l $address -o $out $in
+
+build anykey.prg: basic anykey.bas
+    dialect = 3
+    address = 0801
+
+build anykey-pet.prg: basic anykey-pet.bas
+    dialect = 1p
+    address = 0401
+
+build anykey-64.prg: link $sources_64
+    target = c64-basic
+    libs = c64.lib cbm.lib
+
+build anykey-128.prg: link $sources_128
+    target = c128-basic
+    libs = c64.lib cbm.lib
+
+build anykey-mega65.prg: link $sources_mega65
+    target = mega65-basic
+    libs = c64.lib cbm.lib
+
+rule keys
+    command = key-table $in $out
+    depfile = $out.d
+
+build keys-64.s: keys keys-64.key
+
+build keys-128.s: keys keys-128.key
+
+build keys-mega65.s: keys keys-mega65.key
+
+build keys-pet-business-40.s: keys keys-pet-business-40.key
+
+build keys-pet-business-80.s: keys keys-pet-business-80.key
+
+build keys-pet-calculator-40.s: keys keys-pet-calculator-40.key
+
+build keys-pet-calculator-80.s: keys keys-pet-calculator-80.key
+
+build keys-pet-graphics-40.s: keys keys-pet-graphics-40.key
+
+build keys-plus4.s: keys keys-plus4.key
+
+build keys-vic20.s: keys keys-vic20.key
+
+rule keyboard
+    command = ../scripts/convert-keyboard $in $build_directory
+
+build keyboard-64-charset.s keyboard-64-screen.bin: keyboard keyboard-64.toml | keyboard-64-normal-bitmap.bin keyboard-64-pressed-bitmap.bin ${CONVERT_KEYBOARD_DEPENDENCIES}
+
+build keyboard-128-charset.s keyboard-128-screen.bin: keyboard keyboard-128.toml | keyboard-128-normal-bitmap.bin keyboard-128-pressed-bitmap.bin ${CONVERT_KEYBOARD_DEPENDENCIES}
+
+build keyboard-mega65-c64-charset.s keyboard-mega65-c64-screen.bin: keyboard keyboard-mega65-c64.toml | keyboard-mega65-c64-normal-bitmap.bin keyboard-mega65-c64-pressed-bitmap.bin ${CONVERT_KEYBOARD_DEPENDENCIES}
+
+build keyboard-plus4-charset.s keyboard-plus4-screen.bin: keyboard keyboard-plus4.toml | keyboard-plus4-normal-bitmap.bin keyboard-plus4-pressed-bitmap.bin ${CONVERT_KEYBOARD_DEPENDENCIES}
+
+build keyboard-vic20-charset.s keyboard-vic20-screen.bin: keyboard keyboard-vic20.toml | keyboard-vic20-normal-bitmap.bin keyboard-vic20-pressed-bitmap.bin dpad-vic20.bin buttons-vic20.bin ${CONVERT_KEYBOARD_DEPENDENCIES}
+
+rule screens
+    command = ../scripts/convert-screens -DVERSION=$VERSION -D$platform $in $out
+
+build help-screens-64.s: screens help-screens.txt | ${CONVERT_SCREENS_DEPENDENCIES}
+    platform = C64
+
+build help-screens-128.s: screens help-screens.txt | ${CONVERT_SCREENS_DEPENDENCIES}
+    platform = C128
+
+build help-screens-mega65.s: screens help-screens.txt | ${CONVERT_SCREENS_DEPENDENCIES}
+    platform = MEGA65
+
+build help-screens-plus4.s: screens help-screens.txt | ${CONVERT_SCREENS_DEPENDENCIES}
+    platform = PLUS4
+
+build help-screens-vic20.s: screens help-screens-vic20.txt | ${CONVERT_SCREENS_DEPENDENCIES}
+    platform = VIC20

@@ -11,7 +11,7 @@
 .export keys_pet_business_80_display_low, keys_pet_business_80_display_high
 .export keys_pet_business_80_num_keys
 
-.rodata
+.section data
 
 keys_pet_business_80_num_keys:
     .byte 80

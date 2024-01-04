@@ -27,47 +27,45 @@
 
 .section data
 
-.global main_screen_64 {
-	.data " keyboard                               ":screen_inverted
-	.incbin "keyboard-64-screen.bin"
-	.data "                                        ":screen_inverted
-	.data "     joysticks                          ":screen_inverted
-	.data "    ":screen_inverted
-	.data     "I                              J":screen
-    .data                                     "    ":screen_inverted
-	.data "    ":screen_inverted
-	.data     "                                ":screen
+.public main_screen_64 {
+    .data " keyboard                               ":screen_inverted
+    .binary_file "keyboard-64-screen.bin"
+    .data "                                        ":screen_inverted
+    .data "     joysticks                          ":screen_inverted
+    .data "    ":screen_inverted
+    .data     "I                              J":screen
     .data                                     "    ":screen_inverted
     .data "    ":screen_inverted
-	.data     "      AHBAHBAHB       AHBAHBAHB ":screen
+    .data     "                                ":screen
     .data                                     "    ":screen_inverted
     .data "    ":screen_inverted
-	.data     "      E1FE2FE3F       E1FE2FE3F ":screen
+    .data     "      AHBAHBAHB       AHBAHBAHB ":screen
     .data                                     "    ":screen_inverted
     .data "    ":screen_inverted
-	.data     "      CGDCGDCGD       CGDCGDCGD ":screen
+    .data     "      E1FE2FE3F       E1FE2FE3F ":screen
     .data                                     "    ":screen_inverted
-	.data "    ":screen_inverted
-	.data     "                                ":screen
+    .data "    ":screen_inverted
+    .data     "      CGDCGDCGD       CGDCGDCGD ":screen
     .data                                     "    ":screen_inverted
-	.data "    ":screen_inverted
-	.data     "KMMMMMMMMMMMMMMMMMMMMMMMMMMMMMML":screen
+    .data "    ":screen_inverted
+    .data     "                                ":screen
     .data                                     "    ":screen_inverted
-	.data "                                        ":screen_inverted
-	.data "      f5: reset keyboard  f7: help      ":screen_inverted
-	.data "          (hold for 2 seconds)          ":screen_inverted
-	.data "                                        ":screen_inverted
+    .data "    ":screen_inverted
+    .data     "KMMMMMMMMMMMMMMMMMMMMMMMMMMMMMML":screen
+    .data                                     "    ":screen_inverted
+    .data "                                        ":screen_inverted
+    .data "      f5: reset keyboard  f7: help      ":screen_inverted
+    .data "          (hold for 2 seconds)          ":screen_inverted
+    .data "                                        ":screen_inverted
 }
 
 
-.global main_color_64 {
-	.res 40 * 2, FRAME_COLOR
-	.res 40 * 10, UNCHECKED_COLOR
-	.res 40 * 4, FRAME_COLOR
-	.repeat 5, i
-	.res 4, FRAME_COLOR
-	.res 32, CONTENT_COLOR
-	.res 4, FRAME_COLOR
-	.endrep
-	.res 40 * 4, FRAME_COLOR
+.public main_color_64 {
+    .data .fill(40 * 2, FRAME_COLOR)
+    .data .fill(40 * 10, UNCHECKED_COLOR)
+    .data .fill(40 * 4, FRAME_COLOR)
+    .repeat 5 {
+        .data .fill(4, FRAME_COLOR), .fill(32, CONTENT_COLOR), .fill(4, FRAME_COLOR)
+    }
+    .data .fill(40 * 4, FRAME_COLOR)
 }

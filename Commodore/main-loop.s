@@ -27,31 +27,31 @@
 
 .section data
 
-.global command {
-	.data 0
+.public command {
+    .data 0
 }
 
-.global last_command {
-	.data 0
+.public last_command {
+    .data 0
 }
 
 .section code
 
-.global main_loop {
-.ifdef USE_PET
-	jsr process_keyboard
-.endif
-	lda command
-	beq main_loop
-	asl
-	tax
-	lda command_handlers,x
-	sta jump + 1
-	lda command_handlers + 1,x
-	sta jump + 2
+.public main_loop {
+    .if .defined(USE_PET) {
+        jsr process_keyboard
+    }
+    lda command
+    beq main_loop
+    asl
+    tax
+    lda command_handlers,x
+    sta jump + 1
+    lda command_handlers + 1,x
+    sta jump + 2
 jump:
-	jsr $0000
-	lda #0
-	sta command
-	beq main_loop
+    jsr $0000
+    lda #0
+    sta command
+    beq main_loop
 }

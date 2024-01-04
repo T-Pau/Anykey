@@ -29,36 +29,36 @@
 
 ; copy rect from ptr1 to ptr2, x is width, y is height
 
-.global copyrect {
-	dex
-	stx ptr3
-	tya
-	tax
+.public copyrect {
+    dex
+    stx ptr3
+    tya
+    tax
 
 line_loop:
-	ldy ptr3
+    ldy ptr3
 char_loop:
-	lda (ptr1),y
-	sta (ptr2),y
-	dey
-	bpl char_loop
+    lda (ptr1),y
+    sta (ptr2),y
+    dey
+    bpl char_loop
 
-	; increment ptr1 by width, ptr2 by 40
-	sec ; ptr3 is width - 1
-	lda ptr1
-	adc ptr3
-	sta ptr1
-	bcc :+
-	inc ptr1 + 1
-	clc
+    ; increment ptr1 by width, ptr2 by 40
+    sec ; ptr3 is width - 1
+    lda ptr1
+    adc ptr3
+    sta ptr1
+    bcc :+
+    inc ptr1 + 1
+    clc
 :	lda ptr2
-	adc #40
-	sta ptr2
-	bcc :+
-	inc ptr2 + 1
+    adc #40
+    sta ptr2
+    bcc :+
+    inc ptr2 + 1
 :
-	dex
-	bne line_loop
+    dex
+    bne line_loop
 
-	rts
+    rts
 }

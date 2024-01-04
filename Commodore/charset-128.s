@@ -28,7 +28,7 @@
 
 .section data
 
-.global charset_data_128 {
-	.incbin "keyboard-128-charset-top.bin"
-	.incbin "keyboard-128-charset-bottom.bin"
+.public charset_data_128 {
+    .binary_file "keyboard-128-charset-top.bin"
+    .binary_file "keyboard-128-charset-bottom.bin"
 }

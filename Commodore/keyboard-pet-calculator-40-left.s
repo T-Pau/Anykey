@@ -3,7 +3,7 @@
 
 .export left_calculator_40
 
-.rodata
+.section data
 
 left_calculator_40:
     .byte 43, 25, 55, 25, 55, 25, 55, 25, 55, 25, 0

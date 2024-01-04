@@ -25,91 +25,93 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.global .macro adc_16 address {
-        adc address
-        sta address
-        bcc no_carry
+.public .macro adc_16 address {
+    adc address
+    sta address
+    bcc :+
+    inc address + 1
+:
+}
+
+
+.public .macro inc_16 address {
+    inc address
+    bne :+
+    inc address + 1
+:
+}
+
+
+.public .macro store_word value, address {
+    lda #<(value)
+    sta address
+    lda #>(value)
+    sta address + 1
+}
+
+
+.public .macro add_word address, value {
+    clc
+    lda address
+    adc #<(value)
+    sta address
+    .if value < 256 {
+        bcc :+
         inc address + 1
-no_carry:
+      :
+    }
+    .else {
+        lda address + 1
+        adc #>(value)
+        sta address + 1
+    }
 }
 
 
-.global .macro inc_16 address {
-        inc address
-        bne no_carry
-        inc address + 1
-no_carry:
+.public .macro subtract_word address, value {
+    sec
+    lda address
+    sbc #<(value)
+    sta address
+    .if value < 256 {
+        bcs :+
+        dec address + 1
+          :
+    }
+    .else {
+        lda address + 1
+        sbc #>(value)
+        sta address + 1
+    }
 }
 
 
-.global .macro store_word value, address {
-	lda #<(value)
-	sta address
-	lda #>(value)
-	sta address + 1
+.public .macro memcpy destination, source, length {
+    store_word destination, ptr2
+    store_word source, ptr1
+    store_word length, ptr3
+    jsr memcpy
+}
+
+.public .macro memset destination, value, length {
+    store_word destination, ptr2
+    store_word length, ptr3
+    lda #value
+    jsr memset
 }
 
 
-.global .macro add_word address, value {
-	clc
-	lda address
-	adc #<(value)
-	sta address
-.if value < 256
-	bcc end_add_word
-	inc address + 1
-end_add_word:
-.else
-	lda address + 1
-	adc #>(value)
-	sta address + 1
-.endif
+.public .macro memset_if destination, old_value, new_value, length {
+    store_word destination, ptr2
+    store_word length, ptr3
+    ldx #new_value
+    lda #old_value
+    jsr memset_if
 }
 
 
-.global .macro subtract_word address, value {
-	sec
-	lda address
-	sbc #<(value)
-	sta address
-.if value < 256
-	bcs subtract_word_end
-	dec address + 1
-subtract_word_end:
-.else
-	lda address + 1
-	sbc #>(value)
-	sta address + 1
-.endif
-}
-
-
-.global .macro memcpy destination, source, length {
-	store_word destination, ptr2
-	store_word source, ptr1
-	store_word length, ptr3
-	jsr memcpy
-}
-
-.global .macro memset destination, value, length {
-	store_word destination, ptr2
-	store_word length, ptr3
-	lda #(value)
-	jsr memset
-}
-
-
-.global .macro memset_if destination, old_value, new_value, length {
-	store_word destination, ptr2
-	store_word length, ptr3
-	ldx #(new_value)
-	lda #(old_value)
-	jsr memset_if
-}
-
-
-.global .macro copy_screen source {
-	store_word source, ptr1
-	store_word screen, ptr2
-	jsr expand
+.public .macro copy_screen source {
+    store_word source, ptr1
+    store_word screen, ptr2
+    jsr expand
 }

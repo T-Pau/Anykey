@@ -27,19 +27,19 @@
 
 .section code
 
-.global start {
-	ldx #<keys_vic20_address_low
-	ldy #>keys_vic20_address_low
-	lda keys_vic20_num_keys
-	jsr set_keys_table
-	;memcpy main_color_save, main_color_plus4, 1000
-	lda #KEY_INDEX_HELP
-	sta key_index_help
-	lda #KEY_INDEX_RESET
-	sta key_index_reset
+.public start {
+    ldx #<keys_vic20_address_low
+    ldy #>keys_vic20_address_low
+    lda keys_vic20_num_keys
+    jsr set_keys_table
+    ;memcpy main_color_save, main_color_plus4, 1000
+    lda #KEY_INDEX_HELP
+    sta key_index_help
+    lda #KEY_INDEX_RESET
+    sta key_index_reset
 
-	jsr init_state
-	jsr init_restore
+    jsr init_state
+    jsr init_restore
 
     store_word main_color, ptr1
     store_word main_color_save, ptr2
@@ -48,20 +48,20 @@
     ldx #1
     stx command
 
-	jsr init_irq
+    jsr init_irq
 
-	ldx is_ntsc
-	lda hline_offset_table,x
-	sta hline_offset
+    ldx is_ntsc
+    lda hline_offset_table,x
+    sta hline_offset
 
-	jsr display_main_screen
-	lda #FRAME_COLOR | $8 | (BACKGROUND_COLOR << 3)
-	sta VIC_COLOR
+    jsr display_main_screen
+    lda #FRAME_COLOR | $8 | (BACKGROUND_COLOR << 3)
+    sta VIC_COLOR
 
-	ldx #0
-	stx command
+    ldx #0
+    stx command
 
-	jmp main_loop
+    jmp main_loop
 }
 
 
@@ -73,4 +73,4 @@ hline_offset_table {
 
 .section reserve
 
-.global hline_offset .reserve 1
+.public hline_offset .reserve 1

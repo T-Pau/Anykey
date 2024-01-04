@@ -27,13 +27,13 @@
 
 .section data
 
-.global help_irq_table {
-	.data (SCREEN_TOP - 1):2, top_label
-	.data (SCREEN_TOP + 8 - 1):2, content_background
-	.data (SCREEN_TOP + 21 * 8):2, label_background
-	.data (SCREEN_TOP + 24 * 8 + 7):2, handle_help
+.public help_irq_table {
+    .data (SCREEN_TOP - 1):2, top_label
+    .data (SCREEN_TOP + 8 - 1):2, content_background
+    .data (SCREEN_TOP + 21 * 8):2, label_background
+    .data (SCREEN_TOP + 24 * 8 + 7):2, handle_help
 }
 
-.global help_irq_table_length {
-	.byte * - help_irq_table
+.public help_irq_table_length {
+    .data .sizeof(help_irq_table)
 }

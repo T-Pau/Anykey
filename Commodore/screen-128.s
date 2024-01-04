@@ -27,51 +27,46 @@
 
 .section data
 
-.global main_screen_128 {
-	.data "keyboard                                ":screen_inverted
-	.incbin "keyboard-128-screen.bin"
-	.data "                                        ":screen_inverted
-	.data "     joysticks                          ":screen_inverted
-	.data "    ":screen_inverted
-	.data     "I                              J":screen
+.public main_screen_128 {
+    .data "keyboard                                ":screen_inverted
+    .binary_file "keyboard-128-screen.bin"
+    .data "                                        ":screen_inverted
+    .data "     joysticks                          ":screen_inverted
+    .data "    ":screen_inverted
+    .data     "I                              J":screen
     .data                                     "    ":screen_inverted
     .data "    ":screen_inverted
-	.data     "      AHBAHBAHB       AHBAHBAHB ":screen
+    .data     "      AHBAHBAHB       AHBAHBAHB ":screen
     .data                                     "    ":screen_inverted
     .data "    ":screen_inverted
-	.data     "      E1FE2FE3F       E1FE2FE3F ":screen
+    .data     "      E1FE2FE3F       E1FE2FE3F ":screen
     .data                                     "    ":screen_inverted
     .data "    ":screen_inverted
-	.data     "      CGDCGDCGD       CGDCGDCGD ":screen
+    .data     "      CGDCGDCGD       CGDCGDCGD ":screen
     .data                                     "    ":screen_inverted
-	.data "    ":screen_inverted
-	.data     "K                              L":screen
+    .data "    ":screen_inverted
+    .data     "K                              L":screen
     .data                                     "    ":screen_inverted
-	.data "                                        ":screen_inverted
-	.data "      f5: reset keyboard  f7: help      ":screen_inverted
-	.data "          (hold for 2 seconds)          ":screen_inverted
+    .data "                                        ":screen_inverted
+    .data "      f5: reset keyboard  f7: help      ":screen_inverted
+    .data "          (hold for 2 seconds)          ":screen_inverted
 }
 
 
-.global main_color_128 {
-	.res 40 * 2, FRAME_COLOR
-.ifdef __C64__
-	; mark 40/80 display uncheckable
-	.res 16, UNCHECKED_COLOR
-	.res 2, PRESSED_COLOR
-	.res 22, UNCHECKED_COLOR
-	.res 16, UNCHECKED_COLOR
-	.res 2, PRESSED_COLOR
-	.res 22, UNCHECKED_COLOR
-.else
-	.res 40 * 2, UNCHECKED_COLOR
-.endif
-	.res 40 * 10, UNCHECKED_COLOR
-	.res 40 * 3, FRAME_COLOR
-	.repeat 5, i
-	.res 5, FRAME_COLOR
-	.res 30, CONTENT_COLOR
-	.res 5, FRAME_COLOR
-	.endrep
-	.res 40 * 3, FRAME_COLOR
+.public main_color_128 {
+    .data .fill(40 * 2, FRAME_COLOR)
+    .if .defined(C64) {
+        ; mark 40/80 display uncheckable
+        .data .fill(16, UNCHECKED_COLOR), .fill(2, PRESSED_COLOR), .fill(22, UNCHECKED_COLOR)
+        .data .fill(16, UNCHECKED_COLOR), .fill(2, PRESSED_COLOR), .fill(22, UNCHECKED_COLOR)
+    }
+    .else {
+        .data .fill(40 * 2, UNCHECKED_COLOR)
+    }
+    .data .fill(40 * 10, UNCHECKED_COLOR)
+    .data .fill(reserve 40 * 3, FRAME_COLOR)
+    .repeat 5 {
+        .data .fill(5, FRAME_COLOR), .fill(30, CONTENT_COLOR), .fill(5, FRAME_COLOR)
+    }
+    .data .fill(40 * 3, FRAME_COLOR)
 }

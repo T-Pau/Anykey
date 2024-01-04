@@ -27,17 +27,17 @@
 
 .section data
 
-.global main_mega65_c64_irq_table {
-	.data (SCREEN_TOP - 1):2, top_label
-	.data (SCREEN_TOP + 8):2, switch_keyboard_top_mega65
-	.data (SCREEN_TOP + 7 * 8 - 2):2, switch_keyboard_bottom
-	.data (SCREEN_TOP + 15 * 8 - 2):2, switch_joystick_label
-	.data (SCREEN_TOP + 17 * 8 - 1):2, switch_joystick
-	.data (SCREEN_TOP + 22 * 8 - 2):2, switch_joystick_bottom
-	.data (SCREEN_TOP + 24 * 8 + 7):2, switch_bottom_mega65
+.public main_mega65_c64_irq_table {
+    .data (SCREEN_TOP - 1):2, top_label
+    .data (SCREEN_TOP + 8):2, switch_keyboard_top_mega65
+    .data (SCREEN_TOP + 7 * 8 - 2):2, switch_keyboard_bottom
+    .data (SCREEN_TOP + 15 * 8 - 2):2, switch_joystick_label
+    .data (SCREEN_TOP + 17 * 8 - 1):2, switch_joystick
+    .data (SCREEN_TOP + 22 * 8 - 2):2, switch_joystick_bottom
+    .data (SCREEN_TOP + 24 * 8 + 7):2, switch_bottom_mega65
 }
 
 
-.global main_mega65_c64_irq_table_length {
-	.byte * - main_mega65_c64_irq_table
+.public main_mega65_c64_irq_table_length {
+    .data .sizeof(main_mega65_c64_irq_table)
 }

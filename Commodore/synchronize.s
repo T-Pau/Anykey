@@ -12,37 +12,37 @@
 ; uses: A X Y
 
 synchronize:
-	cpx VIC_HLINE
-	bne synchronize
-	jsr cycles
-	bit $ea
-	nop
-	cpx VIC_HLINE
-	beq skip1
-	nop
-	nop
+    cpx VIC_RASTER
+    bne synchronize
+    jsr cycles
+    bit $ea
+    nop
+    cpx VIC_RASTER
+    beq skip1
+    nop
+    nop
 skip1:
     jsr cycles
-	bit $ea
-	nop
-	cpx VIC_HLINE
-	beq skip2
-	bit $ea
+    bit $ea
+    nop
+    cpx VIC_RASTER
+    beq skip2
+    bit $ea
 skip2:
     jsr cycles
-	nop
-	nop
-	nop
-	cpx VIC_HLINE
-	bne onecycle
+    nop
+    nop
+    nop
+    cpx VIC_RASTER
+    bne onecycle
 onecycle:
-	rts
+    rts
 
 cycles:
-	ldy #$06
+    ldy #$06
 :	dey
-	bne :-
-	inx
-	nop
-	nop
-	rts
+    bne :-
+    inx
+    nop
+    nop
+    rts

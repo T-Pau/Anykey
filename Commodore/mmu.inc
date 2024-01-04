@@ -1,4 +1,4 @@
-.ifndef HAD_MMU_INC
+.pre_if !.defined(HAD_MMU_INC)
 .define HAD_MMU_INC
 
 MMU = $D500
@@ -20,4 +20,4 @@ MMU_LCRB = $FF02
 MMU_LCRC = $FF03
 MMU_LCRD = $FF04
 
-.endif ; HAD_MMU_INC
+.pre_end ; HAD_MMU_INC

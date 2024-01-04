@@ -30,22 +30,22 @@
 
 .section code
 
-.global init_restore_nmi {
-	lda NMIVec
-	sta nmi_vector
-	lda NMIVec + 1
-	sta nmi_vector + 1
-	ldx #<handle_nmi
-	ldy #>handle_nmi
-	stx NMIVec
-	sty NMIVec + 1
+.public init_restore_nmi {
+    lda NMIVec
+    sta nmi_vector
+    lda NMIVec + 1
+    sta nmi_vector + 1
+    ldx #<handle_nmi
+    ldy #>handle_nmi
+    stx NMIVec
+    sty NMIVec + 1
 
     jmp init_restore
 }
 
-.global handle_nmi {
-	pha
-	jsr trigger_restore
-	pla
-	jmp (nmi_vector)
+.public handle_nmi {
+    pha
+    jsr trigger_restore
+    pla
+    jmp (nmi_vector)
 }

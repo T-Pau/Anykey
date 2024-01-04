@@ -27,46 +27,42 @@
 
 .section data
 
-.global main_screen_plus4 {
-	.data "   keyboard                             ":screen_inverted
-	.incbin "keyboard-plus4-screen.bin"
-	.data "                                        ":screen_inverted
-	.data "           joysticks                    ":screen_inverted
-	.data "          ":screen_inverted
-	.data           "I                  J":screen
+.public main_screen_plus4 {
+    .data "   keyboard                             ":screen_inverted
+    .binary_file "keyboard-plus4-screen.bin"
+    .data "                                        ":screen_inverted
+    .data "           joysticks                    ":screen_inverted
+    .data "          ":screen_inverted
+    .data           "I                  J":screen
     .data                               "          ":screen_inverted
-	.data "          ":screen_inverted
-	.data           "      AHB       AHB ":screen
+    .data "          ":screen_inverted
+    .data           "      AHB       AHB ":screen
     .data                               "          ":screen_inverted
-	.data "          ":screen_inverted
-	.data           "      EfF       EfF ":screen
+    .data "          ":screen_inverted
+    .data           "      EfF       EfF ":screen
     .data                               "          ":screen_inverted
-	.data "          ":screen_inverted
-	.data           "      CGD       CGD ":screen
+    .data "          ":screen_inverted
+    .data           "      CGD       CGD ":screen
     .data                               "          ":screen_inverted
-	.data "          ":screen_inverted
-	.data           "K                  L":screen
+    .data "          ":screen_inverted
+    .data           "K                  L":screen
     .data                               "          ":screen_inverted
-	.data "                                        ":screen_inverted
-	.data "     f3: reset   help: help      ":screen_inverted
-	.byte $79, $7a, $7b, $7c, $7d, $7e, $7f
-	.data "      (hold for 2 seconds)       ":screen_inverted
-	.byte $f9, $fa, $fb, $fc, $fd, $fe, $ff
+    .data "                                        ":screen_inverted
+    .data "     f3: reset   help: help      ":screen_inverted
+    .byte $79, $7a, $7b, $7c, $7d, $7e, $7f
+    .data "      (hold for 2 seconds)       ":screen_inverted
+    .byte $f9, $fa, $fb, $fc, $fd, $fe, $ff
 }
 
 
-.global main_color_plus4 {
-	.res 40 * 2, FRAME_COLOR
-	.repeat 12, i
-	.res 2, FRAME_COLOR
-	.res 36, UNCHECKED_COLOR
-	.res 2, FRAME_COLOR
-	.endrepeat
-	.res 40 * 3, FRAME_COLOR
-	.repeat 5, i
-	.res 11, FRAME_COLOR
-	.res 18, CONTENT_COLOR
-	.res 11, FRAME_COLOR
-	.endrep
-	.res 40 * 3, FRAME_COLOR
+.public main_color_plus4 {
+    .data .fill(40 * 2, FRAME_COLOR)
+    .repeat 12 {
+        .data .fill(2, FRAME_COLOR), .fill(36, UNCHECKED_COLOR), .fill(2, FRAME_COLOR)
+    ]
+    .data .fill(40 * 3, FRAME_COLOR)
+    .repeat 5 {
+        .data .fill(11, FRAME_COLOR), .fill(18, CONTENT_COLOR), .fill(11, FRAME_COLOR)
+    }
+    .data .fill(40 * 3, FRAME_COLOR)
 }

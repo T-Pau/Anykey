@@ -52,15 +52,15 @@ with open(config["output"], "w") as file:
     output = AssemblerOutput.AssemblerOutput("cc65", file)
     output.header(sys.argv[1])
 
-    output.global_symbol(f"{symbol_prefix}_charset_normal")
+    output.public_symbol(f"{symbol_prefix}_charset_normal")
     output_charset(charset, output, 0)
-    output.global_symbol(f"{symbol_prefix}_charset_normal_end")
+    output.public_symbol(f"{symbol_prefix}_charset_normal_end")
     output.empty_line()
 
-    output.global_symbol(f"{symbol_prefix}_charset_pressed")
+    output.public_symbol(f"{symbol_prefix}_charset_pressed")
     output_charset(charset, output, 1)
-    output.global_symbol(f"{symbol_prefix}_charset_pressed_end")
+    output.public_symbol(f"{symbol_prefix}_charset_pressed_end")
     output.empty_line()
 
-    output.global_symbol(f"{symbol_prefix}_screen")
+    output.public_symbol(f"{symbol_prefix}_screen")
     output.bytes(encoder.end())
