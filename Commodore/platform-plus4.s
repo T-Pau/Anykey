@@ -46,3 +46,9 @@ KEY_INDEX_HELP = 3 ; Help
 HOLD_FRAMES = 50
 
 SCREEN_SIZE = 1000
+
+
+.macro set_ted_charset charset {
+	lda #((charset & $fc00) >> 8)
+	sta TED_CLK
+}

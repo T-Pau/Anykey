@@ -41,7 +41,7 @@ stripe_colors {
     bmi :+
     set_vic_24_lines
 :
-    lda #COLOR_MID_GRAY
+    lda #COLOR_GREY_2
     sta VIC_BACKGROUND_COLOR
     
     ldy #LOGO_Y + 2
@@ -87,7 +87,7 @@ loop:
     sta VIC_SPRITE_7_Y
     lda #COLOR_BLACK
     sta VIC_SPRITE_5_COLOR
-    lda #COLOR_DARK_GRAY
+    lda #COLOR_GREY_1
     sta VIC_SPRITE_6_COLOR
     sta VIC_SPRITE_7_COLOR
     ldx #sprite_logo

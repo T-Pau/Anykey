@@ -114,7 +114,7 @@ port1_clear:
     lda #$fe
     ldx #64
 byteloop:
-    sta VIC_KBD_128
+    sta VIC_KEYBOARD_128
     lda CIA1_PRB
     eor #$ff
     tay
@@ -203,7 +203,7 @@ nine:
 
 end_read:
     lda #$ff
-    sta VIC_KBD_128
+    sta VIC_KEYBOARD_128
 
     lda #$ff
     sta CIA1_PRA

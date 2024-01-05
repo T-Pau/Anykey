@@ -25,6 +25,8 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.include "features.inc"
+
 .pre_if .defined(USE_PET)
 MAX_KEY_READ = 80
 .pre_else
@@ -279,7 +281,7 @@ eight_not_pressed:
 nine:
     inx
 max_key_read:
-.private read_keyboard_max_read_keys = max_read_keys + 1
+.private read_keyboard_max_keys = max_key_read + 1
     cpx #MAX_KEY_READ
     beq end_read
     txa
@@ -321,7 +323,7 @@ end_read:
     sty read_keyboard_value
     sta read_keyboard_value + 1
     lda tmp1
-    sta read_keyboard_max_key_read
+    sta read_keyboard_max_keys
     rts
 }
 

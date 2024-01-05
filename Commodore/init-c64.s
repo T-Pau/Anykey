@@ -41,7 +41,7 @@
     lda #MACHINE_TYPE_MEGA65
     bne end_detect
 not_m65:
-    lda VIC_CLK_128
+    lda VIC_CLOCK_128
     cmp #$ff
     beq not_128
     lda #MACHINE_TYPE_C128

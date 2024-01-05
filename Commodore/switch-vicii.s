@@ -151,7 +151,6 @@ both:
     rts
 }
 
-
 .public switch_bottom_mega65 {
     lda #2
    	sta VIC_BOTTOM_BORDER_POSITION + 1

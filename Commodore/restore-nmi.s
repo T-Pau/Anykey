@@ -31,14 +31,14 @@
 .section code
 
 .public init_restore_nmi {
-    lda NMIVec
+    lda NMI_VECTOR
     sta nmi_vector
-    lda NMIVec + 1
+    lda NMI_VECTOR + 1
     sta nmi_vector + 1
     ldx #<handle_nmi
     ldy #>handle_nmi
-    stx NMIVec
-    sty NMIVec + 1
+    stx NMI_VECTOR
+    sty NMI_VECTOR + 1
 
     jmp init_restore
 }

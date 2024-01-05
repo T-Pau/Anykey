@@ -44,6 +44,7 @@ sources_ted :=
     ${sources_vicii_ted}
 
 sources_vicii :=
+    c128.s
     start-vicii.s
     help-vicii.s
     joysticks-vicii.s
@@ -79,6 +80,7 @@ sources_64 :=
     platform-c64.s
     screen-64.s
     screen-mega65-c64.s
+    switch-vicii-c64.s
 
 sources_128 :=
     ${sources_64_128}
@@ -175,15 +177,15 @@ build anykey-pet.prg: basic anykey-pet.bas
 
 build anykey-64.prg: link $sources_64
     target = c64-basic
-    libs = c64.lib cbm.lib
+    libs = mega65.lib cbm.lib
 
 build anykey-128.prg: link $sources_128
     target = c128-basic
-    libs = c64.lib cbm.lib
+    libs = c128.lib cbm.lib
 
 build anykey-mega65.prg: link $sources_mega65
     target = mega65-basic
-    libs = c64.lib cbm.lib
+    libs = mega65.lib cbm.lib
 
 rule keys
     command = key-table $in $out

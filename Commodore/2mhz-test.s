@@ -124,12 +124,12 @@ irq_routine:
     dec VIC_BORDER_COLOR
     
     dec VIC_BORDER_COLOR
-    lda VIC_CLK_128
+    lda VIC_CLOCK_128
     ora #1
-    sta VIC_CLK_128
+    sta VIC_CLOCK_128
     jsr delay
     and #$fe
-    sta VIC_CLK_128
+    sta VIC_CLOCK_128
     inc VIC_BORDER_COLOR
     
     rts

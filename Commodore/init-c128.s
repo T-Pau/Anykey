@@ -28,9 +28,9 @@
 .section code
 
 .public init {
-    lda MMU_CR
+    lda MMU_CONFIGURATION
     ora #$0e
-    sta MMU_CR
+    sta MMU_CONFIGURATION
     lda #MACHINE_TYPE_C128
     sta machine_type
     ; TODO: detect acceleration

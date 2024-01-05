@@ -147,9 +147,9 @@ lines_per_frame .reserve 1
     }
 
     lda #<irq_main
-    sta IRQVec
+    sta IRQ_VECTOR
     lda #>irq_main
-    sta IRQVec + 1
+    sta IRQ_VECTOR + 1
     cli
     rts
 }
@@ -181,7 +181,7 @@ irq_main {
         lda #$0e
         sta MMU_CR
     }
-irq_jsr:
+.private irq_jsr:
     jsr $0000
     jsr setup_next_irq
     ; acknowledge irq
