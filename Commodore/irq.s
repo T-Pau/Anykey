@@ -62,7 +62,6 @@ END_OF_IRQ = $eb18
 .pre_end
 
 .pre_if .defined(USE_VICII)
-table = $c3
 BORDERCOLOR = VIC_BORDER_COLOR
 HLINE_LOW = VIC_RASTER
 HLINE_HIGH = VIC_CONTROL_1
@@ -73,11 +72,9 @@ IRQ_RASTER = 1
 
 .pre_else_if .defined(USE_VIC)
 
-table = $bb
 BORDERCOLOR = VIC_COLOR
 
 .pre_else_if .defined(USE_TED)
-table = $e7
 BORDERCOLOR = TED_BORDERCOLOR
 HLINE_LOW = $FF0B
 HLINE_HIGH = $FF0A
@@ -86,6 +83,10 @@ IRR = $FF09
 IMR = $FF0A
 IRQ_RASTER = 2
 .pre_end
+
+.section zero_page
+
+table .reserve 2
 
 .section reserved
 
@@ -110,10 +111,9 @@ lines_per_frame .reserve 1
     .if .defined(USE_VICII) {
         ; disable cia 1 interrupts
         lda #$7f
-        sta CIA1_ICR
+        sta CIA1_INTERRUPT
     }
-
-    .if .defined(USE_VIC) {
+    .else_if .defined(USE_VIC) {
         ; set up constants for PAL/NTSC
         ldx #0
         ldy #312/2
@@ -140,7 +140,7 @@ lines_per_frame .reserve 1
         lda #87
         sta VIA2_T1LH
     }
-    .else {
+    .else_if .defined(USE_TED) {
         ; enable rasterline irq
         ldx #IRQ_RASTER
         stx IMR
@@ -179,7 +179,7 @@ irq_main {
     }
     .if .defined(C128) {
         lda #$0e
-        sta MMU_CR
+        sta MMU_CONFIGURATION
     }
 .private irq_jsr:
     jsr $0000

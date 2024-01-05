@@ -225,8 +225,8 @@ not_caps:
     sta new_key_state + 88
 disp_40_80:
     .if .defined(C128) {
-        lda MMU_MCR
-        and #$80
+        lda MMU_MODE_CONFIGURATION
+        and #MMU_MODE_CONFIGURATION_40_80
         bne not_disp_40_80
         inc new_key_state + 89
         bne end
