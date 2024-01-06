@@ -64,7 +64,7 @@
         .data .fill(40 * 2, UNCHECKED_COLOR)
     }
     .data .fill(40 * 10, UNCHECKED_COLOR)
-    .data .fill(reserve 40 * 3, FRAME_COLOR)
+    .data .fill(40 * 3, FRAME_COLOR)
     .repeat 5 {
         .data .fill(5, FRAME_COLOR), .fill(30, CONTENT_COLOR), .fill(5, FRAME_COLOR)
     }
