@@ -32,14 +32,14 @@
 import sys
 
 def write_word_table(tablename, table, fout):
-    fout.write(f".public {name}_{tablename}_low {{\n");
+    fout.write(f".public {name}_{tablename}_low:\n");
     for value in table:
         fout.write("    .data <(" + value + ")\n")
-    fout.write("}\n\n")
-    fout.write(f".public {name}_{tablename}_high {{\n");
+    fout.write("\n")
+    fout.write(f".public {name}_{tablename}_high:\n");
     for value in table:
         fout.write("    .data >(" + value + ")\n")
-    fout.write("}\n\n")
+    fout.write("\n")
 
 
 if len(sys.argv) != 3:
@@ -111,10 +111,14 @@ with open(outfile, mode="w") as fout:
 .public {name}_num_keys {{
     .data {num_keys}
 }}
+
+{name}_keys {{
 """, file=fout)
 
     write_word_table("address", keys_address, fout)
     write_word_table("display", keys_size, fout)
+
+    print("}", file=fout)
 
 with open(outfile + ".d", mode="w") as dep:
     print(f"{outfile}: {infile} {program}", file=dep)

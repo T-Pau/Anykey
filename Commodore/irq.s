@@ -112,6 +112,9 @@ lines_per_frame .reserve 1
         ; disable cia 1 interrupts
         lda #$7f
         sta CIA1_INTERRUPT
+        ; enable rasterline irq
+        lda #1
+        sta VIC_INTERRUPT_MASK
     }
     .else_if .defined(USE_VIC) {
         ; set up constants for PAL/NTSC

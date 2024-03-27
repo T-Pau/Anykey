@@ -30,7 +30,7 @@
 
 .section code
 
-.public memset:
+.public memset {
     ldy #0
     ldx ptr3 + 1
     beq partial

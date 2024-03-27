@@ -38,30 +38,30 @@
 ; set keys table to X/Y, number of keys A
 .public set_keys_table {
     sta num_keys
-    stx address_low + 1
-    sty address_low + 2
+    stx address_low
+    sty address_low + 1
     
     clc
     txa
     adc num_keys
+    sta address_high
+    lda address_low + 1
+    adc #0
     sta address_high + 1
-    lda address_low + 2
-    adc #0
-    sta address_high + 2
     
+    lda address_high
+    adc num_keys
+    sta display_low
     lda address_high + 1
-    adc num_keys
+    adc #0
     sta display_low + 1
-    lda address_high + 2
-    adc #0
-    sta display_low + 2
     
-    lda display_low + 1
+    lda display_low
     adc num_keys
-    sta display_high + 1
-    lda display_low + 2
+    sta display_high
+    lda display_low + 1
     adc #0
-    sta display_high + 2
+    sta display_high + 1
 
     rts
 }
@@ -89,10 +89,10 @@ address_high_instruction:
     sta ptr1 + 1
 display_low_instruction:
     lda $1000,x
-    sta jump + 1
+    sta jump
 display_high_instruction:
     lda $1000,x
-    sta jump + 2
+    sta jump + 1
     ldy #0
     .if .defined(USE_PET) {
         stx restore + 1

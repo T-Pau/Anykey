@@ -25,10 +25,6 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.macro fuck_you {
-    lda #fuck_you_too
-}
-
 .macro memcpy_128 destination, source_64, source_128, source_mega65, length {
     store_word destination, ptr2
     .if .defined(C64) {

@@ -93,25 +93,25 @@
     jsr memcpy
 }
 
-.public .macro memset destination, value, length {
-    store_word destination, ptr2
-    store_word length, ptr3
-    lda #value
-    jsr memset
-}
+;.public .macro memset destination, value, length {
+;    store_word destination, ptr2
+;    store_word length, ptr3
+;    lda #value
+;    jsr memset
+;}
 
 
-.public .macro memset_if destination, old_value, new_value, length {
-    store_word destination, ptr2
-    store_word length, ptr3
-    ldx #new_value
-    lda #old_value
-    jsr memset_if
-}
+;.public .macro memset_if destination, old_value, new_value, length {
+;    store_word destination, ptr2
+;    store_word length, ptr3
+;    ldx #new_value
+;    lda #old_value
+;    jsr memset_if
+;}
 
 
-.public .macro copy_screen source {
-    store_word source, ptr1
-    store_word screen, ptr2
-    jsr expand
-}
+;.public .macro copy_screen source {
+;    store_word source, ptr1
+;    store_word screen, ptr2
+;    jsr expand
+;}
