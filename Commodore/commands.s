@@ -28,7 +28,7 @@
 .section data
 
 .public command_handlers {
-    .data 0
+    .data $0000
     .data display_help_screen
     .data help_next
     .data help_previous

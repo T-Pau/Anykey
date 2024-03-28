@@ -31,11 +31,11 @@
 
 help_screen {
     .data "                                        ":screen_inverted
-    .data "I                                      J":screen
+    .data "I                                      J":screen_lowercase
     .repeat 18 {
         .data "                                        ":screen
     }
-    .data "KMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMML":screen
+    .data "KMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMML":screen_lowercase
     .data "                                        ":screen_inverted
     .if .defined(USE_VICII) {
         .data "  space/+: next page  -: previous page  ":screen_inverted

@@ -33,25 +33,25 @@
     .data "                                        ":screen_inverted
     .data "           joysticks                    ":screen_inverted
     .data "          ":screen_inverted
-    .data           "I                  J":screen
+    .data           "I                  J":screen_lowercase
     .data                               "          ":screen_inverted
     .data "          ":screen_inverted
-    .data           "      AHB       AHB ":screen
+    .data           "      AHB       AHB ":screen_lowercase
     .data                               "          ":screen_inverted
     .data "          ":screen_inverted
-    .data           "      EfF       EfF ":screen
+    .data           "      EfF       EfF ":screen_lowercase
     .data                               "          ":screen_inverted
     .data "          ":screen_inverted
-    .data           "      CGD       CGD ":screen
+    .data           "      CGD       CGD ":screen_lowercase
     .data                               "          ":screen_inverted
     .data "          ":screen_inverted
-    .data           "K                  L":screen
+    .data           "K                  L":screen_lowercase
     .data                               "          ":screen_inverted
     .data "                                        ":screen_inverted
     .data "     f3: reset   help: help      ":screen_inverted
-    .byte $79, $7a, $7b, $7c, $7d, $7e, $7f
+    .data $79, $7a, $7b, $7c, $7d, $7e, $7f
     .data "      (hold for 2 seconds)       ":screen_inverted
-    .byte $f9, $fa, $fb, $fc, $fd, $fe, $ff
+    .data $f9, $fa, $fb, $fc, $fd, $fe, $ff
 }
 
 

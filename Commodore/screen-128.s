@@ -33,19 +33,19 @@
     .data "                                        ":screen_inverted
     .data "     joysticks                          ":screen_inverted
     .data "    ":screen_inverted
-    .data     "I                              J":screen
+    .data     "I                              J":screen_lowercase
     .data                                     "    ":screen_inverted
     .data "    ":screen_inverted
-    .data     "      AHBAHBAHB       AHBAHBAHB ":screen
+    .data     "      AHBAHBAHB       AHBAHBAHB ":screen_lowercase
     .data                                     "    ":screen_inverted
     .data "    ":screen_inverted
-    .data     "      E1FE2FE3F       E1FE2FE3F ":screen
+    .data     "      E1FE2FE3F       E1FE2FE3F ":screen_lowercase
     .data                                     "    ":screen_inverted
     .data "    ":screen_inverted
-    .data     "      CGDCGDCGD       CGDCGDCGD ":screen
+    .data     "      CGDCGDCGD       CGDCGDCGD ":screen_lowercase
     .data                                     "    ":screen_inverted
     .data "    ":screen_inverted
-    .data     "K                              L":screen
+    .data     "K                              L":screen_lowercase
     .data                                     "    ":screen_inverted
     .data "                                        ":screen_inverted
     .data "      f5: reset keyboard  f7: help      ":screen_inverted
