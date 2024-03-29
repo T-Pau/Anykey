@@ -1,5 +1,4 @@
-USE_VIC = 1
-USE_SKIP = 1
+.include "features.inc"
 
 COLOR_BLACK = 0
 COLOR_WHITE = 1
@@ -19,29 +18,12 @@ COLOR_LIGHT_GREEN = 13
 COLOR_LIGHT_BLUE = 14
 COLOR_LIGHT_YELLOW = 15
 
-VIC_H_POS = VIC_CR0
-;VIC_V_POS = VIC_CR1
-VIC_COLUMNS = VIC_CR2
-VIC_VIDEO_ADDRESS = VIC_CR5
-VIC_LPEN_X = VIC_CR6
-VIC_LPEN_Y = VIC_CR7
-VIC_POT_X = VIC_CR8
-VIC_POT_Y = VIC_CR9
-VIC_BASS = VIC_CRA
-VIC_ALTO = VIC_CRB
-VIC_SOPRANO = VIC_CRC
-VIC_NOISE = VIC_CRD
-VIC_AUX_COLOR = VIC_CRE
-VIC_LOUDNESS = VIC_CRE
-
-
-
 MAX_NUM_KEYS = 65
 
 USE_KEYBOARD_SELECT_BITMASK = 1
 
-KEYBOARD_SELECT = VIA2_PA1
-KEYBOARD_VALUE = VIA2_PB
+KEYBOARD_SELECT = VIA1_PRA
+KEYBOARD_VALUE = VIA2_PRB
 
 
 FRAME_COLOR = COLOR_YELLOW
@@ -102,7 +84,7 @@ both:
     jsr set_irq_table
     ldx is_ntsc
     lda main_h_pos,x
-    sta VIC_H_POS
+    sta VIC_CR1
     store_word main_screen, ptr1
     store_word screen, ptr2
     jsr rl_expand
@@ -117,7 +99,7 @@ both:
 }
 
 .public top_keyboard {
-    inc VIC_H_POS
+    inc VIC_CR1
     lda #SCREEN_TOP_PAL + 4 - 1
     jsr wait_line
     jsr wait_20
@@ -126,19 +108,19 @@ both:
     ldx #(BACKGROUND_COLOR << 4) | $8 | FRAME_COLOR
     ldy #$cd
     stx VIC_COLOR
-    sty VIC_VIDEO_ADDRESS
+    sty VIC_ADDRESS
     lda #SCREEN_TOP_PAL + 4 * 4 -1
-    ldx VIC_H_POS
+    ldx VIC_CR1
     ldy #2
 shift_loop:
     dex
     jsr wait_line
-    stx VIC_H_POS
+    stx VIC_CR1
     clc
     adc #8
     inx
     jsr wait_line
-    stx VIC_H_POS
+    stx VIC_CR1
     clc
     adc #8
     dey
@@ -153,7 +135,7 @@ shift_loop:
     lda #SCREEN_TOP_PAL + 4 * 13 - 1
     jsr wait_line
     stx VIC_COLOR
-    sty VIC_VIDEO_ADDRESS
+    sty VIC_ADDRESS
     rts
 }
 
@@ -164,7 +146,7 @@ shift_loop:
     lda #SCREEN_TOP_PAL + 15 * 4 - 1
     jsr wait_line
     stx VIC_COLOR
-    sty VIC_VIDEO_ADDRESS
+    sty VIC_ADDRESS
     jsr read_restore
     jsr read_joystick
     rts
@@ -209,8 +191,8 @@ wait_line {
     lda #SCREEN_TOP_PAL + 19 * 4 - 1
     jsr wait_line
     stx VIC_COLOR
-    sty VIC_VIDEO_ADDRESS
-    dec VIC_H_POS
+    sty VIC_ADDRESS
+    dec VIC_CR1
 
     jsr read_restore
 
@@ -221,15 +203,15 @@ wait_line {
   	sta VIA2_DDRB
 
     lda #$ff
-    sta VIA2_PA1
-  	lda VIA2_PB
+    sta VIA1_PRA
+  	lda VIA2_PRB
   	sta port_b
 
     jsr read_keyboard
 
     lda #$ff
-    sta VIA2_PA1
-    lda VIA2_PB
+    sta VIA1_PRA
+    lda VIA2_PRB
     and port_b
     and #$80
     eor #$80
@@ -276,16 +258,16 @@ loop:
 read_joystick {
     lda #$ff
     sta VIA2_DDRA
-    sta VIA2_PA1
+    sta VIA1_PRA
     lda #0
     sta VIA2_DDRB
     sta VIA1_DDRA
-    lda VIA1_PA1
+    lda VIA1_PRA
     lsr
     and #$1e
     eor #$1e
     tax
-    lda VIA2_PB
+    lda VIA2_PRB
     bmi :+
     inx
 :   txa
@@ -380,7 +362,7 @@ both:
     nop
     nop
     nop
-    sty VIC_VIDEO_ADDRESS
+    sty VIC_ADDRESS
     stx VIC_COLOR
     rts
 }
@@ -401,7 +383,7 @@ both:
 
 
 read_restore {
-    lda VIA1_IFR
+    lda VIA1_INTERRUPT_REQUEST
     and #$02
     beq :+
     jsr trigger_restore

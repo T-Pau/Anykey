@@ -69,7 +69,7 @@
         store_word charset_keyboard_bottom, VIC_CHARSET_POINTER
     }
     .else {
-        sta VIC_VIDEO_ADDRESS
+        sta VIC_ADDRESS
     }
     lda command
     bne :+

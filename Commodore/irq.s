@@ -52,7 +52,7 @@ END_OF_IRQ = $fcbe
 .define USE_TED
 
 .pre_else_if .defined(VIC20)
-VIC_V_POS = VIC_CR1
+VIC_VERTICAL_ORIGIN = VIC_CR1
 
 END_OF_IRQ = $eb18
 .define USE_VIC
@@ -120,7 +120,7 @@ lines_per_frame .reserve 1
         ; set up constants for PAL/NTSC
         ldx #0
         ldy #312/2
-        lda VIC_V_POS
+        lda VIC_VERTICAL_ORIGIN
         cmp #$19
         bne :+
         inx
@@ -129,19 +129,19 @@ lines_per_frame .reserve 1
         sty lines_per_frame
 
         lda #$7f
-        sta VIA1_IER    ; disable all interrupts on VIA1
-        sta VIA2_IER    ; disable all interrupts on VIA2
+        sta VIA1_INTERRUPT_MASK    ; disable all interrupts on VIA1
+        sta VIA2_INTERRUPT_MASK    ; disable all interrupts on VIA2
         ; set timer 1 to free run
         lda	#$40
-        sta	VIA2_ACR
+        sta	VIA2_CR1
         ; enable timer 1 interrupts
         lda #$c0
-        sta VIA2_IER
+        sta VIA2_INTERRUPT_MASK
         ; set initial run time to more than 1 frame
         lda #$00
-        sta VIA2_T1LL
+        sta VIA2_TIMER_1_LOAD
         lda #87
-        sta VIA2_T1LH
+        sta VIA2_TIMER_1_LOAD + 1
     }
     .else_if .defined(USE_TED) {
         ; enable rasterline irq
@@ -189,7 +189,7 @@ irq_main {
     jsr setup_next_irq
     ; acknowledge irq
     .if .defined(USE_VIC) {
-        lda VIA2_T1CL
+        lda VIA2_TIMER_1
     }
     .else {
         lda #IRQ_RASTER
@@ -243,9 +243,9 @@ setup_next_irq {
         inc timer_length + 1
     :	asl
         rol timer_length + 1    ; 1x000xx10
-        sta VIA2_T1CL
+        sta VIA2_TIMER_1
         lda timer_length + 1
-        sta VIA2_T1CH
+        sta VIA2_TIMER_1 + 1
     }
     .else {
         ; activate next entry

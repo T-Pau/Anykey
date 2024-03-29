@@ -46,7 +46,7 @@
     inx
 :	cpx VIDEO_CURRENT_LINE
     bne :-
-    sta VIC_VIDEO_ADDRESS
+    sta VIC_ADDRESS
     lda command
     bne :+
     jsr handle_joysticks

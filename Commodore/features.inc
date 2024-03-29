@@ -8,6 +8,6 @@
 .define USE_PET
 .pre_end
 
-.pre_if .defined(C64) || .defined(C128) || .defined(MEGA65)
+.pre_if .defined(C64) || .defined(C128) || .defined(MEGA65) || .defined(VIC20)
 .define USE_SKIP
 .pre_end

@@ -53,7 +53,7 @@ SCREEN_SIZE = 1000
     }
     .else {
         lda #VIC_ADDRESS(screen, charset)
-        sta VIC_VIDEO_ADDRESS
+        sta VIC_ADDRESS
     }
 }
 
