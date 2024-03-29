@@ -66,7 +66,7 @@ display_key {
     ret
 }
 
-.section reserve
+.section reserved
 
 .public key_state .reserve num_keys
 .public new_key_state .reserve num_keys

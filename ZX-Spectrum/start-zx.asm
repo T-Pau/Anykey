@@ -44,6 +44,6 @@ ENDIF
     jp main_loop
 }
 
-.section reserve
+.section reserved
 
 frame .reserve 1

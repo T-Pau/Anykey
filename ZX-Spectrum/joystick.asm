@@ -128,6 +128,6 @@ ENDIF
 }
 
 
-.section reserve
+.section reserved
 
 value .reserve 1

@@ -99,6 +99,6 @@
     rts
 }
 
-.section reserve
+.section reserved
 
 .public current_page .reserve 1  ; $ff when not in help mode

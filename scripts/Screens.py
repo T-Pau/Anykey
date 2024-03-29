@@ -1,3 +1,4 @@
+import os.path
 import re
 import sys
 
@@ -73,7 +74,7 @@ class Source:
 
 
 class Screens:
-    def __init__(self, options=None, defines=None):
+    def __init__(self, options=None, defines=None, include_directories=None):
         self.name = ""
         self.title_length = 0
         self.title_xor = 0
@@ -101,6 +102,7 @@ class Screens:
             self.set_options(options)
         self.defines = {}
         self.charmap = {}
+        self.include_directories = include_directories or []
 
         if defines is not None:
             for define in defines:
@@ -116,6 +118,8 @@ class Screens:
 
     def convert(self, input_file, output_file):
         self.input_file = input_file
+        self.include_directories.insert(0, os.path.dirname(input_file))
+        self.include_directories.insert(0, os.path.dirname(output_file))
         self.files = [Source(input_file)]
         self.in_preamble = True
         self.compressed_screens = []
@@ -145,6 +149,15 @@ class Screens:
         except Exception as e:
             self.error("invalid conditional: " + str(e))
             return False
+
+    def find_file(self, file_name):
+        if os.path.exists(file_name):
+            return file_name
+        for directory in self.include_directories:
+            name = os.path.join(directory, file_name)
+            if os.path.exists(name):
+                return name
+        raise RuntimeError(f"file {file_name} not found")
 
     def process(self):
         while len(self.files) > 0:
@@ -215,9 +228,9 @@ class Screens:
             end = line.rfind("\"")
             filename = line[start + 1:end]
             if filename.endswith(".bin"):
-                self.include_binary_file(filename)
+                self.include_binary_file(self.find_file(filename))
             else:
-                self.files.append(Source(filename))
+                self.files.append(Source(self.find_file(filename)))
         elif line.startswith(".define "):
             self.add_define(line[8:])
         elif line.startswith(".skip "):

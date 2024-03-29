@@ -20,7 +20,7 @@ COLOR_LIGHT_BLUE = 14
 COLOR_LIGHT_YELLOW = 15
 
 VIC_H_POS = VIC_CR0
-VIC_V_POS = VIC_CR1
+;VIC_V_POS = VIC_CR1
 VIC_COLUMNS = VIC_CR2
 VIC_VIDEO_ADDRESS = VIC_CR5
 VIC_LPEN_X = VIC_CR6
@@ -92,12 +92,12 @@ KEYBOARD_SIZE = 22 * 10
     beq pal
     ldx #<main_ntsc_irq_table
     ldy #>main_ntsc_irq_table
-    lda main_ntsc_irq_table_length
+    lda #.sizeof(main_ntsc_irq_table)
     bne both
 pal:
     ldx #<main_pal_irq_table
     ldy #>main_pal_irq_table
-    lda main_pal_irq_table_length
+    lda #.sizeof(main_pal_irq_table)
 both:
     jsr set_irq_table
     ldx is_ntsc
@@ -178,7 +178,7 @@ wait_20 {
     nop
     nop
     nop
-.private wait_12
+.private wait_12:
     rts
 }
 
@@ -342,12 +342,12 @@ display_joystick {
     beq pal
     ldx #<help_ntsc_irq_table
     ldy #>help_ntsc_irq_table
-    lda help_ntsc_irq_table_length
+    lda #.sizeof(help_ntsc_irq_table)
     bne both
 pal:
     ldx #<help_pal_irq_table
     ldy #>help_pal_irq_table
-    lda help_pal_irq_table_length
+    lda #.sizeof(help_pal_irq_table)
 both:
     jsr set_irq_table
 
@@ -452,7 +452,7 @@ main_h_pos {
     .data 12, 4
 }
 
-.section reserve
+.section reserved
 
 port_b .reserve 1
 joystick_value .reserve 1

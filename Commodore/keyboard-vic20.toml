@@ -5,7 +5,7 @@ pressed_bitmap = "keyboard-vic20-pressed-bitmap.bin"
 # output files
 charset = "keyboard-vic20-charset.s"
 symbol_prefix = "keyboard_vic20"
-segment = "CHARSET"
+segment = "charset"
 full_charset = true
 screen = "keyboard-vic20-screen.bin"
 

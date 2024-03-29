@@ -49,6 +49,6 @@ SCREEN_SIZE = 1000
 
 
 .macro set_ted_charset charset {
-	lda #((charset & $fc00) >> 8)
-	sta TED_CLK
+	lda #TED_CONTROL_4_CHARSET_ADDRESS(charset)
+	sta TED_CONTROL_4
 }

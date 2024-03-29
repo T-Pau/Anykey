@@ -28,7 +28,7 @@
 
 ; change ptr3 bytes at ptr2 to X if they are A
 
-.section reserve
+.section reserved
 
 if_value .reserve 1
 new_value .reserve 1

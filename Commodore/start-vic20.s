@@ -71,6 +71,6 @@ hline_offset_table {
     .data 0, SCREEN_TOP_PAL - SCREEN_TOP_NTSC
 }
 
-.section reserve
+.section reserved
 
 .public hline_offset .reserve 1

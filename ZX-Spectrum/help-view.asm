@@ -179,7 +179,7 @@ reset_state_loop:
 }
 
 
-.section reserve
+.section reserved
 
 current_page .reserve 1
 current_key .reserve 1

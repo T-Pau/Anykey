@@ -34,7 +34,6 @@ map $20-$3f $20
 line_length 80
 lines 4
 single_screen 1
-assembler cc65
 ---
 .skip 1440
 

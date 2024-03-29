@@ -115,6 +115,6 @@ not_supported_message_80 {
     .data "this model is not supported by this version of anykey.", $0d, $0
 }
 
-.section reserve
+.section reserved
 
 last_tick .reserve 1

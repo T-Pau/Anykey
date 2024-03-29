@@ -363,7 +363,7 @@ circle_mask_enter {
 }
 
 
-.section reserve
+.section reserved
 
 key_color .reserve 1
 key_width .reserve 1

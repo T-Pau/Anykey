@@ -25,6 +25,8 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.section code
+
 .public switch_keyboard_top {
     jsr content_background
     ldx #SCREEN_TOP + 8
@@ -36,11 +38,11 @@
 
 
 .public switch_keyboard_bottom {
-    lda #((charset_keyboard_bottom & $fc00) >> 8)
+    lda #TED_CONTROL_4_CHARSET_ADDRESS(charset_keyboard_bottom)
     ldx #SCREEN_TOP + 5 * 8
 :	cpx VIDEO_CURRENT_LINE
     bne :-
-    sta TED_CLK
+    sta TED_CONTROL_4
     lda command
     bne :+
     jsr handle_joysticks

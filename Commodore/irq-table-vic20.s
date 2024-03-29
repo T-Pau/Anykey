@@ -28,64 +28,46 @@
 .section data
 
 .public main_pal_irq_table {
-    .data SCREEN_TOP_PAL - 1
+    .data SCREEN_TOP_PAL - 1:2
     .data top_keyboard
 
-    .data SCREEN_TOP_PAL + 13 * 4 - 1
+    .data SCREEN_TOP_PAL + 13 * 4 - 1:2
     .data bottom_keyboard
 
-    .data SCREEN_TOP_PAL + 15 * 4 - 1
+    .data SCREEN_TOP_PAL + 15 * 4 - 1:2
     .data top_joystick
 
-    .data SCREEN_TOP_PAL + 19 * 4 - 1
+    .data SCREEN_TOP_PAL + 19 * 4 - 1:2
     .data bottom_joystick
 }
 
-.export main_pal_irq_table_length
-main_pal_irq_table_length:
-    .data .sizeof(main_pal_irq_table)
-
-
-.export main_ntsc_irq_table
-main_ntsc_irq_table:
-    .data SCREEN_TOP_NTSC - 1
+.public main_ntsc_irq_table {
+    .data SCREEN_TOP_NTSC - 1:2
     .data top_keyboard
 
-    .data SCREEN_TOP_NTSC + 13 * 4 - 1
+    .data SCREEN_TOP_NTSC + 13 * 4 - 1:2
     .data bottom_keyboard
 
-    .data SCREEN_TOP_NTSC + 15 * 4 - 1
+    .data SCREEN_TOP_NTSC + 15 * 4 - 1:2
     .data top_joystick
 
-    .data SCREEN_TOP_NTSC + 19 * 4 - 1
+    .data SCREEN_TOP_NTSC + 19 * 4 - 1:2
     .data bottom_joystick
-
-.public main_ntsc_irq_table_length {
-    .data .sizeof(main_ntsc_irq_table)
 }
 
 
 .public help_pal_irq_table {
-    .data SCREEN_TOP_PAL + 4 - 2
+    .data SCREEN_TOP_PAL + 4 - 2:2
     .data help_top
 
-    .data SCREEN_TOP_PAL + 4 * 19 - 1
+    .data SCREEN_TOP_PAL + 4 * 19 - 1:2
     .data help_bottom
 }
-
-.public help_pal_irq_table_length {
-    .data .sizeof(help_pal_irq_table)
-}
-
 
 .public help_ntsc_irq_table {
-    .data SCREEN_TOP_NTSC + 4 - 2
+    .data SCREEN_TOP_NTSC + 4 - 2:2
     .data help_top
 
-    .data SCREEN_TOP_NTSC + 4 * 19 - 1
+    .data SCREEN_TOP_NTSC + 4 * 19 - 1:2
     .data help_bottom
-}
-
-.public help_ntsc_irq_table_length {
-    .data .sizeof(help_ntsc_irq_table)
 }

@@ -1,6 +1,5 @@
 name main_screen
 single_screen 1
-assembler cc65
 
 line_length 22
 lines 23

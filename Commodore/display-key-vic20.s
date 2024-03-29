@@ -37,7 +37,7 @@ COLOR_RAM_OFFSET = color_ram - screen
     ldy #0
 }
 
-.seciton code
+.section code
 
 .public display_key_1 {
     lda (ptr1),y

@@ -82,7 +82,7 @@ not_help:
 }
 
 
-.section reserve
+.section reserved
 
 reset_pressed .reserve 1
 help_pressed .reserve 1

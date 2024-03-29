@@ -43,7 +43,6 @@ map $03c0 $5e ; π
 
 line_length 80
 lines 20
-assembler cc65
 ---
 anykey
 

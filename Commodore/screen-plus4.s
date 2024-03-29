@@ -59,7 +59,7 @@
     .data .fill(40 * 2, FRAME_COLOR)
     .repeat 12 {
         .data .fill(2, FRAME_COLOR), .fill(36, UNCHECKED_COLOR), .fill(2, FRAME_COLOR)
-    ]
+    }
     .data .fill(40 * 3, FRAME_COLOR)
     .repeat 5 {
         .data .fill(11, FRAME_COLOR), .fill(18, CONTENT_COLOR), .fill(11, FRAME_COLOR)

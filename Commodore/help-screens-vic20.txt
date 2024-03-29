@@ -38,7 +38,6 @@ prefix " "
 postfix " "
 title_length 20
 title_xor 0
-assembler cc65
 word_wrap 1
 ---
 anykey

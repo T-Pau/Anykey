@@ -1,5 +1,7 @@
 petcat = petcat
 
+default anykey.prg anykey-64.prg anykey-128.prg anykey-mega65.prg anykey-plus4.prg anykey-vic20.prg
+
 CONVERT_KEYBOARD_DEPENDENCIES :=
     ../scripts/convert-keyboard
     ../scripts/AssemblerOutput.py
@@ -187,6 +189,14 @@ build anykey-mega65.prg: link $sources_mega65
     target = mega65-basic
     libs = mega65.lib cbm.lib
 
+build anykey-plus4.prg: link $sources_plus4
+    target = plus4-basic
+    libs = plus4.lib cbm.lib
+
+build anykey-vic20.prg: link $sources_vic20
+    target = anykey-vic20.target
+    libs = vic20.lib cbm.lib
+
 rule keys
     command = key-table $in $out
     depfile = $out.d
@@ -240,4 +250,10 @@ build help-screens-plus4.s: screens help-screens.txt | ${CONVERT_SCREENS_DEPENDE
     platform = PLUS4
 
 build help-screens-vic20.s: screens help-screens-vic20.txt | ${CONVERT_SCREENS_DEPENDENCIES}
+    platform = VIC20
+
+build vic20-help-screen.s: screens vic20-help-screen.txt | ${CONVERT_SCREENS_DEPENDENCIES}
+    platform = VIC20
+
+build vic20-main-screen.s: screens vic20-main-screen.txt | keyboard-vic20-screen.bin ${CONVERT_SCREENS_DEPENDENCIES}
     platform = VIC20

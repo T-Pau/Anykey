@@ -179,7 +179,7 @@ type_end:
     bne loop_type
 }
 
-.section reserve
+.section reserved
 
 .public rom_version .reserve 1
 .public line_width .reserve 1

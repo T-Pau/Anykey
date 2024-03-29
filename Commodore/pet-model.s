@@ -280,7 +280,7 @@ help_keys_business {
 .pre_end
 
 
-.section reserve
+.section reserved
 
 .public help_count .reserve 1
 .public help_pages .reserve 2

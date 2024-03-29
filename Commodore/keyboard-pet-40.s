@@ -122,6 +122,6 @@ column_end:
     jmp row_loop
 }
 
-.section reserve
+.section reserved
 
 .public reset_row .reserve 1

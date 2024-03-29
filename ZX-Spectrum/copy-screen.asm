@@ -112,6 +112,6 @@ runlength_next:
 }
 
 
-.section reserve
+.section reserved
 
 current_charset .reserve 2
