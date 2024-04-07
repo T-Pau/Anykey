@@ -52,7 +52,7 @@ END_OF_IRQ = $fcbe
 .define USE_TED
 
 .pre_else_if .defined(VIC20)
-VIC_VERTICAL_ORIGIN = VIC_CR1
+VIC_VERTICAL_ORIGIN = VIC_CONTROL_1
 
 END_OF_IRQ = $eb18
 .define USE_VIC
@@ -75,7 +75,7 @@ IRQ_RASTER = 1
 BORDERCOLOR = VIC_COLOR
 
 .pre_else_if .defined(USE_TED)
-BORDERCOLOR = TED_BORDERCOLOR
+BORDERCOLOR = TED_BORDER_COLOR
 HLINE_LOW = $FF0B
 HLINE_HIGH = $FF0A
 HLINE_BIT8 = 1
@@ -133,7 +133,7 @@ lines_per_frame .reserve 1
         sta VIA2_INTERRUPT_MASK    ; disable all interrupts on VIA2
         ; set timer 1 to free run
         lda	#$40
-        sta	VIA2_CR1
+        sta	VIA2_CONTROL_1
         ; enable timer 1 interrupts
         lda #$c0
         sta VIA2_INTERRUPT_MASK

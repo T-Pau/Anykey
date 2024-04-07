@@ -52,8 +52,8 @@ SCREEN_SIZE = 1000
         sta VIC_CHARSET_POINTER + 1
     }
     .else {
-        lda #VIC_ADDRESS(screen, charset)
-        sta VIC_ADDRESS
+        lda #VIC_VIDEO_ADDRESS(screen, charset)
+        sta VIC_VIDEO_ADDRESS
     }
 }
 

@@ -56,7 +56,7 @@
 
 
 .public switch_keyboard_bottom {
-    lda #VIC_ADDRESS(screen, charset_keyboard_bottom)
+    lda #VIC_VIDEO_ADDRESS(screen, charset_keyboard_bottom)
     ldx bottom_charset_line
 :	cpx VIDEO_CURRENT_LINE
     bne :-
@@ -69,7 +69,7 @@
         store_word charset_keyboard_bottom, VIC_CHARSET_POINTER
     }
     .else {
-        sta VIC_ADDRESS
+        sta VIC_VIDEO_ADDRESS
     }
     lda command
     bne :+

@@ -41,12 +41,12 @@
 
 
 .public switch_keyboard_bottom_acellerated {
-    lda #VIC_ADDRESS(screen, charset_keyboard_bottom)
+    lda #VIC_VIDEO_ADDRESS(screen, charset_keyboard_bottom)
     ldx bottom_charset_line
     inx
 :	cpx VIDEO_CURRENT_LINE
     bne :-
-    sta VIC_ADDRESS
+    sta VIC_VIDEO_ADDRESS
     lda command
     bne :+
     jsr handle_joysticks

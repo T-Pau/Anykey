@@ -84,7 +84,7 @@ both:
     jsr set_irq_table
     ldx is_ntsc
     lda main_h_pos,x
-    sta VIC_CR1
+    sta VIC_CONTROL_1
     store_word main_screen, ptr1
     store_word screen, ptr2
     jsr rl_expand
@@ -99,7 +99,7 @@ both:
 }
 
 .public top_keyboard {
-    inc VIC_CR1
+    inc VIC_CONTROL_1
     lda #SCREEN_TOP_PAL + 4 - 1
     jsr wait_line
     jsr wait_20
@@ -110,17 +110,17 @@ both:
     stx VIC_COLOR
     sty VIC_ADDRESS
     lda #SCREEN_TOP_PAL + 4 * 4 -1
-    ldx VIC_CR1
+    ldx VIC_CONTROL_1
     ldy #2
 shift_loop:
     dex
     jsr wait_line
-    stx VIC_CR1
+    stx VIC_CONTROL_1
     clc
     adc #8
     inx
     jsr wait_line
-    stx VIC_CR1
+    stx VIC_CONTROL_1
     clc
     adc #8
     dey
@@ -192,7 +192,7 @@ wait_line {
     jsr wait_line
     stx VIC_COLOR
     sty VIC_ADDRESS
-    dec VIC_CR1
+    dec VIC_CONTROL_1
 
     jsr read_restore
 

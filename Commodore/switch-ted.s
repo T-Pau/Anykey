@@ -38,7 +38,7 @@
 
 
 .public switch_keyboard_bottom {
-    lda #TED_CONTROL_4_CHARSET_ADDRESS(charset_keyboard_bottom)
+    lda #TED_CHARSET_ADDRESS(charset_keyboard_bottom)
     ldx #SCREEN_TOP + 5 * 8
 :	cpx VIDEO_CURRENT_LINE
     bne :-

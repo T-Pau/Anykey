@@ -31,16 +31,16 @@
     lda #$ff
     sta $FD30
     lda #$04 ^ $ff
-    sta TED_KBD
-    lda TED_KBD
+    sta TED_KEYBOARD
+    lda TED_KEYBOARD
     eor #$ff
     sta port_digital
     ldx #0
     jsr display_joystick
 
     lda #$02 ^ $ff
-    sta TED_KBD
-    lda TED_KBD
+    sta TED_KEYBOARD
+    lda TED_KEYBOARD
     eor #$ff
     sta port_digital
     ldx #1
