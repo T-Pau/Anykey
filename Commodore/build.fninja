@@ -189,16 +189,16 @@ build anykey-mega65.prg: link $sources_mega65
     target = mega65-basic
     libs = mega65.lib cbm.lib
 
-build anykey-plus4.prg: link $sources_plus4
+build anykey-plus4.prg: link $sources_plus4 | keyboard-plus4-screen.bin
     target = plus4-basic
     libs = plus4.lib cbm.lib
 
 build anykey-vic20.prg: link $sources_vic20
-    target = anykey-vic20.target
+    target = {{anykey-vic20.target}}
     libs = vic20.lib cbm.lib
 
 rule keys
-    command = key-table $in $out
+    command = {{key-table}} $in $out
     depfile = $out.d
 
 build keys-64.s: keys keys-64.key
@@ -222,7 +222,7 @@ build keys-plus4.s: keys keys-plus4.key
 build keys-vic20.s: keys keys-vic20.key
 
 rule keyboard
-    command = ../scripts/convert-keyboard $in $build_directory
+    command = {{../scripts/convert-keyboard}} $in $build_directory
 
 build keyboard-64-charset.s keyboard-64-screen.bin: keyboard keyboard-64.toml | keyboard-64-normal-bitmap.bin keyboard-64-pressed-bitmap.bin ${CONVERT_KEYBOARD_DEPENDENCIES}
 
@@ -235,7 +235,7 @@ build keyboard-plus4-charset.s keyboard-plus4-screen.bin: keyboard keyboard-plus
 build keyboard-vic20-charset.s keyboard-vic20-screen.bin: keyboard keyboard-vic20.toml | keyboard-vic20-normal-bitmap.bin keyboard-vic20-pressed-bitmap.bin dpad-vic20.bin buttons-vic20.bin ${CONVERT_KEYBOARD_DEPENDENCIES}
 
 rule screens
-    command = ../scripts/convert-screens -DVERSION=$VERSION -D$platform $in $out
+    command = {{../scripts/convert-screens}} -DVERSION=$VERSION -D$platform $in $out
 
 build help-screens-64.s: screens help-screens.txt | ${CONVERT_SCREENS_DEPENDENCIES}
     platform = C64
