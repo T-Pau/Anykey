@@ -1,4 +1,4 @@
-;  main-view.asm -- main loop and helper functions for main view.
+;  main-view.s -- main loop and helper functions for main view.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -29,20 +29,20 @@
 
 .public main_loop {
     call read_keyboard
-IF USE_EXTENDED_KEYS
-    call read_extended_keys
-ENDIF
+    .if .defined(USE_EXTENDED_KEYS) {
+        call read_extended_keys
+    }
     call combine_keys
     call display_keyboard
-IF JOYSTICK_1_DPAD_OFFSET
-    call display_joystick_1
-ENDIF
-IF JOYSTICK_2_DPAD_OFFSET
-    call display_joystick_2
-ENDIF
-IF JOYSTICK_3_DPAD_OFFSET
-    call display_joystick_3
-ENDIF
+    .if .defined(JOYSTICK_1_DPAD_OFFSET) {
+        call display_joystick_1
+    }
+    .if .defined(JOYSTICK_2_DPAD_OFFSET) {
+        call display_joystick_2
+    }
+    .if .defined(JOYSTICK_3_DPAD_OFFSET) {
+        call display_joystick_3
+    }
     call handle_keys_main
     ld iy,0 ; clear iy so interrupt routine doesn't clobber memory
     ei

@@ -1,4 +1,4 @@
-;  platform-48k.asm -- 48k specific code
+;  platform-48k.s -- 48k specific code
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.

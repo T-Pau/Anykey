@@ -1,4 +1,4 @@
-;  display-keys-48k.asm -- Key update routines.
+;  display-keys-48k.s -- Key update routines.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.

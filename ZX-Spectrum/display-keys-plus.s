@@ -1,5 +1,5 @@
-;  display-keys-48k.asm -- Key update routines.
-;  Copyright (C) 2022 Dieter Baron
+;  display-keys-48k.s -- Key update routines.
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.

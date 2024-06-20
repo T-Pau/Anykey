@@ -2,11 +2,12 @@
 .section code
 
 .public combine_keys {
-IF USE_EXTENDED_KEYS
-    ld ix,new_key_state + 56
-ELSE
-    ld ix,new_key_state + 40
-ENDIF
+    .if .defined(USE_EXTENDED_KEYS) {
+        ld ix,new_key_state + 56
+    }
+    .else {
+        ld ix,new_key_state + 40
+    }
     ld hl,combine_list
 loop:
     call get_address
@@ -40,25 +41,25 @@ get_address {
 .section data
 
 combine_list {
-IFNDEF USE_EXTENDED_KEYS
-    .data  0, 22 ; caps + 8: cursor right
-    .data  0, 19 ; caps + 5: cursor left
-    .data  0, 24 ; caps + 6: cursor down
-    .data  0, 23 ; caps + 7: cursor up
-    .data 36, 37 ; symbol + m: .
-    .data 36, 38 ; symbol + n: ,
-    .data 36, 25 ; symbol + p: "
-    .data 36, 26 ; symbol + o: ;
+    .if !.defined(USE_EXTENDED_KEYS) {
+        .data  0, 22 ; caps + 8: cursor right
+        .data  0, 19 ; caps + 5: cursor left
+        .data  0, 24 ; caps + 6: cursor down
+        .data  0, 23 ; caps + 7: cursor up
+        .data 36, 37 ; symbol + m: .
+        .data 36, 38 ; symbol + n: ,
+        .data 36, 25 ; symbol + p: "
+        .data 36, 26 ; symbol + o: ;
 
-    .data  0, 36 ; caps + symbol: extend mode
-    .data  0, 16 ; caps + 2: caps lock
-    .data  0, 21 ; caps + 9: graph
-    .data  0, 17 ; caps + 3: true video
-    .data  0, 18 ; caps + 4: inv video
-    .data  0, 35 ; caps + space: break
-    .data  0, 15 ; caps + 1: edit
-    .data  0, 20 ; caps + 0: delete
-ENDIF
+        .data  0, 36 ; caps + symbol: extend mode
+        .data  0, 16 ; caps + 2: caps lock
+        .data  0, 21 ; caps + 9: graph
+        .data  0, 17 ; caps + 3: true video
+        .data  0, 18 ; caps + 4: inv video
+        .data  0, 35 ; caps + space: break
+        .data  0, 15 ; caps + 1: edit
+        .data  0, 20 ; caps + 0: delete
+    }
 
     .data  0,  0 ; right caps
     .data 36, 36 ; right symbol

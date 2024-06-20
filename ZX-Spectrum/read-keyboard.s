@@ -1,4 +1,4 @@
-;  read-keyboard.asm -- Update new state from keyboard.
+;  read-keyboard.s -- Update new state from keyboard.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.

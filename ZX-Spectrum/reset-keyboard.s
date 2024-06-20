@@ -1,4 +1,4 @@
-;  reset-keyboard.asm -- reset pressed state of all keys.
+;  reset-keyboard.s -- reset pressed state of all keys.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.

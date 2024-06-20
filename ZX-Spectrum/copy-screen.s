@@ -1,4 +1,4 @@
-;  copy-screen.asm -- Copy characters to screen RAM.
+;  copy-screen.s -- Copy characters to screen RAM.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.

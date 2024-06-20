@@ -1,4 +1,4 @@
-;  display-keyboard.asm -- Update keyboard to new state.
+;  display-keyboard.s -- Update keyboard to new state.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.

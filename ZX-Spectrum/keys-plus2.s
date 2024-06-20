@@ -1,4 +1,4 @@
-; keys-plus2.asm -- keyboard layout 48k
+; keys-plus2.s -- keyboard layout 48k
 
 ; This file is automatically created by ./key-table from keys-plus2.key.
 ; Do not edit.

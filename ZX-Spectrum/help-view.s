@@ -1,4 +1,4 @@
-;  main-view.asm -- main loop and helper functions for main view.
+;  main-view.s -- main loop and helper functions for main view.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.

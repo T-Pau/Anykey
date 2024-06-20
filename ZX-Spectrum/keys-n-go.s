@@ -1,4 +1,4 @@
-; keys-n-go.asm -- keyboard layout 48k
+; keys-n-go.s -- keyboard layout 48k
 
 ; This file is automatically created by ./key-table from keys-n-go.key.
 ; Do not edit.

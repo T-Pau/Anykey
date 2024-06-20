@@ -1,4 +1,4 @@
-; extended-keys.asm -- read extended keys directly on Next and N-Go
+; extended-keys.s -- read extended keys directly on Next and N-Go
 
 .section code
 

@@ -1,4 +1,4 @@
-;  start-zx.asm -- Entry point.
+;  start-zx.s -- Entry point.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.

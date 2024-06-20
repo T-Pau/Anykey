@@ -1,4 +1,4 @@
-; keys-48k.asm -- keyboard layout 48k
+; keys-48k.s -- keyboard layout 48k
 
 ; This file is automatically created by ./key-table from keys-48k.key.
 ; Do not edit.
