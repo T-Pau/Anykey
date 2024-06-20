@@ -1,0 +1,113 @@
+include ../Toolkit/fast-ninja/xlr8.fninja
+include ../Toolkit/fast-ninja/scripts.fninja
+
+default anykey-spectrum-48k.tzx anykey-spectrum-48k+-128k.tzx anykey-spectrum-+2-+3.tzx anykey-spectrum-next.nex anykey-spectrum-n-go.nex
+
+sources_common :=
+    start-zx.s
+    copy-colors.s
+    copy-screen.s
+    display-keyboard.s
+    help-view.s
+    main-view.s
+    read-keyboard.s
+    reset-keyboard.s
+
+sources_common_plus :=
+    button.s
+    combine-keys.s
+    dpad.s
+    joystick.s
+
+sources_48k :=
+    $sources_common
+    display-keys-48k.s
+    help-screens-48k.s
+    keys-48k.s
+    loading-48k.s
+    platform-48k.s
+
+sources_plus :=
+    $sources_common
+    combine-keys.s
+    display-keys-plus.s
+    help-screens-plus.s
+    keys-plus.s
+    loading-plus.s
+    platform-plus.s
+
+sources_plus2 :=
+    $sources_common
+    $sources_common_plus
+    display-keys-plus2.s
+    help-screens-plus2.s
+    keys-plus2.s
+    loading-plus2.s
+    platform-plus2.s
+
+sources_next :=
+    $sources_common
+    $sources_common_plus
+    display-keys-plus.s
+    extended-keys.s
+    help-screens-next.s
+    keys-plus2.s
+    loading-next.s
+    platform-next.s
+    platform-next-class.s
+
+sources_n_go :=
+    $sources_common
+    $sources_common_plus
+    display-keys-plus2.s
+    extended-keys.s
+    help-screens-n-go.s
+    keys-n-go.s
+    loading-n-go.s
+    platform-n-go.s
+    platform-next-class.s
+
+rule tzxmerge
+    command = tzxmerge -o $out $in
+
+build anykey-spectrum-48k.tzx: tzxmerge anykey-spectrum-48k.tap
+build anykey-spectrum-48k+-128k.tzx: tzxmerge anykey-spectrum-48k+-128k.tap
+build anykey-spectrum-+2-+3.tzx: tzxmerge anykey-spectrum-+2-+3.tap
+
+build anykey-spectrum-48k.tap: link $sources_48k
+    target = zx-spectrum-tap.target
+
+build anykey-spectrum-48k+-128k.tap: link $sources_plus
+    target = zx-spectrum-tap.target
+
+build anykey-spectrum-+2-+3.tap: link $sources_plus2
+    target = zx-spectrum-tap.target
+
+build anykey-spectrum-48k+128k.tap: link $sources_plus2
+    target = zx-spectrum-tap.target
+
+build anykey-spectrum-next.nex: link $sources_next
+    target = zx-spectrum-next.target
+
+build anykey-spectrum-n-go.nex: link $sources_n_go
+    target = zx-spectrum-next.target
+
+build loading-48k.s: convert-bitmap loading-48k.png
+    name = loading
+    flags = --spectrum
+
+build loading-plus.s: convert-bitmap loading-plus.png
+    name = loading
+    flags = --spectrum
+
+build loading-plus2.s: convert-bitmap loading-plus2.png
+    name = loading
+    flags = --spectrum
+
+build loading-next.s: convert-bitmap loading-next.png
+    name = loading
+    flags = --spectrum
+
+build loading-n-go.s: convert-bitmap loading-n-go.png
+    name = loading
+    flags = --spectrum
