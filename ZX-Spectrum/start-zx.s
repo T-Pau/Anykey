@@ -37,10 +37,10 @@
     call copy_screen
     ld de,colors_main
     call copy_colors
-IF USE_EXTENDED_KEYS
-    call init_extended_keys
-    call init_logo_sprites
-ENDIF
+    .if .defined(USE_EXTENDED_KEYS) {
+        call init_extended_keys
+        call init_logo_sprites
+    }
     jp main_loop
 }
 
