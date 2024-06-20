@@ -1,29 +1,28 @@
+include ../Toolkit/fast-ninja/xlr8.fninja
+include ../Toolkit/fast-ninja/scripts.fninja
+
 petcat = petcat
 
-default anykey.prg anykey-64.prg anykey-128.prg anykey-mega65.prg anykey-plus4.prg anykey-vic20.prg
+default anykey.prg anykey-c64.prg anykey-c128.prg anykey-mega65.prg anykey-plus4.prg anykey-vic20.prg
 
 CONVERT_KEYBOARD_DEPENDENCIES :=
     ../scripts/convert-keyboard
-    ../scripts/AssemblerOutput.py
-    ../scripts/RunlengthEncoder.py
-
-CONVERT_SCREENS_DEPENDENCIES :=
-    ../scripts/convert-screens
-    ../scripts/AssemblerOutput.py
-    ../scripts/RunlengthEncoder.py
-    ../scripts/Screens.py
+    ../Toolkit/python-packages/AssemblerOutput.py
+    ../Toolkit/python-packages/RunlengthEncoder.py
 
 sources_common :=
+    ../Toolkit/xlr8/6502/rl-expand.s
+    ../Toolkit/xlr8/6502/utility.s
+    anykey.s
     commands.s
     defines.s
     display-key.s
     keyboard.s
     main-loop.s
     memcpy.s
-    rl-expand.s
-    utility.s
 
 sources_vicii_ted :=
+    ../Toolkit/xlr8/commodore/irq.s
     button.s
     charset.s
     colors.s
@@ -31,7 +30,6 @@ sources_vicii_ted :=
     display-joystick.s
     display-key-vicii-ted.s
     dpad.s
-    irq.s
     irq-table.s
     keyboard-vicii-ted.s
     help-commands.s
@@ -60,7 +58,7 @@ sources_vicii :=
     switch-vicii.s
     ${sources_vicii_ted}
 
-sources_64_128 :=
+sources_c64_128 :=
     ${sources_vicii}
     ${sources_common}
     keyboard-128-charset.s
@@ -68,10 +66,10 @@ sources_64_128 :=
     keys-128.s
     screen-128.s
 
-sources_64 :=
-    ${sources_64_128}
+sources_c64 :=
+    ${sources_c64_128}
     init-c64.s
-    help-screens-64.s
+    help-screens-c64.s
     keyboard-64-charset.s
     keyboard-mega65-c64-charset.s
     keys-64.s
@@ -84,11 +82,11 @@ sources_64 :=
     screen-mega65-c64.s
     switch-vicii-c64.s
 
-sources_128 :=
-    ${sources_64_128}
+sources_c128 :=
+    ${sources_c64_128}
     init-c128.s
     platform-c128.s
-    help-screens-128.s
+    help-screens-c128.s
 
 sources_mega65 :=
     ${sources_vicii}
@@ -150,10 +148,9 @@ sources_plus4 :=
     screen-plus4.s
 
 sources_vic20 :=
-    start-vic20.s
+    ../Toolkit/xlr8/commodore/irq.s
     ${sources_common}
     display-key-vic20.s
-    irq.s
     irq-table-vic20.s
     help-commands.s
     help-keys.s
@@ -162,6 +159,7 @@ sources_vic20 :=
     keys-vic20.s
     platform-vic20.s
     restore.s
+    start-vic20.s
     state.s
     vic20-help-screen.s
     vic20-main-screen.s
@@ -177,11 +175,11 @@ build anykey-pet.prg: basic anykey-pet.bas
     dialect = 1p
     address = 0401
 
-build anykey-64.prg: link $sources_64
+build anykey-c64.prg: link $sources_c64
     target = c64-basic
     libs = mega65.lib cbm.lib
 
-build anykey-128.prg: link $sources_128
+build anykey-c128.prg: link $sources_c128
     target = c128-basic
     libs = c128.lib cbm.lib
 
@@ -234,26 +232,23 @@ build keyboard-plus4-charset.s keyboard-plus4-screen.bin: keyboard keyboard-plus
 
 build keyboard-vic20-charset.s keyboard-vic20-screen.bin: keyboard keyboard-vic20.toml | keyboard-vic20-normal-bitmap.bin keyboard-vic20-pressed-bitmap.bin dpad-vic20.bin buttons-vic20.bin ${CONVERT_KEYBOARD_DEPENDENCIES}
 
-rule screens
-    command = {{../scripts/convert-screens}} -DVERSION=$VERSION -D$platform $in $out
+build help-screens-c64.s: convert-screens help-screens.txt
+    flags = -DVERSION=$VERSION -DC64
 
-build help-screens-64.s: screens help-screens.txt | ${CONVERT_SCREENS_DEPENDENCIES}
-    platform = C64
+build help-screens-c128.s: convert-screens help-screens.txt
+    flags = -DVERSION=$VERSION -DC128
 
-build help-screens-128.s: screens help-screens.txt | ${CONVERT_SCREENS_DEPENDENCIES}
-    platform = C128
+build help-screens-mega65.s: convert-screens help-screens.txt
+    flags = -DVERSION=$VERSION -DMEGA65
 
-build help-screens-mega65.s: screens help-screens.txt | ${CONVERT_SCREENS_DEPENDENCIES}
-    platform = MEGA65
+build help-screens-plus4.s: convert-screens help-screens.txt
+    flags = -DVERSION=$VERSION -DPLUS4
 
-build help-screens-plus4.s: screens help-screens.txt | ${CONVERT_SCREENS_DEPENDENCIES}
-    platform = PLUS4
+build help-screens-vic20.s: convert-screens help-screens-vic20.txt
+    flags = -DVERSION=$VERSION -DVIC20
 
-build help-screens-vic20.s: screens help-screens-vic20.txt | ${CONVERT_SCREENS_DEPENDENCIES}
-    platform = VIC20
+build vic20-help-screen.s: convert-screens vic20-help-screen.txt
+    flags = -DVIC20
 
-build vic20-help-screen.s: screens vic20-help-screen.txt | ${CONVERT_SCREENS_DEPENDENCIES}
-    platform = VIC20
-
-build vic20-main-screen.s: screens vic20-main-screen.txt | keyboard-vic20-screen.bin ${CONVERT_SCREENS_DEPENDENCIES}
-    platform = VIC20
+build vic20-main-screen.s: convert-screens vic20-main-screen.txt | keyboard-vic20-screen.bin
+    flags = -DVIC20 -I$build_directory

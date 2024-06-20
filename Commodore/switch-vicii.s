@@ -66,7 +66,7 @@
     nop
     nop
     .if .defined(MEGA65) {
-        store_word charset_keyboard_bottom, VIC_CHARSET_POINTER
+        store_word VIC_CHARSET_POINTER, charset_keyboard_bottom
     }
     .else {
         sta VIC_VIDEO_ADDRESS

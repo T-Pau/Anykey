@@ -30,12 +30,12 @@
 .public display_help_page {
     lda current_help_page
     bmi negative
-    cmp num_help_screens
+    cmp help_screens_count
     bne ok
     lda #0
     beq ok
 negative:
-    lda num_help_screens
+    lda help_screens_count
     sec
     sbc #1
 ok:

@@ -28,14 +28,14 @@
 .section code
 
 .public display_help_screen {
-    store_word saved_screen, ptr2
-    store_word screen, ptr1
+    store_word ptr2, saved_screen
+    store_word ptr1, screen
     lda saved_screen_size
     sta ptr3
     lda saved_screen_size + 1
     sta ptr3 + 1
     jsr memcpy
-    store_word screen, ptr2
+    store_word ptr2, screen
     lda help_footer
     sta ptr1
     lda help_footer + 1
@@ -66,7 +66,7 @@
 
 .public update_help_page {
     stx current_page
-    store_word help_pages, ptr2
+    store_word ptr2, help_pages
     ldy #0
     lda (ptr2),y
     sta ptr3
@@ -81,14 +81,14 @@
     iny
     lda (ptr3),y
     sta ptr1 + 1
-    store_word screen, ptr2
+    store_word ptr2, screen
     jmp rl_expand
 }
 
 
 .public display_main_screen {
-    store_word screen, ptr2
-    store_word saved_screen, ptr1
+    store_word ptr2, screen
+    store_word ptr1, saved_screen
     lda saved_screen_size
     sta ptr3
     lda saved_screen_size + 1

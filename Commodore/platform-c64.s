@@ -13,13 +13,6 @@ color_ram = $d800
 
 sprite_logo = (sprites & $3fff) / 64
 
-.section zero_page
-
-.public tmp1 .reserve 1
-.public ptr1 .reserve 2
-.public ptr2 .reserve 2
-.public ptr3 .reserve 2
-
 .section reserved
 
 .public acellerated .reserve 1

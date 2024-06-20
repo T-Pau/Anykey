@@ -8,12 +8,6 @@ KEYBOARD_VALUE = $E812 ; PIA1_PB
 
 MAX_NUM_KEYS = 80
 
-.section zero_page
-
-.public tmp1 .reserve 1
-.public ptr1 .reserve 2
-.public ptr2 .reserve 2
-.public ptr3 .reserve 2
 
 HOLD_FRAMES = 60
 

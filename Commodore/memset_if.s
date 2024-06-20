@@ -26,6 +26,14 @@
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
+.public .macro memset_if destination, old_value, new_value, length {
+    store_word ptr2, destination
+    store_word ptr3, length
+    ldx #new_value
+    lda #old_value
+    jsr memset_if
+}
+
 ; change ptr3 bytes at ptr2 to X if they are A
 
 .section reserved

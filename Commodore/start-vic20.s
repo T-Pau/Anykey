@@ -41,8 +41,8 @@
     jsr init_state
     jsr init_restore
 
-    store_word main_color, ptr1
-    store_word main_color_save, ptr2
+    store_word ptr1, main_color
+    store_word ptr2, main_color_save
     jsr rl_expand
 
     ldx #1

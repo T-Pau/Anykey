@@ -25,6 +25,13 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.public .macro memset destination, value, length {
+    store_word ptr2, destination
+    store_word ptr3, length
+    lda #value
+    jsr memset
+}
+
 
 ; fill ptr3 bytes at ptr2 with A
 

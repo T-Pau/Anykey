@@ -42,7 +42,7 @@
 .section csode
 
 .public reset_keyboard_40 {
-    store_word screen + 40 * 2, ptr1
+    store_word ptr1, screen + 40 * 2
     lda left_list
     sta ptr2
     lda left_list + 1
@@ -67,7 +67,7 @@ left_loop:
     bne left_loop
 left_done:
 
-    store_word screen + 40 * 2, ptr1
+    store_word ptr1, screen + 40 * 2
     ldx #0
     stx reset_row
 row_loop:

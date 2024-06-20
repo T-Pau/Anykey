@@ -3,12 +3,6 @@ USE_KEYBOARD_SELECT_BITMASK = 1
 
 .include "ted.inc"
 
-.section zero_page
-
-.public tmp1 .reserve 1
-.public ptr1 .reserve 2
-.public ptr2 .reserve 2
-.public ptr3 .reserve 2
 
 PRESSED_COLOR = ($30 | COLOR_WHITE)
 CHECKED_COLOR = ($40 | COLOR_WHITE)

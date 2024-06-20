@@ -27,35 +27,35 @@
 
 .public start {
     jsr detect
-    store_word rom_version_header, ptr1
+    store_word ptr1, rom_version_header
     jsr output_string
     ldx rom_version
     bpl :+
     jsr print_unknown
     jmp width
-:   store_word rom_version_name, ptr1
+:   store_word ptr1, rom_version_name
     lda #4
     jsr print_name
 
 width:
-    store_word line_width_header, ptr1
+    store_word ptr1, line_width_header
     jsr output_string
     ldx line_width
     bpl :+
     jsr print_unknown
     jmp type
-:   store_word line_width_name, ptr1
+:   store_word ptr1, line_width_name
     lda #4
     jsr print_name
 
 type:
-    store_word keyboard_type_header, ptr1
+    store_word ptr1, keyboard_type_header
     jsr output_string
     ldx keyboard_type
     bpl :+
     jsr print_unknown
     jmp end
-:   store_word keyboard_type_name, ptr1
+:   store_word ptr1, keyboard_type_name
     lda #16
     jsr print_name
 
@@ -67,7 +67,7 @@ end:
 
 
 print_unknown {
-    store_word unknown, ptr1
+    store_word ptr1, unknown
     jmp output_string
 }
 

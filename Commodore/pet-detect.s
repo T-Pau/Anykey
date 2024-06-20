@@ -145,7 +145,7 @@ not_rom_2:
     sta ptr1
     lda keyboard_offset + 1,x
     sta ptr1 + 1
-    store_word keyboard_matrix, ptr2
+    store_word ptr2, keyboard_matrix
     ldx #0
 loop_type:
     ldy #$f

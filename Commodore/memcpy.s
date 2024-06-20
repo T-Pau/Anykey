@@ -25,6 +25,13 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.public .macro memcpy destination, source, length {
+    store_word ptr2, destination
+    store_word ptr1, source
+    store_word ptr3, length
+    jsr memcpy
+}
+
 
 ; copy ptr3 bytes from ptr1 to ptr2
 

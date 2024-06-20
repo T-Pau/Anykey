@@ -33,13 +33,13 @@
     lda keyboard_height
     cmp #12
     beq low
-    store_word 40 * 12, ptr3
+    store_word ptr3, 40 * 12
     bne both
 low:
-    store_word 40 * 10, ptr3
+    store_word ptr3, 40 * 10
 both:
-    store_word screen + 40 * 2, ptr1
-    store_word color_ram + 40 * 2, ptr2
+    store_word ptr1, screen + 40 * 2
+    store_word ptr2, color_ram + 40 * 2
     ldy #0
     ldx ptr3 + 1
     beq partial

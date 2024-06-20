@@ -74,17 +74,17 @@
     lda keyboard_height
     cmp #12
     bne high_keyboard
-    store_word screen + 16 * 40 + 5, joystick_positions
-    store_word screen + 16 * 40 + 21, joystick_positions + 2
+    store_word joystick_positions, screen + 16 * 40 + 5
+    store_word joystick_positions + 2, screen + 16 * 40 + 21
     jmp init_keyboard
 high_keyboard:
     .if .defined(USE_TED) {
-        store_word screen + 17 * 40 + 11, joystick_positions
+        store_word joystick_positions, screen + 17 * 40 + 11
     }
     .else {
-        store_word screen + 17 * 40 + 5, joystick_positions
+        store_word joystick_positions, screen + 17 * 40 + 5
     }
-    store_word screen + 17 * 40 + 21, joystick_positions + 2
+    store_word joystick_positions + 2, screen + 17 * 40 + 21
     jmp init_keyboard
 }
 

@@ -36,7 +36,7 @@
 
 reset_keyboard_80:
 .scope
-    store_word screen + 80 * 2, ptr1
+    store_word ptr1, screen + 80 * 2
     ldx #0
     stx reset_row
     stx reset_leftright

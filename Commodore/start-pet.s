@@ -87,10 +87,10 @@ loop:
 not_supported {
     lda line_width
     bne msg_80
-    store_word not_supported_message_40, ptr1
+    store_word ptr1, not_supported_message_40
     bne print
 msg_80:
-    store_word not_supported_message_80, ptr1
+    store_word ptr1, not_supported_message_80
 print:
     ldy #0
 loop:

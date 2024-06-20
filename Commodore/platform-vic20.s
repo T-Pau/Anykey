@@ -43,13 +43,6 @@ KEY_INDEX_RESET = 62 ; F5
 KEY_INDEX_HELP = 63 ; F7
 HOLD_FRAMES = 50
 
-.section zero_page
-
-.public tmp1 .reserve 1
-.public ptr1 .reserve 2
-.public ptr2 .reserve 2
-.public ptr3 .reserve 2
-
 screen = $1000
 color_ram = $9400
 
@@ -85,8 +78,8 @@ both:
     ldx is_ntsc
     lda main_h_pos,x
     sta VIC_CONTROL_1
-    store_word main_screen, ptr1
-    store_word screen, ptr2
+    store_word ptr1, main_screen
+    store_word ptr2, screen
     jsr rl_expand
     ldx #0
 :   lda main_color_save,x
@@ -292,7 +285,7 @@ display_joystick {
     sta ptr1
     lda dpad_vic20,x
     sta ptr1 + 1
-    store_word screen + DPAD_OFFSET, ptr2
+    store_word ptr2, screen + DPAD_OFFSET
     jsr rl_expand
 
     lda joystick_value
@@ -306,7 +299,7 @@ display_joystick {
     sta ptr1
     lda buttons_vic20,x
     sta ptr1 + 1
-    store_word screen + BUTTONS_OFFSET, ptr2
+    store_word ptr2, screen + BUTTONS_OFFSET
     jmp rl_expand
 }
 
@@ -333,8 +326,8 @@ pal:
 both:
     jsr set_irq_table
 
-    store_word help_screen, ptr1
-    store_word screen, ptr2
+    store_word ptr1, help_screen
+    store_word ptr2, screen
     jsr rl_expand
     lda #FRAME_COLOR
     ldy #0

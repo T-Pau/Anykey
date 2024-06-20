@@ -67,7 +67,7 @@
     lda #40
     sta VIC_CHAR_COUNT
     sta VIC_LINE_STEP
-    store_word screen + $03f8, VIC_SPRITE_POINTER
+    store_word VIC_SPRITE_POINTER, screen + $03f8
     lda #$00 ; $80
     sta VIC_SPRITE_BANK
     inc VIC_SDBDRWD

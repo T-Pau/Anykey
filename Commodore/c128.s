@@ -26,28 +26,28 @@
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 .macro memcpy_128 destination, source_64, source_128, source_mega65, length {
-    store_word destination, ptr2
+    store_word ptr2, destination
     .if .defined(C64) {
         lda machine_type
         beq c64
         bpl c128
     }
     .if .defined(C64) || .defined(MEGA65) {
-        store_word source_mega65, ptr1
+        store_word ptr1, source_mega65
     }
     .if .defined(C64) {
         jmp copy
     c128:
     }
     .if .defined(C64) || .defined(C128) {
-        store_word source_128, ptr1
+        store_word ptr1, source_128
     }
     .if .defined(C64) {
         jmp copy
     c64:
-        store_word source_64, ptr1
+        store_word ptr1, source_64
     copy:
     }
-    store_word length, ptr3
+    store_word ptr3, length
     jsr memcpy
 }
