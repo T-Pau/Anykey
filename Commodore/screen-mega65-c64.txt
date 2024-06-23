@@ -1,7 +1,10 @@
 .include "screen-settings.inc"
 name main_screen_mega65_c64
+map '_' $a0
+image_padding_left ___
+image_padding_right ___ 
 ---
-keyboard
+    keyboard
 .image
 
      joysticks

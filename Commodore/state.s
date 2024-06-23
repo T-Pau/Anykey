@@ -56,7 +56,7 @@
         .else_if .defined(MEGA65) {
             jsr init_mega65
         }
-        rl_expand_typed main_color_save, main_color_64, main_color_128, main_color_mega65_c64
+        rl_expand_typed main_color_save, main_color_c64, main_color_c128, main_color_mega65_c64
     }
     .else_if .defined(USE_TED) {
         ldx #<keys_plus4_address_low

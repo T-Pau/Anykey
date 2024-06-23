@@ -204,6 +204,9 @@ build keyboard-c64.s: convert-characters keyboard-c64.yaml
 build keyboard-c128.s: convert-characters keyboard-c128.yaml
 build keyboard-mega65-c64.s: convert-characters keyboard-mega65-c64.yaml
 
+build screen-colors.s: encode-colors screen-colors.col
+    flags = -r
+
 build keys-64.s: keys keys-64.key
 build keys-128.s: keys keys-128.key
 build keys-mega65.s: keys keys-mega65.key
