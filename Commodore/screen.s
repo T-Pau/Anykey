@@ -63,7 +63,7 @@ help_color {
 
 .public display_main_screen {
     .if .defined(USE_VICII) {
-        memcpy_128 screen, main_screen_64, main_screen_128, main_screen_mega65_c64, 1000
+        rl_expand_typed screen, main_screen_c64, main_screen_c128, main_screen_mega65_c64
         memcpy color_ram, main_color_save, 1000
         .if .defined(C64) {
             lda machine_type

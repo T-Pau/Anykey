@@ -56,7 +56,7 @@
         .else_if .defined(MEGA65) {
             jsr init_mega65
         }
-        memcpy_128 main_color_save, main_color_64, main_color_128, main_color_mega65_c64, 1000
+        rl_expand_typed main_color_save, main_color_64, main_color_128, main_color_mega65_c64
     }
     .else_if .defined(USE_TED) {
         ldx #<keys_plus4_address_low
@@ -74,17 +74,17 @@
     lda keyboard_height
     cmp #12
     bne high_keyboard
-    store_word joystick_positions, screen + 16 * 40 + 5
-    store_word joystick_positions + 2, screen + 16 * 40 + 21
+    store_word joystick_positions, screen + 16 * 40 + 6
+    store_word joystick_positions + 2, screen + 16 * 40 + 22
     jmp init_keyboard
 high_keyboard:
     .if .defined(USE_TED) {
-        store_word joystick_positions, screen + 17 * 40 + 11
+        store_word joystick_positions, screen + 17 * 40 + 12
     }
     .else {
-        store_word joystick_positions, screen + 17 * 40 + 5
+        store_word joystick_positions, screen + 17 * 40 + 6
     }
-    store_word joystick_positions + 2, screen + 17 * 40 + 21
+    store_word joystick_positions + 2, screen + 17 * 40 + 22
     jmp init_keyboard
 }
 

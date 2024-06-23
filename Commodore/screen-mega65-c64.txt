@@ -1,0 +1,15 @@
+.include "screen-settings.inc"
+name main_screen_mega65_c64
+---
+keyboard
+.image
+
+     joysticks
+    ◢■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■◣
+    ■■■■■■┌─┒┌─┒┌─┒■■■■■■■┌─┒┌─┒┌─┒■
+    ■■■■■■│¹┃│²┃│³┃■■■■■■■│¹┃│²┃│³┃■
+    ■■■■■■┕━┛┕━┛┕━┛■■■■■■■┕━┛┕━┛┕━┛■
+    ◥■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■◤
+
+    f13: reset keyboard   help: help
+          (hold for 2 seconds)

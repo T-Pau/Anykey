@@ -1,31 +1,31 @@
 # Anykey for Commodore 8-Bit Computers (and MEGA65)
 
-There is a separate page for [Commodore PET](Commodore%20PET.md).
+There is a separate page for [Commodore PET](Anykey%20Commodore%20PET.md).
 
 The programs are provided as disk images in `D64` and `D81` format, which also contain a loader program. They are also provided separately in `PRG` format.
 
 ## Supported Models
 
 ### Anykey C64
-![](Anykey%20C64.png)
+![](images/Anykey-C64.png)
 - Commodore 64
 - Commodore 128 (in C64 mode, PAL only)
 - MEGA65 (in C64 mode)
 
 ### Anykey C128
-![](Anykey%20C128.png)
+![](images/Anykey-C128.png)
 - Commodore 128 (in C128 40 columns mode)
 
 ### Anykey MEGA65
-![](Anykey%20MEGA65.png)
+![](images/Anykey-MEGA65.png)
 - MEGA65 (in native mode)
   
 ### Anykey Plus/4
-![](Anykey%20Plus-4.png)
+![](images/Anykey-Plus-4.png)
 - Commodore Plus/4
 
 ### Anykey VIC-20
-![](Anykey%20VIC-20.png)
+![](images/Anykey-VIC-20.png)
 - Commodore VIC-20 (at least 8k RAM expansion)
 
 ## Loading the Program

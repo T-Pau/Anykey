@@ -27,16 +27,16 @@
 
 .section code
 
+.pin memcpy $1f00 ; XLR8
+
 .public start {
     jsr init
 
     jsr init_state
 
-    memcpy charset, charset_data, $800
-    memcpy_128 charset_keyboard_top, keyboard_64_charset_top, keyboard_128_charset_top, keyboard_mega65_c64_charset_top, $0400
-    memcpy_128 charset_keyboard_top + $400, keyboard_64_charset_top_inv, keyboard_128_charset_top_inv, keyboard_mega65_c64_charset_top_inv, $0400
-    memcpy_128 charset_keyboard_bottom, keyboard_64_charset_bottom, keyboard_128_charset_bottom, keyboard_mega65_c64_charset_bottom, $0400
-    memcpy_128 charset_keyboard_bottom + $400, keyboard_64_charset_bottom_inv, keyboard_128_charset_bottom_inv, keyboard_mega65_c64_charset_bottom_inv, $0400
+    rl_expand charset, charset_data
+    rl_expand_typed charset_keyboard_top, charset_keyboard_c64_top, charset_keyboard_c128_top, charset_keyboard_mega65_c64_top
+    rl_expand_typed charset_keyboard_bottom, charset_keyboard_c64_bottom, charset_keyboard_c128_bottom, charset_keyboard_mega65_c64_bottom
     memcpy sprites, sprite_data, (64 * 8)
 
     jsr display_main_screen

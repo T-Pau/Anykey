@@ -6,7 +6,7 @@ The programs are provided as disk images in `D64` and `D81` format, which also c
 
 ### Anykey PET 8k
 
-![](Anykey%20PET%20Graphics%2040.png)
+![](images/Anykey-PET-Graphics-40.png)
 
 This version requires at least 8k RAM and supports only 40 columns mode and calculator or graphics style keyboards. 
 
@@ -17,7 +17,7 @@ This version requires at least 8k RAM and supports only 40 columns mode and calc
 
 ### Anykey PET Full
 
-![](Anykey%20PET%20Business%2080.png)
+![](images/Anykey-PET-Business-80.png)
 
 This version requires at least 16k RAM and supports 40 and 80 columns modes and all keyboard types.
 

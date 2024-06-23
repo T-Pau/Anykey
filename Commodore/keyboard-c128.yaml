@@ -1,0 +1,30 @@
+charset:
+    -
+        width: 8
+        height: 8
+        count: 256
+        name: charset_keyboard_c128_top
+        rl_encode: true
+        predefined:
+            32: "0000000000000000"
+            160: "ffffffffffffffff"
+    -
+        width: 8
+        height: 8
+        count: 256
+        name: charset_keyboard_c128_bottom
+        rl_encode: true
+        predefined:
+            32: "0000000000000000"
+            68: "00000000000000ff"
+            160: "ffffffffffffffff"
+
+images:
+    -
+        type: image
+        charset:
+            0: 0
+            6: 1
+        file: keyboard-c128.png
+        inverted: if-different
+        screen-file: screen-c128.txt

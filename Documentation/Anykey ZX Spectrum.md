@@ -7,30 +7,30 @@ The programs are provided as tape images in `TAP` and `TZX` formats.
 There are five versions of Anykey for the various ZX Spectrum models to account for the different keyboard types:
 
 ### Anykey Spectrum 48k
-![](Anykey%20Spectrum%2048k.png)
+![](images/Anykey-Spectrum-48k.png)
   - original ZX Spectrum 48k with rubber keyboard
 
 ### Anykey Spectrum 48k+ / 128k
 
-![](Anykey%20Spectrum%2048k+%20128k.png)
+![](images/Anykey-Spectrum-48k+-128k.png)
 - ZX Spectrum 48k+
 - ZX Spectrum 128k
 
 ### Anykey Spectrum +2 / +3
-![](Anykey%20Spectrum%20+2%20+3.png)
+![](images/Anykey-Spectrum-+2-+3.png)
 
 - ZX Spectrum +2 (gray model, made by Sinclair)
 - ZX Spectrum +2A (black model, made by Amstrad)
 - ZX Spectrum +3
 
 ### Anykey Spectrum Next
-![](Anykey%20Spectrum%20Next.png)
+![](images/Anykey-Spectrum-Next.png)
 
 - ZX Spectrum Next
 
 ### Anykey Spectrum N-Go
 
-![](Anykey%20Spectrum%20N-Go.png)
+![](images/Anykey-Spectrum-N-Go.png)
 - N-Go (ZX Spectrum Next clone)
 
 

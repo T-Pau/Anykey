@@ -26,7 +26,31 @@
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-
+.macro rl_expand_typed destination, source_c64, source_c128, source_mega65 {
+    store_word destination_ptr, destination
+    .if .defined(C64) {
+        lda machine_type
+        beq c64
+        bpl c128
+    }
+    .if .defined(C64) || .defined(MEGA65) {
+        store_word source_ptr, source_mega65
+    }
+    .if .defined(C64) {
+        jmp copy
+    c128:
+    }
+    .if .defined(C64) || .defined(C128) {
+        store_word source_ptr, source_c128
+    }
+    .if .defined(C64) {
+        jmp copy
+    c64:
+        store_word source_ptr, source_c64
+    copy:
+    }
+    jsr rl_expand
+}
 
 
 

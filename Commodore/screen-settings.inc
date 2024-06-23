@@ -1,4 +1,5 @@
-;  copyrect.s -- Copy rectangular area to screen.
+;  screen-settings.s -- Settings for screens.
+;
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,40 +26,32 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.section code
+map '@'-'Z' $80
+map 'a'-'z' $81
+map '←' $9f
+map $20-$3f $a0
 
-; copy rect from ptr1 to ptr2, x is width, y is height
+map '■' $20
+map '◥' $42
+map '◤' $43
+map '◣' $41
+map '▀' $44
+map '◢' $40
 
-.public copyrect {
-    dex
-    stx ptr3
-    tya
-    tax
+map '┌' $45
+map '┒' $46
+map '┕' $47
+map '┛' $48
+map '│' $49
+map '┃' $4a
+map '━' $4b
+map '─' $4c
 
-line_loop:
-    ldy ptr3
-char_loop:
-    lda (ptr1),y
-    sta (ptr2),y
-    dey
-    bpl char_loop
+map '¹' $31
+map '²' $32
+map '³' $33
 
-    ; increment ptr1 by width, ptr2 by 40
-    sec ; ptr3 is width - 1
-    lda ptr1
-    adc ptr3
-    sta ptr1
-    bcc :+
-    inc ptr1 + 1
-    clc
-:	lda ptr2
-    adc #40
-    sta ptr2
-    bcc :+
-    inc ptr2 + 1
-:
-    dex
-    bne line_loop
-
-    rts
-}
+line_length 40
+lines 25
+word_wrap 0
+single_screen 1

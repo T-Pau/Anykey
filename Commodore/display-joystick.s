@@ -54,7 +54,7 @@ tmp .reserve 2
     clc
     ldx tmp
     lda joystick_positions,x
-    adc #45
+    adc #44
     sta ptr2
     lda joystick_positions + 1,x
     adc #0

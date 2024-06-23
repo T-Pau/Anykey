@@ -1,0 +1,18 @@
+screen_width: 40
+charset:
+    width: 8
+    height: 8
+    count: 256
+    name: charset_data
+    rl_encode: true
+images:
+    -
+        type: charset
+        file: charset.png
+    -
+          type: image
+          file: dpad.png
+          slice-y: 16
+          include-count: false
+          trim: both
+          name: dpad_rects

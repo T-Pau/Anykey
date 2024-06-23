@@ -26,30 +26,18 @@
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-; copy dpad for value in A to ptr2
-
-.section data
-
-dpad_rects {
-    .repeat i, 16 {
-        .data dpad_rect_data + i * 25:2
-    }
-}
-
-dpad_rect_data {
-    .binary_file "dpad.bin"
-}
 
 .section code
 
+; Copy dpad for value in A to destination_ptr
+; Parameters:
+;   A: state of dpad
 .public dpad {
     asl
     tax
     lda dpad_rects,x
-    sta ptr1
+    sta source_ptr
     lda dpad_rects + 1,x
-    sta ptr1 + 1
-    ldx #5
-    ldy #5
-    jmp copyrect
+    sta source_ptr + 1
+    jmp rl_expand
 }

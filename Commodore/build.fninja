@@ -20,13 +20,12 @@ sources_common :=
     keyboard.s
     main-loop.s
     memcpy.s
+    utility.s
 
 sources_vicii_ted :=
     ../Toolkit/xlr8/commodore/irq.s
     button.s
-    charset.s
     colors.s
-    copyrect.s
     display-joystick.s
     display-key-vicii-ted.s
     dpad.s
@@ -34,6 +33,7 @@ sources_vicii_ted :=
     keyboard-vicii-ted.s
     help-commands.s
     screen.s
+    screen-colors.s
     state.s
 
 sources_ted :=
@@ -44,7 +44,9 @@ sources_ted :=
     ${sources_vicii_ted}
 
 sources_vicii :=
+    ${sources_vicii_ted}
     c128.s
+    charset-vicii.s
     start-vicii.s
     help-vicii.s
     joysticks-vicii.s
@@ -56,30 +58,26 @@ sources_vicii :=
     sprite.s
     sprites.s
     switch-vicii.s
-    ${sources_vicii_ted}
 
 sources_c64_128 :=
     ${sources_vicii}
     ${sources_common}
-    keyboard-128-charset.s
+    keyboard-c128.s
     irq-table-128.s
     keys-128.s
-    screen-128.s
 
 sources_c64 :=
     ${sources_c64_128}
     init-c64.s
     help-screens-c64.s
-    keyboard-64-charset.s
-    keyboard-mega65-c64-charset.s
+    keyboard-c64.s
+    keyboard-mega65-c64.s
     keys-64.s
     keys-mega65.s
     irq-table-64.s
     irq-table-64-acellerated.s
     irq-table-mega65-c64.s
     platform-c64.s
-    screen-64.s
-    screen-mega65-c64.s
     switch-vicii-c64.s
 
 sources_c128 :=
@@ -94,10 +92,9 @@ sources_mega65 :=
     help-screens-mega65.s
     init-mega65.s
     irq-table-mega65-c64.s
-    keyboard-mega65-c64-charset.s
+    keyboard-mega65-c64.s
     keys-mega65.s
     platform-mega65.s
-    screen-mega65-c64.s
 
 sources_pet_common :=
     start-pet.s
@@ -175,58 +172,51 @@ build anykey-pet.prg: basic anykey-pet.bas
     dialect = 1p
     address = 0401
 
-build anykey-c64.prg: link $sources_c64
+build anykey-c64.prg | anykey-c64.prg.sym: link $sources_c64
     target = c64-basic
     libs = mega65.lib cbm.lib
 
-build anykey-c128.prg: link $sources_c128
+build anykey-c128.prg | anykey-c128.prg.sym: link $sources_c128
     target = c128-basic
     libs = c128.lib cbm.lib
 
-build anykey-mega65.prg: link $sources_mega65
+build anykey-mega65.prg | anykey-mega65.prg.sym: link $sources_mega65
     target = mega65-basic
     libs = mega65.lib cbm.lib
 
-build anykey-plus4.prg: link $sources_plus4 | keyboard-plus4-screen.bin
+build anykey-plus4.prg | anykey-plus4.prg.sym: link $sources_plus4 | keyboard-plus4-screen.bin
     target = plus4-basic
     libs = plus4.lib cbm.lib
 
-build anykey-vic20.prg: link $sources_vic20
+build anykey-vic20.prg | anykey-vic20.prg.sym: link $sources_vic20
     target = {{anykey-vic20.target}}
     libs = vic20.lib cbm.lib
+
+build anykey-c64.prg.ll: vice-ll anykey-c64.prg.sym
+build anykey-c128.prg.ll: vice-ll anykey-c128.prg.sym
 
 rule keys
     command = {{key-table}} $in $out
     depfile = $out.d
 
+build charset-vicii.s: convert-characters charset-vicii.yaml
+build keyboard-c64.s: convert-characters keyboard-c64.yaml
+build keyboard-c128.s: convert-characters keyboard-c128.yaml
+build keyboard-mega65-c64.s: convert-characters keyboard-mega65-c64.yaml
+
 build keys-64.s: keys keys-64.key
-
 build keys-128.s: keys keys-128.key
-
 build keys-mega65.s: keys keys-mega65.key
-
 build keys-pet-business-40.s: keys keys-pet-business-40.key
-
 build keys-pet-business-80.s: keys keys-pet-business-80.key
-
 build keys-pet-calculator-40.s: keys keys-pet-calculator-40.key
-
 build keys-pet-calculator-80.s: keys keys-pet-calculator-80.key
-
 build keys-pet-graphics-40.s: keys keys-pet-graphics-40.key
-
 build keys-plus4.s: keys keys-plus4.key
-
 build keys-vic20.s: keys keys-vic20.key
 
 rule keyboard
     command = {{../scripts/convert-keyboard}} $in $build_directory
-
-build keyboard-64-charset.s keyboard-64-screen.bin: keyboard keyboard-64.toml | keyboard-64-normal-bitmap.bin keyboard-64-pressed-bitmap.bin ${CONVERT_KEYBOARD_DEPENDENCIES}
-
-build keyboard-128-charset.s keyboard-128-screen.bin: keyboard keyboard-128.toml | keyboard-128-normal-bitmap.bin keyboard-128-pressed-bitmap.bin ${CONVERT_KEYBOARD_DEPENDENCIES}
-
-build keyboard-mega65-c64-charset.s keyboard-mega65-c64-screen.bin: keyboard keyboard-mega65-c64.toml | keyboard-mega65-c64-normal-bitmap.bin keyboard-mega65-c64-pressed-bitmap.bin ${CONVERT_KEYBOARD_DEPENDENCIES}
 
 build keyboard-plus4-charset.s keyboard-plus4-screen.bin: keyboard keyboard-plus4.toml | keyboard-plus4-normal-bitmap.bin keyboard-plus4-pressed-bitmap.bin ${CONVERT_KEYBOARD_DEPENDENCIES}
 
