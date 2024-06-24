@@ -31,17 +31,15 @@
     jsr init_state
 
     memcpy charset, charset_data, $800
-    memcpy charset_keyboard_top, keyboard_plus4_charset_top, $0400
-    memcpy charset_keyboard_top + $400, keyboard_plus4_charset_top_inv, $0400
-    memcpy charset_keyboard_bottom, keyboard_plus4_charset_bottom, $0400
-    memcpy charset_keyboard_bottom + $400, keyboard_plus4_charset_bottom_inv, $0400
+    rl_expand charset_keyboard_top, charset_keyboard_plus4_top
+    rl_expand charset_keyboard_bottom, charset_keyboard_plus4_bottom
 
-    lda TED_MULTI1
-    ora #$80
-    sta TED_MULTI1
-    lda TED_BITMAP
+    lda TED_CONTROL_2
+    ora #TED_CHARSET_MODE_FULL
+    sta TED_CONTROL_2
+    lda TED_CONTROL_3
     and #$04 ^ $ff
-    sta TED_BITMAP
+    sta TED_CONTROL_3
     
     jsr display_main_screen
     lda #FRAME_COLOR

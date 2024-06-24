@@ -101,7 +101,7 @@ help_color {
         }
     }
     .else {
-        memcpy screen, main_screen_plus4, 1000
+        rl_expand screen, main_screen_plus4
         memcpy color_ram, main_color_save, 1000
         ldx #<main_plus4_irq_table
         ldy #>main_plus4_irq_table

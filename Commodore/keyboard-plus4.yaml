@@ -1,0 +1,35 @@
+charset:
+    -
+        width: 8
+        height: 8
+        count: 256
+        name: charset_keyboard_plus4_top
+        rl_encode: true
+        predefined:
+            160: "ffffffffffffffff"
+    -
+        width: 8
+        height: 8
+        count: 256
+        name: charset_keyboard_plus4_bottom
+        rl_encode: true
+        predefined:
+            160: "ffffffffffffffff"
+
+images:
+    -
+        type: charset
+        charset: 0
+        file: frame-top.png
+    -
+        type: charset
+        charset: 1
+        file: frame-bottom.png
+    -
+        type: image
+        charset:
+            0: 0
+            4: 1
+        file: keyboard-plus4.png
+        inverted: if-different
+        screen-file: screen-plus4.txt
