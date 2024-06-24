@@ -37,7 +37,7 @@
 
 .section code
 
-.public memcpy {
+.public memcpy .used { ; XLR8
     ldy #0
     ldx ptr3 + 1
     beq partial

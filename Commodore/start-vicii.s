@@ -27,8 +27,6 @@
 
 .section code
 
-.pin memcpy $1f00 ; XLR8
-
 .public start {
     jsr init
 

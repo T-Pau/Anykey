@@ -25,13 +25,21 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-COLOR_RAM_OFFSET = color_ram - screen
+COLOR_RAM_OFFSET = >color_ram - >screen
 
-.macro set_color {
-    clc
-    lda ptr1 + 1
-    adc #>COLOR_RAM_OFFSET
-    sta ptr1 + 1
+.macro set_color pointer = ptr1 {
+    .if COLOR_RAM_OFFSET > 0 {
+        clc
+        lda pointer + 1
+        adc #COLOR_RAM_OFFSET
+        sta pointer + 1
+    }
+    .else {
+        sec
+        lda pointer + 1
+        sbc #-COLOR_RAM_OFFSET
+        sta pointer + 1
+    }
 
     lda current_key_color
     ldy #0
@@ -351,10 +359,7 @@ COLOR_RAM_OFFSET = color_ram - screen
     dey
     bpl :-
 
-    clc
-    lda ptr2 + 1
-    adc #>COLOR_RAM_OFFSET
-    sta ptr2 + 1
+    set_color ptr2
     set_color
 
     ldy #16
@@ -388,10 +393,7 @@ COLOR_RAM_OFFSET = color_ram - screen
     dey
     bpl :-
 
-    clc
-    lda ptr2 + 1
-    adc #>COLOR_RAM_OFFSET
-    sta ptr2 + 1
+    set_color ptr2
     set_color
 
     ldy #17
