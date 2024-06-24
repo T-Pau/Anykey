@@ -1,5 +1,5 @@
 ;  keyboard-pet-80.s -- Support for PET 80 column mode keyboard.
-;  Copyright (C) 2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -25,17 +25,7 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.autoimport +
-
-.export reset_keyboard_80
-.export keyboard_pet_business_80_screen, keyboard_pet_calculator_80_screen
-
-.macpack utility
-
-.include "defines.inc"
-
-reset_keyboard_80:
-.scope
+reset_keyboard_80 {
     store_word ptr1, screen + 80 * 2
     ldx #0
     stx reset_row
@@ -92,25 +82,18 @@ column_end:
 :   stx reset_row
     add_word ptr1, 80
     jmp row_loop
-.endscope
+}
 
 .section data
 
-reset_horizontal:
+reset_horizontal {
     .byte ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM
+}
 
-reset_vertical:
+reset_vertical {
     .byte ROUND_RIGHT, ROUND_LEFT
+}
 
-.bss
+.section reserved
 
-reset_leftright:
-    .reserve 1
-
-.section data
-
-keyboard_pet_business_80_screen:
-    .binary_file "keyboard-pet-business-80.bin"
-
-keyboard_pet_calculator_80_screen:
-    .binary_file "keyboard-pet-calculator-80.bin"
+reset_leftright .reserve 1

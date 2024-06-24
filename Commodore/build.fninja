@@ -105,6 +105,8 @@ sources_pet_common :=
     help-screen-pet-40.s
     pet-help-footer-40.s
     keyboard-pet-40.s
+    keyboard-pet-business-40.s
+    keyboard-pet-calculator-40.s
     keyboard-pet-calculator-40-left.s
     keys-pet-calculator-40.s
     pet-detect.s
@@ -113,6 +115,7 @@ sources_pet_common :=
 
 sources_pet_8k_plus :=
     display-key-pet-40g.s
+    keyboard-pet-graphics-40.s
     keyboard-pet-graphics-40-left.s
     keys-pet-graphics-40.s
 
@@ -124,6 +127,8 @@ sources_pet_full :=
     help-screen-pet-80.s
     pet-help-footer-80.s
     keyboard-pet-80.s
+    keyboard-pet-business-80.s
+    keyboard-pet-calculator-80.s
     keys-pet-business-40.s
     keyboard-pet-business-40-left.s
     keys-pet-business-80.s
@@ -147,22 +152,25 @@ sources_plus4 :=
 sources_vic20 :=
     ../Toolkit/xlr8/commodore/irq.s
     ${sources_common}
+    charset-vic20.s
     display-key-vic20.s
     irq-table-vic20.s
     help-commands.s
     help-keys.s
     help-screens-vic20.s
-    keyboard-vic20-charset.s
+    keyboard-vic20.s
     keys-vic20.s
     platform-vic20.s
     restore.s
     start-vic20.s
     state.s
     vic20-help-screen.s
-    vic20-main-screen.s
 
 rule basic
     command = $petcat -w$dialect -l $address -o $out $in
+
+rule list-left
+    command = {{list-left.pl}} $in $out
 
 build anykey.prg: basic anykey.bas
     dialect = 3
@@ -200,10 +208,23 @@ rule keys
     depfile = $out.d
 
 build charset-vicii.s: convert-characters charset-vicii.yaml
+build charset-vic20.s: convert-charset charset-vic20.png
+    name = charset
 build keyboard-c64.s: convert-characters keyboard-c64.yaml
 build keyboard-c128.s: convert-characters keyboard-c128.yaml
 build keyboard-mega65-c64.s: convert-characters keyboard-mega65-c64.yaml
 build keyboard-plus4.s: convert-characters keyboard-plus4.yaml
+build keyboard-vic20.s: convert-characters keyboard-vic20.yaml
+
+build keyboard-pet-business-40.s: convert-screens keyboard-pet-business-40.txt
+build keyboard-pet-business-80.s: convert-screens keyboard-pet-business-80.txt
+build keyboard-pet-calculator-40.s: convert-screens keyboard-pet-calculator-40.txt
+build keyboard-pet-calculator-80.s: convert-screens keyboard-pet-calculator-80.txt
+build keyboard-pet-graphics-40.s: convert-screens keyboard-pet-graphics-40.txt
+
+build keyboard-pet-business-40-left.s: list-left keyboard-pet-business-40.txt
+build keyboard-pet-calculator-40-left.s: list-left keyboard-pet-calculator-40.txt
+build keyboard-pet-graphics-40-left.s: list-left keyboard-pet-graphics-40.txt
 
 build screen-colors.s: encode-colors screen-colors.col
     flags = -r
@@ -219,11 +240,6 @@ build keys-pet-graphics-40.s: keys keys-pet-graphics-40.key
 build keys-plus4.s: keys keys-plus4.key
 build keys-vic20.s: keys keys-vic20.key
 
-rule keyboard
-    command = {{../scripts/convert-keyboard}} $in $build_directory
-
-build keyboard-vic20-charset.s keyboard-vic20-screen.bin: keyboard keyboard-vic20.toml | keyboard-vic20-normal-bitmap.bin keyboard-vic20-pressed-bitmap.bin dpad-vic20.bin buttons-vic20.bin ${CONVERT_KEYBOARD_DEPENDENCIES}
-
 build help-screens-c64.s: convert-screens help-screens.txt
     flags = -DVERSION=$VERSION -DC64
 
@@ -233,6 +249,12 @@ build help-screens-c128.s: convert-screens help-screens.txt
 build help-screens-mega65.s: convert-screens help-screens.txt
     flags = -DVERSION=$VERSION -DMEGA65
 
+build help-screen-pet-40.s: convert-screens help-screen-pet.txt
+    flags = -DVERSION=$VERSION -DCOLS_40
+
+build help-screen-pet-80.s: convert-screens help-screen-pet.txt
+    flags = -DVERSION=$VERSION
+
 build help-screens-plus4.s: convert-screens help-screens.txt
     flags = -DVERSION=$VERSION -DPLUS4
 
@@ -241,6 +263,3 @@ build help-screens-vic20.s: convert-screens help-screens-vic20.txt
 
 build vic20-help-screen.s: convert-screens vic20-help-screen.txt
     flags = -DVIC20
-
-build vic20-main-screen.s: convert-screens vic20-main-screen.txt | keyboard-vic20-screen.bin
-    flags = -DVIC20 -I$build_directory

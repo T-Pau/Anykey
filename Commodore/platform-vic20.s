@@ -78,9 +78,7 @@ both:
     ldx is_ntsc
     lda main_h_pos,x
     sta VIC_CONTROL_1
-    store_word ptr1, main_screen
-    store_word ptr2, screen
-    jsr rl_expand
+    rl_expand screen, main_screen
     ldx #0
 :   lda main_color_save,x
     sta color_ram,x
@@ -282,10 +280,10 @@ display_joystick {
     tax
     lda dpad_vic20,x
     inx
-    sta ptr1
+    sta source_ptr
     lda dpad_vic20,x
-    sta ptr1 + 1
-    store_word ptr2, screen + DPAD_OFFSET
+    sta source_ptr + 1
+    store_word destination_ptr, screen + DPAD_OFFSET
     jsr rl_expand
 
     lda joystick_value
@@ -296,10 +294,10 @@ display_joystick {
     tax
     lda buttons_vic20,x
     inx
-    sta ptr1
+    sta source_ptr
     lda buttons_vic20,x
-    sta ptr1 + 1
-    store_word ptr2, screen + BUTTONS_OFFSET
+    sta source_ptr + 1
+    store_word destination_ptr, screen + BUTTONS_OFFSET
     jmp rl_expand
 }
 
@@ -326,9 +324,7 @@ pal:
 both:
     jsr set_irq_table
 
-    store_word ptr1, help_screen
-    store_word ptr2, screen
-    jsr rl_expand
+    rl_expand screen, help_screen
     lda #FRAME_COLOR
     ldy #0
 :   sta color_ram,y
@@ -381,13 +377,6 @@ read_restore {
     beq :+
     jsr trigger_restore
 :   rts
-}
-
-
-.section charset
-
-charset {
-    .binary_file "charset-vic20.bin"
 }
 
 .section data

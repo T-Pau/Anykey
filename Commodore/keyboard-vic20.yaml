@@ -1,0 +1,30 @@
+charset:
+    width: 8
+    height: 8
+    count: 256
+    name: charset_vic20
+    rl_encode: true
+    predefined:
+        160: "ffffffffffffffff"
+
+images:
+    -
+        type: image
+        file: keyboard-vic20.png
+        pixel-size-x: 2
+        inverted: if-different
+        screen-file: vic20-main-screen.txt
+    -
+        type: image
+        file: dpad-vic20.png
+        slice-y: 16
+        include-count: false
+        trim: both
+        name: dpad_vic20
+    -
+        type: image
+        file: buttons-vic20.png
+        slice-y: 8
+        include-count: false
+        trim: both
+        name: buttons_vic20

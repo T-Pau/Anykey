@@ -1,0 +1,132 @@
+;  help-screens-pet-40.txt -- Text for help screens, PET 40 columns mode.
+;  Copyright (C) 2020-2022 Dieter Baron
+;
+;  This file is part of Anykey, a keyboard test program for C64.
+;  The authors can be contacted at <anykey@tpau.group>.
+;
+;  Redistribution and use in source and binary forms, with or without
+;  modification, are permitted provided that the following conditions
+;  are met:
+;  1. Redistributions of source code must retain the above copyright
+;     notice, this list of conditions and the following disclaimer.
+;  2. The names of the authors may not be used to endorse or promote
+;     products derived from this software without specific prior
+;     written permission.
+;
+;  THIS SOFTWARE IS PROVIDED BY THE AUTHORS "AS IS" AND ANY EXPRESS
+;  OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+;  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+;  ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY
+;  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+;  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+;  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+;  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+;  IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+.if COLS_40
+name help_40_screens
+line_length 40
+.else
+name help_80_screens
+line_length 80
+.end
+
+lines 20
+
+.include "screen-settings-pet.inc"
+---
+Anykey
+
+.if COLS_40
+This program monitors the keyboard. It requires at least 8k of RAM.
+.else
+This program monitors the keyboard of your PET computer. It requires at least 8k of RAM.
+.end
+
+This is Anykey ${VERSION}. The newest version and further information can be found at
+.if !COLS_40
+
+.end
+   https://github.com/T-Pau/Anykey
+---
+Keyboard
+
+The keys are displayed in the same layout as the physical keyboard. It automatically detects which keyboard your computer has.
+
+.if COLS_40
+Pressed keys are displayed inverted.
+.else
+Keys that are currently pressed are displayed inverted.
+.end
+
+Keys that were previously pressed are displayed with a square frame. This helps detect dead keys. To reset the state of all keys to unpressed, hold Clr/Home for two seconds.
+---
+Calculator Keyboard
+
+This keyboard was used in the earliest pet models and in the Tynemouth MiniPET 40/80. Keys are arranged in a rectangular grid.
+
+
+Graphics Keyboard
+
+This keyboard was used in some models with 40 column displays. It features the graphics character on the front of the key caps and a 4x5 number block.
+.if COLS_40
+---
+.else
+
+
+.end
+Business Keyboard
+
+This keyboard was used in later models with 40 column and all models with 80 column displays. It features digit keys on the main keyboard and a 3x4 number
+block.
+---
+Key Labels
+
+Most keys are labeled with the symbol they produce when pressed without shift. Special keys are labeled with a short description or graphics symbol, depending on the space available.
+
+.if COLS_40
+             clear/home: ▘, clr
+
+      cursor left/right: ┳, <=>
+
+         cursor up/down: ┣, u/d
+
+                 escape: ♣, esc
+
+---
+Key Labels
+
+     insert/delete: ╳, del
+
+            repeat: π
+
+            return: re, ret
+
+    reverse on/off: ◥, rv
+
+          run/stop: ◆, r/s
+
+             shift: ○, sh, shf, shft
+
+        shift lock: ●, sl
+
+               tab: tb
+.else
+               clear/home: ▘, clr              return: re, ret
+
+        cursor left/right: ┳, <=>      reverse on/off: ◥, rv
+
+           cursor up/down: ┣, u/d            run/stop: ◆, r/s
+
+                   escape: ♣, esc               shift: ○, sh, shf, shft
+
+            insert/delete: ╳, del          shift lock: ●, sl
+
+                   repeat: π                      tab: tb
+.end
+---
+Technical Limitations
+
+If you press certain combinations of three keys, a fourth key will also appear pressed. This is because the three keys together create the same electrical connection the fourth key would.

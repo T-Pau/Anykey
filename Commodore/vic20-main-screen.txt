@@ -1,22 +1,14 @@
+.include "screen-settings-vic20.inc"
 name main_screen
-single_screen 1
-
-line_length 22
-lines 23
-map $40-$5a $00
-map $61-$7a $01
-map $20-$3f $20
-map $41-$45 $49 ; frame
-map $46 $a0 ; inverse space
 ---
  keyboard
-.include "keyboard-vic20-screen.bin"
+.image
 
       joystick
-FFFFFA         BFFFFFF
-FFFFF           FFFFFF
-FFFFF           FFFFFF
-FFFFFCEEEEEEEEEDFFFFFF
+■■■■■◤         ◥■■■■■■
+■■■■■           ■■■■■■
+■■■■■           ■■■■■■
+■■■■■◣_________◢■■■■■■
 
   f5: reset keyboard
        f7: help

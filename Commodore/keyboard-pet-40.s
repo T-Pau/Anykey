@@ -25,21 +25,7 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.secction data
-
-.public keyboard_pet_business_40_screen {
-    .binary_file "keyboard-pet-business-40.bin"
-}
-
-.public keyboard_pet_calculator_40_screen {
-    .binary_file "keyboard-pet-calculator-40.bin"
-}
-
-.gloabl keyboard_pet_graphics_40_screen {
-    .binary_file "keyboard-pet-graphics-40.bin"
-}
-
-.section csode
+.section code
 
 .public reset_keyboard_40 {
     store_word ptr1, screen + 40 * 2
