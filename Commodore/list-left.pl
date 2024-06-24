@@ -10,12 +10,14 @@ open (my $fh, "<", $source_file) or die "can't open '$source_file': $!";
 
 my $row = 0;
 
+my $name;
+
 while (my $line = <$fh>) {
-    if $line =~ /name (.*)/ {
+    if ($line =~ /name (.*)/) {
         $name = $1;
         $name =~ s/keyboard_pet_(.*)_screen/$1/;
     }
-    if $line =~ /^---/ {
+    if ($line =~ /^---/) {
         last;
     }
 }

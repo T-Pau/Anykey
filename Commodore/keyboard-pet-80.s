@@ -25,6 +25,8 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.section code 
+
 reset_keyboard_80 {
     store_word ptr1, screen + 80 * 2
     ldx #0
@@ -76,7 +78,7 @@ column_loop:
 column_end:
     ldx reset_row
     inx
-    cpx #(5*3)
+    cpx #5*3
     bne :+
     rts
 :   stx reset_row
@@ -87,11 +89,11 @@ column_end:
 .section data
 
 reset_horizontal {
-    .byte ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM
+    .data ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM,  ROUND_TOP, 0, ROUND_BOTTOM
 }
 
 reset_vertical {
-    .byte ROUND_RIGHT, ROUND_LEFT
+    .data ROUND_RIGHT, ROUND_LEFT
 }
 
 .section reserved

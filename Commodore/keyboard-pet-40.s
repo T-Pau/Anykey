@@ -100,7 +100,7 @@ not_horizontal:
 column_end:
     ldx reset_row
     inx
-    cpx #(5*3)
+    cpx #5*3
     bne :+
     rts
 :   stx reset_row

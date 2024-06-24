@@ -30,16 +30,10 @@
 keyboard_pet_business_40_screen = 0
 keys_pet_business_40_address_low = 0
 left_business_40 = 0
-.per_end
+.pre_end
 
 SAVED_SCREEN_SIZE_40 = (40 * 22)
 SAVED_SCREEN_SIZE_80 = (80 * 22)
-
-.pre_if .defined(FIT_IN_8K)
-MAX_SAVED_SCREEN_SIZE = SAVED_SCREEN_SIZE_40
-.pre_else
-MAX_SAVED_SCREEN_SIZE = SAVED_SCREEN_SIZE_80
-.pre_end
 
 .section code
 
@@ -80,7 +74,7 @@ line_width_supported:
     sta ptr2 + 1
     ldy #0
     lda (ptr2),y
-    sta help_count
+    sta help_num_pages
     ldy #2
     lda (ptr1),y
     iny
@@ -168,7 +162,7 @@ reset_keyboard_routine_table {
     .data reset_keyboard_40
     .data reset_keyboard_80
 }
-.end
+.pre_end
 
 
 saved_screen_size_table {
@@ -206,13 +200,13 @@ help_80 {
 
 ; indexed by keyboard type != business
 key_index_help_table {
-    .byte $27, $0f
+    .data $27, $0f
 }
 
 
 ; indexed by keyboard type != business
 key_index_reset_table {
-    .byte $44, $06
+    .data $44, $06
 }
 
 
@@ -260,31 +254,31 @@ keyboard_table {
 
 
 help_keys_graphics {
-    .byte $4a, COMMAND_HELP_NEXT ; space
-    .byte $3f, COMMAND_HELP_NEXT ; +
-    .byte $47, COMMAND_HELP_PREVIOUS; -
-    .byte $06, COMMAND_HELP_EXIT ; clr/home
-    .byte $ff
+    .data $4a, COMMAND_HELP_NEXT ; space
+    .data $3f, COMMAND_HELP_NEXT ; +
+    .data $47, COMMAND_HELP_PREVIOUS; -
+    .data $06, COMMAND_HELP_EXIT ; clr/home
+    .data $ff
 }
 
 
 .pre_if !.defined(FIT_IN_4K)
 help_keys_business {
-    .byte $42, COMMAND_HELP_NEXT ; space
-    .byte $16, COMMAND_HELP_NEXT ; + (actually ;)
-    .byte $03, COMMAND_HELP_PREVIOUS ; -
-    .byte $44, COMMAND_HELP_EXIT ; clr/home
-    .byte $10, COMMAND_HELP_EXIT ; escape
-    .byte $ff
+    .data $42, COMMAND_HELP_NEXT ; space
+    .data $16, COMMAND_HELP_NEXT ; + (actually ;)
+    .data $03, COMMAND_HELP_PREVIOUS ; -
+    .data $44, COMMAND_HELP_EXIT ; clr/home
+    .data $10, COMMAND_HELP_EXIT ; escape
+    .data $ff
 }
 .pre_end
 
 
 .section reserved
 
-.public help_count .reserve 1
+.public help_num_pages .reserve 1
 .public help_pages .reserve 2
-.gloabl help_footer .reserve 2
+.public help_footer .reserve 2
 .public help_keys .reserve 2
 
 .pre_if !.defined(FIT_IN_8K)

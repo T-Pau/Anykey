@@ -1,4 +1,4 @@
-map '@'-'Z' $00
+map '@'-']' $00
 map 'a'-'z' $01
 map $20-$3f $20
 
@@ -11,6 +11,8 @@ map '┕' $4a
 map '┛' $4b
 map '┌' $55
 
+map '←' $1f
+map '↑' $1e
 map '┣' $6b
 map '◥' $5f
 map '▘' $7e

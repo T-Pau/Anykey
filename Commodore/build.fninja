@@ -3,12 +3,7 @@ include ../Toolkit/fast-ninja/scripts.fninja
 
 petcat = petcat
 
-default anykey.prg anykey-c64.prg anykey-c128.prg anykey-mega65.prg anykey-plus4.prg anykey-vic20.prg
-
-CONVERT_KEYBOARD_DEPENDENCIES :=
-    ../scripts/convert-keyboard
-    ../Toolkit/python-packages/AssemblerOutput.py
-    ../Toolkit/python-packages/RunlengthEncoder.py
+default anykey.prg anykey-c64.prg anykey-c128.prg anykey-mega65.prg anykey-pet-8k.prg anykey-pet-full.prg anykey-plus4.prg anykey-vic20.prg
 
 sources_common :=
     ../Toolkit/xlr8/6502/rl-expand.s
@@ -98,9 +93,8 @@ sources_mega65 :=
     platform-mega65.s
 
 sources_pet_common :=
-    start-pet.s
+    ${sources_common}
     display-key-pet-40c.s
-    expand.s
     help-keys.s
     help-screen-pet-40.s
     pet-help-footer-40.s
@@ -111,7 +105,7 @@ sources_pet_common :=
     keys-pet-calculator-40.s
     pet-detect.s
     pet-help.s
-    ${sources_common}
+    start-pet.s
 
 sources_pet_8k_plus :=
     display-key-pet-40g.s
@@ -200,6 +194,14 @@ build anykey-vic20.prg | anykey-vic20.prg.sym: link $sources_vic20
     target = {{anykey-vic20.target}}
     libs = vic20.lib cbm.lib
 
+build anykey-pet-8k.prg | anykey-pet-8k.prg.sym: link $sources_pet_8k
+    target = pet-basic.target
+    libs = cbm.lib
+
+build anykey-pet-full.prg | anykey-pet-full.prg.sym: link $sources_pet_full
+    target = pet-basic.target
+    libs = cbm.lib
+
 build anykey-c64.prg.ll: vice-ll anykey-c64.prg.sym
 build anykey-c128.prg.ll: vice-ll anykey-c128.prg.sym
 
@@ -225,6 +227,9 @@ build keyboard-pet-graphics-40.s: convert-screens keyboard-pet-graphics-40.txt
 build keyboard-pet-business-40-left.s: list-left keyboard-pet-business-40.txt
 build keyboard-pet-calculator-40-left.s: list-left keyboard-pet-calculator-40.txt
 build keyboard-pet-graphics-40-left.s: list-left keyboard-pet-graphics-40.txt
+
+build pet-help-footer-40.s: convert-screens pet-help-footer-40.txt
+build pet-help-footer-80.s: convert-screens pet-help-footer-80.txt
 
 build screen-colors.s: encode-colors screen-colors.col
     flags = -r

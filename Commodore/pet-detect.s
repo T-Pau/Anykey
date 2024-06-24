@@ -25,17 +25,6 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.autoimport +
-
-.export detect, rom_version, line_width, keyboard_type
-
-.export detect_keyboard ; DEBUG
-
-.include "defines.inc"
-.include "pet-detect.inc"
-
-.macpack utility
-
 .section code
 
 .public detect {
@@ -83,7 +72,6 @@ end:
 
 ; requires rom_version to be set
 detect_line_width {
-.scope
     ldx #0
     lda rom_version
     bpl :+
@@ -102,7 +90,7 @@ end:
 
 
 ; requires rom_version and line_width to be set
-.detect_keyboard {
+detect_keyboard {
     lda rom_version
     bpl rom_ok
 not_recognized:

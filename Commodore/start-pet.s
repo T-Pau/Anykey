@@ -31,6 +31,8 @@ MAX_SAVED_SCREEN_SIZE = (40 * 22)
 MAX_SAVED_SCREEN_SIZE = (80 * 22)
 .pre_end
 
+.section code
+
 .public start {
     lda #142
     jsr CHROUT
