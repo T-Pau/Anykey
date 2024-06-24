@@ -1,10 +1,16 @@
-# Before Next Release
+# Accelerate Conversion
+
+- **Plus/4**: Fix graphics glitch.
+- **VIC-20**: Fix crash.
+- **VIC-20**: Verify correct charset placement.
+- **PET**: Fix compilation.
+- Convert `list-left` to proper Python script.
+- **ZX Spectrum**: Finish conversion.
 
 # Cleanup
 
-- **Commodore**: Reduce usage of `.if .defined __TARGET__` in code.
+- **Commodore**: Reduce usage of `.if .defined(TARGET)` in code.
 - **Commodore**: Reduce code duplication.
-- **Commodore**: Make sure no unused code gets pulled in.
 
 # Improvements
 
