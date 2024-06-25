@@ -42,7 +42,6 @@ sources_ted :=
 
 sources_vicii :=
     ${sources_vicii_ted}
-    c128.s
     start-vicii.s
     help-vicii.s
     joysticks-vicii.s

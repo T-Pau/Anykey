@@ -79,7 +79,7 @@
     sta machine_type
 
     ; The xmega65 emulator ignores the VIC-II bank, so copy it in both banks.
-   	memcpy $0800, sprite_data, (64 * 8)
+   	rl_expand $0800, sprite_data
 
     rts
 }
