@@ -1,12 +1,14 @@
 #!/usr/bin/env perl
 
+use utf8;
+
 use strict;
 
 my ($source_file, $output_file) = @ARGV;
 
 my @offsets = ();
 
-open (my $fh, "<", $source_file) or die "can't open '$source_file': $!";
+open (my $fh, "<:encoding(UTF-8)", $source_file) or die "can't open '$source_file': $!";
 
 my $row = 0;
 
@@ -15,7 +17,7 @@ my $name;
 while (my $line = <$fh>) {
     if ($line =~ /name (.*)/) {
         $name = $1;
-        $name =~ s/keyboard_pet_(.*)_screen/$1/;
+        $name =~ s/keyboard_pet_(.*)_screen/left_$1/;
     }
     if ($line =~ /^---/) {
         last;

@@ -105,6 +105,7 @@ sources_pet_common :=
     keys-pet-calculator-40.s
     pet-detect.s
     pet-help.s
+    platform-pet.s
     start-pet.s
 
 sources_pet_8k_plus :=
@@ -195,6 +196,7 @@ build anykey-vic20.prg | anykey-vic20.prg.sym: link $sources_vic20
     libs = vic20.lib cbm.lib
 
 build anykey-pet-8k.prg | anykey-pet-8k.prg.sym: link $sources_pet_8k
+    flags = -DFIT_IN_8K
     target = pet-basic.target
     libs = cbm.lib
 

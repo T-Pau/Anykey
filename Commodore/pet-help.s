@@ -42,7 +42,7 @@
     sta ptr1 + 1
     jsr rl_expand
     ldx #0
-    beq update_help_page
+    jmp update_help_page
 }
 
 
@@ -50,18 +50,18 @@
     ldx current_page
     inx
     cpx help_count
-    bne update_help_page
+    bne :+
     ldx #0
-    jmp update_help_page
+:   jmp update_help_page
 }
 
 .public help_previous {
     ldx current_page
     dex
-    bpl update_help_page
+    bpl :+
     ldx help_count
     dex
-    jmp update_help_page
+:   jmp update_help_page
 }
 
 .public update_help_page {

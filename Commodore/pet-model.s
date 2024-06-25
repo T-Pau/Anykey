@@ -125,14 +125,11 @@ line_width_supported:
     sta keyboard_type_index
     tax
     lda keyboard_screen_table,x
-    sta ptr1
+    sta source_ptr
     lda keyboard_screen_table + 1,x
-    sta ptr1 + 1
-    lda #<screen
-    sta ptr2
-    lda #>screen
-    sta ptr2 + 1
-    jsr expand
+    sta source_ptr + 1
+    store_word destination_ptr, screen
+    jsr rl_expand
 
     ldx keyboard_type_index
     lda keyboard_table,x
@@ -183,7 +180,7 @@ help_table {
 
 
 help_40 {
-    .data num_help_40_screens
+    .data help_40_screens_count
     .data help_40_screens
     .data help_40_footer
 }
@@ -191,7 +188,7 @@ help_40 {
 
 .pre_if !.defined(FIT_IN_8K)
 help_80 {
-    .data num_help_80_screens
+    .data help_80_screens_count
     .data help_80_screens
     .data help_80_footer
 }
