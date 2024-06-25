@@ -270,3 +270,7 @@ build help-screens-vic20.s: convert-screens help-screens-vic20.txt
 
 build vic20-help-screen.s: convert-screens vic20-help-screen.txt
     flags = -DVIC20
+
+build sprites.s: convert-sprites sprites.png
+    name = sprite_data
+    flags = -r

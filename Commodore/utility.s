@@ -1,5 +1,5 @@
 ;  utility.mac -- Utility macro package.
-;  Copyright (C) 2020 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.

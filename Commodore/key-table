@@ -2,7 +2,7 @@
 
 """
   key-table -- Create table of key position / size
-  Copyright (C) 2020 Dieter Baron
+  Copyright (C) Dieter Baron
 
   This file is part of Anykey, a keyboard test program for C64.
   The authors can be contacted at <anykey@tpau.group>.
@@ -95,8 +95,6 @@ with open(infile) as fin:
             keys_size.append("display_key_" + words[3])
         else:
             raise "unknown command '" + words[0] + "'"
-
-print(f"name={name}")
 
 with open(outfile, mode="w") as fout:
     num_keys = len(keys_address)

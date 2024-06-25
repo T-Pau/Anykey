@@ -1,4 +1,4 @@
-;  keyboard.s -- Read and display keyboard state
+;  keyboard-vicii.s -- Read and display keyboard state
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.

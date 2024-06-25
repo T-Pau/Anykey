@@ -3,7 +3,7 @@
 - **Plus/4**: Fix graphics glitch.
 - **VIC-20**: Fix crash.
 - **VIC-20**: Verify correct charset placement.
-- **PET**: Fix compilation.
+- **PET**: Fix.
 - Convert `list-left` to proper Python script.
 - **ZX Spectrum**: Finish conversion.
 

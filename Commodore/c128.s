@@ -1,4 +1,4 @@
-;  c128.mac -- Macros for C128.
+;  c128.s -- Macros for C128.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.

@@ -35,7 +35,7 @@
     rl_expand charset, charset_data
     rl_expand_typed charset_keyboard_top, charset_keyboard_c64_top, charset_keyboard_c128_top, charset_keyboard_mega65_c64_top
     rl_expand_typed charset_keyboard_bottom, charset_keyboard_c64_bottom, charset_keyboard_c128_bottom, charset_keyboard_mega65_c64_bottom
-    memcpy sprites, sprite_data, (64 * 8)
+    rl_expand sprites, sprite_data
 
     jsr display_main_screen
     lda #FRAME_COLOR
