@@ -37,7 +37,6 @@ prefix " "
 postfix " "
 title_length 38
 title_xor 128
-assembler xlr8
 word_wrap 1
 
 .if C64 or C128

@@ -11,9 +11,9 @@ import AssemblerOutput
 import RunlengthEncoder
 
 
-def write_parts(output_file_name, parts, name, assembler_format):
+def write_parts(output_file_name, parts, name):
     with open(output_file_name, "w") as output_file:
-        output = AssemblerOutput.AssemblerOutput(assembler_format, output_file)
+        output = AssemblerOutput.AssemblerOutput(output_file)
         output.header(input_file_name)
         output.data_section()
         output.parts(name, parts)
@@ -44,7 +44,6 @@ elif input_file_name.endswith(".json"):
         screen_width = spec.get("screen_width", 0)
         width = spec.get("width", 0)
         height = spec.get("width", 0)
-        assembler_format = spec.get("assembler", "xlr8")
         skip = max(screen_width - width, 0)
 
         parts = []
@@ -69,7 +68,7 @@ elif input_file_name.endswith(".json"):
         if len(rest) > 2:
             parts.append(rest)
 
-        write_parts(output_file_name, parts, spec["name"], assembler_format)
+        write_parts(output_file_name, parts, spec["name"])
 
 else:
     raise RuntimeError("unsupported file format")

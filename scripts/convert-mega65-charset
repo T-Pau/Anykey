@@ -44,7 +44,7 @@ for char_y in range(0, char_rows):
             data += image.get(x, y * char_rows + char_y)
 
 with open(charset_file, "w") as file:
-    output = AssemblerOutput.AssemblerOutput("cc65", file)
+    output = AssemblerOutput.AssemblerOutput(file)
     output.header(sys.argv[1])
     output.public_symbol(f"{symbol_prefix}_data")
     output.bytes(data)
