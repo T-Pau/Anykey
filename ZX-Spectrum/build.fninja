@@ -92,22 +92,17 @@ build anykey-spectrum-next.nex: link $sources_next
 build anykey-spectrum-n-go.nex: link $sources_n_go
     target = zx-spectrum-next.target
 
-build loading-48k.s: convert-bitmap loading-48k.png
-    name = loading
-    flags = --spectrum
+build loading-48k.s: convert-image loading-48k.png
+    flags = -n loading -F spectrum
 
-build loading-plus.s: convert-bitmap loading-plus.png
-    name = loading
-    flags = --spectrum
+build loading-plus.s: convert-image loading-plus.png
+    flags = -n loading -F spectrum
 
-build loading-plus2.s: convert-bitmap loading-plus2.png
-    name = loading
-    flags = --spectrum
+build loading-plus2.s: convert-image loading-plus2.png
+    flags = -n loading -F spectrum
 
-build loading-next.s: convert-bitmap loading-next.png
-    name = loading
-    flags = --spectrum
+build loading-next.s: convert-image loading-next.png
+    flags = -n loading -F spectrum
 
-build loading-n-go.s: convert-bitmap loading-n-go.png
-    name = loading
-    flags = --spectrum
+build loading-n-go.s: convert-image loading-n-go.png
+    flags = -n loading -F spectrum
