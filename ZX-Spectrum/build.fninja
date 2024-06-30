@@ -75,16 +75,16 @@ build anykey-spectrum-48k+-128k.tzx: tzxmerge anykey-spectrum-48k+-128k.tap
 build anykey-spectrum-+2-+3.tzx: tzxmerge anykey-spectrum-+2-+3.tap
 
 build anykey-spectrum-48k.tap: link $sources_48k
-    target = zx-spectrum-tap.target
+    target = zx-spectrum-tap-basic.target
 
 build anykey-spectrum-48k+-128k.tap: link $sources_plus
-    target = zx-spectrum-tap.target
+    target = zx-spectrum-tap-basic.target
 
 build anykey-spectrum-+2-+3.tap: link $sources_plus2
-    target = zx-spectrum-tap.target
+    target = zx-spectrum-tap-basic.target
 
 build anykey-spectrum-48k+128k.tap: link $sources_plus2
-    target = zx-spectrum-tap.target
+    target = zx-spectrum-tap-basic.target
 
 build anykey-spectrum-next.nex: link $sources_next
     target = zx-spectrum-next.target
