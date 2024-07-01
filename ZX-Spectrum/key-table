@@ -2,7 +2,7 @@
 
 """
   key-table -- Create table of key position / size
-  Copyright (C) 2020 Dieter Baron
+  Copyright (C) Dieter Baron
 
   This file is part of Anykey, a keyboard test program for C64.
   The authors can be contacted at <anykey@tpau.group>.
@@ -29,27 +29,29 @@
   IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
+import os
 import sys
 
 def write_word_table(tablename, table, fout):
-	fout.write(f"{name}_{tablename}_low:\n");
+	fout.write(f"{name}_{tablename}_low {{\n");
 	for value in table:
-		fout.write("    .byte <(" + value + ")\n")
-	fout.write("\n")
-	fout.write(f"{name}_{tablename}_high:\n");
+		fout.write("    .data <(" + value + ")\n")
+	fout.write("}\n\n")
+	fout.write(f"{name}_{tablename}_high {{\n");
 	for value in table:
-		fout.write("    .byte >(" + value + ")\n")
-	fout.write("\n")
+		fout.write("    .data >(" + value + ")\n")
+	fout.write("}\n\n")
 
 
-if len(sys.argv) != 2:
-     print("usage: ", sys.argv[0], " name-prefix\n")
+if len(sys.argv) != 3:
+     print("usage: ", sys.argv[0], " infile outfile\n")
      sys.exit(1)
 
-name_prefix = sys.argv[1]
+program = sys.argv[0]
+infile = sys.argv[1]
+outfile = sys.argv[2]
 
-infile = name_prefix + ".key"
-outfile = name_prefix + ".asm"
+name_prefix = os.path.splitext(os.path.basename(infile))[0]
 
 keys_screen = []
 keys_color = []
@@ -117,18 +119,17 @@ with open(outfile, mode="w") as fout:
 ; This file is automatically created by {program} from {infile}.
 ; Do not edit.
 
-global keys_{name}, num_keys_{name}, {functions}
-
 include "platform.inc"
 
-section data_user
+.section data
 
-num_keys_{name}:
-	byte {num_keys}
-
-keys_{name}:
+num_keys_{name} {{
+	.data {num_keys}
+}}
+keys_{name} {{
 """.format(outfile=outfile, name=name, infile=infile, program=sys.argv[0], num_keys=len(keys_screen), functions=",".join(all_functions.keys()))
 	fout.write(header)
 
 	for i in range(len(keys_screen)):
-		fout.write("    word " + keys_screen[i] + ", " + keys_color[i] + ", " + keys_function[i] + "\n")
+		fout.write("    .data " + keys_screen[i] + ", " + keys_color[i] + ", " + keys_function[i] + "\n")
+	fout.write("}\n")

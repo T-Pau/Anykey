@@ -33,7 +33,7 @@
 .public display_key_2 {
     ld e,(ix + key_screen_offset)
     ld a,(ix + key_screen_offset + 1)
-    add 3
+    add a,3
     ld d,a
     ld hl,circle_mask
     ld b,9
@@ -56,7 +56,7 @@ loop2_char:
     jr next_row2
 next_line2:
     ld a,(ix + key_screen_offset)
-    add 32
+    add a,32
     ld e,a
     ld d,(ix + key_screen_offset + 1)
 next_row2:
@@ -71,7 +71,7 @@ loop2_color:
     inc l
     ld (hl),a
     ld a,l
-    add 31
+    add a,31
     ld l,a
     djnz loop2_color
 
@@ -110,7 +110,7 @@ display_key_n {
     ld (key_color),a
     ld e,(ix + key_screen_offset)
     ld a,(ix + key_screen_offset + 1)
-    add 3
+    add a,3
     ld d,a
     ld hl,circle_mask
     ld c,9
@@ -149,7 +149,7 @@ loop_n_x:
     jr next_row_n
 next_line_n:
     ld a,(ix + key_screen_offset)
-    add 32
+    add a,32
     ld e,a
     ld d,(ix + key_screen_offset + 1)
 next_row_n:
@@ -190,7 +190,7 @@ loop_n_color_x:
     inc e
     inc e
     ld a,(ix + key_screen_offset + 1)
-    add 3
+    add a,3
     ld d,a
     ld b,16
 loop_enter_top_char:
@@ -213,13 +213,13 @@ loop_enter_top_char:
     jr next_row_enter_top
 next_line_enter_top:
     ld a,(ix + key_screen_offset)
-    add 34
+    add a,34
     ld e,a
     ld d,(ix + key_screen_offset + 1)
     jr next_row_enter_top
 next_line_enter_top_2:
     ld a,(ix + key_screen_offset)
-    add 66
+    add a,66
     ld e,a
     ld a,(ix + key_screen_offset + 1)
 IF PLATFORM_PLUS
@@ -234,9 +234,9 @@ next_row_enter_top:
     ld e,a
     ld a,(ix + key_screen_offset + 1)
 IF PLATFORM_PLUS
-    add 3+8
+    add a,3+8
 ELSE
-    add 3
+    add a,3
 ENDIF
     ld d,a
     ld b,9
@@ -268,7 +268,7 @@ loop_enter_bottom_char:
     jr next_row_enter_bottom
 next_line_enter_bottom:
     ld a,(ix + key_screen_offset)
-    add 32+64
+    add a,32+64
     ld e,a
     ld a,(ix + key_screen_offset + 1)
 IF PLATFORM_PLUS

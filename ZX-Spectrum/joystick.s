@@ -90,7 +90,7 @@ port_0:
     ld a,(value)
     and a,$01
     rlc a
-    add a,button & 0xff
+    add a,button & $ff
     ld e,a
     ld a,0
     adc a,button >> 8

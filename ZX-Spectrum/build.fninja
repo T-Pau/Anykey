@@ -70,26 +70,31 @@ sources_n_go :=
 rule tzxmerge
     command = tzxmerge -o $out $in
 
+rule key-table
+    command = {{key-table}} $in $out
+
 build anykey-spectrum-48k.tzx: tzxmerge anykey-spectrum-48k.tap
 build anykey-spectrum-48k+-128k.tzx: tzxmerge anykey-spectrum-48k+-128k.tap
 build anykey-spectrum-+2-+3.tzx: tzxmerge anykey-spectrum-+2-+3.tap
 
 build anykey-spectrum-48k.tap: link $sources_48k
-    target = zx-spectrum-tap-basic.target
+    flags = -DPLATFORM_48K
+    target = zx-spectrum-tap.target
 
 build anykey-spectrum-48k+-128k.tap: link $sources_plus
+    flags = -DPLATFORM_PLUS
     target = zx-spectrum-tap-basic.target
 
 build anykey-spectrum-+2-+3.tap: link $sources_plus2
-    target = zx-spectrum-tap-basic.target
-
-build anykey-spectrum-48k+128k.tap: link $sources_plus2
+    flags = -DPLATFORM_PLUS2
     target = zx-spectrum-tap-basic.target
 
 build anykey-spectrum-next.nex: link $sources_next
+    flags = -DPLATFORM_NEXT
     target = zx-spectrum-next.target
 
 build anykey-spectrum-n-go.nex: link $sources_n_go
+    flags = -DPLATFORM_N_GO
     target = zx-spectrum-next.target
 
 build loading-48k.s: convert-image loading-48k.png
@@ -106,3 +111,8 @@ build loading-next.s: convert-image loading-next.png
 
 build loading-n-go.s: convert-image loading-n-go.png
     flags = -n loading -F spectrum
+
+build keys-48k.s: key-table keys-48k.key
+build keys-plus.s: key-table keys-plus.key
+build keys-plus2.s: key-table keys-plus2.key
+build keys-n-go.s: key-table keys-n-go.key
