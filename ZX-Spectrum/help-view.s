@@ -104,7 +104,7 @@ got_key:
     ld a,(current_page)
     inc a
     ld c,a
-    ld a,(num_help_screens)
+    ld a,(help_screens_count)
     cp a,c
     ld a,c
     jr nz,next_no_wraparound
@@ -120,7 +120,7 @@ not_next:
     ld a,(current_page)
     cp a,0
     jr nz,previous_no_wraparound
-    ld a,(num_help_screens)
+    ld a,(help_screens_count)
 previous_no_wraparound:
     dec a
     ld (current_page),a

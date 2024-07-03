@@ -121,10 +121,10 @@ joystick {
     .data screen + JOYSTICK_2_DPAD_OFFSET
     .data screen + JOYSTICK_2_BUTTON_OFFSET
 
-IF JOYSTICK_3_DPAD_OFFSET
-    .data screen + JOYSTICK_3_DPAD_OFFSET
-    .data screen + JOYSTICK_3_BUTTON_OFFSET
-ENDIF
+    .if .defined(PLATFORM_NEXT) || .defined(PLATFORM_N_GO) {
+        .data screen + JOYSTICK_3_DPAD_OFFSET
+        .data screen + JOYSTICK_3_BUTTON_OFFSET
+    }
 }
 
 

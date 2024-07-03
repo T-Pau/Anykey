@@ -222,9 +222,9 @@ next_line_enter_top_2:
     add a,66
     ld e,a
     ld a,(ix + key_screen_offset + 1)
-IF PLATFORM_PLUS
-    add a,8
-ENDIF
+    .if .defined(PLATFORM_PLUS) {
+        add a,8
+    }
     ld d,a
 next_row_enter_top:
     djnz loop_enter_top_char
@@ -233,11 +233,12 @@ next_row_enter_top:
     add a,64
     ld e,a
     ld a,(ix + key_screen_offset + 1)
-IF PLATFORM_PLUS
-    add a,3+8
-ELSE
-    add a,3
-ENDIF
+    .if .defined(PLATFORM_PLUS) {
+        add a,3+8
+    }
+    .else {
+        add a,3
+    }
     ld d,a
     ld b,9
 loop_enter_bottom_char:
@@ -271,9 +272,9 @@ next_line_enter_bottom:
     add a,32+64
     ld e,a
     ld a,(ix + key_screen_offset + 1)
-IF PLATFORM_PLUS
-    add a,8
-ENDIF
+    .if .defined(PLATFORM_PLUS) {
+        add a,8
+    }
     ld d,a
 next_row_enter_bottom:
     djnz loop_enter_bottom_char
@@ -293,9 +294,9 @@ enter_color_top:
     ld l,a
     djnz enter_color_top
 
-IF PLATFORM_PLUS
-    inc h
-ENDIF
+    .if .defined(PLATFORM_PLUS) {
+        inc h
+    }
     dec hl
     dec hl
     ld b,2
