@@ -1,3 +1,12 @@
+USE_EXTENDED_KEYS = 1
+
+.public .macro readnextreg address {
+    ld a, address
+    ld bc, $243b
+    out (c), a
+    inc b
+    in a, (c)
+}
 
 PORT_SPRITE_ATTRIBUTE = $57
 PORT_SPRITE_PATTERN = $5b

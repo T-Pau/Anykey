@@ -1,3 +1,0 @@
-KEYBOARD_OFFSET = 32 * 4 + 5
-KEYBOARD_SIZE = 32 * 7 + 22
-num_keys = 40

@@ -33,14 +33,14 @@ import os
 import sys
 
 def write_word_table(tablename, table, fout):
-	fout.write(f"{name}_{tablename}_low {{\n");
-	for value in table:
-		fout.write("    .data <(" + value + ")\n")
-	fout.write("}\n\n")
-	fout.write(f"{name}_{tablename}_high {{\n");
-	for value in table:
-		fout.write("    .data >(" + value + ")\n")
-	fout.write("}\n\n")
+    fout.write(f"{name}_{tablename}_low {{\n");
+    for value in table:
+        fout.write("    .data <(" + value + ")\n")
+    fout.write("}\n\n")
+    fout.write(f"{name}_{tablename}_high {{\n");
+    for value in table:
+        fout.write("    .data >(" + value + ")\n")
+    fout.write("}\n\n")
 
 
 if len(sys.argv) != 3:
@@ -68,68 +68,66 @@ screen_width = 32
 lines_per_part = 8
 
 with open(infile) as fin:
-	for line in fin:
-		comment = line.find(";")
-		if comment > -1:
-			line = line[0:comment]
-		line.strip()
-		words = line.split()
-		if len(words) == 0:
-			continue
-		if words[0] == "name":
-			if len(words) != 2:
-				raise Exception("wrong number of arguments for 'name'")
-			name = words[1]
-		elif words[0] == "offset_x":
-			if len(words) != 2:
-				raise Exception("wrong number of arguments for 'offset_x'")
-			offset_x = int(words[1])
-		elif words[0] == "offset_y":
-			if len(words) != 2:
-				raise Exception("wrong number of arguments for 'offset_y'")
-			offset_y = int(words[1])
-		elif words[0] == "key_width":
-			if len(words) != 2:
-				raise Exception("wrong number of arguments for 'key_width'")
-			key_width = int(words[1])
-		elif words[0] == "key_height":
-			if len(words) != 2:
-				raise Exception("wrong number of arguments for 'key_height'")
-			key_height = int(words[1])
-		elif words[0] == "screen_width":
-			if len(words) != 2:
-				raise Exception("wrong number of arguments for 'screen_width'")
-			screen_width = int(words[1])
-		elif words[0] == "key":
-			if len(words) != 4:
-				raise Exception("wrong number of arguments for 'key'")
-			x = int(words[1]) * key_width + offset_x
-			y = int(words[2]) * key_height + offset_y
-			f = "display_key_" + words[3]
-			keys_screen.append("screen + " + str((y // lines_per_part) * screen_width * lines_per_part * 8 + (y % lines_per_part) * screen_width + x))
-			keys_color.append("color + " + str(x + y * screen_width))
-			keys_function.append(f)
-			all_functions[f] = 1
-		else:
-			raise Exception("unknown command '" + words[0] + "'")
+    for line in fin:
+        comment = line.find(";")
+        if comment > -1:
+            line = line[0:comment]
+        line.strip()
+        words = line.split()
+        if len(words) == 0:
+            continue
+        if words[0] == "name":
+            if len(words) != 2:
+                raise Exception("wrong number of arguments for 'name'")
+            name = words[1]
+        elif words[0] == "offset_x":
+            if len(words) != 2:
+                raise Exception("wrong number of arguments for 'offset_x'")
+            offset_x = int(words[1])
+        elif words[0] == "offset_y":
+            if len(words) != 2:
+                raise Exception("wrong number of arguments for 'offset_y'")
+            offset_y = int(words[1])
+        elif words[0] == "key_width":
+            if len(words) != 2:
+                raise Exception("wrong number of arguments for 'key_width'")
+            key_width = int(words[1])
+        elif words[0] == "key_height":
+            if len(words) != 2:
+                raise Exception("wrong number of arguments for 'key_height'")
+            key_height = int(words[1])
+        elif words[0] == "screen_width":
+            if len(words) != 2:
+                raise Exception("wrong number of arguments for 'screen_width'")
+            screen_width = int(words[1])
+        elif words[0] == "key":
+            if len(words) != 4:
+                raise Exception("wrong number of arguments for 'key'")
+            x = int(words[1]) * key_width + offset_x
+            y = int(words[2]) * key_height + offset_y
+            f = "display_key_" + words[3]
+            keys_screen.append("screen + " + str((y // lines_per_part) * screen_width * lines_per_part * 8 + (y % lines_per_part) * screen_width + x))
+            keys_color.append("color + " + str(x + y * screen_width))
+            keys_function.append(f)
+            all_functions[f] = 1
+        else:
+            raise Exception("unknown command '" + words[0] + "'")
 
 with open(outfile, mode="w") as fout:
-	header = """; {outfile} -- keyboard layout {name}
+    header = """; {outfile} -- keyboard layout {name}
 
 ; This file is automatically created by {program} from {infile}.
 ; Do not edit.
 
-include "platform.inc"
-
 .section data
 
 num_keys_{name} {{
-	.data {num_keys}
+    .data {num_keys}
 }}
 keys_{name} {{
 """.format(outfile=outfile, name=name, infile=infile, program=sys.argv[0], num_keys=len(keys_screen), functions=",".join(all_functions.keys()))
-	fout.write(header)
+    fout.write(header)
 
-	for i in range(len(keys_screen)):
-		fout.write("    .data " + keys_screen[i] + ", " + keys_color[i] + ", " + keys_function[i] + "\n")
-	fout.write("}\n")
+    for i in range(len(keys_screen)):
+        fout.write("    .data " + keys_screen[i] + ", " + keys_color[i] + ", " + keys_function[i] + "\n")
+    fout.write("}\n")

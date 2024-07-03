@@ -40,7 +40,6 @@ lines 14
 prefix " "
 postfix " "
 title_length 30
-assembler z88dk
 word_wrap 1
 ---
 Anykey

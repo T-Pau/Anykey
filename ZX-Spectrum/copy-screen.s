@@ -72,11 +72,13 @@ no_runlength:
     ; calculate address of character in set
     ld e,a
     ld d,0
-    scf
     ccf
-    rl de
-    rl de
-    rl de
+    rl e
+    rl d
+    rl e
+    rl d
+    rl e 
+    rl d
     ld a,(current_charset)
     add a,e
     ld e,a

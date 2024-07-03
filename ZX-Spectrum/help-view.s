@@ -52,7 +52,7 @@ help {
     call copy_colors
     ld a,0
     ld (current_page),a
-    ld (current_key),a
+    ld (pressed_key),a
     call display_page
 
 help_loop:
@@ -89,15 +89,15 @@ handle_keys {
     call read_keys
     cp a,0
     jr nz, got_key
-    ld (current_key),a
+    ld (pressed_key),a
     ret
 got_key:
     ld c,a
-    ld a,(current_key)
+    ld a,(pressed_key)
     cp a,c
     ret z
     ld a,c
-    ld (current_key),a
+    ld (pressed_key),a
     dec a
     jr nz,not_next
     ; next page
@@ -182,6 +182,6 @@ reset_state_loop:
 .section reserved
 
 current_page .reserve 1
-current_key .reserve 1
+pressed_key .reserve 1
 tmp_addr .reserve 2
 saved_color .reserve screen_size

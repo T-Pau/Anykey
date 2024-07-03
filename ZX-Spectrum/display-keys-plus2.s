@@ -216,7 +216,6 @@ loop_n_color_x:
     ret
 }
 
-IF PLATFORM_PLUS2
 .public display_key_enter {
     ld l,(ix + key_screen_offset)
     inc l
@@ -328,4 +327,3 @@ enter_color_bottom:
 
     ret
 }
-ENDIF

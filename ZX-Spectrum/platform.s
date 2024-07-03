@@ -25,24 +25,9 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-IF PLATFORM_48K
-include "platform-48k.inc"
-E.if .defined(PLATFORM_PLUS)
-include "platform-plus.inc"
-E.if .defined(PLATFORM_PLUS2)
-include "platform-plus2.inc"
-E.if .defined(PLATFORM_NEXT)
-include "platform-next.inc"
-E.if .defined(PLATFORM_N_GO)
-include "platform-n-go.inc"
-ELSE
-ERROR "platform not supported"
-ENDIF
-
 screen_size = 32 * 24
 screen = $4000
 color = screen + screen_size * 8
-
 
 PRESSED_COLOR =  $07 ; white on black
 UNCHECKED_COLOR = $47 ; bright white on black

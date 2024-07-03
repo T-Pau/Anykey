@@ -10,6 +10,7 @@ sources_common :=
     display-keyboard.s
     help-view.s
     main-view.s
+    platform.s
     read-keyboard.s
     reset-keyboard.s
 
@@ -79,7 +80,7 @@ build anykey-spectrum-+2-+3.tzx: tzxmerge anykey-spectrum-+2-+3.tap
 
 build anykey-spectrum-48k.tap: link $sources_48k
     flags = -DPLATFORM_48K
-    target = zx-spectrum-tap.target
+    target = zx-spectrum-tap-basic.target
 
 build anykey-spectrum-48k+-128k.tap: link $sources_plus
     flags = -DPLATFORM_PLUS
@@ -116,3 +117,17 @@ build keys-48k.s: key-table keys-48k.key
 build keys-plus.s: key-table keys-plus.key
 build keys-plus2.s: key-table keys-plus2.key
 build keys-n-go.s: key-table keys-n-go.key
+
+build dpad.s: compress-screen dpad.json
+build button.s: compress-screen button.json
+
+build help-screens-48k.s: convert-screens help-screens.txt
+    flags = -DVERSION=${VERSION} -DPLATFORM_48K
+build help-screens-plus.s: convert-screens help-screens.txt
+    flags = -DVERSION=${VERSION} -DPLATFORM_PLUS
+build help-screens-plus2.s: convert-screens help-screens.txt
+    flags = -DVERSION=${VERSION} -DPLATFORM_PLUS2
+build help-screens-next.s: convert-screens help-screens.txt
+    flags = -DVERSION=${VERSION} -DPLATFORM_NEXT
+build help-screens-n-go.s: convert-screens help-screens.txt
+    flags = -DVERSION=${VERSION} -DPLATFORM_N_GO
