@@ -72,4 +72,5 @@ colors_help {
     .data 32, 7<<3
     .data 255, 7, 255, 7, 2, 7 ; 16 lines
     .data 32*7, 7<<3
+    .data 0
 }

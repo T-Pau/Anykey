@@ -82,7 +82,8 @@ port_0:
     inc de
     ld a,(de)
     ld h,a
-    ld iy,hl
+    push hl
+    pop iy
     ld h,(ix + JOYSTICK_OFFSET_DPAD + 1)
     ld l,(ix + JOYSTICK_OFFSET_DPAD)
     call copy_chars
@@ -100,7 +101,8 @@ port_0:
     inc de
     ld a,(de)
     ld h,a
-    ld iy,hl
+    push hl
+    pop iy
     ld h,(ix + JOYSTICK_OFFSET_BUTTON + 1)
     ld l,(ix + JOYSTICK_OFFSET_BUTTON)
     call copy_chars
