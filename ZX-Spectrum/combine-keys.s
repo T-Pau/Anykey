@@ -1,3 +1,4 @@
+.include "platform.inc"
 
 .section code
 

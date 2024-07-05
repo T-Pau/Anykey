@@ -1,4 +1,4 @@
-USE_EXTENDED_KEYS = 1
+.include "platform.inc"
 
 .public .macro readnextreg address {
     ld a, address
