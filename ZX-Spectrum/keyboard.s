@@ -1,4 +1,4 @@
-;  keyboard.inc -- keyboard related defines.
+;  keyboard.s -- keyboard related defines.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.

@@ -38,11 +38,11 @@ combine_keys {
 .section data
 
 charset {
-    incbin "charset-48k.bin"
+    .binary_file "charset-48k.bin"
 }
 
 screen_main {
-    incbin "keyboard-48k-rl.bin"
+    .binary_file "keyboard-48k-rl.bin"
 }
 
 colors_main {
@@ -64,7 +64,7 @@ colors_main {
 
 
 screen_help {
-    incbin "help-48k-rl.bin"
+    .binary_file "help-48k-rl.bin"
 }
 
 

@@ -33,12 +33,12 @@ num_keys = 58
 .section data
 
 charset {
-    incbin "charset-plus.bin"
+    .binary_file "charset-plus.bin"
 }
 
 
 screen_main {
-    incbin "keyboard-plus-rl.bin"
+    .binary_file "keyboard-plus-rl.bin"
 }
 
 
@@ -63,7 +63,7 @@ colors_main {
 
 
 screen_help {
-    incbin "help-plus-rl.bin"
+    .binary_file "help-plus-rl.bin"
 }
 
 

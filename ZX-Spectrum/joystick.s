@@ -113,7 +113,7 @@ port_0:
 .section data
 
 charset_joystick {
-    incbin "charset-joystick.bin"
+    .binary_file "charset-joystick.bin"
 }
 
 joystick {

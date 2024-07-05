@@ -41,12 +41,12 @@ num_keys = 58
 .section data
 
 charset {
-    incbin "charset-n-go.bin"
+    .binary_file "charset-n-go.bin"
 }
 
 
 screen_main {
-    incbin "keyboard-n-go-rl.bin"
+    .binary_file "keyboard-n-go-rl.bin"
 }
 
 
@@ -75,7 +75,7 @@ colors_main {
 }
 
 screen_help {
-    incbin "help-n-go-rl.bin"
+    .binary_file "help-n-go-rl.bin"
 }
 
 colors_help {

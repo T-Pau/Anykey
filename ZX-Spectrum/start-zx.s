@@ -27,7 +27,7 @@
 
 .section code
 
-.public _main {
+.public start {
     ld h,charset>>8
     ld l,charset & $ff
     call set_charset

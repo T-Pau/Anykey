@@ -9,6 +9,7 @@ sources_common :=
     copy-screen.s
     display-keyboard.s
     help-view.s
+    keyboard.s
     main-view.s
     platform.s
     read-keyboard.s

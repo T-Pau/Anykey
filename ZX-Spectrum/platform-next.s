@@ -41,12 +41,12 @@ num_keys = 58
 .section data
 
 charset {
-    incbin "charset-next.bin"
+    .binary_file "charset-next.bin"
 }
 
 
 screen_main {
-    incbin "keyboard-next-rl.bin"
+    .binary_file "keyboard-next-rl.bin"
 }
 
 
@@ -75,7 +75,7 @@ colors_main {
 }
 
 screen_help {
-    incbin "help-next-rl.bin"
+    .binary_file "help-next-rl.bin"
 }
 
 
