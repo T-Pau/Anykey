@@ -141,13 +141,13 @@ loop3_color:
 
 .public display_key_9 {
     ld d,9
-    jr display_key_n
+    jp display_key_n
 }
 
 
 .public display_key_13 {
     ld d,13
-    jr display_key_n
+    jp display_key_n
 }
 
 

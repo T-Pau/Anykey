@@ -99,7 +99,7 @@ loop2_color:
 
 .public display_key_9 {
     ld d,9
-    jr display_key_n
+    jp display_key_n
 }
 
 
