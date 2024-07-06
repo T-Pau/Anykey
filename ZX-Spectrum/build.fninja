@@ -100,19 +100,19 @@ build anykey-spectrum-n-go.nex: link $sources_n_go
     target = zx-spectrum-next.target
 
 build loading-48k.s: convert-image loading-48k.png
-    flags = -n loading -F spectrum
+    flags = -n loading_screen -F spectrum
 
 build loading-plus.s: convert-image loading-plus.png
-    flags = -n loading -F spectrum
+    flags = -n loading_screen -F spectrum
 
 build loading-plus2.s: convert-image loading-plus2.png
-    flags = -n loading -F spectrum
+    flags = -n loading_screen -F spectrum
 
 build loading-next.s: convert-image loading-next.png
-    flags = -n loading -F spectrum
+    flags = -n loading_screen -F spectrum
 
 build loading-n-go.s: convert-image loading-n-go.png
-    flags = -n loading -F spectrum
+    flags = -n loading_screen -F spectrum
 
 build keys-48k.s: key-table keys-48k.key
 build keys-plus.s: key-table keys-plus.key

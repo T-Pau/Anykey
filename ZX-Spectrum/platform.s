@@ -25,7 +25,12 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.include "platform.inc"
+
+.pre_if .defined(USE_LOADING_SCREEN)
 .public INCLUDE_LOADING_SCREEN = .true
+.pin loading_screen loading_screen_start
+.pre_end
 .public PROGRAM_NAME = "Anykey"
 
 screen_size = 32 * 24
