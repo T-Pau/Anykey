@@ -66,9 +66,7 @@ index_loop:
     add ix,de
     djnz index_loop
 port_0:
-    ld h,charset_joystick >> 8
-    ld l,charset_joystick & $ff
-    call set_charset
+    set_charset charset_joystick
 
     ld a,(value)
     and a,$1e
@@ -86,7 +84,7 @@ port_0:
     pop iy
     ld h,(ix + JOYSTICK_OFFSET_DPAD + 1)
     ld l,(ix + JOYSTICK_OFFSET_DPAD)
-    call copy_chars
+    call rl_expand_chars
 
     ld a,(value)
     and a,$01
@@ -105,7 +103,7 @@ port_0:
     pop iy
     ld h,(ix + JOYSTICK_OFFSET_BUTTON + 1)
     ld l,(ix + JOYSTICK_OFFSET_BUTTON)
-    call copy_chars
+    call rl_expand_chars
     ret
 }
 

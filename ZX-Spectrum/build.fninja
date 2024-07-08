@@ -4,9 +4,9 @@ include ../Toolkit/fast-ninja/scripts.fninja
 default anykey-spectrum-48k.tzx anykey-spectrum-48k+-128k.tzx anykey-spectrum-+2-+3.tzx anykey-spectrum-next.nex anykey-spectrum-n-go.nex
 
 sources_common :=
+    ../Toolkit/xlr8/z80/rl-expand.s
     start-zx.s
     copy-colors.s
-    copy-screen.s
     display-keyboard.s
     help-view.s
     keyboard.s

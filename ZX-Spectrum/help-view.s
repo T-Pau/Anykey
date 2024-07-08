@@ -43,11 +43,8 @@ help {
     ld bc,screen_size
     ldir
 
-    ld h,charset >> 8
-    ld l,charset & $ff
-    call set_charset
-    ld iy,screen_help
-    call copy_screen
+    set_charset charset
+    rl_expand_chars screen, screen_help
     ld de,colors_help
     call copy_colors
     ld a,0
@@ -77,9 +74,9 @@ display_page {
     ld (tmp_addr + 1),a
     ld iy,(tmp_addr)
     ld hl,screen + 1
-    call copy_chars
+    call rl_expand_chars
     ld hl,screen + 64
-    call copy_chars
+    call rl_expand_chars
     ld iy,0 ; clear iy so interrupt routine doesn't clobber next help page
     ret
 }
@@ -128,8 +125,7 @@ previous_no_wraparound:
     ret
 not_previous:
     ; return to main view
-    ld iy,screen_main
-    call copy_screen
+    rl_expand_chars screen, screen_main
     ; restore color
     ld de,color
     ld hl,saved_color

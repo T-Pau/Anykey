@@ -30,13 +30,10 @@
 .section code
 
 .public start {
-    ld h,charset>>8
-    ld l,charset & $ff
-    call set_charset
+    set_charset charset
     ld a,7
     out (254),a
-    ld iy,screen_main
-    call copy_screen
+    rl_expand_chars screen, screen_main
     ld de,colors_main
     call copy_colors
     .if .defined(USE_EXTENDED_KEYS) {
