@@ -27,8 +27,7 @@
 
 .pin charset_keyboard_top $1800
 .pin charset_keyboard_bottom $2000
-charset = $2800
-;.pin charset $2800
+.pin charset $2800
 
 main_screen_plus4 = main_screen_c16 ; TODO: adapt code using this
 

@@ -20,7 +20,6 @@ sources_common :=
 sources_vicii_ted :=
     ../Toolkit/xlr8/commodore/irq.s
     button.s
-    charset-vicii.s
     colors.s
     display-joystick.s
     display-key-vicii-ted.s
@@ -43,6 +42,7 @@ sources_ted :=
 
 sources_vicii :=
     ${sources_vicii_ted}
+    charset-vicii.s
     start-vicii.s
     help-vicii.s
     joysticks-vicii.s
@@ -139,6 +139,7 @@ sources_pet_8k :=
 sources_plus4 :=
     ${sources_ted}
     ${sources_common}
+    charset-vicii.s
     help-screens-plus4.s
     keyboard-plus4.s
     keys-plus4.s
@@ -149,6 +150,7 @@ sources_plus4 :=
 sources_c16 :=
     ${sources_ted}
     ${sources_common}
+    charset-c16.s    
     help-screens-plus4.s
     keyboard-c16.s
     keys-plus4.s
@@ -227,6 +229,7 @@ rule keys
     depfile = $out.d
 
 build charset-vicii.s: convert-characters charset-vicii.yaml
+build charset-c16.s: convert-characters charset-c16.yaml
 build charset-vic20.s: convert-charset charset-vic20.png
     name = charset
 build keyboard-c16.s: convert-characters keyboard-c16.yaml
