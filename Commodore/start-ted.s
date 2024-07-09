@@ -30,9 +30,7 @@
 .public start {
     jsr init_state
 
-    memcpy charset, charset_data, $800
-    rl_expand charset_keyboard_top, charset_keyboard_plus4_top
-    rl_expand charset_keyboard_bottom, charset_keyboard_plus4_bottom
+    setup_charsets
 
     lda TED_CONTROL_2
     ora #TED_CHARSET_MODE_FULL

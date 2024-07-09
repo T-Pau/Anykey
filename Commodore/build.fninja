@@ -3,7 +3,7 @@ include ../Toolkit/fast-ninja/scripts.fninja
 
 petcat = petcat
 
-default anykey.prg anykey-c64.prg anykey-c128.prg anykey-mega65.prg anykey-pet-8k.prg anykey-pet-full.prg anykey-plus4.prg anykey-vic20.prg
+default anykey.prg anykey-c16.prg anykey-c64.prg anykey-c128.prg anykey-mega65.prg anykey-pet-8k.prg anykey-pet-full.prg anykey-plus4.prg anykey-vic20.prg
 
 sources_common :=
     ../Toolkit/xlr8/6502/rl-expand.s
@@ -37,6 +37,7 @@ sources_ted :=
     start-ted.s
     help-ted.s
     joysticks-ted.s
+    platform-ted.s
     switch-ted.s
     ted.s
 
@@ -48,6 +49,7 @@ sources_vicii :=
     keyboard-vicii.s
     logo.s
     machine-type.s
+    platform-vicii.s
     restore.s
     restore-nmi.s
     sprite.s
@@ -143,6 +145,16 @@ sources_plus4 :=
     irq-table-plus4.s
     platform-plus4.s
 
+# TODO: adpat to C16
+sources_c16 :=
+    ${sources_ted}
+    ${sources_common}
+    help-screens-plus4.s
+    keyboard-c16.s
+    keys-plus4.s
+    irq-table-plus4.s
+    platform-c16.s
+
 sources_vic20 :=
     ../Toolkit/xlr8/commodore/irq.s
     ${sources_common}
@@ -173,6 +185,10 @@ build anykey.prg: basic anykey.bas
 build anykey-pet.prg: basic anykey-pet.bas
     dialect = 1p
     address = 0401
+
+build anykey-c16.prg | anykey-c16.prg.sym: link $sources_c16
+    target = c16-basic
+    libs = plus4.lib cbm.lib
 
 build anykey-c64.prg | anykey-c64.prg.sym: link $sources_c64
     target = c64-basic
@@ -213,6 +229,7 @@ rule keys
 build charset-vicii.s: convert-characters charset-vicii.yaml
 build charset-vic20.s: convert-charset charset-vic20.png
     name = charset
+build keyboard-c16.s: convert-characters keyboard-c16.yaml
 build keyboard-c64.s: convert-characters keyboard-c64.yaml
 build keyboard-c128.s: convert-characters keyboard-c128.yaml
 build keyboard-mega65-c64.s: convert-characters keyboard-mega65-c64.yaml

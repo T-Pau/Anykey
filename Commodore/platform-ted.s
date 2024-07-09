@@ -1,4 +1,4 @@
-;  platform-c64.s -- C64 specific definitions.
+;  platform-264.s -- TED specific definitions.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,19 +25,36 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-USE_KEYBOARD_SELECT_INDEX = 1
-USE_KEYBOARD_SELECT_BITMASK = 1
+PRESSED_COLOR = ($30 | COLOR_WHITE)
+CHECKED_COLOR = ($40 | COLOR_WHITE)
+UNCHECKED_COLOR = ($10 | COLOR_BLACK)
 
-screen = $8c00
+BACKGROUND_COLOR = ($60 | COLOR_WHITE)
+FRAME_COLOR = ($50 | COLOR_WHITE)
+CONTENT_COLOR = ($30 | COLOR_WHITE)
+LABEL_COLOR = COLOR_BLACK
+; LOGO_COLOR = ($20 | COLOR_WHITE)
 
-charset = $a000
-charset_keyboard_top = charset + $800
-charset_keyboard_bottom = charset_keyboard_top + $800
-sprites = charset_keyboard_bottom + $800
-color_ram = $d800
+SCREEN_TOP = 3 ; TODO
 
-sprite_logo = (sprites & $3fff) / 64
+screen = $0c00
+color_ram = $0800
 
-.section reserved
+help_screen_title = screen + 1
+help_screen_text = screen + 2 * 40
 
-.public acellerated .reserve 1
+VIDEO_CURRENT_LINE = TED_CURRENT_RASTER_LOW
+VIDEO_BORDER_COLOR = TED_BORDER_COLOR
+VIDEO_BACKGROUND_COLOR = TED_BACKGROUND_COLOR
+
+KEYBOARD_SELECT = PIO_2
+KEYBOARD_VALUE = TED_KEYBOARD
+
+HOLD_FRAMES = 50
+
+SCREEN_SIZE = 1000
+
+.macro set_ted_charset charset {
+	lda #TED_CHARACTER_ADDRESS(charset)
+	sta TED_CONTROL_4
+}

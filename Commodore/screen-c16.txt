@@ -1,4 +1,4 @@
-;  platform-c64.s -- C64 specific definitions.
+;  screen-c64.txt -- Main screen for C64.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,19 +25,19 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-USE_KEYBOARD_SELECT_INDEX = 1
-USE_KEYBOARD_SELECT_BITMASK = 1
+.include "screen-settings.inc"
+name main_screen_c16
+---
+ keyboard
+.image
 
-screen = $8c00
+           joysticks
+          ◢■■■■■■■■■■■■■■■■■■◣
+          ■■■■■■■■■■■■■■■■■■■■
+          ■■■■■■┌─┒■■■■■■■┌─┒■
+          ■■■■■■│¹┃■■■■■■■│¹┃■
+          ■■■■■■┕━┛■■■■■■■┕━┛■
+          ◥■■■■■■■■■■■■■■■■■■◤
 
-charset = $a000
-charset_keyboard_top = charset + $800
-charset_keyboard_bottom = charset_keyboard_top + $800
-sprites = charset_keyboard_bottom + $800
-color_ram = $d800
-
-sprite_logo = (sprites & $3fff) / 64
-
-.section reserved
-
-.public acellerated .reserve 1
+     f3: reset   help: help      
+      (hold for 2 seconds)         t'pau

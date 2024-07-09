@@ -1,4 +1,4 @@
-;  platform-c64.s -- C64 specific definitions.
+;  platform-plus4.s -- C16 specific definitions.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,19 +25,17 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-USE_KEYBOARD_SELECT_INDEX = 1
-USE_KEYBOARD_SELECT_BITMASK = 1
+.pin charset_keyboard_top $1800
+.pin charset_keyboard_bottom $2000
+charset = $2800
+;.pin charset $2800
 
-screen = $8c00
+main_screen_plus4 = main_screen_c16 ; TODO: adapt code using this
 
-charset = $a000
-charset_keyboard_top = charset + $800
-charset_keyboard_bottom = charset_keyboard_top + $800
-sprites = charset_keyboard_bottom + $800
-color_ram = $d800
+MAX_NUM_KEYS = 64
 
-sprite_logo = (sprites & $3fff) / 64
+KEY_INDEX_RESET = 6 ; F3
+KEY_INDEX_HELP = 3 ; Help
 
-.section reserved
-
-.public acellerated .reserve 1
+.macro setup_charsets {
+}
