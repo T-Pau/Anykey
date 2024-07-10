@@ -1,4 +1,4 @@
-;  platform-plus4.s -- C16 specific definitions.
+;  irq-table-c16.s -- Table of raster IRQ handlers for C16 keyboard.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,16 +25,17 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.pin charset_keyboard_top $1800
-.pin charset_keyboard_bottom $2000
-.pin charset $2800
+.section data
 
-main_color = main_color_c16
+.public main_irq_table {
+    .data (SCREEN_TOP - 1):2, top_label
+    .data (SCREEN_TOP + 8 - 2):2, switch_keyboard_top
+    .data (SCREEN_TOP + 5 * 8 - 3):2, switch_keyboard_bottom
+    .data (SCREEN_TOP + 15 * 8 - 2):2, switch_joystick_label
+    .data (SCREEN_TOP + 17 * 8 - 1):2, switch_joystick
+    .data (SCREEN_TOP + 22 * 8 - 2):2, switch_joystick_bottom
+}
 
-MAX_NUM_KEYS = 64
-
-KEY_INDEX_RESET = 6 ; F3
-KEY_INDEX_HELP = 3 ; Help
-
-.macro setup_charsets {
+.public main_irq_table_length {
+    .data .sizeof(main_irq_table)
 }

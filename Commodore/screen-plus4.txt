@@ -26,7 +26,7 @@
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 .include "screen-settings.inc"
-name main_screen_plus4
+name main_screen
 map '_' $a0
 image_padding_left __
 image_padding_right __ 

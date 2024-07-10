@@ -26,7 +26,7 @@
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 .include "screen-settings.inc"
-name main_screen_c16
+name main_screen
 ---
  keyboard
 .image

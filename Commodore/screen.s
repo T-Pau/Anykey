@@ -101,11 +101,11 @@ help_color {
         }
     }
     .else {
-        rl_expand screen, main_screen_plus4
+        rl_expand screen, main_screen
         memcpy color_ram, main_color_save, 1000
-        ldx #<main_plus4_irq_table
-        ldy #>main_plus4_irq_table
-        lda main_plus4_irq_table_length
+        ldx #<main_irq_table
+        ldy #>main_irq_table
+        lda main_irq_table_length
     }
     jsr set_irq_table
     rts

@@ -1,0 +1,11 @@
+.include "c16-basic.target"
+
+.section reserved .extend {
+    address [
+        : $0200 - $025c
+        : $02ad - $02cb
+        : $02cc - $02f1
+        : $0333 - $0436
+        : $065e - $06eb
+    ]
+}

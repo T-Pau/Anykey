@@ -35,7 +35,11 @@
 .public bottom_charset_line .reserve 1
 .public joystick_label_line .reserve 1
 .public joystick_positions .reserve 4
+.pre_if .defined(C16) ; TODO: make this more efficient, not enough memory on C16
+.public main_color_save .reserve SCREEN_SIZE / 2
+.pre_else
 .public main_color_save .reserve SCREEN_SIZE
+.pre_end
 .public keyboard_height .reserve 1
 
 .section code
@@ -59,13 +63,13 @@
         rl_expand_typed main_color_save, main_color_c64, main_color_c128, main_color_mega65_c64
     }
     .else_if .defined(USE_TED) {
-        ldx #<keys_plus4_address_low
-        ldy #>keys_plus4_address_low
-        lda keys_plus4_num_keys
+        ldx #<keys_address_low
+        ldy #>keys_address_low
+        lda keys_num_keys
         jsr set_keys_table
         lda #14
         sta keyboard_height
-        memcpy main_color_save, main_color_plus4, 1000
+        rl_expand main_color_save, main_color
         lda #KEY_INDEX_HELP
         sta key_index_help
         lda #KEY_INDEX_RESET

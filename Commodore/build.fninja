@@ -153,8 +153,8 @@ sources_c16 :=
     charset-c16.s    
     help-screens-plus4.s
     keyboard-c16.s
-    keys-plus4.s
-    irq-table-plus4.s
+    keys-c16.s
+    irq-table-c16.s
     platform-c16.s
 
 sources_vic20 :=
@@ -189,7 +189,7 @@ build anykey-pet.prg: basic anykey-pet.bas
     address = 0401
 
 build anykey-c16.prg | anykey-c16.prg.sym: link $sources_c16
-    target = c16-basic
+    target = {{anykey-c16.target}}
     libs = plus4.lib cbm.lib
 
 build anykey-c64.prg | anykey-c64.prg.sym: link $sources_c64
@@ -257,6 +257,7 @@ build screen-colors.s: encode-colors screen-colors.col
 
 build keys-64.s: keys keys-64.key
 build keys-128.s: keys keys-128.key
+build keys-c16.s: keys keys-c16.key
 build keys-mega65.s: keys keys-mega65.key
 build keys-pet-business-40.s: keys keys-pet-business-40.key
 build keys-pet-business-80.s: keys keys-pet-business-80.key

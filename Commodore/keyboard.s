@@ -33,7 +33,7 @@ MAX_KEY_READ = 80
 MAX_KEY_READ = 64
 .pre_end
 
-.section data
+.section reserved
 
 .public key_state .reserve MAX_NUM_KEYS
 .public new_key_state .reserve MAX_NUM_KEYS + 1

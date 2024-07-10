@@ -29,13 +29,15 @@ charset = $8000
 charset_keyboard_top = charset + $800
 charset_keyboard_bottom = charset_keyboard_top + $800
 
+main_color = main_color_plus4
+
 MAX_NUM_KEYS = 64
 
 KEY_INDEX_RESET = 6 ; F3
 KEY_INDEX_HELP = 3 ; Help
 
 .macro setup_charsets {
-    memcpy charset, charset_data, $800
+    rl_expand charset, charset_data
     rl_expand charset_keyboard_top, charset_keyboard_plus4_top
     rl_expand charset_keyboard_bottom, charset_keyboard_plus4_bottom
 }

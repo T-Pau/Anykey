@@ -25,6 +25,12 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.pre_if .defined(C16)
+button_bit = $20
+.pre_else
+button_bit = $80
+.pre_end
+
 .section reserved
 
 state .reserve 1
@@ -36,54 +42,54 @@ state .reserve 1
 .public button {
     cmp #0
     beq :+
-    lda #$80
+    lda #button_bit
 :	sta state
 
     ldy #0
     lda (ptr2),y
-    and #$7f
+    and #$ff - button_bit
     ora state
     sta (ptr2),y
     iny
     lda (ptr2),y
-    and #$7f
+    and #$ff - button_bit
     ora state
     sta (ptr2),y
     iny
     lda (ptr2),y
-    and #$7f
+    and #$ff - button_bit
     ora state
     sta (ptr2),y
     
     ldy #40
     lda (ptr2),y
-    and #$7f
+    and #$ff - button_bit
     ora state
     sta (ptr2),y
     iny
     lda (ptr2),y
-    and #$7f
+    and #$ff - button_bit
     ora state
     sta (ptr2),y
     iny
     lda (ptr2),y
-    and #$7f
+    and #$ff - button_bit
     ora state
     sta (ptr2),y
     
     ldy #80
     lda (ptr2),y
-    and #$7f
+    and #$ff - button_bit
     ora state
     sta (ptr2),y
     iny
     lda (ptr2),y
-    and #$7f
+    and #$ff - button_bit
     ora state
     sta (ptr2),y
     iny
     lda (ptr2),y
-    and #$7f
+    and #$ff - button_bit
     ora state
     sta (ptr2),y
 

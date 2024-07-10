@@ -27,7 +27,7 @@
 
 .pre_if .defined(C64) || .defined(C128) || .defined(MEGA65)
 .define USE_VICII
-.pre_else_if .defined(PLUS4)
+.pre_else_if .defined(PLUS4) || .defined(C16)
 .define USE_TED
 .pre_else_if .defined(VIC20)
 .define USE_VIC
