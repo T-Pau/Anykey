@@ -31,7 +31,6 @@ charset:
         height: 8
         count: 256
         name: charset_keyboard_top
-        rl_encode: true
         predefined:
             160: "ffffffffffffffff"
     -
@@ -39,7 +38,6 @@ charset:
         height: 8
         count: 256
         name: charset_keyboard_bottom
-        rl_encode: true
         predefined:
             160: "ffffffffffffffff"
 
