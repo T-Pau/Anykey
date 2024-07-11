@@ -66,9 +66,10 @@
     rts
 }
 
-; display key x pressed a
-; x is not disturbed
-
+; Displays state of key
+; Arguments:
+;   A: state of key
+; Preserves: X
 .public display_key {
     .private address_low = address_low_instruction + 1
     .private address_high = address_high_instruction + 1

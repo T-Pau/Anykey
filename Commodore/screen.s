@@ -102,7 +102,13 @@ help_color {
     }
     .else {
         rl_expand screen, main_screen
-        memcpy color_ram, main_color_save, 1000
+        .if .defined(USE_COLOR_SAVE) {
+            memcpy color_ram, main_color_save, 1000
+        }
+        .else {
+            rl_expand color_ram, main_color
+            jsr keyboard_restore_color
+        }
         ldx #<main_irq_table
         ldy #>main_irq_table
         lda main_irq_table_length
@@ -129,7 +135,9 @@ help_color {
         sta VIC_SPRITE_X_MSB
     }
 
-    memcpy main_color_save, color_ram, 1000
+    .if .defined(USE_COLOR_SAVE) {
+        memcpy main_color_save, color_ram, 1000
+    }
     memcpy screen, help_screen, 1000
     memcpy color_ram, help_color, 1000
     ldx #0

@@ -40,6 +40,9 @@ MAX_KEY_READ = 64
 .pre_if .defined(USE_SKIP)
 .public skip_key .reserve MAX_NUM_KEYS
 .pre_end
+.pre_if !.defined(USE_COLOR_SAVE)
+checked_state .reserve MAX_NUM_KEYS
+.pre_end
 
 .public key_index_help .reserve 1
 .public key_index_reset .reserve 1
@@ -85,6 +88,10 @@ loop:
 :	cmp key_state,x
     beq next
     sta key_state,x
+    .if !.defined(USE_COLOR_SAVE) {
+        ora checked_state,x
+        sta checked_state,x
+    }
     .if  !.defined(USE_PET) {
         cmp #0
         beq unpressed
@@ -315,6 +322,22 @@ end_read:
     }
     rts
 }
+
+.pre_if !.defined(USE_COLOR_SAVE)
+keyboard_restore_color {
+    ldy #CHECKED_COLOR
+    sty current_key_color
+
+    ldx #0
+:   lda #0
+    jsr display_key
+    inx
+    cpx num_keys
+    bne :-
+
+    rts
+}
+.pre_end
 
 .pre_if .defined(C64) || .defined(MEGA65)
 .public set_keyboard_registers {

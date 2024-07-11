@@ -35,9 +35,7 @@
 .public bottom_charset_line .reserve 1
 .public joystick_label_line .reserve 1
 .public joystick_positions .reserve 4
-.pre_if .defined(C16) ; TODO: make this more efficient, not enough memory on C16
-.public main_color_save .reserve SCREEN_SIZE / 2
-.pre_else
+.pre_if .defined(USE_COLOR_SAVE)
 .public main_color_save .reserve SCREEN_SIZE
 .pre_end
 .public keyboard_height .reserve 1
@@ -69,7 +67,9 @@
         jsr set_keys_table
         lda #14
         sta keyboard_height
-        rl_expand main_color_save, main_color
+        .if .defined(USE_COLOR_SAVE) {
+            rl_expand main_color_save, main_color
+        }
         lda #KEY_INDEX_HELP
         sta key_index_help
         lda #KEY_INDEX_RESET
