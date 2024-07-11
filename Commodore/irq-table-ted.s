@@ -1,4 +1,4 @@
-;  platform-c16.s -- C16 specific definitions.
+;  irq-table-c16.s -- Table of raster IRQ handlers for C16 keyboard.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,13 +25,13 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-main_color = main_color_c16
+.section data
 
-KEYBOARD_HEIGHT = 12
-
-RASTER_LINE_TOP_LABEL = RASTER_SCREEN_LINE(0)
-RASTER_LINE_KEYBOARD_TOP = RASTER_SCREEN_LINE(1)
-RASTER_LINE_KEYBOARD_BOTTOM = RASTER_SCREEN_LINE(4)
-RASTER_LINE_JOYSTICK_LABEL = RASTER_SCREEN_LINE(13)
-RASTER_LINE_JOYSTICK = RASTER_SCREEN_LINE(15)
-RASTER_LINE_JOYSTICK_BOTTOM = RASTER_SCREEN_LINE(22)
+.public main_irq_table {
+    .data (RASTER_LINE_TOP_LABEL - 1):2, top_label
+    .data (RASTER_LINE_KEYBOARD_TOP - 1):2, switch_keyboard_top
+    .data (RASTER_LINE_KEYBOARD_BOTTOM - 3):2, switch_keyboard_bottom
+    .data (RASTER_LINE_JOYSTICK_LABEL - 2):2, switch_joystick_label
+    .data (RASTER_LINE_JOYSTICK - 1):2, switch_joystick
+    .data (RASTER_LINE_JOYSTICK_BOTTOM - 2):2, switch_joystick_bottom
+}

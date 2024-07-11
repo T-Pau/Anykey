@@ -35,6 +35,7 @@ sources_ted :=
     ${sources_vicii_ted}
     start-ted.s
     help-ted.s
+    irq-table-ted.s
     joysticks-ted.s
     platform-ted.s
     switch-ted.s
@@ -143,7 +144,6 @@ sources_plus4 :=
     help-screens-plus4.s
     keyboard-plus4.s
     keys-plus4.s
-    irq-table-plus4.s
     platform-plus4.s
 
 sources_c16_c116 :=
@@ -151,19 +151,19 @@ sources_c16_c116 :=
     ${sources_common}
     charset-c16.s    
     help-screens-plus4.s
-    platform-c16.s
+    platform-c16-c116.s
 
 sources_c16 :=
     ${sources_c16_c116}
     keyboard-c16.s
     keys-c16.s
-    irq-table-c16.s
+    platform-c16.s
 
 sources_c116 :=
     ${sources_c16_c116}
     keyboard-c116.s
     keys-c116.s
-    irq-table-c116.s
+    platform-c116.s
 
 sources_vic20 :=
     ../Toolkit/xlr8/commodore/irq.s

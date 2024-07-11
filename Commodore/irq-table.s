@@ -33,7 +33,3 @@
     .data (SCREEN_TOP + 21 * 8):2, label_background
     .data (SCREEN_TOP + 24 * 8 + 7):2, handle_help
 }
-
-.public help_irq_table_length {
-    .data .sizeof(help_irq_table)
-}

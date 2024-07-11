@@ -73,7 +73,7 @@ help_color {
         .if .defined(C64) || .defined(MEGA65) {
             ldx #<main_mega65_c64_irq_table
             ldy #>main_mega65_c64_irq_table
-            lda main_mega65_c64_irq_table_length
+            lda #.sizeof(main_mega65_c64_irq_table)
         }
         .if .defined(C64) {
             bne set
@@ -82,7 +82,7 @@ help_color {
         .if .defined(C64) || .defined(C128) {
             ldx #<main_128_irq_table
             ldy #>main_128_irq_table
-            lda main_128_irq_table_length
+            lda #.sizeof(main_128_irq_table)
         }
         .if .defined(C64) {
             bne set
@@ -91,12 +91,12 @@ help_color {
             bne fast_table
             ldx #<main_64_irq_table
             ldy #>main_64_irq_table
-            lda main_64_irq_table_length
+            lda #.sizeof(main_64_irq_table)
             bne set
         fast_table:
             ldx #<main_64_acellerated_irq_table
             ldy #>main_64_acellerated_irq_table
-            lda main_64_acellerated_irq_table_length
+            lda #.sizeof(main_64_acellerated_irq_table)
         set:
         }
     }
@@ -111,7 +111,7 @@ help_color {
         }
         ldx #<main_irq_table
         ldy #>main_irq_table
-        lda main_irq_table_length
+        lda #.sizeof(main_irq_table)
     }
     jsr set_irq_table
     rts
@@ -121,7 +121,7 @@ help_color {
 .public display_help_screen {
     ldx #<help_irq_table
     ldy #>help_irq_table
-    lda help_irq_table_length
+    lda #.sizeof(help_irq_table)
     jsr set_irq_table
 
     .if .defined(USE_VICII) {

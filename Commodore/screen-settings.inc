@@ -50,6 +50,7 @@ map '─' $4c
 map '¹' $31
 map '²' $32
 map '³' $33
+map 'ᶠ' $06
 
 line_length 40
 lines 25

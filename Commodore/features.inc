@@ -46,3 +46,7 @@
 .pre_if .defined(USE_TED)
 .define USE_KEYBOARD_SELECT_BITMASK
 .pre_end
+
+.pre_if .defined(C16)
+.define USE_AUTO_INVERT
+.pre_end

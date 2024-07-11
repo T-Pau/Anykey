@@ -25,21 +25,28 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.include "features.inc"
+
 .section code
 
 .public switch_keyboard_top {
     jsr content_background
-    ldx #SCREEN_TOP + 8
+    ldx #RASTER_LINE_KEYBOARD_TOP
 :	cpx VIDEO_CURRENT_LINE
     bne :-
     set_ted_charset charset_keyboard_top
+    .if .defined(USE_AUTO_INVERT) {
+        lda TED_CONTROL_2
+        ora #TED_CHARSET_MODE_FULL
+        sta TED_CONTROL_2
+    }
     rts
 }
 
 
 .public switch_keyboard_bottom {
     lda #TED_CHARACTER_ADDRESS(charset_keyboard_bottom)
-    ldx #SCREEN_TOP + 5 * 8
+    ldx #RASTER_LINE_KEYBOARD_BOTTOM
 :	cpx VIDEO_CURRENT_LINE
     bne :-
     sta TED_CONTROL_4
@@ -52,7 +59,12 @@
 
 .public switch_joystick_label {
     set_ted_charset charset
-    ldx #SCREEN_TOP + 15 * 8
+    .if .defined(USE_AUTO_INVERT) {
+        lda TED_CONTROL_2
+        and #$ff - TED_CHARSET_MODE
+        sta TED_CONTROL_2
+    }
+    ldx #RASTER_LINE_JOYSTICK_LABEL
 :	cpx VIDEO_CURRENT_LINE
     bne :-
     jsr label_background
@@ -69,7 +81,7 @@
 
 .public switch_joystick_bottom {
     lda #FRAME_COLOR
-    ldx #SCREEN_TOP + 22 * 8 - 1
+    ldx #RASTER_LINE_JOYSTICK_BOTTOM - 1
 :	cpx VIDEO_CURRENT_LINE
     bne :-
     sta VIDEO_BACKGROUND_COLOR

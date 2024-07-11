@@ -65,10 +65,18 @@
         ldy #>keys_address_low
         lda keys_num_keys
         jsr set_keys_table
-        lda #14
+        lda #KEYBOARD_HEIGHT
         sta keyboard_height
         .if .defined(USE_COLOR_SAVE) {
             rl_expand main_color_save, main_color
+        }
+        .else {
+            ldx #0
+            txa
+        :   sta checked_state,x
+            inx
+            cpx num_keys
+            bne :-
         }
         lda #KEY_INDEX_HELP
         sta key_index_help
@@ -78,7 +86,12 @@
     lda keyboard_height
     cmp #12
     bne high_keyboard
-    store_word joystick_positions, screen + 16 * 40 + 6
+    .if .defined(USE_TED) {
+        store_word joystick_positions, screen + 16 * 40 + 12
+    }
+    .else {
+        store_word joystick_positions, screen + 16 * 40 + 6
+    }
     store_word joystick_positions + 2, screen + 16 * 40 + 22
     jmp init_keyboard
 high_keyboard:

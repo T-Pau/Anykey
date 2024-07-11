@@ -36,8 +36,3 @@
     .data (SCREEN_TOP + 22 * 8 - 2):2, switch_joystick_bottom
     .data (SCREEN_TOP + 24 * 8 + 7):2, switch_bottom
 }
-
-
-.public main_128_irq_table_length {
-    .data .sizeof(main_128_irq_table)
-}

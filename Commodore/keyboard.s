@@ -89,8 +89,10 @@ loop:
     beq next
     sta key_state,x
     .if !.defined(USE_COLOR_SAVE) {
-        ora checked_state,x
+        cmp #0
+        beq :+
         sta checked_state,x
+        :
     }
     .if  !.defined(USE_PET) {
         cmp #0
@@ -329,11 +331,14 @@ keyboard_restore_color {
     sty current_key_color
 
     ldx #0
-:   lda #0
+loop:
+    lda checked_state,x
+    beq :+
+    lda #0
     jsr display_key
-    inx
+:   inx
     cpx num_keys
-    bne :-
+    bne loop
 
     rts
 }
