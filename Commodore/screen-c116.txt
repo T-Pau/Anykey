@@ -1,4 +1,4 @@
-;  irq-table-c16.s -- Table of raster IRQ handlers for C16 keyboard.
+;  screen-plus4.txt -- Main screen for Plus/4 keyboard.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,19 +25,23 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.section data
+; TODO: adapt to C116
 
-; TOOD: adapt
+.include "screen-settings.inc"
+name main_screen
+map '_' $a0
+image_padding_left __
+image_padding_right __ 
+---
+   keyboard
+.image
 
-.public main_irq_table {
-    .data (SCREEN_TOP - 1):2, top_label
-    .data (SCREEN_TOP + 8 - 2):2, switch_keyboard_top
-    .data (SCREEN_TOP + 5 * 8 - 3):2, switch_keyboard_bottom
-    .data (SCREEN_TOP + 15 * 8 - 2):2, switch_joystick_label
-    .data (SCREEN_TOP + 17 * 8 - 1):2, switch_joystick
-    .data (SCREEN_TOP + 22 * 8 - 2):2, switch_joystick_bottom
-}
+           joysticks
+          ◢■■■■■■■■■■■■■■■■■■◣
+          ■■■■■■┌─┒■■■■■■■┌─┒■
+          ■■■■■■│¹┃■■■■■■■│¹┃■
+          ■■■■■■┕━┛■■■■■■■┕━┛■
+          ◥■■■■■■■■■■■■■■■■■■◤
 
-.public main_irq_table_length {
-    .data .sizeof(main_irq_table)
-}
+     f3: reset   help: help      
+      (hold for 2 seconds)         t'pau

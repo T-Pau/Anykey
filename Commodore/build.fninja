@@ -3,7 +3,7 @@ include ../Toolkit/fast-ninja/scripts.fninja
 
 petcat = petcat
 
-default anykey.prg anykey-c16.prg anykey-c64.prg anykey-c128.prg anykey-mega65.prg anykey-pet-8k.prg anykey-pet-full.prg anykey-plus4.prg anykey-vic20.prg
+default anykey.prg anykey-c16.prg anykey-c116.prg anykey-c64.prg anykey-c128.prg anykey-mega65.prg anykey-pet-8k.prg anykey-pet-full.prg anykey-plus4.prg anykey-vic20.prg
 
 sources_common :=
     ../Toolkit/xlr8/6502/rl-expand.s
@@ -146,16 +146,24 @@ sources_plus4 :=
     irq-table-plus4.s
     platform-plus4.s
 
-# TODO: adpat to C16
-sources_c16 :=
+sources_c16_c116 :=
     ${sources_ted}
     ${sources_common}
     charset-c16.s    
     help-screens-plus4.s
+    platform-c16.s
+
+sources_c16 :=
+    ${sources_c16_c116}
     keyboard-c16.s
     keys-c16.s
     irq-table-c16.s
-    platform-c16.s
+
+sources_c116 :=
+    ${sources_c16_c116}
+    keyboard-c116.s
+    keys-c116.s
+    irq-table-c116.s
 
 sources_vic20 :=
     ../Toolkit/xlr8/commodore/irq.s
@@ -189,6 +197,10 @@ build anykey-pet.prg: basic anykey-pet.bas
     address = 0401
 
 build anykey-c16.prg | anykey-c16.prg.sym: link $sources_c16
+    target = {{anykey-c16.target}}
+    libs = plus4.lib cbm.lib
+
+build anykey-c116.prg | anykey-c116.prg.sym: link $sources_c116
     target = {{anykey-c16.target}}
     libs = plus4.lib cbm.lib
 
@@ -233,6 +245,7 @@ build charset-c16.s: convert-characters charset-c16.yaml
 build charset-vic20.s: convert-charset charset-vic20.png
     name = charset
 build keyboard-c16.s: convert-characters keyboard-c16.yaml
+build keyboard-c116.s: convert-characters keyboard-c116.yaml
 build keyboard-c64.s: convert-characters keyboard-c64.yaml
 build keyboard-c128.s: convert-characters keyboard-c128.yaml
 build keyboard-mega65-c64.s: convert-characters keyboard-mega65-c64.yaml
@@ -258,6 +271,7 @@ build screen-colors.s: encode-colors screen-colors.col
 build keys-64.s: keys keys-64.key
 build keys-128.s: keys keys-128.key
 build keys-c16.s: keys keys-c16.key
+build keys-c116.s: keys keys-c116.key
 build keys-mega65.s: keys keys-mega65.key
 build keys-pet-business-40.s: keys keys-pet-business-40.key
 build keys-pet-business-80.s: keys keys-pet-business-80.key

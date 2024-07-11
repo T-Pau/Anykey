@@ -27,7 +27,7 @@
 
 .section data
 
-; TOOD: adapt
+; TODO: adapt
 
 .public main_irq_table {
     .data (SCREEN_TOP - 1):2, top_label
