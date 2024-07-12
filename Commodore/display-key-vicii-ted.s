@@ -405,6 +405,39 @@ COLOR_RAM_OFFSET = >color_ram - >screen
     rts
 }
 
+.public display_key_20 {
+    clc
+    lda ptr1
+    adc #40
+    sta ptr2
+    lda ptr1 + 1
+    adc #0
+    sta ptr2 + 1
+
+    ldy #19
+:	lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    lda (ptr2),y
+    and #$7f
+    ora current_key_state
+    sta (ptr2),y
+    dey
+    bpl :-
+
+    set_color ptr2
+    set_color
+
+    ldy #19
+:	sta (ptr1),y
+    sta (ptr2),y
+    dey
+    bpl :-
+
+    rts
+}
+
 
 .public display_key_down {
     iny
@@ -664,6 +697,99 @@ COLOR_RAM_OFFSET = >color_ram - >screen
     iny
     sta (ptr1),y
     ldy #143
+    sta (ptr1),y
+    iny
+    sta (ptr1),y
+    iny
+    sta (ptr1),y
+    rts
+}
+
+
+.public display_key_c116_shift {
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+
+    ldy #40
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+
+    ldy #23
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+
+    ldy #63
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+    iny
+    lda (ptr1),y
+    and #$7f
+    ora current_key_state
+    sta (ptr1),y
+
+    set_color
+    ldy #0
+    sta (ptr1),y
+    iny
+    sta (ptr1),y
+    iny
+    sta (ptr1),y
+    ldy #40
+    sta (ptr1),y
+    iny
+    sta (ptr1),y
+    iny
+    sta (ptr1),y
+    ldy #23
+    sta (ptr1),y
+    iny
+    sta (ptr1),y
+    iny
+    sta (ptr1),y
+    ldy #63
     sta (ptr1),y
     iny
     sta (ptr1),y
