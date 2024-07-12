@@ -1,3 +1,7 @@
+# Version 1.7 (Unreleased)
+
+* Add support for C16 and C116.
+
 # Version 1.6.1 (2023-09-20)
 
 * Fix extra keys on C128 broken in previous release. 
