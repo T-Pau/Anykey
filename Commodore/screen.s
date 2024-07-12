@@ -27,38 +27,6 @@
 
 .include "features.inc"
 
-.section data
-
-help_screen {
-    .data "                                        ":screen_inverted
-    .data "I                                      J":screen_lowercase
-    .repeat 18 {
-        .data "                                        ":screen
-    }
-    .data "KMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMML":screen_lowercase
-    .data "                                        ":screen_inverted
-    .if .defined(USE_VICII) {
-        .data "  space/+: next page  -: previous page  ":screen_inverted
-        .data "         ":screen_inverted
-        .data $9f
-        .data           ": return to program           ":screen_inverted
-        .data "                                        ":screen_inverted
-    }
-    .else_if .defined(USE_TED) {
-        .data "  space/+: next  -: previous            ":screen_inverted
-        .data "    esc: return to program       ":screen_inverted
-        .data $79, $7a, $7b, $7c, $7d, $7e, $7f
-        .data "                                 ":screen_inverted
-        .data $f9, $fa, $fb, $fc, $fd, $fe, $ff
-    }
-}
-
-help_color {
-    .data .fill(2 * 40, FRAME_COLOR)
-    .data .fill(18 * 40, CONTENT_COLOR)
-    .data .fill(5 * 40, FRAME_COLOR)
-}
-
 .section code
 
 .public display_main_screen {
@@ -138,8 +106,8 @@ help_color {
     .if .defined(USE_COLOR_SAVE) {
         memcpy main_color_save, color_ram, 1000
     }
-    memcpy screen, help_screen, 1000
-    memcpy color_ram, help_color, 1000
+    rl_expand screen, help_screen
+    rl_expand color_ram, help_color
     ldx #0
     stx current_help_page
     jsr display_help_page

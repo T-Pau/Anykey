@@ -34,6 +34,7 @@ sources_vicii_ted :=
 sources_ted :=
     ${sources_vicii_ted}
     start-ted.s
+    help-screen-ted.s
     help-ted.s
     irq-table-ted.s
     joysticks-ted.s
@@ -45,6 +46,7 @@ sources_vicii :=
     ${sources_vicii_ted}
     charset-vicii.s
     start-vicii.s
+    help-screen-vicii.s
     help-vicii.s
     joysticks-vicii.s
     keyboard-vicii.s
@@ -280,6 +282,12 @@ build keys-pet-calculator-80.s: keys keys-pet-calculator-80.key
 build keys-pet-graphics-40.s: keys keys-pet-graphics-40.key
 build keys-plus4.s: keys keys-plus4.key
 build keys-vic20.s: keys keys-vic20.key
+
+build help-screen-ted.s: convert-screens help-screen.txt
+    flags = -DUSE_TED
+
+build help-screen-vicii.s: convert-screens help-screen.txt
+    flags = -DUSE_VICII
 
 build help-screens-c64.s: convert-screens help-screens.txt
     flags = -DVERSION=$VERSION -DC64
