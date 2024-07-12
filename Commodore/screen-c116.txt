@@ -43,5 +43,5 @@ image_padding_right __
           ■■■■■■┕━┛■■■■■■■┕━┛■
           ◥■■■■■■■■■■■■■■■■■■◤
 
-     f3: reset   help: help      
-      (hold for 2 seconds)         t'pau
+         f3: reset   help: help      
+          (hold for 2 seconds)     t'pau

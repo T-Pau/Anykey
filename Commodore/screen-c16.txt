@@ -40,5 +40,5 @@ name main_screen
           ■■■■■■■■■■■■■■■■■■■■
           ◥■■■■■■■■■■■■■■■■■■◤
 
-     f3: reset   help: help      
-      (hold for 2 seconds)         t'pau
+         f3: reset   help: help      
+          (hold for 2 seconds)     t'pau
