@@ -1,4 +1,4 @@
-#  keyboard-48k.yaml -- Charsets for ZX Spectrum 48k keyboard.
+#  keyboard-plus.yaml -- Charsets for ZX Spectrum 48k+/128k keyboard.
 #  Copyright (C) Dieter Baron
 #
 #  This file is part of Anykey, a keyboard test program for C64.
@@ -38,5 +38,5 @@ images:
         file: charset-frame.png
     -
         type: image
-        file: keyboard-48k.png
-        screen-file: screen-48k.txt
+        file: keyboard-plus.png
+        screen-file: screen-plus.txt
