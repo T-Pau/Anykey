@@ -25,6 +25,7 @@ sources_48k :=
     $sources_common
     display-keys-48k.s
     help-screens-48k.s
+    keyboard-48k.s
     keys-48k.s
     loading-48k.s
     platform-48k.s
@@ -118,6 +119,9 @@ build keys-48k.s: key-table keys-48k.key
 build keys-plus.s: key-table keys-plus.key
 build keys-plus2.s: key-table keys-plus2.key
 build keys-n-go.s: key-table keys-n-go.key
+
+build keyboard-48k.s: convert-characters keyboard-48k.yaml
+
 
 build dpad.s: compress-screen dpad.json
 build button.s: compress-screen button.json

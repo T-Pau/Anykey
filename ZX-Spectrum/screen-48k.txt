@@ -1,4 +1,4 @@
-;  platform-48k.s -- 48k specific code
+;  screen-48k.txt -- Main screen for ZX Spectrum 48k.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,45 +25,23 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-KEYBOARD_OFFSET = 32 * 4 + 5
-KEYBOARD_SIZE = 32 * 7 + 22
-num_keys = 40
-
-.section code
-
-combine_keys {
-    ret
-}
-
-.section data
+.include "screen-settings.inc"
+name screen_main
+map '_' $20
+image_padding_left ____
+image_padding_right ____ 
+---
 
 
-colors_main {
-    .data 32 * 3 + 4, 7<<3
-    .data 24, 7, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, 7
-    .data 255, 7<<3
-    .data (11*32+4) - 255, 7<<3
-    .data 0
-}
+     keyboard
+.image
 
 
-screen_help {
-    .binary_file "help-48k-rl.bin"
-}
+
+       R: Reset   H: Help
+      (Hold for 2 seconds)
 
 
-colors_help {
-    .data 32, 7<<3
-    .data 255, 7, 255, 7, 2, 7 ; 16 lines
-    .data 32*7, 7<<3
-    .data 0
-}
+
+
+                          T'Pau

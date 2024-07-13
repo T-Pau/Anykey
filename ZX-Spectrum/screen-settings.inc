@@ -1,4 +1,5 @@
-;  platform-48k.s -- 48k specific code
+;  screen-settings.s -- Settings for screens.
+;
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,45 +26,17 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-KEYBOARD_OFFSET = 32 * 4 + 5
-KEYBOARD_SIZE = 32 * 7 + 22
-num_keys = 40
+map '@'-'Z' $00
+map 'a'-'z' $01
+map $20-$3f $20
 
-.section code
+map '◤' $40
+map '◥' $41
+map '◣' $42
+map '◢' $43
+map '▁' $44
 
-combine_keys {
-    ret
-}
-
-.section data
-
-
-colors_main {
-    .data 32 * 3 + 4, 7<<3
-    .data 24, 7, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, 7
-    .data 255, 7<<3
-    .data (11*32+4) - 255, 7<<3
-    .data 0
-}
-
-
-screen_help {
-    .binary_file "help-48k-rl.bin"
-}
-
-
-colors_help {
-    .data 32, 7<<3
-    .data 255, 7, 255, 7, 2, 7 ; 16 lines
-    .data 32*7, 7<<3
-    .data 0
-}
+line_length 32
+lines 24
+word_wrap 0
+single_screen 1

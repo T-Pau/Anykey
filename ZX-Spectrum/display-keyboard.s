@@ -68,7 +68,7 @@ display_key {
 
 .section reserved
 
-.public key_state .reserve num_keys
-.public new_key_state .reserve num_keys
+.public key_state .reserve num_keys * 2
+new_key_state = key_state + num_keys
 
 current_key .reserve 1
