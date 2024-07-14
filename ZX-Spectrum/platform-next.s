@@ -40,16 +40,6 @@ num_keys = 58
 
 .section data
 
-charset {
-    .binary_file "charset-next.bin"
-}
-
-
-screen_main {
-    .binary_file "keyboard-next-rl.bin"
-}
-
-
 colors_main {
     .data 32 + 2, 7<<3
     .data 29, 7, 3, 7<<3

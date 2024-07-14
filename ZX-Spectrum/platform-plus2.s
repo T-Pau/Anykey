@@ -1,4 +1,4 @@
-;  platform-48k.s -- 48k specific code
+;  platform-plus2.s -- +2/+3 specific code
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -37,16 +37,6 @@ JOYSTICK_2_BUTTON_OFFSET = JOYSTICK_1_BUTTON_OFFSET + 10
 num_keys = 58
 
 .section data
-
-charset {
-    .binary_file "charset-plus2.bin"
-}
-
-
-screen_main {
-    .binary_file "keyboard-plus2-rl.bin"
-}
-
 
 colors_main {
     .data 32 + 2, 7<<3

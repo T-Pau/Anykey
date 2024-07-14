@@ -16,9 +16,8 @@ sources_common :=
     reset-keyboard.s
 
 sources_common_plus :=
-    button.s
+    charset-joystick.s
     combine-keys.s
-    dpad.s
     joystick.s
 
 sources_48k :=
@@ -45,6 +44,7 @@ sources_plus2 :=
     $sources_common_plus
     display-keys-plus2.s
     help-screens-plus2.s
+    keyboard-plus2.s
     keys-plus2.s
     loading-plus2.s
     platform-plus2.s
@@ -55,6 +55,7 @@ sources_next :=
     display-keys-plus.s
     extended-keys.s
     help-screens-next.s
+    keyboard-next.s
     keys-plus2.s
     loading-next.s
     platform-next.s
@@ -66,6 +67,7 @@ sources_n_go :=
     display-keys-plus2.s
     extended-keys.s
     help-screens-n-go.s
+    keyboard-n-go.s
     keys-n-go.s
     loading-n-go.s
     platform-n-go.s
@@ -121,12 +123,12 @@ build keys-plus.s: key-table keys-plus.key
 build keys-plus2.s: key-table keys-plus2.key
 build keys-n-go.s: key-table keys-n-go.key
 
+build charset-joystick.s: convert-characters charset-joystick.yaml
 build keyboard-48k.s: convert-characters keyboard-48k.yaml
 build keyboard-plus.s: convert-characters keyboard-plus.yaml
-
-
-build dpad.s: compress-screen dpad.json
-build button.s: compress-screen button.json
+build keyboard-plus2.s: convert-characters keyboard-plus2.yaml
+build keyboard-next.s: convert-characters keyboard-next.yaml
+build keyboard-n-go.s: convert-characters keyboard-n-go.yaml
 
 build help-screens-48k.s: convert-screens help-screens.txt
     flags = -DVERSION=${VERSION} -DPLATFORM_48K

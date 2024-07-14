@@ -1,4 +1,4 @@
-;  platform-48k.s -- 48k specific code
+;  screen-next.txt -- Main screen for ZX Spectrum Next.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,51 +25,21 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-KEYBOARD_OFFSET = 32 * 2 + 3
-KEYBOARD_SIZE = 32 * 9 + 27
+.include "screen-settings.inc"
+name screen_main
+map '_' $20
+image_padding_left __
+image_padding_right _
+---
+   keyboard
+.image
 
-; y = 15, x = 3
-JOYSTICK_1_DPAD_OFFSET = 8 * 256 + 7 * 32 + 3
-JOYSTICK_1_BUTTON_OFFSET = 16 * 256 + 8
-JOYSTICK_2_DPAD_OFFSET = JOYSTICK_1_DPAD_OFFSET + 9
-JOYSTICK_2_BUTTON_OFFSET = JOYSTICK_1_BUTTON_OFFSET + 9
-JOYSTICK_3_DPAD_OFFSET = JOYSTICK_2_DPAD_OFFSET + 10
-JOYSTICK_3_BUTTON_OFFSET = JOYSTICK_2_BUTTON_OFFSET + 10
+   joystick
+  ◤                           ◥
 
-num_keys = 58
 
-.section data
 
-colors_main {
-    .data 32 + 1, 7<<3
-    .data 31, 7, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, 7
-    .data 32 * 2 + 2, 7<<3
-    .data 29, 7, 3, 7<<3
-    .data 29, 7, 3, 7<<3
-    .data 29, 7, 3, 7<<3
-    .data 29, 7, 3, 7<<3
-    .data 29, 7, 3, 7<<3
-    .data 32 * 5 + 1, 7<<3
-    .data 0
-}
+  ◣▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁◢
 
-screen_help {
-    .binary_file "help-n-go-rl.bin"
-}
-
-colors_help {
-    .data 32, 7<<3
-    .data 255, 7, 255, 7, 66, 7 ; 16 lines
-    .data 32*5, 7<<3
-}
+       R: Reset   H: Help
+      (Hold for 2 seconds)

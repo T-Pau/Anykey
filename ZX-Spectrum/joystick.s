@@ -110,10 +110,6 @@ port_0:
 
 .section data
 
-charset_joystick {
-    .binary_file "charset-joystick.bin"
-}
-
 joystick {
     .data screen + JOYSTICK_1_DPAD_OFFSET
     .data screen + JOYSTICK_1_BUTTON_OFFSET
