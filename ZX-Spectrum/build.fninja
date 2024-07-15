@@ -5,8 +5,8 @@ default anykey-spectrum-48k.tzx anykey-spectrum-48k+-128k.tzx anykey-spectrum-+2
 
 sources_common :=
     ../Toolkit/xlr8/z80/rl-expand.s
-    start-zx.s
     copy-colors.s
+    start-zx.s
     display-keyboard.s
     help-view.s
     keyboard.s
@@ -14,6 +14,7 @@ sources_common :=
     platform.s
     read-keyboard.s
     reset-keyboard.s
+    screen-colors.s
 
 sources_common_plus :=
     charset-joystick.s
@@ -140,3 +141,6 @@ build help-screens-next.s: convert-screens help-screens.txt
     flags = -DVERSION=${VERSION} -DPLATFORM_NEXT
 build help-screens-n-go.s: convert-screens help-screens.txt
     flags = -DVERSION=${VERSION} -DPLATFORM_N_GO
+
+build screen-colors.s: encode-colors screen-colors.col
+    flags = -r

@@ -29,32 +29,13 @@ KEYBOARD_OFFSET = 32 * 4 + 3
 KEYBOARD_SIZE = 32 * 9 + 27
 num_keys = 58
 
+main_color = main_color_plus
+
 .section data
-
-colors_main {
-    .data 32 * 3 + 2, 7<<3
-    .data 29, 7, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, 7
-    .data 255, 7<<3
-    .data (9*32+2) - 255, 7<<3
-    .data 0
-}
-
 
 screen_help {
     .binary_file "help-plus-rl.bin"
 }
-
 
 colors_help {
     .data 32, 7<<3

@@ -1,4 +1,4 @@
-;  platform.inc -- general defines
+;  screen-colors.txt -- Colors for main screens.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,28 +25,30 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.include "platform.inc"
+main_color_48k 32 24 LABEL_COLOR {
+    4 3 24 10 FRAME_COLOR
+    5 4 22 8 UNCHECKED_COLOR
+}
 
-.pre_if .defined(USE_LOADING_SCREEN)
-.public INCLUDE_LOADING_SCREEN = .true
-.pin loading_screen loading_screen_start
-.pre_end
-.public PROGRAM_NAME = "Anykey"
+main_color_plus 32 24 LABEL_COLOR {
+    2 3 29 12 FRAME_COLOR
+    3 4 27 10 UNCHECKED_COLOR
+}
 
-screen_size = 32 * 24
-screen = $4000
-color = screen + screen_size * 8
+main_color_plus2 32 24 LABEL_COLOR {
+    2 1 29 12 FRAME_COLOR
+    3 2 27 10 UNCHECKED_COLOR
+    6 15 20 5 FRAME_COLOR
+}
 
-LABEL_COLOR = $38 ; black on grey
-FRAME_COLOR = $07 ; white on black
-PRESSED_COLOR =  $07 ; white on black
-UNCHECKED_COLOR = $47 ; bright white on black
-CHECKED_COLOR = $06 ; yellow on black
+main_color_next 32 24 LABEL_COLOR {
+    2 1 29 12 FRAME_COLOR
+    3 2 27 10 UNCHECKED_COLOR
+    2 15 29 5 FRAME_COLOR
+}
 
-KEY_INDEX_RESET = 13
-KEY_INDEX_HELP = 34
-KEY_INDEX_NEXT = 35
-KEY_INDEX_PREVIOUS = 25
-KEY_INDEX_RETURN = 20
-
-PRESS_DURATION = 90
+main_color_n_go 32 24 LABEL_COLOR {
+    1 1 31 12 FRAME_COLOR
+    2 2 29 10 UNCHECKED_COLOR
+    2 15 29 5 FRAME_COLOR
+}

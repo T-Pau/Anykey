@@ -29,6 +29,8 @@ KEYBOARD_OFFSET = 32 * 4 + 5
 KEYBOARD_SIZE = 32 * 7 + 22
 num_keys = 40
 
+main_color = main_color_48k
+
 .section code
 
 combine_keys {
@@ -36,25 +38,6 @@ combine_keys {
 }
 
 .section data
-
-
-colors_main {
-    .data 32 * 3 + 4, 7<<3
-    .data 24, 7, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, UNCHECKED_COLOR, 8, 7<<3
-    .data 24, 7
-    .data 255, 7<<3
-    .data (11*32+4) - 255, 7<<3
-    .data 0
-}
-
 
 screen_help {
     .binary_file "help-48k-rl.bin"

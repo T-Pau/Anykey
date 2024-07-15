@@ -38,31 +38,9 @@ JOYSTICK_3_BUTTON_OFFSET = JOYSTICK_2_BUTTON_OFFSET + 10
 
 num_keys = 58
 
-.section data
+main_color = main_color_next
 
-colors_main {
-    .data 32 + 2, 7<<3
-    .data 29, 7, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, UNCHECKED_COLOR, 3, 7<<3
-    .data 29, 7
-    .data 32 * 2 + 3, 7<<3
-    .data 29, 7, 3, 7<<3
-    .data 29, 7, 3, 7<<3
-    .data 29, 7, 3, 7<<3
-    .data 29, 7, 3, 7<<3
-    .data 29, 7, 3, 7<<3
-    .data 32 * 5 + 1, 7<<3
-    .data 0
-}
+.section data
 
 screen_help {
     .binary_file "help-next-rl.bin"

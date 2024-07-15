@@ -30,12 +30,15 @@
 .section code
 
 .public start {
-    set_charset charset
     ld a,7
     out (254),a
+    set_charset charset
     rl_expand_chars screen, screen_main
-    ld de,colors_main
-    call copy_colors
+    ; rl_expand color, main_color ; XLR8
+    ld hl, main_color
+    ld de, color
+    call rl_expand
+
     .if .defined(USE_EXTENDED_KEYS) {
         call init_extended_keys
         call init_logo_sprites

@@ -38,31 +38,9 @@ JOYSTICK_3_BUTTON_OFFSET = JOYSTICK_2_BUTTON_OFFSET + 10
 
 num_keys = 58
 
-.section data
+main_color = main_color_n_go
 
-colors_main {
-    .data 32 + 1, 7<<3
-    .data 31, 7, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, UNCHECKED_COLOR, 1, 7<<3
-    .data 31, 7
-    .data 32 * 2 + 2, 7<<3
-    .data 29, 7, 3, 7<<3
-    .data 29, 7, 3, 7<<3
-    .data 29, 7, 3, 7<<3
-    .data 29, 7, 3, 7<<3
-    .data 29, 7, 3, 7<<3
-    .data 32 * 5 + 1, 7<<3
-    .data 0
-}
+.section data
 
 screen_help {
     .binary_file "help-n-go-rl.bin"

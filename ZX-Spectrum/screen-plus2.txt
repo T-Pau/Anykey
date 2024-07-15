@@ -1,4 +1,4 @@
-;  screen-48k.txt -- Main screen for ZX Spectrum 48k.
+;  screen-plus2.txt -- Main screen for ZX Spectrum +2/+3.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
