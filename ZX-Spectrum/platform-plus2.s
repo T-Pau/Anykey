@@ -37,16 +37,4 @@ JOYSTICK_2_BUTTON_OFFSET = JOYSTICK_1_BUTTON_OFFSET + 10
 num_keys = 58
 
 main_color = main_color_plus2
-
-.section data
-
-screen_help {
-    .binary_file "help-plus2-rl.bin"
-}
-
-
-colors_help {
-    .data 32, 7<<3
-    .data 255, 7, 255, 7, 2, 7 ; 16 lines
-    .data 32*7, 7<<3
-}
+help_color = help_color_48k

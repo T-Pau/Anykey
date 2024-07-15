@@ -5,7 +5,6 @@ default anykey-spectrum-48k.tzx anykey-spectrum-48k+-128k.tzx anykey-spectrum-+2
 
 sources_common :=
     ../Toolkit/xlr8/z80/rl-expand.s
-    copy-colors.s
     start-zx.s
     display-keyboard.s
     help-view.s
@@ -24,6 +23,7 @@ sources_common_plus :=
 sources_48k :=
     $sources_common
     display-keys-48k.s
+    help-screen-48k.s
     help-screens-48k.s
     keyboard-48k.s
     keys-48k.s
@@ -34,6 +34,7 @@ sources_plus :=
     $sources_common
     combine-keys.s
     display-keys-plus.s
+    help-screen-48k.s
     help-screens-plus.s
     keyboard-plus.s
     keys-plus.s
@@ -44,6 +45,7 @@ sources_plus2 :=
     $sources_common
     $sources_common_plus
     display-keys-plus2.s
+    help-screen-48k.s
     help-screens-plus2.s
     keyboard-plus2.s
     keys-plus2.s
@@ -55,6 +57,7 @@ sources_next :=
     $sources_common_plus
     display-keys-plus.s
     extended-keys.s
+    help-screen-next.s
     help-screens-next.s
     keyboard-next.s
     keys-plus2.s
@@ -67,6 +70,7 @@ sources_n_go :=
     $sources_common_plus
     display-keys-plus2.s
     extended-keys.s
+    help-screen-next.s
     help-screens-n-go.s
     keyboard-n-go.s
     keys-n-go.s
@@ -130,6 +134,9 @@ build keyboard-plus.s: convert-characters keyboard-plus.yaml
 build keyboard-plus2.s: convert-characters keyboard-plus2.yaml
 build keyboard-next.s: convert-characters keyboard-next.yaml
 build keyboard-n-go.s: convert-characters keyboard-n-go.yaml
+
+build help-screen-48k.s: convert-screens help-screen-48k.txt
+build help-screen-next.s: convert-screens help-screen-next.txt
 
 build help-screens-48k.s: convert-screens help-screens.txt
     flags = -DVERSION=${VERSION} -DPLATFORM_48K

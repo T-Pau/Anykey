@@ -55,8 +55,7 @@ The lower window shows the state of joysticks connected to the controller ports.
 .end
 
 This is Anykey ${VERSION}.
-The newest version and further
-information can be found at
+The newest version and further information can be found at
    github.com/T-Pau/Anykey
 ---
 Keyboard
@@ -65,7 +64,7 @@ The keys are displayed in the same layout as the physical keyboard.
 
 Keys that are currently pressed are displayed inverted.
 
-Keys that were previously pressed are displayed in yellow. This helps detect dead keys. To reset the state of all keys to unpressed, hold 9 for two seconds.
+Keys that were previously pressed are displayed in yellow. This helps detect dead keys. To reset the state of all keys to unpressed, hold R for two seconds.
 ---
 .if PLATFORM_PLUS2 or PLATFORM_NEXT or PLATFORM_N_GO
 Joysticks
@@ -79,12 +78,11 @@ The +2 and +3 have two joystick ports, which are seen by the computer as key pre
 .else
 On Next and N-Go, the three joysticks displayed are Sinclair 1, Sinclair 2, and Kempston.
 ---
-Joysticks (continued)
+Joysticks
 
-For Sinclair 1 and 2 movement is seen by the computer as key presses. Sinclair 1 uses the keys 6-0, Sinclair 2 the keys
-1-5.
+For Sinclair 1 and 2, movement is seen by the computer as key presses. Sinclair 1 uses the keys 6-0, Sinclair 2 the keys 1-5.
 
-There are two joystick physical ports. The user can configure each of these as any of the three joysticks.
+There are two physical joystick ports. The user can configure each of these as any of the three joysticks.
 
 Anykey doesn't know which are in use, so it always displays all three.
 .end
@@ -95,11 +93,11 @@ Special Keys
 
 All keys except for digits, letters, space, enter, caps shift and symbol shift are read by the computer as two key presses.
 
-The computer can't tell if such a key or the two corresponding keys are pressed, so anykey displays all three as pressed.
+The computer can't tell if such a key or the two corresponding keys are pressed, so Anykey displays all three as pressed.
 
 For best results, test the normal keys first.
 ---
 .end
 Technical Limitations
 
-If you press certain combinations of three keys, a fourth key will also appear pressed. this is because the three keys together create the same electrical connection the fourth key would.
+If you press certain combinations of three keys, a fourth key will also appear pressed. This is because the three keys together create the same electrical connection the fourth key would.

@@ -39,15 +39,4 @@ JOYSTICK_3_BUTTON_OFFSET = JOYSTICK_2_BUTTON_OFFSET + 10
 num_keys = 58
 
 main_color = main_color_n_go
-
-.section data
-
-screen_help {
-    .binary_file "help-n-go-rl.bin"
-}
-
-colors_help {
-    .data 32, 7<<3
-    .data 255, 7, 255, 7, 66, 7 ; 16 lines
-    .data 32*5, 7<<3
-}
+help_color = main_color_next

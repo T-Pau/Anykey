@@ -1,4 +1,4 @@
-;  copy-screen.s -- Copy characters to screen RAM.
+;  screen-48k.txt -- Main screen for ZX Spectrum 48k.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,95 +25,28 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.section code
+.include "screen-settings.inc"
+name screen_help
+---
 
-; hl - address of charset
-.public set_charset {
-    ld a,l
-    ld (current_charset),a
-    ld a,h
-    ld (current_charset + 1),a
-    ret
-}
-
-; iy - chars to copy from
-.public copy_screen {
-    ld hl, screen
-    ; fallthrough
-
-; iy - chars to copy from
-; hl - screen position to copy to
-.public copy_chars:
-    ld a,(iy)
-    inc iy
-    cp a,$fe
-    jr nz,no_skip
-    ld a,(iy)
-    inc iy
-    add a,l
-    ld l,a
-    jr nc,copy_chars
-    ld a,8
-    add a,h
-    ld h,a
-    jr copy_chars
-no_skip:
-    ld c,1
-    cp a,$ff
-    jr nz,no_runlength
-    ld a,(iy)
-    inc iy
-    cp a,0
-    ret z
-    ld c,a
-    ld a,(iy)
-    inc iy
-no_runlength:
-    ; calculate address of character in set
-    ld e,a
-    ld d,0
-    ccf
-    rl e
-    rl d
-    rl e
-    rl d
-    rl e 
-    rl d
-    ld a,(current_charset)
-    add a,e
-    ld e,a
-    ld a,(current_charset + 1)
-    adc a,d
-    ld d,a
-
-runlength_loop:
-    ; copy character
-    ld b, 8
-copy_char_loop:
-    ld a,(de)
-    ld (hl),a
-    inc h
-    inc de
-    djnz copy_char_loop
-
-    inc l
-    jr z,runlength_next
-    ld a,h
-    sub 8
-    ld h,a
-runlength_next:
-    dec c
-    jr z,copy_chars
-    ld a,e
-    sub 8
-    ld e,a
-    ld a,d
-    sbc 0
-    ld d,a
-    jr runlength_loop
-}
+◤                              ◥
 
 
-.section reserved
 
-current_charset .reserve 2
+
+
+
+
+
+
+
+
+
+
+
+◣▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁◢
+
+        Space: Next Page
+        P: Previous Page
+      1: Return to Program      
+                           T'Pau

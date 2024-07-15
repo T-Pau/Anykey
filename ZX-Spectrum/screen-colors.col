@@ -52,3 +52,11 @@ main_color_n_go 32 24 LABEL_COLOR {
     2 2 29 10 UNCHECKED_COLOR
     2 15 29 5 FRAME_COLOR
 }
+
+help_color_48k 32 24 LABEL_COLOR {
+    0 1 32 16 FRAME_COLOR
+}
+
+help_color_next 32 24 LABEL_COLOR {
+    0 1 32 18 FRAME_COLOR
+}

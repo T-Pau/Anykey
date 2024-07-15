@@ -1,4 +1,4 @@
-;  copy-colors.s -- Copy colors to color RAM.
+;  screen-48k.txt -- Main screen for ZX Spectrum 48k.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,22 +25,29 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.section code
+.include "screen-settings.inc"
+name screen_help
+---
 
-; de: colors to copy
-.public copy_colors {
-    ld hl, color
-run_loop:
-    ld a,(de)
-    ld b,a
-    or a
-    ret z
-    inc de
-    ld a,(de)
-byte_loop:
-    ld (hl),a
-    inc hl
-    djnz byte_loop
-    inc de
-    jr run_loop
-}
+◤                              ◥
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+◣▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁◢
+
+        Space: Next Page
+        P: Previous Page
+      1: Return to Program      

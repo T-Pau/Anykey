@@ -30,23 +30,10 @@ KEYBOARD_SIZE = 32 * 7 + 22
 num_keys = 40
 
 main_color = main_color_48k
+help_color = help_color_48k
 
 .section code
 
 combine_keys {
     ret
-}
-
-.section data
-
-screen_help {
-    .binary_file "help-48k-rl.bin"
-}
-
-
-colors_help {
-    .data 32, 7<<3
-    .data 255, 7, 255, 7, 2, 7 ; 16 lines
-    .data 32*7, 7<<3
-    .data 0
 }

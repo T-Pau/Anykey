@@ -45,8 +45,7 @@ help {
 
     set_charset charset
     rl_expand_chars screen, screen_help
-    ld de,colors_help
-    call copy_colors
+    rl_expand color, help_color
     ld a,0
     ld (current_page),a
     ld (pressed_key),a

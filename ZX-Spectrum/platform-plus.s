@@ -30,15 +30,4 @@ KEYBOARD_SIZE = 32 * 9 + 27
 num_keys = 58
 
 main_color = main_color_plus
-
-.section data
-
-screen_help {
-    .binary_file "help-plus-rl.bin"
-}
-
-colors_help {
-    .data 32, 7<<3
-    .data 255, 7, 255, 7, 2, 7 ; 16 lines
-    .data 32*7, 7<<3
-}
+help_color = help_color_48k
