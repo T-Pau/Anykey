@@ -9,6 +9,8 @@ It supports the following computers:
 - Commodore 64
 - Commodore 128 (128 mode in 40 columns or 64 mode)
 - Commodore PET (all models with at least 8k RAM)
+- Commodore 16
+- Commodore 116
 - Commodore Plus/4
 - Commodore VIC-20 (at least 8k RAM expansion)
 - MEGA65 (native and 64 mode)
@@ -25,7 +27,7 @@ The upper window shows the state of the keyboard.
 
 If the computer has controller ports, the lower window shows the state of connected joysticks.
 
-To test other controller types or joystick adapters, please use the companion program [Joyride](https://github.com/T-Pau/Joyride) (currently only available on C64).
+To test other controller types or joystick adapters, please use the companion program [Joyride](https://github.com/T-Pau/Joyride) (currently only available on C64 and C128).
 
 
 ## Using Anykey
