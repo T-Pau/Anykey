@@ -25,6 +25,11 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+key_screen_offset = 0
+key_color_offset = 2
+key_display_routine = 4
+key_size = 6
+
 .section code
 
 .public display_keyboard {

@@ -35,7 +35,7 @@
         call read_extended_keys
     }
     call combine_keys
-    ;call display_keyboard ; XLR8: mistranslates jump
+    call display_keyboard
     .if .defined(JOYSTICK_1_DPAD_OFFSET) {
         call display_joystick_1
     }
