@@ -3,11 +3,11 @@
 - **VIC-20**: Fix crash.
 - **VIC-20**: Verify correct charset placement.
 - **PET**: Fix.
-- Convert `list-left` to proper Python script.
-- **ZX Spectrum**: fix extended keys, joysticks.
+- **ZX Spectrum Next**: fix extended keys, test joystick 3
 
 # Cleanup
 
+- Convert `list-left` to proper Python script.
 - **Commodore**: Reduce usage of `.if .defined(TARGET)` in code.
 - **Commodore**: Reduce code duplication.
 

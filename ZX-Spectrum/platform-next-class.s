@@ -1,4 +1,4 @@
-.include "platform.inc"
+.include "features.inc"
 
 .public .macro readnextreg address {
     ld a, address

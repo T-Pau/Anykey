@@ -1,3 +1,4 @@
+.include "features.inc"
 
 JOYSTICK_OFFSET_DPAD = 0
 JOYSTICK_OFFSET_BUTTON = 2
@@ -58,22 +59,21 @@ display_joystick {
     ld ix,joystick
     ld a,c
     cp a,0
-    jr z,port_0
+    jr z,display
     ld d,0
     ld e,JOYSTICK_SIZE
     ld b,c
-index_loop:
-    add ix,de
-    djnz index_loop
-port_0:
+:   add ix,de
+    djnz :-
+display:
     set_charset charset_joystick
 
     ld a,(value)
     and a,$1e
-    add a,dpad & $ff
+    add a,<dpad
     ld e,a
     ld a,0
-    adc a,dpad >> 8
+    adc a,>dpad
     ld d,a
     ld a,(de)
     ld l,a
@@ -89,10 +89,10 @@ port_0:
     ld a,(value)
     and a,$01
     rlc a
-    add a,button & $ff
+    add a,<button
     ld e,a
     ld a,0
-    adc a,button >> 8
+    adc a,>button
     ld d,a
     ld a,(de)
     ld l,a
@@ -117,7 +117,7 @@ joystick {
     .data screen + JOYSTICK_2_DPAD_OFFSET
     .data screen + JOYSTICK_2_BUTTON_OFFSET
 
-    .if .defined(PLATFORM_NEXT) || .defined(PLATFORM_N_GO) {
+    .if .defined(USE_JOYSTICK_3) {
         .data screen + JOYSTICK_3_DPAD_OFFSET
         .data screen + JOYSTICK_3_BUTTON_OFFSET
     }

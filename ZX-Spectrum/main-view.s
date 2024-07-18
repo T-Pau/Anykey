@@ -25,7 +25,7 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.include "platform.inc"
+.include "features.inc"
 
 .section code
 
@@ -36,14 +36,12 @@
     }
     call combine_keys
     call display_keyboard
-    .if .defined(JOYSTICK_1_DPAD_OFFSET) {
+    .if .defined(USE_JOYSTICKS) {
         call display_joystick_1
-    }
-    .if .defined(JOYSTICK_2_DPAD_OFFSET) {
         call display_joystick_2
-    }
-    .if .defined(JOYSTICK_3_DPAD_OFFSET) {
-        call display_joystick_3
+        .if .defined(USE_JOYSTICK_3) {
+            call display_joystick_3
+        }
     }
     call handle_keys_main
     ld iy,0 ; clear iy so interrupt routine doesn't clobber memory
