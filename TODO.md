@@ -2,8 +2,8 @@
 
 - **VIC-20**: Fix crash.
 - **VIC-20**: Verify correct charset placement.
-- **PET**: Fix.
-- **ZX Spectrum Next**: fix extended keys, test joystick 3
+- **PET**: Fix crash when pressing key.
+- **ZX Spectrum Next**: fix extended keys
 
 # Cleanup
 
