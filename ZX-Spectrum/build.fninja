@@ -59,7 +59,7 @@ sources_next :=
     help-screen-next.s
     help-screens-next.s
     keyboard-next.s
-    keys-plus2.s
+    keys-next.s
     loading-next.s
     platform-next.s
     platform-next-class.s
@@ -126,6 +126,7 @@ build keys-48k.s: key-table keys-48k.key
 build keys-plus.s: key-table keys-plus.key
 build keys-plus2.s: key-table keys-plus2.key
 build keys-n-go.s: key-table keys-n-go.key
+build keys-next.s: key-table keys-next.key
 
 build charset-joystick.s: convert-characters charset-joystick.yaml
 build keyboard-48k.s: convert-characters keyboard-48k.yaml
