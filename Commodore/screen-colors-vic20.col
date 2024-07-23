@@ -1,4 +1,4 @@
-;  irq-table-vic20.s -- Table of raster IRQ handlers for VIC20 keyboard.
+;  screen-colors-vic20.txt -- Colors for VIC-20 screens.
 ;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
@@ -25,29 +25,12 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.section data
-
-.public main_pal_irq_table {
-    .data SCREEN_TOP_PAL - 1, top_keyboard
-    .data SCREEN_TOP_PAL + 13 * 4 - 1, bottom_keyboard
-    .data SCREEN_TOP_PAL + 15 * 4 - 1, top_joystick
-    .data SCREEN_TOP_PAL + 19 * 4 - 1, bottom_joystick
+main_color 22 23 FRAME_COLOR {
+    0 2 21 10 UNCHECKED_COLOR
+    0 4 1 2 FRAME_COLOR
+    0 8 1 2 FRAME_COLOR
 }
 
-.public main_ntsc_irq_table {
-    .data SCREEN_TOP_NTSC - 1, top_keyboard
-    .data SCREEN_TOP_NTSC + 13 * 4 - 1, bottom_keyboard
-    .data SCREEN_TOP_NTSC + 15 * 4 - 1, top_joystick
-    .data SCREEN_TOP_NTSC + 19 * 4 - 1, bottom_joystick
-}
-
-
-.public help_pal_irq_table {
-    .data SCREEN_TOP_PAL + 4 - 2, help_top
-    .data SCREEN_TOP_PAL + 4 * 19 - 1, help_bottom
-}
-
-.public help_ntsc_irq_table {
-    .data SCREEN_TOP_NTSC + 4 - 2, help_top
-    .data SCREEN_TOP_NTSC + 4 * 19 - 1, help_bottom
+help_color 22 23 FRAME_COLOR {
+    
 }

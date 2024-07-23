@@ -180,6 +180,7 @@ sources_vic20 :=
     keys-vic20.s
     platform-vic20.s
     restore.s
+    screen-colors-vic20.s
     start-vic20.s
     state.s
     vic20-help-screen.s
@@ -237,6 +238,7 @@ build anykey-pet-full.prg | anykey-pet-full.prg.sym: link $sources_pet_full
 
 build anykey-c64.prg.ll: vice-ll anykey-c64.prg.sym
 build anykey-c128.prg.ll: vice-ll anykey-c128.prg.sym
+build anykey-vic20.prg.ll: vice-ll anykey-vic20.prg.sym
 
 rule keys
     command = {{key-table}} $in $out
@@ -268,6 +270,8 @@ build pet-help-footer-40.s: convert-screens pet-help-footer-40.txt
 build pet-help-footer-80.s: convert-screens pet-help-footer-80.txt
 
 build screen-colors.s: encode-colors screen-colors.col
+    flags = -r
+build screen-colors-vic20.s: encode-colors screen-colors-vic20.col
     flags = -r
 
 build keys-64.s: keys keys-64.key

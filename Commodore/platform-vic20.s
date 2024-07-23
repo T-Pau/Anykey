@@ -72,6 +72,8 @@ HOLD_FRAMES = 50
 
 screen = $1000
 color_ram = $9400
+.pin keyboard_vic20_charset $1400
+.pin charset $1c00
 
 help_screen_title = screen + 1
 help_screen_text = screen + 2 * 22
@@ -407,22 +409,6 @@ read_restore {
 }
 
 .section data
-
-.public main_color {
-    .data $ff, 22 * 2, FRAME_COLOR
-    .data $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
-    .data $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
-    .data FRAME_COLOR, $ff, 20, UNCHECKED_COLOR, FRAME_COLOR
-    .data FRAME_COLOR, $ff, 20, UNCHECKED_COLOR, FRAME_COLOR
-    .data $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
-    .data $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
-    .data FRAME_COLOR, $ff, 20, UNCHECKED_COLOR, FRAME_COLOR
-    .data FRAME_COLOR, $ff, 20, UNCHECKED_COLOR, FRAME_COLOR
-    .data $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
-    .data $ff, 21, UNCHECKED_COLOR, FRAME_COLOR
-    .data $ff, 22 * 11, FRAME_COLOR
-    .data $ff, 0
-}
 
 
 .public help_keys {

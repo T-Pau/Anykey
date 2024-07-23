@@ -29,8 +29,7 @@ charset:
     width: 8
     height: 8
     count: 256
-    name: charset_vic20
-    rl_encode: true
+    name: keyboard_vic20_charset
     predefined:
         160: "ffffffffffffffff"
 
