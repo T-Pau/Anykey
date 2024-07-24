@@ -39,12 +39,11 @@
 
 1000 print"{clear}computer not recognized.":end
 1004 f$="anykey plus/4":gosub 600:goto 3000
-1016 print"{clear}the c16 version of anykey requires a"
-1017 print"64k ram expansion.":end
+1016 f$="anykey c16":gosub 600:goto 3000
 1020 f$="anykey vic-20":gosub 700:goto 3000
-1064 f$="anykey 64":gosub 500:goto 3000
+1064 f$="anykey c64":gosub 500:goto 3000
 1065 f$="anykey mega65":c=80:gosub 500:goto 3000
-1128 f$="anykey 128":gosub 400:goto 3000
+1128 f$="anykey c128":gosub 400:goto 3000
 1216 c$="commander x16":goto 4000
 2000 print"{clear}sorry, at least 8k"
 2001 print"ram expansion required.":end

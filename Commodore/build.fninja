@@ -3,7 +3,7 @@ include ../Toolkit/fast-ninja/scripts.fninja
 
 petcat = petcat
 
-default anykey.prg anykey-c16.prg anykey-c116.prg anykey-c64.prg anykey-c128.prg anykey-mega65.prg anykey-pet-8k.prg anykey-pet-full.prg anykey-plus4.prg anykey-vic20.prg
+default anykey.prg anykey-c16.prg anykey-c116.prg anykey-c64.prg anykey-c128.prg anykey-mega65.prg anykey-pet-8k.prg anykey-pet-full.prg anykey-plus4.prg anykey-vic20.prg anykey.d64 anykey.d81
 
 sources_common :=
     ../Toolkit/xlr8/6502/rl-expand.s
@@ -190,6 +190,12 @@ rule basic
 
 rule list-left
     command = {{list-left.pl}} $in $out
+
+build anykey.d64: create-disk filelist | anykey-c64.prg anykey-c128.prg anykey-mega65.prg anykey-plus4.prg anykey-vic20.prg
+    flags = -I$source_directory -I$build_directory
+
+build anykey.d81: create-disk filelist | anykey-c64.prg anykey-c128.prg anykey-mega65.prg anykey-plus4.prg anykey-vic20.prg
+    flags = -I$source_directory -I$build_directory
 
 build anykey.prg: basic anykey.bas
     dialect = 3

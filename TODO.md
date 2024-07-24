@@ -1,6 +1,7 @@
 # Accelerate Conversion
 
-- **ZX Spectrum Next**: Verify fixed keyboard layout.
+- **MEGA65**: Keys misread as joystick: Alt/No Scroll/F9/Help/Tab
+- **Commodore**: Disk images: add C128/MEGA65 autoboot, add `,8:` to loader file name.
 
 # Cleanup
 
