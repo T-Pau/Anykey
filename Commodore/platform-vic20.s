@@ -308,9 +308,8 @@ display_joystick {
     asl
     tax
     lda dpad_vic20,x
-    inx
     sta source_ptr
-    lda dpad_vic20,x
+    lda dpad_vic20 + 1,x
     sta source_ptr + 1
     store_word destination_ptr, screen + DPAD_OFFSET
     jsr rl_expand
@@ -322,9 +321,8 @@ display_joystick {
     lsr
     tax
     lda buttons_vic20,x
-    inx
     sta source_ptr
-    lda buttons_vic20,x
+    lda buttons_vic20 + 1,x
     sta source_ptr + 1
     store_word destination_ptr, screen + BUTTONS_OFFSET
     jmp rl_expand
