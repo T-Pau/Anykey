@@ -238,6 +238,8 @@ build anykey-pet-full.prg | anykey-pet-full.prg.sym: link $sources_pet_full
 
 build anykey-c64.prg.ll: vice-ll anykey-c64.prg.sym
 build anykey-c128.prg.ll: vice-ll anykey-c128.prg.sym
+build anykey-pet-8k.prg.ll: vice-ll anykey-pet-8k.prg.sym
+build anykey-pet-full.prg.ll: vice-ll anykey-pet-full.prg.sym
 build anykey-vic20.prg.ll: vice-ll anykey-vic20.prg.sym
 
 rule keys

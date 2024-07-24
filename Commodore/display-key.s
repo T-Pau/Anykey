@@ -69,6 +69,7 @@
 ; Displays state of key
 ; Arguments:
 ;   A: state of key
+;   X: key index
 ; Preserves: X
 .public display_key {
     .private address_low = address_low_instruction + 1
@@ -98,7 +99,7 @@ display_high_instruction:
     .if .defined(USE_PET) {
         stx restore + 1
         ldx current_key_state
-        beq jump
+        beq jump_instruction
         ldx #1
     jump_instruction:
         jsr $1000

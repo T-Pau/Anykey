@@ -1,6 +1,5 @@
 # Accelerate Conversion
 
-- **PET**: Fix crash when pressing key.
 - **ZX Spectrum Next**: Verify fixed keyboard layout.
 
 # Cleanup

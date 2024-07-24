@@ -25,7 +25,7 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 #  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-screen_width: 32
+screen-width: 32
 charset:
     -
         width: 8
