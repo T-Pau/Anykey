@@ -1,5 +1,6 @@
 10 background 15
 20 border 15
+30 f$="anykey mega65"
 100 print"{dark gray}{clear}";
 110 print"{clear}{down}{down}{down}{down}"
 120 printspc(35)"UCCCCCCCCI"

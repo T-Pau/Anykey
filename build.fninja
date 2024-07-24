@@ -1,4 +1,46 @@
 VERSION = 1.6.1
 
+distfile := Anykey-$VERSION.zip
+
+built_dist_files :=
+    Commodore/anykey-c16.prg
+    Commodore/anykey-c64.prg
+    Commodore/anykey-c116.prg
+    Commodore/anykey-c128.prg
+    Commodore/anykey-mega65.prg
+    Commodore/anykey-pet-8k.prg
+    Commodore/anykey-pet-full.prg
+    Commodore/anykey-plus4.prg
+    Commodore/anykey-vic20.prg
+    Commodore/anykey.d64
+    Commodore/anykey.d81
+    Commodore/anykey-pet.d64
+    ZX-Spectrum/anykey-spectrum-+2-+3.tap
+    ZX-Spectrum/anykey-spectrum-+2-+3.tzx
+    ZX-Spectrum/anykey-spectrum-48k+-128k.tap
+    ZX-Spectrum/anykey-spectrum-48k+-128k.tzx
+    ZX-Spectrum/anykey-spectrum-48k.tap
+    ZX-Spectrum/anykey-spectrum-48k.tzx
+    ZX-Spectrum/anykey-spectrum-n-go.nex
+    ZX-Spectrum/anykey-spectrum-next.nex
+
+dist_files :=
+    README.md
+    NEWS.md
+    screenshot.png
+    Documentation
+    $built_dist_files
+
+rule create-zip
+    command = {{$top_source_directory/Toolkit/bin/create-zip}} -M $depfile $flags $out $in
+    depfile = .dep.$out
+
+build $distfile: create-zip $dist_files
+    flags = --strip $top_source_directory
+
+build dist: phony $distfile
+
+default $built_dist_files
+
 subninja Commodore/build.fninja
 subninja ZX-Spectrum/build.fninja

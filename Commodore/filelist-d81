@@ -1,0 +1,12 @@
+anykey,tp
+anykey.prg > anykey
+anykey-c64.prg > anykey c64
+anykey-c128.prg > anykey c128
+anykey-mega65.prg > anykey mega65
+anykey-plus4.prg > anykey plus/4
+anykey-c16.prg > anykey c16
+anykey-c116.prg > anykey c116
+anykey-vic20.prg > anykey vic20
+anykey-pet-full.prg > anykey pet full
+anykey-pet-8k.prg > anykey pet 8k
+autoboot-mega65.prg > autoboot.c65

@@ -3,7 +3,7 @@ include ../Toolkit/fast-ninja/scripts.fninja
 
 petcat = petcat
 
-default anykey.prg anykey-c16.prg anykey-c116.prg anykey-c64.prg anykey-c128.prg anykey-mega65.prg anykey-pet-8k.prg anykey-pet-full.prg anykey-plus4.prg anykey-vic20.prg anykey.d64 anykey.d81
+default anykey.prg anykey-c16.prg anykey-c116.prg anykey-c64.prg anykey-c128.prg anykey-mega65.prg anykey-pet-8k.prg anykey-pet-full.prg anykey-plus4.prg anykey-vic20.prg anykey.d64 anykey.d81 anykey-pet.d64
 
 sources_common :=
     ../Toolkit/xlr8/6502/rl-expand.s
@@ -191,10 +191,13 @@ rule basic
 rule list-left
     command = {{list-left.pl}} $in $out
 
-build anykey.d64: create-disk filelist | anykey-c64.prg anykey-c128.prg anykey-mega65.prg anykey-plus4.prg anykey-vic20.prg
+build anykey.d64: create-disk filelist-d64 | anykey.prg anykey-c64.prg anykey-c128.prg anykey-mega65.prg anykey-plus4.prg anykey-vic20.prg
     flags = -I$source_directory -I$build_directory
 
-build anykey.d81: create-disk filelist | anykey-c64.prg anykey-c128.prg anykey-mega65.prg anykey-plus4.prg anykey-vic20.prg
+build anykey.d81: create-disk filelist-d81 | anykey.prg anykey-c64.prg anykey-c128.prg anykey-mega65.prg anykey-plus4.prg anykey-vic20.prg anykey-pet-full.prg anykey-pet-8k.prg autoboot-mega65.prg
+    flags = -I$source_directory -I$build_directory
+
+build anykey-pet.d64: create-disk filelist-pet | anykey-pet.prg anykey-pet-full.prg anykey-pet-8k.prg
     flags = -I$source_directory -I$build_directory
 
 build anykey.prg: basic anykey.bas
@@ -204,6 +207,10 @@ build anykey.prg: basic anykey.bas
 build anykey-pet.prg: basic anykey-pet.bas
     dialect = 1p
     address = 0401
+
+build autoboot-mega65.prg: basic autoboot-mega65.bas
+    dialect = 65
+    address = 0801
 
 build anykey-c16.prg | anykey-c16.prg.sym: link $sources_c16
     target = {{anykey-c16.target}}
