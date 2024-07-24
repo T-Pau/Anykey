@@ -1,8 +1,5 @@
 # Accelerate Conversion
 
-- **VIC-20**: Key press registers for whole row.
-- **VIC-20**: Joystick buttons 2/3 always read pressed.
-- **VIC-20**: Test help screen.
 - **PET**: Fix crash when pressing key.
 - **ZX Spectrum Next**: Verify fixed keyboard layout.
 

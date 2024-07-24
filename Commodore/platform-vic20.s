@@ -49,7 +49,7 @@ MAX_NUM_KEYS = 65
 
 USE_KEYBOARD_SELECT_BITMASK = 1
 
-KEYBOARD_SELECT = VIA1_PRA
+KEYBOARD_SELECT = VIA2_PRA
 KEYBOARD_VALUE = VIA2_PRB
 
 
@@ -223,14 +223,14 @@ wait_line {
   	sta VIA2_DDRB
 
     lda #$ff
-    sta VIA1_PRA
+    sta VIA2_PRA
   	lda VIA2_PRB
   	sta port_b
 
     jsr read_keyboard
 
     lda #$ff
-    sta VIA1_PRA
+    sta VIA2_PRA
     lda VIA2_PRB
     and port_b
     and #$80
@@ -283,9 +283,9 @@ read_joystick {
     sta VIA2_DDRB
     sta VIA1_DDRA
     lda VIA1_PRA
+    eor #$ff
+    and #$3c
     lsr
-    and #$1e
-    eor #$1e
     tax
     lda VIA2_PRB
     bmi :+
