@@ -88,7 +88,7 @@ Anykey doesn't know which are in use, so it always displays all three.
 .end
 ---
 .end
-.if not (PLATFORM_48K or PLATFORM_NEXT or PLATFORM_N_GO)
+.if PLATFORM_PLUS or PLATFORM_PLUS2
 Special Keys
 
 All keys except for digits, letters, space, enter, caps shift and symbol shift are read by the computer as two key presses.

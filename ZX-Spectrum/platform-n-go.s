@@ -39,4 +39,4 @@ JOYSTICK_3_BUTTON_OFFSET = JOYSTICK_2_BUTTON_OFFSET + 10
 num_keys = 58
 
 main_color = main_color_n_go
-help_color = main_color_next
+help_color = help_color_next
