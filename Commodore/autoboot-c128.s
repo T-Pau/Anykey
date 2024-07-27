@@ -1,0 +1,2 @@
+.public BOOT_FILENAME = "anykey c128"
+.public BOOT_MESSAGE = BOOT_FILENAME

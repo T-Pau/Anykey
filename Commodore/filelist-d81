@@ -1,4 +1,5 @@
 anykey,tp
+c128-boot autoboot.c128
 anykey.prg > anykey
 anykey-c64.prg > anykey c64
 anykey-c128.prg > anykey c128
