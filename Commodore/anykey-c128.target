@@ -1,5 +1,9 @@
 .include "c128-basic.target"
 
-.section code .override {
-    address: $1c01 - $3fff
+.section data .extend {
+    address: $4000 - $7fff
+}
+
+.section reserved .extend {
+    address: $4000 - $7fff
 }
