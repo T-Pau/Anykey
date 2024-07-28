@@ -1,0 +1,5 @@
+.include "c128-basic.target"
+
+.section code .override {
+    address: $1c01 - $3fff
+}

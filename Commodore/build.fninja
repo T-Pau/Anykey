@@ -228,7 +228,7 @@ build anykey-c64.prg | anykey-c64.prg.sym: link $sources_c64
     libs = mega65.lib cbm.lib
 
 build anykey-c128.prg | anykey-c128.prg.sym: link $sources_c128
-    target = c128-basic
+    target = {{anykey-c128.target}}
     libs = c128.lib cbm.lib
 
 build anykey-mega65.prg | anykey-mega65.prg.sym: link $sources_mega65
