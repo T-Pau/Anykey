@@ -1,6 +1,9 @@
 anykey,tp
 c128-boot autoboot.c128
-anykey.prg > anykey
+anykey.prg > anykey .8.
+bpoke 40 3 11 $a0
+bpoke 40 3 12 $2c
+bpoke 40 3 14 $3a
 anykey-c64.prg > anykey c64
 anykey-c128.prg > anykey c128
 anykey-mega65.prg > anykey mega65
