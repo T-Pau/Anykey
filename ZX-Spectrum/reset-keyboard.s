@@ -35,7 +35,7 @@
 ; b: color to reset
 ; c: color to replace with
 .public change_keyboard_colors:
-    ld hl,color + KEYBOARD_OFFSET
+    ld hl,ATTRIBUTES + KEYBOARD_OFFSET
     ld de, KEYBOARD_SIZE
 reset_loop:
     ld a,(hl)

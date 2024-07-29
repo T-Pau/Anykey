@@ -90,22 +90,27 @@ build anykey-spectrum-+2-+3.tzx: tzxmerge anykey-spectrum-+2-+3.tap
 build anykey-spectrum-48k.tap: link $sources_48k
     flags = -DPLATFORM_48K
     target = zx-spectrum-tap-basic.target
+    libs = zx-spectrum.lib
 
 build anykey-spectrum-48k+-128k.tap: link $sources_plus
     flags = -DPLATFORM_PLUS
     target = zx-spectrum-tap-basic.target
+    libs = zx-spectrum.lib
 
 build anykey-spectrum-+2-+3.tap: link $sources_plus2
     flags = -DPLATFORM_PLUS2
     target = zx-spectrum-tap-basic.target
+    libs = zx-spectrum.lib
 
 build anykey-spectrum-next.nex: link $sources_next
     flags = -DPLATFORM_NEXT
     target = zx-spectrum-next.target
+    libs = zx-spectrum-next.lib
 
 build anykey-spectrum-n-go.nex: link $sources_n_go
     flags = -DPLATFORM_N_GO
     target = zx-spectrum-next.target
+    libs = zx-spectrum-next.lib
 
 build loading-48k.s: convert-image loading-48k.png
     flags = -n loading_screen -F spectrum

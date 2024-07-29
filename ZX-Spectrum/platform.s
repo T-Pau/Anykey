@@ -34,8 +34,6 @@
 .public PROGRAM_NAME = "Anykey"
 
 screen_size = 32 * 24
-screen = $4000
-color = screen + screen_size * 8
 
 LABEL_COLOR = $38 ; black on grey
 FRAME_COLOR = $07 ; white on black

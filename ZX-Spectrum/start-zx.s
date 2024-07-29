@@ -33,10 +33,10 @@
     ld a,7
     out (254),a
     set_charset charset
-    rl_expand_chars screen, screen_main
-    ; rl_expand color, main_color ; XLR8
+    rl_expand_chars SCREEN, screen_main
+    ; rl_expand ATTRIBUTES, main_color ; XLR8
     ld hl, main_color
-    ld de, color
+    ld de, ATTRIBUTES
     call rl_expand
 
     .if .defined(USE_EXTENDED_KEYS) {

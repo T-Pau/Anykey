@@ -111,15 +111,15 @@ display:
 .section data
 
 joystick {
-    .data screen + JOYSTICK_1_DPAD_OFFSET
-    .data screen + JOYSTICK_1_BUTTON_OFFSET
+    .data SCREEN + JOYSTICK_1_DPAD_OFFSET
+    .data SCREEN + JOYSTICK_1_BUTTON_OFFSET
 
-    .data screen + JOYSTICK_2_DPAD_OFFSET
-    .data screen + JOYSTICK_2_BUTTON_OFFSET
+    .data SCREEN + JOYSTICK_2_DPAD_OFFSET
+    .data SCREEN + JOYSTICK_2_BUTTON_OFFSET
 
     .if .defined(USE_JOYSTICK_3) {
-        .data screen + JOYSTICK_3_DPAD_OFFSET
-        .data screen + JOYSTICK_3_BUTTON_OFFSET
+        .data SCREEN + JOYSTICK_3_DPAD_OFFSET
+        .data SCREEN + JOYSTICK_3_BUTTON_OFFSET
     }
 }
 

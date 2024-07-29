@@ -39,13 +39,13 @@ help {
 
     ; save color ram
     ld de,saved_color
-    ld hl,color
+    ld hl,ATTRIBUTES
     ld bc,screen_size
     ldir
 
     set_charset charset
-    rl_expand_chars screen, screen_help
-    rl_expand color, help_color
+    rl_expand_chars SCREEN, screen_help
+    rl_expand ATTRIBUTES, help_color
     ld a,0
     ld (current_page),a
     ld (pressed_key),a
@@ -72,9 +72,9 @@ display_page {
     ld a,(hl)
     ld (tmp_addr + 1),a
     ld iy,(tmp_addr)
-    ld hl,screen + 1
+    ld hl,SCREEN + 1
     call rl_expand_chars
-    ld hl,screen + 64
+    ld hl,SCREEN + 64
     call rl_expand_chars
     ld iy,0 ; clear iy so interrupt routine doesn't clobber next help page
     ret
@@ -124,9 +124,9 @@ previous_no_wraparound:
     ret
 not_previous:
     ; return to main view
-    rl_expand_chars screen, screen_main
+    rl_expand_chars SCREEN, screen_main
     ; restore color
-    ld de,color
+    ld de,ATTRIBUTES
     ld hl,saved_color
     ld bc,screen_size
     ldir
