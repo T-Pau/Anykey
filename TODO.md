@@ -1,5 +1,6 @@
 # Accelerate Conversion
 
+- **ZX Spectrum**: Fix crash on startup (all non-Next).
 - **MEGA65**: Keys misread as joystick: Alt/No Scroll/F9/Help/Tab
 
 # Cleanup
