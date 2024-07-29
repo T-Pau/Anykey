@@ -89,10 +89,10 @@ display:
     ld a,(value)
     and a,$01
     rlc a
-    add a,<button
+    add a,<buttons_1
     ld e,a
     ld a,0
-    adc a,>button
+    adc a,>buttons_1
     ld d,a
     ld a,(de)
     ld l,a
@@ -107,6 +107,35 @@ display:
     ret
 }
 
+; Display button
+; Arguments:
+;   a: non-zero if pressed
+;   hl: destination on screen
+;   ix: array of addresses runlength encoded characters for button display
+display_button {
+    and a,a
+    jr z,:+
+    ld a,1
+:   jp display_indexed
+}
+
+; Display element by index
+; Arguments:
+;   a: index
+;   hl: destinaton on screen
+;   ix: array of addresses runlength encoded characters for button display
+display_indexed {
+    sla a
+    ld b,0
+    ld c,a
+    add ix,bc
+    ld b,(ix+1)
+    ld c,(ix)
+    push bc
+    pop iy
+    jp rl_expand_chars
+}
+
 
 .section data
 
@@ -116,11 +145,6 @@ joystick {
 
     .data SCREEN + JOYSTICK_2_DPAD_OFFSET
     .data SCREEN + JOYSTICK_2_BUTTON_OFFSET
-
-    .if .defined(USE_JOYSTICK_3) {
-        .data SCREEN + JOYSTICK_3_DPAD_OFFSET
-        .data SCREEN + JOYSTICK_3_BUTTON_OFFSET
-    }
 }
 
 

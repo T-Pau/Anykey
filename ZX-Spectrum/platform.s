@@ -34,6 +34,7 @@
 .public PROGRAM_NAME = "Anykey"
 
 screen_size = 32 * 24
+screen_offset(xx, yy) = SCREEN + (yy / 8) * 256 * 8 + (yy - (yy / 8) * 8) * 32 + xx
 
 LABEL_COLOR = $38 ; black on grey
 FRAME_COLOR = $07 ; white on black

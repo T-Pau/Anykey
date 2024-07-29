@@ -1,0 +1,22 @@
+name joystick_names
+line_length 8
+lines 1
+map '@'-'Z' $00
+map 'a'-'z' $01
+map $20-$3f $20
+---
+sincl.1
+---
+kempst.1
+---
+kempst.2
+---
+megadr.1
+---
+cursor
+---
+megadr.1
+---
+sincl.1
+---
+keyjoy

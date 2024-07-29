@@ -25,6 +25,8 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.include "features.inc"
+
 NEXT = 1
 PREVIOUS = 2
 EXIT = 3
@@ -131,6 +133,9 @@ not_previous:
     ld bc,screen_size
     ldir
 
+    .if .defined(USE_NEXT_JOYSTICKS) {
+        call reset_next_joysticks
+    }
     jp main_loop
 }
 

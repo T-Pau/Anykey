@@ -33,12 +33,12 @@ image_padding_left _
   keyboard
 .image
 
-   joystick
-  ◤                           ◥
+                       mouse
+◤        ◥ ◤        ◥ ◤        ◥
 
 
 
-  ◣▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁◢
+◣▁▁▁▁▁▁▁▁◢ ◣▁▁▁▁▁▁▁▁◢ ◣▁▁▁▁▁▁▁▁◢
 
        R: Reset   H: Help
       (Hold for 2 seconds)

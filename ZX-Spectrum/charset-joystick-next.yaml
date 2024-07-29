@@ -46,4 +46,22 @@ images:
         file: spectrum-buttons-1.png
         slice-y: 2
         include-count: false
-        name: buttons_1 
+        name: buttons_1  
+    -
+        type: image
+        file: spectrum-buttons-2.png
+        slice-y: 4
+        include-count: false
+        name: buttons_2
+    -
+        type: image
+        file: spectrum-buttons-md.png
+        slice-y: 8
+        include-count: false
+        name: buttons_md
+    -
+        type: image
+        file: spectrum-scrollwheel.png
+        slice-y: 16
+        include-count: false
+        name: scrollwheel

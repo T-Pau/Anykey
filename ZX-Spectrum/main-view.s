@@ -36,12 +36,12 @@
     }
     call combine_keys
     call display_keyboard
-    .if .defined(USE_JOYSTICKS) {
+    .if .defined(USE_SINCLAIR_JOYSTICKS) {
         call display_joystick_1
         call display_joystick_2
-        .if .defined(USE_JOYSTICK_3) {
-            call display_joystick_3
-        }
+    }
+    .if .defined(USE_NEXT_JOYSTICKS) {
+        call display_next_joysticks
     }
     call handle_keys_main
     ld iy,0 ; clear iy so interrupt routine doesn't clobber memory

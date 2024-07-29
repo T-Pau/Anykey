@@ -4,6 +4,7 @@ include ../Toolkit/fast-ninja/scripts.fninja
 default anykey-spectrum-48k.tzx anykey-spectrum-48k+-128k.tzx anykey-spectrum-+2-+3.tzx anykey-spectrum-next.nex anykey-spectrum-n-go.nex
 
 sources_common :=
+    ../Toolkit/xlr8/generic/rl-encode.s
     ../Toolkit/xlr8/z80/rl-expand.s
     start-zx.s
     display-keyboard.s
@@ -15,9 +16,16 @@ sources_common :=
     screen-colors.s
 
 sources_common_plus :=
-    charset-joystick.s
     combine-keys.s
     joystick.s
+
+sources_common_next :=
+    charset-joystick-next.s
+    extended-keys.s
+    help-screen-next.s
+    joystick-next.s
+    joystick-next-names.s
+    platform-next-class.s
 
 sources_48k :=
     $sources_common
@@ -43,6 +51,7 @@ sources_plus :=
 sources_plus2 :=
     $sources_common
     $sources_common_plus
+    charset-joystick.s
     display-keys-plus2.s
     help-screen-48k.s
     help-screens-plus2.s
@@ -54,28 +63,24 @@ sources_plus2 :=
 sources_next :=
     $sources_common
     $sources_common_plus
+    $sources_common_next
     display-keys-plus.s
-    extended-keys.s
-    help-screen-next.s
     help-screens-next.s
     keyboard-next.s
     keys-next.s
     loading-next.s
     platform-next.s
-    platform-next-class.s
 
 sources_n_go :=
     $sources_common
     $sources_common_plus
+    $sources_common_next
     display-keys-plus2.s
-    extended-keys.s
-    help-screen-next.s
     help-screens-n-go.s
     keyboard-n-go.s
     keys-n-go.s
     loading-n-go.s
     platform-n-go.s
-    platform-next-class.s
 
 rule tzxmerge
     command = tzxmerge -o $out $in
@@ -134,6 +139,7 @@ build keys-n-go.s: key-table keys-n-go.key
 build keys-next.s: key-table keys-next.key
 
 build charset-joystick.s: convert-characters charset-joystick.yaml
+build charset-joystick-next.s: convert-characters charset-joystick-next.yaml
 build keyboard-48k.s: convert-characters keyboard-48k.yaml
 build keyboard-plus.s: convert-characters keyboard-plus.yaml
 build keyboard-plus2.s: convert-characters keyboard-plus2.yaml
@@ -142,6 +148,7 @@ build keyboard-n-go.s: convert-characters keyboard-n-go.yaml
 
 build help-screen-48k.s: convert-screens help-screen-48k.txt
 build help-screen-next.s: convert-screens help-screen-next.txt
+build joystick-next-names.s: convert-screens joystick-next-names.txt
 
 build help-screens-48k.s: convert-screens help-screens.txt
     flags = -DVERSION=${VERSION} -DPLATFORM_48K

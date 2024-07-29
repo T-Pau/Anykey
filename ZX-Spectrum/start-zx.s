@@ -43,6 +43,9 @@
         call init_extended_keys
         call init_logo_sprites
     }
+    .if .defined(USE_NEXT_JOYSTICKS) {
+        call reset_next_joysticks
+    }
     jp main_loop
 }
 
