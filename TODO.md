@@ -1,5 +1,6 @@
 # Before Release
 
+- **ZX Spectrum Next**: Test joystick/mouse on real hardware.
 - **MEGA65**: Keys misread as joystick: Alt/No Scroll/F9/Help/Tab
 
 # Cleanup
