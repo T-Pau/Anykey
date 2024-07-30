@@ -41,7 +41,7 @@ display_next_joysticks {
     ld hl,JOYSTICK_LABEL_1
     ld ix,joystick_names
     call display_indexed
-    ; TODO: clear window
+    rl_expand_chars JOYSTICK_WINDOW_1 + 1, empty_window
 
 :   set_charset charset_joystick
     ld a,(joystick_type_2)
@@ -54,7 +54,7 @@ display_next_joysticks {
     ld hl,JOYSTICK_LABEL_2
     ld ix,joystick_names
     call display_indexed
-    ; TODO: clear window
+    rl_expand_chars JOYSTICK_WINDOW_2 + 1, empty_window
 
 :   ld a,(joystick_type_1)
     ld hl,JOYSTICK_WINDOW_1

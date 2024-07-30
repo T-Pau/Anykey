@@ -37,8 +37,7 @@
     call combine_keys
     call display_keyboard
     .if .defined(USE_SINCLAIR_JOYSTICKS) {
-        call display_joystick_1
-        call display_joystick_2
+        call display_plus2_joysticks
     }
     .if .defined(USE_NEXT_JOYSTICKS) {
         call display_next_joysticks
