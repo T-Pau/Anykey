@@ -1,6 +1,9 @@
-# Accelerate Conversion
+# Before Release
 
 - **ZX Spectrum**: Fix crash on startup (all non-Next).
+- **ZX Spectrum**: Switch to new joystick read/display routines.
+- **ZX Spectrum Next**: Clear joystick window when switching types.
+- **ZX Spectrum Next**: Display Kempston mouse.
 - **MEGA65**: Keys misread as joystick: Alt/No Scroll/F9/Help/Tab
 
 # Cleanup
@@ -15,7 +18,6 @@
 - **MEGA65**: High resolution native version.
 - **C128**: 80 columns version.
 - **Next/N-GO**: High resolution graphics.
-- **Next/N-GO**: Read joystick configuration and display correct ones.
 - **Commodore**: Use proper tool for modifying directory listing.
 
 # Incomplete Ports

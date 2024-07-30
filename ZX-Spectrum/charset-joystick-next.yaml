@@ -36,7 +36,7 @@ charset:
 images:
     -
         type: image
-        file: dpad-frame.png
+        file: spectrum-dpad.png
         slice-y: 16
         include-count: false
         trim: both
@@ -59,6 +59,18 @@ images:
         slice-y: 8
         include-count: false
         name: buttons_md
+    -
+        type: image
+        file: spectrum-buttons-start.png
+        slice-y: 2
+        include-count: false
+        name: buttons_start
+    -
+        type: image
+        file: spectrum-buttons-mouse.png
+        slice-y: 8
+        include-count: false
+        name: buttons_mouse
     -
         type: image
         file: spectrum-scrollwheel.png

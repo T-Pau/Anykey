@@ -56,7 +56,7 @@ name_prefix = os.path.splitext(os.path.basename(infile))[0]
 keys_screen = []
 keys_color = []
 keys_function = []
-all_functions = {}
+keys_name = []
 
 name = ""
 offset_x = 0
@@ -101,7 +101,7 @@ with open(infile) as fin:
                 raise Exception("wrong number of arguments for 'screen_width'")
             screen_width = int(words[1])
         elif words[0] == "key":
-            if len(words) != 4:
+            if len(words) != 5:
                 raise Exception("wrong number of arguments for 'key'")
             x = int(words[1]) * key_width + offset_x
             y = int(words[2]) * key_height + offset_y
@@ -109,7 +109,7 @@ with open(infile) as fin:
             keys_screen.append("SCREEN + " + str((y // lines_per_part) * screen_width * lines_per_part * 8 + (y % lines_per_part) * screen_width + x))
             keys_color.append("ATTRIBUTES + " + str(x + y * screen_width))
             keys_function.append(f)
-            all_functions[f] = 1
+            keys_name.append(words[4].upper())
         else:
             raise Exception("unknown command '" + words[0] + "'")
 
@@ -125,9 +125,12 @@ num_keys_{name} {{
     .data {num_keys}
 }}
 keys_{name} {{
-""".format(outfile=outfile, name=name, infile=infile, program=sys.argv[0], num_keys=len(keys_screen), functions=",".join(all_functions.keys()))
+""".format(outfile=outfile, name=name, infile=infile, program=sys.argv[0], num_keys=len(keys_screen))
     fout.write(header)
 
     for i in range(len(keys_screen)):
         fout.write("    .data " + keys_screen[i] + ", " + keys_color[i] + ", " + keys_function[i] + "\n")
-    fout.write("}\n")
+    fout.write("}\n\n")
+
+    for i in range(len(keys_name)):
+        fout.write(f"KEY_{keys_name[i]} = {i}\n")
