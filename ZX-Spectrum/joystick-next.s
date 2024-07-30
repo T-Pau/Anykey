@@ -5,6 +5,10 @@ JOYSTICK_WINDOW_1 = screen_offset(0, 15)
 JOYSTICK_WINDOW_2 = screen_offset(11, 15)
 JOYSTICK_WINDOW_MOUSE = screen_offset(22, 15)
 
+MOUSE_POINTER_SPRITE_INDEX = 4
+MOUSE_POINTER_OFFSET_X = 210
+MOUSE_POINTER_OFFSET_Y = 154
+
 .section code
 
 JOYSTICK_VIEW_1_BUTTON = 0
@@ -19,6 +23,8 @@ reset_next_joysticks {
     ld a,$ff
     ld (joystick_type_1),a
     ld (joystick_type_2),a
+    nextreg $34, MOUSE_POINTER_SPRITE_INDEX
+    nextreg $38, 0
     ret
 }
 
@@ -164,7 +170,18 @@ read_kempston_mouse {
 ;   mouse_y: y coordinate
 ;   value: buttons and scroll wheel
 display_mouse {
-    ; TODO: set sprite coordinates
+    nextreg $34, MOUSE_POINTER_SPRITE_INDEX
+    ld a,(mouse_x)
+    and a,$1f
+    add a,MOUSE_POINTER_OFFSET_X
+    nextreg $35,a
+    ld a,(mouse_y)
+    and a,$1f
+    xor a,$1f
+    add a,MOUSE_POINTER_OFFSET_Y
+    nextreg $36,a
+    nextreg $38, $c2
+
     screen_add 7
     ld a,(value)
     and $f0
@@ -221,6 +238,18 @@ joystick_info {
     .data read_keyjoy, display_joystick_2_buttons
 }
 
+empty_window {
+    rl_encode 8, $20
+    rl_skip 23
+    rl_encode 10, $20
+    rl_skip 22
+    rl_encode 10, $20
+    rl_skip 22
+    rl_encode 10, $20
+    rl_skip 23
+    rl_encode 8, $44
+    rl_end
+}
 
 .section reserved
 

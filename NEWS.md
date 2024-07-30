@@ -1,19 +1,21 @@
 # Version 1.7 (Unreleased)
 
-* Add support for C16 and C116.
+- Add support for Commodore C16 and C116.
+- Fix ZX Spectrum Next keyboard layout.
+- Display correct joystick types and mouse on ZX Spectrum Next and N-Go.
 
 # Version 1.6.1 (2023-09-20)
 
-* Fix extra keys on C128 broken in previous release. 
+- Fix extra keys on C128 broken in previous release. 
 
 # Version 1.6 (2022-06-18)
 
-* Add support for VIC-20 (8k RAM expansion required).
-* Add support for NTSC C128.
-* Improve handling of joystick interference with keyboard reading on C64 and C128.
-* Allow all keys to be tested separately on ZX Spectrum Next and N-Go.
-* Fix display glitches on accelerated C64.
-* Improve handling of cursor keys on MEGA65.
+- Add support for VIC-20 (8k RAM expansion required).
+- Add support for NTSC C128.
+- Improve handling of joystick interference with keyboard reading on C64 and C128.
+- Allow all keys to be tested separately on ZX Spectrum Next and N-Go.
+- Fix display glitches on accelerated C64.
+- Improve handling of cursor keys on MEGA65.
 
 # Version 1.5 (2022-06-05)
 

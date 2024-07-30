@@ -8,6 +8,8 @@
     in a, (c)
 }
 
+NUM_SPRITES = 5
+
 PORT_SPRITE_ATTRIBUTE = $57
 PORT_SPRITE_PATTERN = $5b
 PORT_SPRITE_SLOT = $303b
@@ -28,42 +30,37 @@ NEXTREG_SPRITE_TRANSPARENCY = $4b
     out (c), a
     ld bc, PORT_SPRITE_ATTRIBUTE
     ld hl, sprite_attributes
-    ld d, 5 * 4
-loop_attributes:
-    ld a, (hl)
+    ld d, 5 * NUM_SPRITES
+:   ld a, (hl)
     inc hl
     out (c), a
     dec d
-    ld a, d
-    cp a, 0
-    jr nz, loop_attributes
+    jr nz,:-
 
     ld bc, PORT_SPRITE_SLOT
     ld a,0
     out (c), a
     ld bc, PORT_SPRITE_PATTERN
     ld hl, sprite_data
-    ld de, 128 * 4
-loop_data:
-    ld a, (hl)
+    ld de, 128 * NUM_SPRITES
+:   ld a, (hl)
     inc hl
     out(c), a
     dec de
     ld a, e
     or a, d
-    jr nz, loop_data
+    jr nz,:-
 
     nextreg NEXTREG_SPRITE_TRANSPARENCY, $0f
     nextreg NEXTREG_PALETTE_CONTROL, $20
     nextreg NEXTREG_PALETTE_INDEX,0
 
-    ld b, 5
+    ld b, 7
     ld hl, sprite_palette
-SpritePaletteLoop:
-    ld a, (hl)
+:   ld a, (hl)
     inc hl
     nextreg NEXTREG_PALETTE_VALUE, a
-    djnz SpritePaletteLoop
+    djnz :-
 
     ret
 }
@@ -139,6 +136,24 @@ sprite_data {
     .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
     .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
     .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+
+    .data $ff, $6f, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $f6, $66, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $66, $f6, $6f, $ff, $ff, $ff, $ff, $ff
+    .data $f6, $66, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $6f, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    .data $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+
 }
 
 
@@ -147,6 +162,7 @@ sprite_attributes {
     .data 16, 0, 0, $c0, $60
     .data 32, 0, 0, $c1, $40
     .data 48, 0, 0, $c1, $60
+    .data 210, 154, 0, $c2, $80
 }
 
 
@@ -157,4 +173,5 @@ sprite_palette {
 	.data %10110100 ; yellow
 	.data %00010100 ; green
 	.data %00000010 ; bule
+    .data %11111111 ; white
 }

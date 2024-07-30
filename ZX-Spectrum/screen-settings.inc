@@ -36,6 +36,16 @@ map '◣' $42
 map '◢' $43
 map '▁' $44
 
+; Next mouse frame
+map '┌' $45
+map '─' $46
+map '┒' $47
+map '│' $48
+map '┃' $49
+map '┕' $4a
+map '━' $4b
+map '┛' $4c
+
 line_length 32
 lines 24
 word_wrap 0

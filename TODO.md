@@ -3,7 +3,6 @@
 - **ZX Spectrum**: Fix crash on startup (all non-Next).
 - **ZX Spectrum**: Switch to new joystick read/display routines.
 - **ZX Spectrum Next**: Clear joystick window when switching types.
-- **ZX Spectrum Next**: Display Kempston mouse.
 - **MEGA65**: Keys misread as joystick: Alt/No Scroll/F9/Help/Tab
 
 # Cleanup

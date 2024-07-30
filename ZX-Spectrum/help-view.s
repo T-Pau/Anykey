@@ -45,6 +45,10 @@ help {
     ld bc,screen_size
     ldir
 
+    .if .defined(USE_NEXT_JOYSTICKS) {
+        call reset_next_joysticks
+    }
+
     set_charset charset
     rl_expand_chars SCREEN, screen_help
     rl_expand ATTRIBUTES, help_color
@@ -132,10 +136,6 @@ not_previous:
     ld hl,saved_color
     ld bc,screen_size
     ldir
-
-    .if .defined(USE_NEXT_JOYSTICKS) {
-        call reset_next_joysticks
-    }
     jp main_loop
 }
 

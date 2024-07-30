@@ -35,11 +35,11 @@ image_padding_right _
 .image
 
                        mouse
-◤        ◥ ◤        ◥ ◤        ◥
-
-
-
-◣▁▁▁▁▁▁▁▁◢ ◣▁▁▁▁▁▁▁▁◢ ◣▁▁▁▁▁▁▁▁◢
+◤        ◥ ◤        ◥ ┌───┒    ◥
+                      │   ┃
+                      │   ┃
+                      │   ┃
+◣▁▁▁▁▁▁▁▁◢ ◣▁▁▁▁▁▁▁▁◢ ┕━━━┛▁▁▁▁◢
 
        R: Reset   H: Help
       (Hold for 2 seconds)

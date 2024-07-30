@@ -1,5 +1,5 @@
 ;  help-screens.txt -- Text for help screens.
-;  Copyright (C) 2020-2022 Dieter Baron
+;  Copyright (C) Dieter Baron
 ;
 ;  This file is part of Anykey, a keyboard test program for C64.
 ;  The authors can be contacted at <anykey@tpau.group>.
@@ -32,7 +32,7 @@ map $61-$7a $01
 map $20-$3f $20
 
 line_length 30
-.if PLATFORM_NEXT or PLATFORM_N_GO
+.if PLATFORM_NEXT
 lines 16
 .else
 lines 14
@@ -51,7 +51,11 @@ It shows the current state of the keyboard.
 .else
 The upper window shows the state of the keyboard.
 
+.if PLATFORM_PLUS2
 The lower window shows the state of joysticks connected to the controller ports.
+.else
+The lower window shows the state of connected joysticks and mouse.
+.end
 .end
 
 This is Anykey ${VERSION}.
@@ -66,26 +70,27 @@ Keys that are currently pressed are displayed inverted.
 
 Keys that were previously pressed are displayed in yellow. This helps detect dead keys. To reset the state of all keys to unpressed, hold R for two seconds.
 ---
-.if PLATFORM_PLUS2 or PLATFORM_NEXT or PLATFORM_N_GO
+.if PLATFORM_PLUS2
 Joysticks
 
 Joysticks contain a stick or d-pad with switches for the four cardinal directions and a fire button.
 
 Pressed directions and buttons are displayed inverted.
 
-.if PLATFORM_PLUS2
 The +2 and +3 have two joystick ports, which are seen by the computer as key presses. Joystick 1 uses the keys 6-0, Joystick 2 the keys 1-5.
-.else
-On Next and N-Go, the three joysticks displayed are Sinclair 1, Sinclair 2, and Kempston.
 ---
+.end
+.if PLATFORM_NEXT
 Joysticks
 
-For Sinclair 1 and 2, movement is seen by the computer as key presses. Sinclair 1 uses the keys 6-0, Sinclair 2 the keys 1-5.
+There are two physical joystick ports. The user can configure each as any supported type:
+- Sinclair (1 button)
+- Kempston (2 buttons)
+- Megadrive (3 buttons, start)
+- Cursor (1 button)
+- Keyjoy (2 buttons)
 
-There are two physical joystick ports. The user can configure each of these as any of the three joysticks.
-
-Anykey doesn't know which are in use, so it always displays all three.
-.end
+The left window displays joystick in port 1, the middle window port 2, the right window the PS/2 mouse.
 ---
 .end
 .if PLATFORM_PLUS or PLATFORM_PLUS2

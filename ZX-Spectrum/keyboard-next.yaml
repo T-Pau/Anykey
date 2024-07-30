@@ -38,6 +38,10 @@ images:
         type: charset
         file: charset-frame.png
     -
+        type: charset
+        file: spectrum-mouse-frame.png
+        offset: 69
+    -
         type: image
         file: keyboard-next.png
         screen-file: screen-next.txt

@@ -23,6 +23,7 @@ sources_common_next :=
     charset-joystick-next.s
     extended-keys.s
     help-screen-next.s
+    help-screens-next.s
     joystick-next.s
     joystick-next-names.s
     platform-next-class.s
@@ -65,7 +66,6 @@ sources_next :=
     $sources_common_plus
     $sources_common_next
     display-keys-plus.s
-    help-screens-next.s
     keyboard-next.s
     keys-next.s
     loading-next.s
@@ -76,7 +76,6 @@ sources_n_go :=
     $sources_common_plus
     $sources_common_next
     display-keys-plus2.s
-    help-screens-n-go.s
     keyboard-n-go.s
     keys-n-go.s
     loading-n-go.s
@@ -158,8 +157,6 @@ build help-screens-plus2.s: convert-screens help-screens.txt
     flags = -DVERSION=${VERSION} -DPLATFORM_PLUS2
 build help-screens-next.s: convert-screens help-screens.txt
     flags = -DVERSION=${VERSION} -DPLATFORM_NEXT
-build help-screens-n-go.s: convert-screens help-screens.txt
-    flags = -DVERSION=${VERSION} -DPLATFORM_N_GO
 
 build screen-colors.s: encode-colors screen-colors.col
     flags = -r
