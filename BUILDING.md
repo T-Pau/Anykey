@@ -1,26 +1,30 @@
-# Building Anykey from Source
+# Building from Source
 
 ## Required Tools
 
-### All Versions
-
 You will need the following programs installed:
 
-- GNU make
+- [Accelerate](https://github.com/T-Pau/Accelerate)
+- `c1541` utility from [Vice](http://vice-emu.sourceforge.net)
+- [fast-ninja](https://github.com/T-Pau/fast-ninja/)
+- [ninja](https://ninja-build.org/)
 - [Python](https://www.python.org/)
-  - [toml](https://github.com/uiri/toml) module
-- [Perl](https://perl.org/)
 
-Graphics are drawn in [Affinity Photo](https://affinity.serif.com/en-gb/photo/) and converted with the custom program [gfx-converter](https://github.com/T-Pau/gfx-converter).
+Graphics are drawn in [Affinity Photo](https://affinity.serif.com/en-gb/photo/).
 
-### Commodore
+## Building 
 
-The versions for Commodore 8-bt computers is written in [CC65](https://cc65.github.io) assembler.  Since CC65 doesn't support MEGA65 yet, you will have to use [my fork](https://github.com/dillof/cc65). 
+To build Joyride:
 
-You also need the `petcat` and `c1541` utilities from [Vice](http://vice-emu.sourceforge.net) and [ips_util](https://github.com/nleseul/ips_util).
+```shell
+mkdir build
+cd build
+fast-ninja ..
+ninja
+```
 
-### ZX Spectrum
+To create a binary distribution:
 
-The version for the ZX Spectrum is written in [Z88DK](https://z88dk.org/site/), a build from 2022 is required. 
-
-You also need [tzxtools](https://shredzone.org/docs/tzxtools/).
+```shell
+ninja dist
+```
