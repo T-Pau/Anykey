@@ -56,7 +56,11 @@ display_next_joysticks {
 
     ld a,(joystick_type_2)
     ld hl,JOYSTICK_WINDOW_2
-    jp display_next_joystick
+    call display_next_joystick
+
+    call read_kempston_mouse
+    ld hl,JOYSTICK_WINDOW_MOUSE
+    jp display_mouse
 }
 
 
@@ -133,6 +137,50 @@ display_joystick_megadrive {
 }
 
 
+; Read Kempston mouse.
+; Result:
+;   mouse_x: x coordinate
+;   mouse_y: y coordinate
+;   value: mouse buttons and scroll wheel
+read_kempston_mouse {
+    ld bc, PORT_KEMPSTON_MOUSE_X
+    in a,(c)
+    ld (mouse_x),a
+    ld bc, PORT_KEMPSTON_MOUSE_Y
+    in a,(c)
+    ld (mouse_y),a
+    ld bc, PORT_KEMPSTON_MOUSE_BUTTONS
+    in a,(c)
+    xor a,$0f
+    ld (value),a
+    ret
+}
+
+
+; Display Mouse.
+; Arguments:
+;   hl: position on screen
+;   mouse_x: x coordinate
+;   mouse_y: y coordinate
+;   value: buttons and scroll wheel
+display_mouse {
+    ; TODO: set sprite coordinates
+    screen_add 7
+    ld a,(value)
+    and $f0
+    rr a
+    rr a
+    rr a
+    rr a
+    ld ix,scrollwheel
+    call display_indexed
+    screen_add $1d
+    ld a,(value)
+    and $07
+    ld ix,buttons_mouse
+    jp display_indexed
+}
+
 ; Get which joysticks are configured.
 ; Returns:
 ;   b: joystick 1 type
@@ -180,3 +228,5 @@ joystick_type_1 .reserve 1
 joystick_type_2 .reserve 1
 new_joystick_type_2 .reserve 1
 window_position .reserve 2
+mouse_x .reserve 1
+mouse_y .reserve 1

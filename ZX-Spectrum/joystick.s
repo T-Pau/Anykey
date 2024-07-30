@@ -4,7 +4,19 @@ JOYSTICK_OFFSET_DPAD = 0
 JOYSTICK_OFFSET_BUTTON = 2
 JOYSTICK_SIZE = 4
 
-; Subtracts bc from hl, correcting for section bounaries
+; Add offset to hl, correctin for screen boundaries
+.macro screen_add offset {
+    ld a,l
+    add a,offset
+    ld l,a
+    jr nc,:+
+    ld a,h
+    add a,8
+    ld h,a
+:    
+}
+
+; Subtract offset from hl, correcting for section bounaries
 .macro screen_subtract offset {
     ld a,l
     sub a,offset
