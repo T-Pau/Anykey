@@ -5,17 +5,17 @@ map '@'-'Z' $00
 map 'a'-'z' $01
 map $20-$3f $20
 ---
-sincl.1
----
-kempst.1
+sincl.2
 ---
 kempst.2
+---
+kempst.1
 ---
 megadr.1
 ---
 cursor
 ---
-megadr.1
+megadr.2
 ---
 sincl.1
 ---

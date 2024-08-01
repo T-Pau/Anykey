@@ -1,6 +1,7 @@
 # Before Release
 
-- **ZX Spectrum Next**: Test joystick/mouse on real hardware.
+- **ZX Spectrum Next**: Slow down mouse cursor even more?
+- **ZX Spectrum Next**: keyjoy can be reconfigured
 - **MEGA65**: Keys misread as joystick: Alt/No Scroll/F9/Help/Tab
 
 # Cleanup

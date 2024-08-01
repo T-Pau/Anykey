@@ -126,7 +126,7 @@ display_joystick_megadrive {
     and a,$0f
     ld ix,dpad
     call display_indexed
-    screen_subtract $5f
+    screen_subtract $3f
     ld a,(value)    
     and a,$70
     rr a
@@ -172,10 +172,14 @@ read_kempston_mouse {
 display_mouse {
     nextreg $34, MOUSE_POINTER_SPRITE_INDEX
     ld a,(mouse_x)
+    rr a
+    rr a
     and a,$1f
     add a,MOUSE_POINTER_OFFSET_X
     nextreg $35,a
     ld a,(mouse_y)
+    rr a
+    rr a
     and a,$1f
     xor a,$1f
     add a,MOUSE_POINTER_OFFSET_Y
@@ -219,6 +223,7 @@ get_joystick_config {
     rl a
     rl b
     rl a
+    rl a
     rl c
     ret
 }
@@ -228,13 +233,13 @@ get_joystick_config {
 .section data
 
 joystick_info {
-    .data read_sinclair_1, display_joystick_1_button
-    .data read_kempston_1, display_joystick_2_buttons
+    .data read_sinclair_2, display_joystick_1_button
     .data read_kempston_2, display_joystick_2_buttons
+    .data read_kempston_1, display_joystick_2_buttons
     .data read_megadrive_1, display_joystick_megadrive
     .data read_cursor, display_joystick_1_button
     .data read_megadrive_2, display_joystick_megadrive
-    .data read_sinclair_2, display_joystick_1_button
+    .data read_sinclair_1, display_joystick_1_button
     .data read_keyjoy, display_joystick_2_buttons
 }
 
