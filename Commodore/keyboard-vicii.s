@@ -85,7 +85,7 @@ port1_clear:
     .if .defined(C64) {
         lda machine_type
         bne :+
-        sta skip_key + 64 ; don't skip restore on C64
+        sta skip_key + KEY_C64_RESTORE ; don't skip restore on C64
     :
     }
 ;    dec VIDEO_BORDER_COLOR
@@ -93,6 +93,7 @@ port1_clear:
 }
 
 
+.pre_if .defined(C64) || .defined(C128)
 .public read_keyboard_128 {
     lda #$ff
     sta CIA1_PRA
@@ -219,20 +220,21 @@ end_read:
     lda $01
     and #$40
     bne not_caps
-    inc new_key_state + 88
+    inc new_key_state + KEY_C128_CAPS_LOCK
     bne disp_40_80
 not_caps:
-    sta new_key_state + 88
+    sta new_key_state + KEY_C128_CAPS_LOCK
 disp_40_80:
     .if .defined(C128) {
         lda MMU_MODE_CONFIGURATION
         and #MMU_MODE_CONFIGURATION_40_80
         bne not_disp_40_80
-        inc new_key_state + 89
+        inc new_key_state + KEY_C128_40_80
         bne end
     not_disp_40_80:
-        sta new_key_state + 89
+        sta new_key_state + KEY_C128_40_80
     end:
     }
     rts
 }
+.pre_end

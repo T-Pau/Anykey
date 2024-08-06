@@ -361,24 +361,24 @@ loop:
     and #%01000000
     beq :+
     lda #02
-:   sta new_key_state + 72
+:   sta new_key_state + KEY_MEGA65_CAPS
 
     ; bit 1: up
     ; bit 0: left
     lda $d60f
     sta tmp1
     and #$01
-    sta skip_key + 2 ; cursor right
+    sta skip_key + KEY_MEGA65_CURSOR_RIGHT
     asl
-    sta new_key_state + 73 ; cursor left
+    sta new_key_state + KEY_MEGA65_CURSOR_LEFT
     lda tmp1
     and #$02
-    sta new_key_state + 74 ; cursor up
+    sta new_key_state + KEY_MEGA65_CURSOR_UP
     lsr
-    sta skip_key + 7 ; cursor down
+    sta skip_key + KEY_MEGA65_CURSOR_DOWN
     ora tmp1
     and #$01
-    sta skip_key + 6 * 8 + 4 ; right shift
+    sta skip_key + KEY_MEGA65_RIGHT_SHIFT
     rts
 }
 .pre_end

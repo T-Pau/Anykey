@@ -1,0 +1,136 @@
+#!/usr/bin/env python3
+
+"""
+  key-table -- Create table of key position / size
+  Copyright (C) Dieter Baron
+
+  This file is part of Anykey, a keyboard test program for C64.
+  The authors can be contacted at <anykey@tpau.group>.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+  1. Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+  2. The names of the authors may not be used to endorse or promote
+     products derived from this software without specific prior
+     written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE AUTHORS "AS IS" AND ANY EXPRESS
+  OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY
+  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+  IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+"""
+
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir, "Toolkit", "python-packages")))
+
+import Script
+
+class KeyTableCommodore(Script.Script):
+    def __init__(self) -> None:
+        super().__init__("Create key table.", Script.Option.assembler)
+        self.arg_parser.add_argument("keys")
+    
+    # Get filename of input file.
+    def input_filename(self):
+        return self.args.keys
+
+    def execute_sub(self):
+        keys_address = []
+        keys_size = []
+        keys_name = []
+
+        key_name_prefix = ""
+        name = ""
+        offset = 0
+        key_width = 1
+        key_height = 1
+        screen_width = 40
+
+        with open(self.input_filename()) as fin:
+            for line_number, line in enumerate(fin):
+                try:
+                    comment = line.find(";")
+                    if comment > -1:
+                        line = line[0:comment]
+                    line.strip()
+                    words = line.split()
+                    if len(words) == 0:
+                        continue
+                    if words[0] == "name":
+                        if len(words) != 2:
+                            raise RuntimeError("wrong number of arguments for 'name'")
+                        name = f"_{words[1]}"
+                    elif words[0] == "offset":
+                        if len(words) != 2:
+                            raise RuntimeError("wrong number of arguments for 'offset'")
+                        offset = int(words[1])
+                    elif words[0] == "key_width":
+                        if len(words) != 2:
+                            raise RuntimeError("wrong number of arguments for 'key_width'")
+                        key_width = int(words[1])
+                    elif words[0] == "key_height":
+                        if len(words) != 2:
+                            raise RuntimeError("wrong number of arguments for 'key_height'")
+                        key_height = int(words[1])
+                    elif words[0] == "screen_width":
+                        if len(words) != 2:
+                            raise RuntimeError("wrong number of arguments for 'screen_width'")
+                        screen_width = int(words[1])
+                    elif words[0] == "key":
+                        if len(words) != 5:
+                            raise RuntimeError("wrong number of arguments for 'key'")
+                        keys_address.append("screen + " + str(offset + int(words[1]) * key_width + int(words[2]) * key_height * screen_width))
+                        keys_size.append("display_key_" + words[3])
+                        if words[4] == "<none>":
+                            keys_name.append(None)
+                        else:
+                            keys_name.append(words[4].upper())
+                    else:
+                        raise RuntimeError("unknown command '" + words[0] + "'")
+                except Exception as ex:
+                    self.output.error(f"{self.input_filename()}:{line_number+1}: {ex}")
+
+        for i in range(len(keys_name)):
+            if keys_name[i] is not None:
+                self.assembler.constant(f"KEY{name.upper()}_{keys_name[i]}", i)
+
+        num_keys = len(keys_address)
+
+        self.assembler.begin_object(f"keys{name}")
+        self.assembler.byte(f"keys{name}_address_low, keys{name}_address_high")
+        self.assembler.byte(f"keys{name}_display_low, keys{name}_display_high")
+        self.assembler.byte(num_keys)
+        self.assembler.end_object()
+
+        self.write_word_table(f"keys{name}_address", keys_address)
+        self.write_word_table(f"keys{name}_display", keys_size)
+
+
+    def write_word_table(self, tablename, table):
+        self.write_word_table_half(tablename, table, True)
+        self.write_word_table_half(tablename, table, False)
+
+    def write_word_table_half(self, tablename, table, low):
+        if low:
+            name_suffix = "low"
+            part = "<"
+        else:
+            name_suffix = "high"
+            part = ">"
+
+        self.assembler.begin_object(f"{tablename}_{name_suffix}")
+        for value in table:
+            self.assembler.byte(f"{part}({value})")
+        self.assembler.end_object()
+
+KeyTableCommodore().run()

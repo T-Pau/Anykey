@@ -64,7 +64,7 @@ sources_c64_128 :=
     ${sources_common}
     keyboard-c128.s
     irq-table-128.s
-    keys-128.s
+    keys-c128.s
 
 sources_c64 :=
     ${sources_c64_128}
@@ -72,7 +72,7 @@ sources_c64 :=
     help-screens-c64.s
     keyboard-c64.s
     keyboard-mega65-c64.s
-    keys-64.s
+    keys-c64.s
     keys-mega65.s
     irq-table-64.s
     irq-table-64-acellerated.s
@@ -113,22 +113,22 @@ sources_pet_common :=
     start-pet.s
 
 sources_pet_8k_plus :=
+    display-key-pet-40b.s
     display-key-pet-40g.s
     keyboard-pet-graphics-40.s
     keyboard-pet-graphics-40-left.s
+    keys-pet-business-40.s
     keys-pet-graphics-40.s
 
 sources_pet_full :=
     ${sources_pet_common}
     ${sources_pet_8k_plus}
-    display-key-pet-40b.s
     display-key-pet-80.s
     help-screen-pet-80.s
     pet-help-footer-80.s
     keyboard-pet-80.s
     keyboard-pet-business-80.s
     keyboard-pet-calculator-80.s
-    keys-pet-business-40.s
     keyboard-pet-business-40-left.s
     keys-pet-business-80.s
     keys-pet-calculator-80.s
@@ -259,7 +259,7 @@ build anykey-pet-full.prg.ll: vice-ll anykey-pet-full.prg.sym
 build anykey-vic20.prg.ll: vice-ll anykey-vic20.prg.sym
 
 rule keys
-    command = {{key-table}} $in $out
+    command = {{../scripts/key-table-commodore}} -o $out $in
     depfile = $out.d
 
 build charset-vicii.s: convert-characters charset-vicii.yaml
@@ -292,8 +292,8 @@ build screen-colors.s: encode-colors screen-colors.col
 build screen-colors-vic20.s: encode-colors screen-colors-vic20.col
     flags = -r
 
-build keys-64.s: keys keys-64.key
-build keys-128.s: keys keys-128.key
+build keys-c64.s: keys keys-c64.key
+build keys-c128.s: keys keys-c128.key
 build keys-c16.s: keys keys-c16.key
 build keys-c116.s: keys keys-c116.key
 build keys-mega65.s: keys keys-mega65.key

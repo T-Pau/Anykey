@@ -28,9 +28,8 @@
 .section code
 
 .public start {
-    ldx #<keys_vic20_address_low
-    ldy #>keys_vic20_address_low
-    lda keys_vic20_num_keys
+    ldx #<keys
+    ldy #>keys
     jsr set_keys_table
     ;memcpy main_color_save, main_color_plus4, 1000
     lda #KEY_INDEX_HELP

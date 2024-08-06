@@ -96,12 +96,14 @@
     jsr content_background
     ldx #1
     jsr read_pots
-    ldy machine_type
-    dey
-    bne not_128
-    jsr read_keyboard_128
-    jmp both
-not_128:
+    .if .defined(C64) || .defined(C128) {
+        ldy machine_type
+        dey
+        bne not_128
+        jsr read_keyboard_128
+        jmp both
+    not_128:
+    }
     jsr read_keyboard
 both:
     jsr select_pots1

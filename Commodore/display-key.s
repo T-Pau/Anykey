@@ -35,34 +35,40 @@
 
 .section code
 
-; set keys table to X/Y, number of keys A
+; Set keys table.
+; Arguments:
+;   xy: pointer to keys table structure
 .public set_keys_table {
-    sta num_keys
-    stx address_low
-    sty address_low + 1
-    
-    clc
-    txa
-    adc num_keys
+    stx ptr1
+    sty ptr1 + 1
+ 
+    ldy #0
+    lda (ptr1),y
+    iny
+    sta address_low
+    lda (ptr1),y
+    iny
+    sta address_low + 1
+    lda (ptr1),y
+    iny
     sta address_high
-    lda address_low + 1
-    adc #0
+    lda (ptr1),y
+    iny
     sta address_high + 1
-    
-    lda address_high
-    adc num_keys
+    lda (ptr1),y
+    iny
     sta display_low
-    lda address_high + 1
-    adc #0
+    lda (ptr1),y
+    iny
     sta display_low + 1
-    
-    lda display_low
-    adc num_keys
+    lda (ptr1),y
+    iny
     sta display_high
-    lda display_low + 1
-    adc #0
+    lda (ptr1),y
+    iny
     sta display_high + 1
-
+    lda (ptr1),y
+    sta num_keys
     rts
 }
 

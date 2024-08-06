@@ -135,7 +135,6 @@ line_width_supported:
     lda keyboard_table,x
     ldy keyboard_table + 1,x
     tax
-    lda #80
     jsr set_keys_table
     lda #0
     rts
@@ -238,15 +237,15 @@ keyboard_screen_table {
 
 ; indexed by keyboard type (* 2 + line_width)
 keyboard_table {
-    .data keys_pet_business_40_address_low
+    .data keys_pet_business_40
     .if !.defined(FIT_IN_8K) {
-        .data keys_pet_business_80_address_low
+        .data keys_pet_business_80
     }
-    .data keys_pet_calculator_40_address_low
+    .data keys_pet_calculator_40
     .if !.defined(FIT_IN_8K) {
-        .data keys_pet_calculator_80_address_low
+        .data keys_pet_calculator_80
     }
-    .data keys_pet_graphics_40_address_low
+    .data keys_pet_graphics_40
 }
 
 

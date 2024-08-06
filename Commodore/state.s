@@ -61,9 +61,8 @@
         rl_expand_typed main_color_save, main_color_c64, main_color_c128, main_color_mega65_c64
     }
     .else_if .defined(USE_TED) {
-        ldx #<keys_address_low
-        ldy #>keys_address_low
-        lda keys_num_keys
+        ldx #<keys
+        ldy #>keys
         jsr set_keys_table
         lda #KEYBOARD_HEIGHT
         sta keyboard_height
@@ -123,9 +122,8 @@ init_c64 {
     sta bottom_charset_line
     lda #SCREEN_TOP + 13 * 8
     sta joystick_label_line
-    ldx #<keys_64_address_low
-    ldy #>keys_64_address_low
-    lda keys_64_num_keys
+    ldx #<keys_c64
+    ldy #>keys_c64
     jsr set_keys_table
     lda #12
     sta keyboard_height
@@ -135,9 +133,8 @@ init_c64 {
 
 .pre_if .defined(C64) || .defined(C128)
 init_c128 {
-    ldx #<keys_128_address_low
-    ldy #>keys_128_address_low
-    lda keys_128_num_keys
+    ldx #<keys_c128
+    ldy #>keys_c128
     jsr set_keys_table
     lda #SCREEN_TOP + 8 * 7
     sta bottom_charset_line
@@ -163,9 +160,8 @@ init_mega65 {
     sta key_index_help
     lda #70 ; F13
     sta key_index_reset
-    ldx #<keys_mega65_address_low
-    ldy #>keys_mega65_address_low
-    lda keys_mega65_num_keys
+    ldx #<keys_mega65
+    ldy #>keys_mega65
     jsr set_keys_table
     lda #9 * 8
     sta tmp1
