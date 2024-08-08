@@ -81,5 +81,6 @@
     ; The xmega65 emulator ignores the VIC-II bank, so copy it in both banks.
    	rl_expand $0800, sprite_data
 
+    cli
     rts
 }
