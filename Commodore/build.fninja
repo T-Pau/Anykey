@@ -259,7 +259,7 @@ build anykey-pet-full.prg.ll: vice-ll anykey-pet-full.prg.sym
 build anykey-vic20.prg.ll: vice-ll anykey-vic20.prg.sym
 
 rule keys
-    command = {{../scripts/key-table-commodore}} -o $out $in
+    command = {{../scripts/key-table-commodore}} -M $depfile -o $out $in
     depfile = $out.d
 
 build charset-vicii.s: convert-characters charset-vicii.yaml

@@ -85,7 +85,8 @@ rule tzxmerge
     command = tzxmerge -o $out $in
 
 rule key-table
-    command = {{key-table}} $in $out
+    command = {{../scripts/key-table-spectrum}} -M $depfile -o $out $in
+    depfile = $out.d
 
 build anykey-spectrum-48k.tzx: tzxmerge anykey-spectrum-48k.tap
 build anykey-spectrum-48k+-128k.tzx: tzxmerge anykey-spectrum-48k+-128k.tap
