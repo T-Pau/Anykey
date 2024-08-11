@@ -33,6 +33,8 @@ charset_keyboard_bottom = charset_keyboard_top + $800
 sprites = charset_keyboard_bottom + $800
 color_ram = $d800
 
+main_color_c128 = main_color_c128_c64
+
 sprite_logo = (sprites & $3fff) / 64
 
 .section reserved

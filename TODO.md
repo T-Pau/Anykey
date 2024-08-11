@@ -1,8 +1,9 @@
 # Before Release
 
+- Test **C116**, **MEGA65**, **PET**, **ZX Spectrum**.
+- **ZX Spectrum Next**: Document that keyjoy can be reconfigured, displaying default config.
 - **ZX Spectrum Next**: Slow down mouse cursor even more?
-- **ZX Spectrum Next**: keyjoy can be reconfigured
-- **MEGA65**: Keys misread as joystick: Alt/No Scroll/F9/Help/Tab
+- **MEGA65**: Document core but that misreads keys  Alt/No Scroll/F9/Help/Tab as joystick 1?
 
 # Cleanup
 

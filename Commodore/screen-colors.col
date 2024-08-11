@@ -30,11 +30,14 @@ main_color_c64 40 25 FRAME_COLOR {
     4 16 32 5 CONTENT_COLOR
 }
 
-main_color_c128 40 25 FRAME_COLOR {
+main_color_c128_c64 40 25 FRAME_COLOR {
     0 2 40 12 UNCHECKED_COLOR
-    .if .defined(C64) {
-        16 2 2 2 PRESSED_COLOR
-    }
+    16 2 2 2 PRESSED_COLOR
+    5 17 30 5 CONTENT_COLOR
+}
+
+main_color_c128_c128 40 25 FRAME_COLOR {
+    0 2 40 12 UNCHECKED_COLOR
     5 17 30 5 CONTENT_COLOR
 }
 
