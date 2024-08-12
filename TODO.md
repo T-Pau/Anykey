@@ -1,10 +1,3 @@
-# Before Release
-
-- Test **ZX Spectrum Next**.
-
-- **ZX Spectrum Next**: Slow down mouse cursor even more?
-- **MEGA65**: Document core bug on R6 boards that misreads keys  `Alt`/`No Scroll`/`F9`/`Help`/`Tab` as joystick 1?
-
 # Cleanup
 
 - Convert `list-left` to proper Toolkit script.

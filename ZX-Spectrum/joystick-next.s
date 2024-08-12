@@ -174,10 +174,12 @@ display_mouse {
     ld a,(mouse_x)
     rr a
     rr a
+    rr a
     and a,$1f
     add a,MOUSE_POINTER_OFFSET_X
     nextreg $35,a
     ld a,(mouse_y)
+    rr a
     rr a
     rr a
     and a,$1f
