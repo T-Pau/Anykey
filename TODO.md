@@ -2,7 +2,6 @@
 
 - Test **ZX Spectrum Next**.
 
-- **ZX Spectrum Next**: Document that keyjoy can be reconfigured, displaying default config.
 - **ZX Spectrum Next**: Slow down mouse cursor even more?
 - **MEGA65**: Document core bug on R6 boards that misreads keys  `Alt`/`No Scroll`/`F9`/`Help`/`Tab` as joystick 1?
 

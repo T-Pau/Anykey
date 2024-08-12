@@ -63,7 +63,13 @@ On Next and N-Go, there are two physical joystick ports. The user can configure 
 - Cursor (1 button)
 - Keyjoy (2 buttons)
 
-The left window displays joystick in port 1, the middle window port 2, the right window the PS/2 mouse.
+The Keyjoy joystick can be configured to arbitrary keys by the user, only the default configuration is supported.
+
+The left window displays joystick in port 1, the middle window port 2.
+
+## Mouse
+
+The right window the PS/2 mouse. It supports X/Y position, three buttons and a scroll wheel.
 
 
 ## Special Keys
