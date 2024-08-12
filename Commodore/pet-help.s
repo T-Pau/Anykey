@@ -49,7 +49,7 @@
 .public help_next {
     ldx current_page
     inx
-    cpx help_count
+    cpx help_num_pages
     bne :+
     ldx #0
 :   jmp update_help_page
@@ -59,7 +59,7 @@
     ldx current_page
     dex
     bpl :+
-    ldx help_count
+    ldx help_num_pages
     dex
 :   jmp update_help_page
 }

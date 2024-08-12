@@ -30,7 +30,7 @@ The programs are provided as disk images in `D64` and `D81` format, which also c
 
 ## Loading the Program
 
-The disc image contains a BASIC loader that detects which machine it runs on and automatically loads the correct program. For this to work on systems other than the C64, you need to load it with `LOAD"*",8` and start it with `RUN`. Loading it with `LOAD"*",8,1` will not work. On C128 and MEGA65, the disk will autoboot: simply insert the disk and turn on the computer.
+The disc image contains a BASIC loader that detects which machine it runs on and automatically loads the correct program. For this to work on systems other than the C64, you need to load it with `LOAD"*",8` and start it with `RUN`. Loading it with `LOAD"*",8,1` will not work. On C128 and MEGA65, the disk will auto-boot: simply insert the disk and turn on the computer.
 
 
 ## The Keyboard Window

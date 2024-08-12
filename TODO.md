@@ -1,13 +1,16 @@
 # Before Release
 
 - Test **C116**, **PET**, **ZX Spectrum Next**.
+
+- **PET**: 2001-8N, 3008 models not recognized as supported by 8k version.
+
 - **ZX Spectrum Next**: Document that keyjoy can be reconfigured, displaying default config.
 - **ZX Spectrum Next**: Slow down mouse cursor even more?
-- **MEGA65**: Document core but that misreads keys  Alt/No Scroll/F9/Help/Tab as joystick 1?
+- **MEGA65**: Document core bug on R6 boards that misreads keys  `Alt`/`No Scroll`/`F9`/`Help`/`Tab` as joystick 1?
 
 # Cleanup
 
-- Convert `list-left` to proper Python script.
+- Convert `list-left` to proper Toolkit script.
 - **Commodore**: Reduce usage of `.if .defined(TARGET)` in code.
 - **Commodore**: Reduce code duplication.
 
