@@ -25,10 +25,10 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.pre_if .defined(ONLY_40_COLUMNS)
-MAX_SAVED_SCREEN_SIZE = (40 * 22)
+.pre_if .defined(FIT_IN_8K)
+MAX_SAVED_SCREEN_SIZE = SAVED_SCREEN_SIZE_40
 .pre_else
-MAX_SAVED_SCREEN_SIZE = (80 * 22)
+MAX_SAVED_SCREEN_SIZE = SAVED_SCREEN_SIZE_80
 .pre_end
 
 .section code
@@ -36,8 +36,8 @@ MAX_SAVED_SCREEN_SIZE = (80 * 22)
 .public start {
     lda #142
     jsr CHROUT
-;	lda #12
-;	sta VIA_PCR
+	lda #12
+	sta VIA_CONTROL_2
 
     jsr setup_model
     bpl :+

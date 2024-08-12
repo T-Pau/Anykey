@@ -193,7 +193,7 @@ rom_offset {
     .data $e1c4
     .data $dec2
     .data $dea4
-    .data 0
+    .data 0:2
 }
 
 rom_message {

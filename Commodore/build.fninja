@@ -103,12 +103,12 @@ sources_pet_common :=
     help-screen-pet-40.s
     pet-help-footer-40.s
     keyboard-pet-40.s
-    keyboard-pet-business-40.s
     keyboard-pet-calculator-40.s
     keyboard-pet-calculator-40-left.s
     keys-pet-calculator-40.s
     pet-detect.s
     pet-help.s
+    pet-model.s
     platform-pet.s
     start-pet.s
 
@@ -129,15 +129,14 @@ sources_pet_full :=
     keyboard-pet-80.s
     keyboard-pet-business-80.s
     keyboard-pet-calculator-80.s
+    keyboard-pet-business-40.s
     keyboard-pet-business-40-left.s
     keys-pet-business-80.s
     keys-pet-calculator-80.s
-    pet-model.s
 
 sources_pet_8k :=
     ${sources_pet_common}
     ${sources_pet_8k_plus}
-    pet-model-8k.s
 
 sources_plus4 :=
     ${sources_ted}
@@ -245,11 +244,15 @@ build anykey-vic20.prg | anykey-vic20.prg.sym: link $sources_vic20
 
 build anykey-pet-8k.prg | anykey-pet-8k.prg.sym: link $sources_pet_8k
     flags = -DFIT_IN_8K
-    target = pet-basic.target
-    libs = cbm.lib
+    target = pet-basic-8k.target
+    libs = pet.lib cbm.lib
 
 build anykey-pet-full.prg | anykey-pet-full.prg.sym: link $sources_pet_full
     target = pet-basic.target
+    libs = pet.lib cbm.lib
+
+build detect-pet-model.prg | detect-pet-model.prg.sym: link detect-pet-model.s pet-detect.s platform-pet.s ../Toolkit/xlr8/6502/utility.s
+    target = pet-basic-8k.target
     libs = cbm.lib
 
 build anykey-c64.prg.ll: vice-ll anykey-c64.prg.sym

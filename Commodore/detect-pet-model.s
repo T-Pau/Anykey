@@ -25,6 +25,8 @@
 ;  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 ;  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+.section code
+
 .public start {
     jsr detect
     store_word ptr1, rom_version_header
@@ -134,3 +136,8 @@ line_width_header {
 keyboard_type_header {
     .data $0d, "keyboard:    ", 0
 }
+
+.section zero_page
+
+ptr1 .reserve 2
+ptr2 .reserve 2

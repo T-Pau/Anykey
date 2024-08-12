@@ -5,7 +5,7 @@
 You will need the following programs installed:
 
 - [Accelerate](https://github.com/T-Pau/Accelerate)
-- `c1541` utility from [Vice](http://vice-emu.sourceforge.net)
+- `c1541` and `petcat` utilities from [Vice](http://vice-emu.sourceforge.net)
 - [fast-ninja](https://github.com/T-Pau/fast-ninja/)
 - [ninja](https://ninja-build.org/)
 - [Python](https://www.python.org/)

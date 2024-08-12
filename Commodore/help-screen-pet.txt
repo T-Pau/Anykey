@@ -88,18 +88,18 @@ Key Labels
 Most keys are labeled with the symbol they produce when pressed without shift. Special keys are labeled with a short description or graphics symbol, depending on the space available.
 
 .if COLS_40
-             clear/home: ▘, clr
+             clear/home: ▘
 
-      cursor left/right: ┳, <=>
+      cursor left/right: ┳
 
-         cursor up/down: ┣, u/d
+         cursor up/down: ┣
 
-                 escape: ♣, esc
+                 escape: ♣
 
 ---
 Key Labels
 
-     insert/delete: ╳, del
+     insert/delete: ╳
 
             repeat: π
 
@@ -107,11 +107,11 @@ Key Labels
 
     reverse on/off: ◥, rv
 
-          run/stop: ◆, r/s
+          run/stop: ◆
 
-             shift: ○, sh, shf, shft
+             shift: ○, sh, shf
 
-        shift lock: ●, sl
+        shift lock: ●
 
                tab: tb
 .else

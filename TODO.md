@@ -1,8 +1,6 @@
 # Before Release
 
-- Test **C116**, **PET**, **ZX Spectrum Next**.
-
-- **PET**: 2001-8N, 3008 models not recognized as supported by 8k version.
+- Test **ZX Spectrum Next**.
 
 - **ZX Spectrum Next**: Document that keyjoy can be reconfigured, displaying default config.
 - **ZX Spectrum Next**: Slow down mouse cursor even more?

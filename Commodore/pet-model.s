@@ -223,8 +223,11 @@ left_list_table {
 
 ; indexed by keyboard type (* 2 + line_width)
 keyboard_screen_table {
-    .data keyboard_pet_business_40_screen
-    .if !.defined(FIT_IN_8K) {
+    .if .defined(FIT_IN_8K) {
+        .data 0:2
+    }
+    .else {
+        .data keyboard_pet_business_40_screen
         .data keyboard_pet_business_80_screen
     }
     .data keyboard_pet_calculator_40_screen
@@ -237,8 +240,11 @@ keyboard_screen_table {
 
 ; indexed by keyboard type (* 2 + line_width)
 keyboard_table {
-    .data keys_pet_business_40
-    .if !.defined(FIT_IN_8K) {
+    .if .defined(FIT_IN_8K) {
+        .data 0:2
+    }
+    .else {
+        .data keys_pet_business_40
         .data keys_pet_business_80
     }
     .data keys_pet_calculator_40
