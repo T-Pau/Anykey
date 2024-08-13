@@ -24,6 +24,14 @@ The programs are provided as disk images in `D64` and `D81` format, which also c
 ![](images/Anykey-Plus-4.png)
 - Commodore Plus/4
 
+### Anykey C16
+![](images/Anykey-C16.png)
+- Commodore C16
+
+### Anykey C116
+![](images/Anykey-C116.png)
+- Commodore C116
+
 ### Anykey VIC-20
 ![](images/Anykey-VIC-20.png)
 - Commodore VIC-20 (at least 8k RAM expansion)
@@ -31,6 +39,8 @@ The programs are provided as disk images in `D64` and `D81` format, which also c
 ## Loading the Program
 
 The disc image contains a BASIC loader that detects which machine it runs on and automatically loads the correct program. For this to work on systems other than the C64, you need to load it with `LOAD"*",8` and start it with `RUN`. Loading it with `LOAD"*",8,1` will not work. On C128 and MEGA65, the disk will auto-boot: simply insert the disk and turn on the computer.
+
+Note that the loader can't tell if it's running on a C16 or C116. If you are using a C116, load it directly with `LOAD"ANYKEY C116",8`.
 
 
 ## The Keyboard Window
