@@ -1,6 +1,9 @@
+# Before Release
+
+- Fix C64 with Kawari detected as C128.
+
 # Cleanup
 
-- Convert `list-left` to proper Toolkit script.
 - **Commodore**: Reduce usage of `.if .defined(TARGET)` in code.
 - **Commodore**: Reduce code duplication.
 
