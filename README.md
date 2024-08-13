@@ -34,9 +34,9 @@ To test other controller types or joystick adapters, please use the companion pr
 
 For detailed usage instructions, see the documentation pages:
 
-- [Commodore 8-Bit Computers](Documentation/Commodore.md)
-- [Commodore PET](Documentation/Commodore%20PET.md)
-- [Sinclair ZX Spectrum](Documentation/ZX%20Spectrum.md)
+- [Commodore 8-Bit Computers](Documentation/Anykey%20Commodore.md)
+- [Commodore PET](Documentation/Anykey%20Commodore%20PET.md)
+- [Sinclair ZX Spectrum](Documentation/Anykey%20ZX%20Spectrum.md)
 
 
 ## Building Anykey
