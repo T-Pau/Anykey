@@ -1,7 +1,5 @@
 # Before Release
 
-- Fix C64 with Kawari detected as C128.
-
 # Cleanup
 
 - **Commodore**: Reduce usage of `.if .defined(TARGET)` in code.
