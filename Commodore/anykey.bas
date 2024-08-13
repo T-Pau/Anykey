@@ -14,8 +14,8 @@
 180 goto 1000
 
 200 if peek(56)=30 goto 2000:rem vic-20 0k
-210 if peek(56)=63 goto 1016:rem c16
-220 if peek(56)=253 goto 1004:rem plus/4
+210 if peek(56)=63 goto 1016:rem c16 16k
+220 if peek(56)=253 goto 1004:rem plus/4 or c16 64k
 230 goto 1000
 
 400 if peek(215)>127 then c=80
@@ -38,7 +38,8 @@
 740 return
 
 1000 print"{clear}computer not recognized.":end
-1004 f$="anykey plus/4":gosub 600:goto 3000
+1004 if peek(1517)=0 goto 1016
+1005 f$="anykey plus/4":gosub 600:goto 3000
 1016 f$="anykey c16":gosub 600:goto 3000
 1020 f$="anykey vic-20":gosub 700:goto 3000
 1064 f$="anykey c64":gosub 500:goto 3000
