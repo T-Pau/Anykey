@@ -27,9 +27,6 @@
 
 .pre_if .defined(FIT_IN_8K)
 .public saved_screen_size = saved_screen_size_table
-keyboard_pet_business_40_screen = 0
-keys_pet_business_40_address_low = 0
-left_business_40 = 0
 .pre_end
 
 SAVED_SCREEN_SIZE_40 = (40 * 22)
@@ -215,7 +212,12 @@ help_keys_table {
 
 ; indexed by keyboard type
 left_list_table {
-    .data left_business_40
+    .if .defined(FIT_IN_8K) {
+        .data 0:2
+    }
+    .else {
+        .data left_business_40
+    }
     .data left_calculator_40
     .data left_graphics_40
 }

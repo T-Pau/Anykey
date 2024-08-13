@@ -187,8 +187,9 @@ sources_vic20 :=
 rule basic
     command = $petcat -w$dialect -l $address -o $out $in
 
-rule list-left
-    command = {{list-left.pl}} $in $out
+rule pet-list-left
+    command = {{../scripts/pet-list-left}} -M $depfile -o $out $in
+    depfile = $out.d
 
 build anykey.d64: create-disk filelist-d64 | anykey.prg anykey-c64.prg anykey-c128.prg anykey-mega65.prg anykey-plus4.prg anykey-vic20.prg autoboot.c128
     flags = -I$source_directory -I$build_directory
@@ -283,9 +284,9 @@ build keyboard-pet-calculator-40.s: convert-screens keyboard-pet-calculator-40.t
 build keyboard-pet-calculator-80.s: convert-screens keyboard-pet-calculator-80.txt
 build keyboard-pet-graphics-40.s: convert-screens keyboard-pet-graphics-40.txt
 
-build keyboard-pet-business-40-left.s: list-left keyboard-pet-business-40.txt
-build keyboard-pet-calculator-40-left.s: list-left keyboard-pet-calculator-40.txt
-build keyboard-pet-graphics-40-left.s: list-left keyboard-pet-graphics-40.txt
+build keyboard-pet-business-40-left.s: pet-list-left keyboard-pet-business-40.txt
+build keyboard-pet-calculator-40-left.s: pet-list-left keyboard-pet-calculator-40.txt
+build keyboard-pet-graphics-40-left.s: pet-list-left keyboard-pet-graphics-40.txt
 
 build pet-help-footer-40.s: convert-screens pet-help-footer-40.txt
 build pet-help-footer-80.s: convert-screens pet-help-footer-80.txt

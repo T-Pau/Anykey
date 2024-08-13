@@ -1,0 +1,76 @@
+#!/usr/bin/env python3
+
+"""
+  pet-list-left -- Create list of left edges in PET keyboard
+  Copyright (C) Dieter Baron
+
+  This file is part of Anykey, a keyboard test program for C64.
+  The authors can be contacted at <anykey@tpau.group>.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+  1. Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+  2. The names of the authors may not be used to endorse or promote
+     products derived from this software without specific prior
+     written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE AUTHORS "AS IS" AND ANY EXPRESS
+  OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY
+  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+  IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+"""
+
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir, "Toolkit", "python-packages")))
+
+import Script
+
+class ListLeft(Script.Script):
+    def __init__(self) -> None:
+        super().__init__("Create list of left edges.", Script.Option.assembler)
+        self.arg_parser.add_argument("file")
+    
+    # Get filename of input file.
+    def input_filename(self):
+        return self.args.file
+
+    def execute_sub(self):
+        offsets = []
+        row = 0
+        in_header = True
+        name = None
+        last_offset = 0
+
+        with open(self.input_filename()) as fin:
+            for line in fin:
+                line = line.rstrip("\r\n")
+                if in_header:
+                    if line.startswith("name "):
+                        name = line.replace("name keyboard_pet_", "left_").replace("_screen", "")
+                    elif line == "---":
+                        in_header = False
+                else:
+                    for column, char in enumerate(line):
+                        if char == "│":
+                            new_offset = row * 40 + column
+                            offsets.append(new_offset - last_offset)
+                            last_offset = new_offset
+                    row += 1
+            offsets.append(0)
+    
+        if name is None:
+            raise RuntimeError("can't find name")
+
+        self.assembler.data_object(name, offsets)
+
+ListLeft().run()
