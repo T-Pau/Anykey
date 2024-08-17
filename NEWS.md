@@ -1,4 +1,4 @@
-# Version 1.7 (Unreleased)
+# Version 1.7 (2024-08-17)
 
 - Add support for Commodore C16 and C116.
 - Fix ZX Spectrum Next keyboard layout.
