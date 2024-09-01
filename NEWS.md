@@ -1,3 +1,7 @@
+# Version 1.8 (Unreleased)
+
+- Fix misreading some keys as joystick input on MEGA65 with latest core.
+
 # Version 1.7 (2024-08-17)
 
 - Add support for Commodore C16 and C116.

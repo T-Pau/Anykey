@@ -88,6 +88,21 @@
 
 
 .public handle_joysticks {
+    .if .defined(C64) || .defined(MEGA65) {
+        .if .defined(C64) {
+            lda machine_type
+            bpl not_mega65
+        }
+        lda $d607
+        ora #$02
+        sta $d607
+        lda $d608
+        ora #$02
+        sta $d608
+        .if .defined(C64) {
+        not_mega65:
+        }
+    }
     lda #$00
     sta CIA1_DDRA
     sta CIA1_DDRB
