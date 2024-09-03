@@ -6,6 +6,7 @@ built_dist_files :=
     Commodore/anykey-c16.prg
     Commodore/anykey-c64.prg
     Commodore/anykey-c116.prg
+    Commodore/anykey-c116-alternate.prg
     Commodore/anykey-c128.prg
     Commodore/anykey-mega65.prg
     Commodore/anykey-pet-8k.prg

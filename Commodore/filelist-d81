@@ -4,12 +4,17 @@ anykey.prg > anykey .8.
 bpoke 40 3 11 $a0
 bpoke 40 3 12 $2c
 bpoke 40 3 14 $3a
+anykey-pet.prg > anykey pet .8.
+bpoke 40 3 47 $a0
+bpoke 40 3 48 $2c
+bpoke 40 3 50 $3a
 anykey-c64.prg > anykey c64
 anykey-c128.prg > anykey c128
 anykey-mega65.prg > anykey mega65
 anykey-plus4.prg > anykey plus/4
 anykey-c16.prg > anykey c16
 anykey-c116.prg > anykey c116
+anykey-c116-alternate.prg > anykey c116 alt
 anykey-vic20.prg > anykey vic20
 anykey-pet-full.prg > anykey pet full
 anykey-pet-8k.prg > anykey pet 8k
